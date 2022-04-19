@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Spring-Boot-Classpath-Index: BOOT-INF/classpath.idx
+Implementation-Title: main
+Implementation-Version: 0.0.1-SNAPSHOT
+Start-Class: com.ttice.main.MainApplication
+Spring-Boot-Classes: BOOT-INF/classes/
+Spring-Boot-Lib: BOOT-INF/lib/
+Build-Jdk-Spec: 1.8
+Spring-Boot-Version: 2.3.5.RELEASE
+Created-By: Maven Jar Plugin 3.2.0
+Main-Class: org.springframework.boot.loader.PropertiesLauncher
+

@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/icewktest?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC
+    username: root
+    password: Fuck258!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis-plus:
+  #  mybatis-plus??sql??
+  # configuration:
+  # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:com/ttice/mapper/xml/*.xml
+server:
+  port: 8181
+  #  ??ssh https
+#  ssl:
+#    key-store: classpath:Myssh.pfx
+#    key-store-password: ko674hz8x35
+#    key-store-type: PKCS12
