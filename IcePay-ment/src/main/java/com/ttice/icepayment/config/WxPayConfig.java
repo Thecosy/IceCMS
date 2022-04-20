@@ -13,10 +13,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
+import java.util.Objects;
 
 
 @Configuration
@@ -27,6 +28,26 @@ import java.security.PrivateKey;
 @Data //使用set方法将wxpay节点中的值填充到当前类的属性中
 @Slf4j
 public class WxPayConfig {
+
+    public static String inputStream2Str(InputStream is) throws IOException {
+        StringBuffer sb;
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new InputStreamReader(is));
+
+            sb = new StringBuffer();
+
+            String data;
+            while ((data = br.readLine()) != null) {
+                sb.append(data).append("\n");
+            }
+        } finally {
+            br.close();
+        }
+
+        return sb.toString();
+    }
+
 
     // 商户号
     private String mchId;
@@ -71,12 +92,24 @@ public class WxPayConfig {
      * @return
      */
     @Bean
-    public ScheduledUpdateCertificatesVerifier getVerifier(){
+    public ScheduledUpdateCertificatesVerifier getVerifier() throws IOException {
 
         log.info("获取签名验证器");
 
-//        //获取商户私钥
-        PrivateKey privateKey = getPrivateKey("IcePay-ment/src/main/resources/key/"+privateKeyPath);
+        ClassLoader classLoader = WxPayConfig.class.getClassLoader();
+        InputStream appUrl = classLoader.getResourceAsStream("key/"+privateKeyPath);
+        String appString=inputStream2Str(appUrl);
+        //获取商户私钥
+        PrivateKey privateKey = PemUtil.loadPrivateKey(appString);
+
+//        URL fileURL=this.getClass().getResource("key/"+privateKeyPath);
+//        System.out.println(fileURL.getFile());
+
+        //本地可以，打包不行
+//        String fis = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("key/"+privateKeyPath)).getPath();;
+
+
+
 
         //私钥签名对象
         PrivateKeySigner privateKeySigner = new PrivateKeySigner(mchSerialNo, privateKey);
@@ -99,12 +132,16 @@ public class WxPayConfig {
      * @return
      */
     @Bean(name = "wxPayClient")
-    public CloseableHttpClient getWxPayClient(ScheduledUpdateCertificatesVerifier verifier){
+    public CloseableHttpClient getWxPayClient(ScheduledUpdateCertificatesVerifier verifier) throws IOException {
 
         log.info("获取httpClient");
 
+
+        ClassLoader classLoader = WxPayConfig.class.getClassLoader();
+        InputStream appUrl = classLoader.getResourceAsStream("key/"+privateKeyPath);
+        String appString=inputStream2Str(appUrl);
         //获取商户私钥
-        PrivateKey privateKey = getPrivateKey("IcePay-ment/src/main/resources/key/"+privateKeyPath);
+        PrivateKey privateKey = PemUtil.loadPrivateKey(appString);
 
         WechatPayHttpClientBuilder builder = WechatPayHttpClientBuilder.create()
                 .withMerchant(mchId, mchSerialNo, privateKey)
@@ -121,10 +158,13 @@ public class WxPayConfig {
      * 获取HttpClient，无需进行应答签名验证，跳过验签的流程
      */
     @Bean(name = "wxPayNoSignClient")
-    public CloseableHttpClient getWxPayNoSignClient(){
+    public CloseableHttpClient getWxPayNoSignClient() throws IOException {
 
+        ClassLoader classLoader = WxPayConfig.class.getClassLoader();
+        InputStream appUrl = classLoader.getResourceAsStream("key/"+privateKeyPath);
+        String appString=inputStream2Str(appUrl);
         //获取商户私钥
-        PrivateKey privateKey = getPrivateKey("IcePay-ment/src/main/resources/key/"+privateKeyPath);
+        PrivateKey privateKey = PemUtil.loadPrivateKey(appString);
 
         //用于构造HttpClient
         WechatPayHttpClientBuilder builder = WechatPayHttpClientBuilder.create()

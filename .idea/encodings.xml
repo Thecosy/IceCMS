@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/IceCMS-main/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/IcePay-ment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/IceWk-ment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file:///src/main/java" charset="UTF-8" />
+    <file url="file:///src/main/resources" charset="UTF-8" />
+  </component>
+</project>

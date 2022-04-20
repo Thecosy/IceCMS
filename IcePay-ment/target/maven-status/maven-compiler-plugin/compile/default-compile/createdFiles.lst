@@ -10,7 +10,6 @@ com/ttice/icepayment/util/HttpClientUtils$1.class
 com/ttice/icepayment/entity/PaymentInfo.class
 com/ttice/icepayment/enums/wxpay/WxRefundStatus.class
 com/ttice/icepayment/service/OrderInfoService.class
-com/ttice/icepayment/config/Swagger2Config.class
 com/ttice/icepayment/config/MyBatisPlusConfig.class
 com/ttice/icepayment/controller/AlipayForQrcodeController.class
 com/ttice/icepayment/controller/AlipayForPagepayController.class

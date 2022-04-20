@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.ibm.icu:icu4j:63.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/ibm/icu/icu4j/63.1/icu4j-63.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/ibm/icu/icu4j/63.1/icu4j-63.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/ibm/icu/icu4j/63.1/icu4j-63.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

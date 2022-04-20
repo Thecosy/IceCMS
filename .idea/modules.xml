@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/IceCMS-main/IceCMS-main.iml" filepath="$PROJECT_DIR$/IceCMS-main/IceCMS-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IcePay-ment/IcePay-ment.iml" filepath="$PROJECT_DIR$/IcePay-ment/IcePay-ment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IceWk-ment/IceWk-ment.iml" filepath="$PROJECT_DIR$/IceWk-ment/IceWk-ment.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/iceCMS-git.iml" filepath="$PROJECT_DIR$/.idea/iceCMS-git.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IceCMS-main/main.iml" filepath="$PROJECT_DIR$/IceCMS-main/main.iml" />
     </modules>
   </component>
 </project>

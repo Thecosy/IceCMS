@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.tencentcloudapi:tencentcloud-sdk-java-kms:3.1.213">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/tencentcloudapi/tencentcloud-sdk-java-kms/3.1.213/tencentcloud-sdk-java-kms-3.1.213.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/tencentcloudapi/tencentcloud-sdk-java-kms/3.1.213/tencentcloud-sdk-java-kms-3.1.213-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/tencentcloudapi/tencentcloud-sdk-java-kms/3.1.213/tencentcloud-sdk-java-kms-3.1.213-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
