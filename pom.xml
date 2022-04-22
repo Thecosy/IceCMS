@@ -26,7 +26,7 @@
     <modules>
         <module>IceWk-ment</module>
         <module>IcePay-ment</module>
-        <module>main</module>
+        <module>IceCMS-main</module>
     </modules>
     <dependencies>
         <dependency>
@@ -39,7 +39,23 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!--Swagger-UI API文档生产工具-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <!--swagger增强工具依赖包，方便生成接口文档。非必须导入-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>2.0.8</version>
+        </dependency>
         <!--mybatis-->
         <dependency>
             <groupId>com.baomidou</groupId>

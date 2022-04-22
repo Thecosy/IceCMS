@@ -20,6 +20,8 @@ public interface AlipayService {
 
     Map<String, Object> ftofPay(Long productId) throws Exception;
 
+    Map<String, Object> ftofTempPay(Long productId) throws Exception;
+
     /**
      * @description : 生成支付宝二维码
      * @author : Jiaxl

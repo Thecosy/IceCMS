@@ -57,6 +57,53 @@ public class AlipayServiceImpl implements AlipayService {
     private PaymentInfoService paymentInfoService;
 
     private final ReentrantLock lock = new ReentrantLock();
+    @Override
+    public Map<String, Object> ftofTempPay(Long ResourceId) throws Exception {
+
+        log.info("生成订单");
+
+        //生成订单
+        OrderInfo orderInfo = orderInfoService.createOrderTempByAliResourceId(ResourceId,"支付宝");
+        String codeUrl = orderInfo.getCodeUrl();
+
+        if(orderInfo != null && !org.springframework.util.StringUtils.isEmpty(codeUrl)){
+            log.info("订单已存在，二维码已保存");
+            //返回二维码
+            Map<String, Object> map = new HashMap<>();
+            map.put("codeUrl", codeUrl);
+            map.put("orderNo", orderInfo.getOrderNo());
+            return map;
+        }
+
+        log.info("调用统一下单API");
+
+        // 填充 alipayClientEntity
+        AlipayClientEntity alipayClientEntity = new AlipayClientEntity();
+        alipayClientEntity.setAppId(alipayConfig.getAPP_ID());
+        alipayClientEntity.setPrivateKey(alipayConfig.getPRIVATE_KEY());
+        alipayClientEntity.setAlipayPublicKey(alipayConfig.getALIPAY_PUBLIC_KEY());
+        //把元为单位转化为分为单位
+        double orderprice = orderInfo.getTotalFee();
+        String price = String.valueOf(orderprice/100);//价格 单位:分
+        // 填充订单信息
+        AlipayTradeInfoEntity alipayTradeInfoEntity = new AlipayTradeInfoEntity();
+        alipayTradeInfoEntity.setOutTradeNo(orderInfo.getOrderNo());//订单号
+        alipayTradeInfoEntity.setTotalAmount(price);
+        alipayTradeInfoEntity.setSubject(orderInfo.getTitle());
+        alipayTradeInfoEntity.setTimeoutExpress(alipayConfig.getTIMEOUT_EXPRESS());
+
+        codeUrl = buildAlipayUrl(alipayClientEntity,alipayTradeInfoEntity);
+
+        //返回二维码
+        Map<String, Object> map = new HashMap<>();
+        map.put("codeUrl", codeUrl);
+        map.put("orderNo", orderInfo.getOrderNo());
+        //保存二维码
+        String orderNo = orderInfo.getOrderNo();
+        orderInfoService.saveCodeUrl(orderNo, codeUrl,"支付宝");
+
+        return map;
+    }
 
     @Override
     public Map<String, Object> ftofPay(Long productId) throws Exception {

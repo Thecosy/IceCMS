@@ -40,9 +40,11 @@ public class FontUtil {
      */
     public static Font getFont(int type, float size) {
         // 字体路径
-        ClassPathResource classPathResource = new ClassPathResource("Font/youshe.ttf");
-        InputStream inputStream = classPathResource.getStream();
+        ClassLoader classLoader = FontUtil.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("Font/youshe.ttf");
+
         try {
+            assert inputStream != null;
             Font sPfBoldFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
             sPfBoldFont = sPfBoldFont.deriveFont(size);
             return sPfBoldFont;

@@ -10,7 +10,11 @@ public interface OrderInfoService extends IService<OrderInfo> {
 
     OrderInfo createOrderByWxProductId(Long productId , String payMent);
 
+    OrderInfo createOrderTempByWxResourceId(Long productId , String payMent);
+
     OrderInfo createOrderByAliProductId(Long productId , String payMent);
+
+    OrderInfo createOrderTempByAliResourceId(Long productId , String payMent);
 
     void saveCodeUrl(String orderNo, String codeUrl,String payMent);
 

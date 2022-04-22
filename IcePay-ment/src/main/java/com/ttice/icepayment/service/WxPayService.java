@@ -6,6 +6,8 @@ import java.util.Map;
 public interface WxPayService {
     Map<String, Object> nativePay(Long productId) throws Exception;
 
+    Map<String, Object> nativePayTemp(Long productId) throws Exception;
+
     void processOrder(Map<String, Object> bodyMap) throws GeneralSecurityException;
 
     void cancelOrder(String orderNo) throws Exception;
@@ -27,4 +29,5 @@ public interface WxPayService {
     String downloadBill(String billDate, String type) throws Exception;
 
     Map<String, Object> nativePayV2(Long productId, String remoteAddr) throws Exception;
+
 }

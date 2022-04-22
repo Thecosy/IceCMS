@@ -5,8 +5,8 @@
       <configuration>
         <webroots />
         <sourceRoots>
-          <root url="file://$MODULE_DIR$/../main/src/main/java" />
-          <root url="file://$MODULE_DIR$/../main/src/main/resources" />
+          <root url="file://$MODULE_DIR$/src/main/java" />
+          <root url="file://$MODULE_DIR$/src/main/resources" />
         </sourceRoots>
       </configuration>
     </facet>
@@ -147,11 +147,9 @@
     <orderEntry type="library" name="Maven: com.qcloud:cos_api:5.6.68" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.5.13" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.13" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.14" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.9" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.3" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.tencentcloudapi:tencentcloud-sdk-java-kms:3.1.213" level="project" />
     <orderEntry type="library" name="Maven: com.tencentcloudapi:tencentcloud-sdk-java-common:3.1.213" level="project" />
@@ -162,29 +160,6 @@
     <orderEntry type="library" name="Maven: javax.activation:javax.activation-api:1.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.67" level="project" />
     <orderEntry type="library" name="Maven: io.jsonwebtoken:jjwt:0.9.1" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-swagger2:2.9.2" level="project" />
-    <orderEntry type="library" name="Maven: io.swagger:swagger-annotations:1.5.20" level="project" />
-    <orderEntry type="library" name="Maven: io.swagger:swagger-models:1.5.20" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-spi:2.9.2" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-core:2.9.2" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-schema:2.9.2" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-common:2.9.2" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-spring-web:2.9.2" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:20.0" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.5.1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.2.0.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-ui:2.9.2" level="project" />
-    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-spring-boot-starter:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-spring-boot-autoconfigure:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-spring:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-annotations:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-core:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: org.javassist:javassist:3.25.0-GA" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-bean-validators:2.10.5" level="project" />
-    <orderEntry type="library" name="Maven: io.springfox:springfox-spring-webmvc:2.10.5" level="project" />
-    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-spring-ui:2.0.8" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.79" level="project" />
     <orderEntry type="module" module-name="IcePay-ment" />
     <orderEntry type="library" name="Maven: com.alipay.sdk:alipay-sdk-java:3.3.4.ALL" level="project" />
@@ -241,6 +216,31 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.2.10.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.2.10.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.7.0" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-swagger2:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: io.swagger:swagger-annotations:1.5.20" level="project" />
+    <orderEntry type="library" name="Maven: io.swagger:swagger-models:1.5.20" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.3" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-spi:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-core:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-schema:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-common:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-spring-web:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:20.0" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.2.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-ui:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-spring-boot-starter:2.0.8" level="project" />
+    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-spring-boot-autoconfigure:2.0.8" level="project" />
+    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-spring:2.0.8" level="project" />
+    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-annotations:2.0.8" level="project" />
+    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-core:2.0.8" level="project" />
+    <orderEntry type="library" name="Maven: org.javassist:javassist:3.25.0-GA" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-bean-validators:2.10.5" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-spring-webmvc:2.10.5" level="project" />
+    <orderEntry type="library" name="Maven: com.github.xiaoymin:knife4j-spring-ui:2.0.8" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-boot-starter:3.4.2" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus:3.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.3.5.RELEASE" level="project" />

@@ -9,6 +9,7 @@ import com.ttice.icepayment.service.WxPayService;
 import com.ttice.icepayment.util.HttpUtils;
 import com.ttice.icepayment.vo.R;
 import com.github.wxpay.sdk.WXPayUtil;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @CrossOrigin //跨域
 @RestController
-@RequestMapping("/api/wx-pay-v2")
-//@Api(tags = "网站微信支付APIv2")
+@RequestMapping("/Pay-api/wx-pay-v2")
+@io.swagger.annotations.Api(tags = "微信支付APIv2")
 @Slf4j
 public class WxPayV2Controller {
 
@@ -41,14 +42,46 @@ public class WxPayV2Controller {
 
 
     /**
-     * Native下单
+     * Native下单(临时）
      * @param productId
      * @return
      * @throws Exception
      */
-//    @ApiOperation("调用统一下单API，生成支付二维码")
-    @PostMapping("/native/{productId}")
-    public R createNative(@PathVariable Long productId, HttpServletRequest request) throws Exception {
+    @ApiOperation("调用统一下单API，生成支付二维码（临时）")
+    @PostMapping("/temp-native/{productId}")
+    public R createNativeTemp(@PathVariable Long productId, HttpServletRequest request) throws Exception {
+
+        log.info("发起支付请求 v2");
+
+        String remoteAddr = request.getRemoteAddr();
+        Map<String, Object> map = wxPayService.nativePayV2(productId, remoteAddr);
+        return R.ok().setData(map);
+    }
+    /**
+     * Native下单(登陆）
+     * @param productId
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("调用统一下单API，生成支付二维码（登陆）")
+    @PostMapping("/login-native/{productId}")
+    public R createNativeLogin(@PathVariable Long productId, HttpServletRequest request) throws Exception {
+
+        log.info("发起支付请求 v2");
+
+        String remoteAddr = request.getRemoteAddr();
+        Map<String, Object> map = wxPayService.nativePayV2(productId, remoteAddr);
+        return R.ok().setData(map);
+    }
+    /**
+     * Native下单(调试）
+     * @param productId
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("调用统一下单API，生成支付二维码（调试）")
+    @PostMapping("/test-native/{productId}")
+    public R createNativeTest(@PathVariable Long productId, HttpServletRequest request) throws Exception {
 
         log.info("发起支付请求 v2");
 
@@ -61,6 +94,7 @@ public class WxPayV2Controller {
      * 支付通知
      * 微信支付通过支付通知接口将用户支付成功消息通知给商户
      */
+    @ApiOperation("支付通知")
     @PostMapping("/native/notify")
     public String wxNotify(HttpServletRequest request) throws Exception {
 

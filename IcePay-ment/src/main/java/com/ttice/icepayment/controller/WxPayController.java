@@ -6,6 +6,7 @@ import com.ttice.icepayment.util.WechatPay2ValidatorForRequest;
 import com.ttice.icepayment.vo.R;
 import com.google.gson.Gson;
 import com.wechat.pay.contrib.apache.httpclient.auth.Verifier;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,8 @@ import java.util.concurrent.TimeUnit;
 
 @CrossOrigin //跨域
 @RestController
-@RequestMapping("/api/wx-pay")
+@RequestMapping("/Pay-api/wx-pay")
+@io.swagger.annotations.Api(tags = "微信支付API")
 @Slf4j
 public class WxPayController {
 
@@ -34,9 +36,43 @@ public class WxPayController {
      * @return
      * @throws Exception
      */
-//    @ApiOperation("调用统一下单API，生成支付二维码")
-    @PostMapping("/native/{productId}")
-    public R nativePay(@PathVariable Long productId) throws Exception {
+    @ApiOperation("调用统一下单API，生成支付二维码（调试）")
+    @PostMapping("/test-native/{productId}")
+    public R nativePayTest(@PathVariable Long productId) throws Exception {
+
+        log.info("发起支付请求 v3");
+
+        //返回支付二维码连接和订单号
+        Map<String, Object> map = wxPayService.nativePay(productId);
+
+        return R.ok().setData(map);
+    }
+    /**
+     * Native下单
+     * @param resourceId
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("调用统一下单API，生成支付二维码（临时）")
+    @PostMapping("/temp-native/{resourceId}")
+    public R nativePayTemp(@PathVariable Long resourceId) throws Exception {
+
+        log.info("发起支付请求 v3");
+
+        //返回支付二维码连接和订单号
+        Map<String, Object> map = wxPayService.nativePayTemp(resourceId);
+
+        return R.ok().setData(map);
+    }
+    /**
+     * Native下单
+     * @param productId
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("调用统一下单API，生成支付二维码（登陆）")
+    @PostMapping("/login-native/{productId}")
+    public R nativePayLogin(@PathVariable Long productId) throws Exception {
 
         log.info("发起支付请求 v3");
 

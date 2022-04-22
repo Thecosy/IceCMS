@@ -10,12 +10,12 @@ public enum AliNotifyType {
     /**
      * FTOF_PAY下单
      */
-    FTOF_PAY("/api/ali-pay/alipay/notify"),
+    FTOF_PAY("/Pay-api/ali-pay/alipay/notify"),
 
     /**
      * Native下单
      */
-    NATIVE_PAY_V2("/pay/unifiedorder"),
+    NATIVE_PAY_V2("/Pay-api/unifiedorder"),
 
     /**
      * 查询订单
