@@ -27,6 +27,14 @@ public class OrderInfoController {
         return R.ok().data("list", list);
     }
 
+    @ApiOperation("根据id查询订单列表")
+    @GetMapping("/PaylistById/{userId}")
+    public R PaylistById(@PathVariable Integer userId){
+
+        List<OrderInfo> list = orderInfoService.listOrderById(userId);
+        return R.ok().data("list", list);
+    }
+
 
     /**
      * 查询本地订单状态

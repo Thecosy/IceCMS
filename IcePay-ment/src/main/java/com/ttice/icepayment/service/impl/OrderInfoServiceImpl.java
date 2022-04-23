@@ -217,6 +217,18 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     /**
+     * 根据id查询订单列表
+     * @return
+     */
+    @Override
+    public List<OrderInfo> listOrderById(Integer userId) {
+
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<OrderInfo>().orderByDesc("create_time");
+        queryWrapper.eq("user_id",userId);
+        return baseMapper.selectList(queryWrapper);
+    }
+
+    /**
      * 根据订单号更新订单状态
      * @param orderNo
      * @param orderStatus
