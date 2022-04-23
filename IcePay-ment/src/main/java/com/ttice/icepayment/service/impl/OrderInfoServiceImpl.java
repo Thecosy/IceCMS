@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -37,7 +38,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
         //查找已存在但未支付的订单
         OrderInfo orderInfo = this.getNoPayOrderByProductId(ResourceId,payMent);
-        if( orderInfo != null){
+        if( orderInfo != null && orderInfo.getUserId() == null){
             return orderInfo;
         }
 
@@ -48,6 +49,32 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo = new OrderInfo();
         orderInfo.setTitle(resource.getTitle());
         orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); //订单号
+        orderInfo.setPayMent(payMent);
+        orderInfo.setProductId(ResourceId);
+        orderInfo.setTotalFee(resource.getPrice()); //分
+        orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
+        baseMapper.insert(orderInfo);
+
+        return orderInfo;
+    }
+
+    @Override
+    public OrderInfo createOrderLoginByAliResourceId(Long ResourceId , String payMent, Integer userid) {
+
+        //查找已存在但未支付的订单
+        OrderInfo orderInfo = this.getNoPayOrderByProductId(ResourceId,payMent);
+        if( orderInfo != null && orderInfo.getUserId() != null){
+            return orderInfo;
+        }
+
+        //获取商品信息
+        Resource resource = resourceMapper.selectById(ResourceId);
+
+        //生成订单
+        orderInfo = new OrderInfo();
+        orderInfo.setTitle(resource.getTitle());
+        orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); //订单号
+        orderInfo.setUserId(Long.valueOf(userid)); //订单号
         orderInfo.setPayMent(payMent);
         orderInfo.setProductId(ResourceId);
         orderInfo.setTotalFee(resource.getPrice()); //分
@@ -87,7 +114,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
         //查找已存在但未支付的订单
         OrderInfo orderInfo = this.getNoPayOrderByProductId(resourceId,"微信");
-        if( orderInfo != null){
+        if( orderInfo != null && orderInfo.getUserId() == null){
             return orderInfo;
         }
 
@@ -97,6 +124,33 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         //生成订单
         orderInfo = new OrderInfo();
         orderInfo.setTitle(resource.getTitle());
+        orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); //订单号
+        orderInfo.setPayMent(payMent);
+        orderInfo.setProductId(resourceId);
+        orderInfo.setTotalFee(resource.getPrice()); //分
+        orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
+        baseMapper.insert(orderInfo);
+
+        return orderInfo;
+    }
+
+
+    @Override
+    public OrderInfo createOrderLoginByWxResourceId(Long resourceId , String payMent, Integer userid) {
+
+        //查找已存在但未支付的订单
+        OrderInfo orderInfo = this.getNoPayOrderByProductId(resourceId,"微信");
+        if( orderInfo != null && orderInfo.getUserId()!= null){
+            return orderInfo;
+        }
+
+        //获取商品信息
+        Resource resource = resourceMapper.selectById(resourceId);
+
+        //生成订单
+        orderInfo = new OrderInfo();
+        orderInfo.setTitle(resource.getTitle());
+        orderInfo.setUserId(Long.valueOf(userid));
         orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); //订单号
         orderInfo.setPayMent(payMent);
         orderInfo.setProductId(resourceId);
@@ -191,6 +245,24 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
         QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("order_no", orderNo);
+        OrderInfo orderInfo = baseMapper.selectOne(queryWrapper);
+        if(orderInfo == null){
+            return null;
+        }
+        return orderInfo.getOrderStatus();
+    }
+
+    /**
+     * 根据订单号获取订单状态
+     * @param userid
+     * @return
+     */
+    @Override
+    public String getOrderStatusBytrue(String userid,String resourceid) {
+
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userid);
+        queryWrapper.eq("product_id", resourceid);
         OrderInfo orderInfo = baseMapper.selectOne(queryWrapper);
         if(orderInfo == null){
             return null;

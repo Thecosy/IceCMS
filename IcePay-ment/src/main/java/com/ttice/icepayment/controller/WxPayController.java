@@ -71,13 +71,14 @@ public class WxPayController {
      * @throws Exception
      */
     @ApiOperation("调用统一下单API，生成支付二维码（登陆）")
-    @PostMapping("/login-native/{productId}")
-    public R nativePayLogin(@PathVariable Long productId) throws Exception {
+    @PostMapping("/login-native/{productId}/{userid}")
+    public R nativePayLogin(@PathVariable Long productId,
+                            @PathVariable Integer userid) throws Exception {
 
         log.info("发起支付请求 v3");
 
         //返回支付二维码连接和订单号
-        Map<String, Object> map = wxPayService.nativePay(productId);
+        Map<String, Object> map = wxPayService.nativePayLogin(productId,userid);
 
         return R.ok().setData(map);
     }

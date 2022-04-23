@@ -92,6 +92,7 @@ public class UserController {
         myMap.put("name", userjudje.getName());
         myMap.put("profile", userjudje.getProfile());
         myMap.put("email", userjudje.getEmail());
+        myMap.put("userid", userjudje.getUserId().toString());
         return Result.succ(200,"成功登陆",myMap);
 //        return Result.succ(200,"成功登陆",token);
     }

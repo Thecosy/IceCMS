@@ -22,6 +22,8 @@ public interface AlipayService {
 
     Map<String, Object> ftofTempPay(Long productId) throws Exception;
 
+    Map<String, Object> ftofLoginPay(Long productId,Integer userid) throws Exception;
+
     /**
      * @description : 生成支付宝二维码
      * @author : Jiaxl

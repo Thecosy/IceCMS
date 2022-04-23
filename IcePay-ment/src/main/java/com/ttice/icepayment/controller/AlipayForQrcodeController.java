@@ -56,11 +56,13 @@ public class AlipayForQrcodeController {
      * @return : java.lang.String
      */
     @ApiOperation("调用统一下单API，生成支付二维码（登陆）")
-    @PostMapping(value = "/login-ftof/{productId}")
-    public R buildAlipayQrcodeUrlLogin(@PathVariable Long productId) throws Exception {
+    @PostMapping(value = "/login-ftof/{resourceId}/{userid}")
+    public R buildAlipayQrcodeUrlLogin(
+            @PathVariable Long resourceId,
+            @PathVariable Integer userid) throws Exception {
 
         //返回支付二维码连接和订单号
-        Map<String, Object> map = alipayService.ftofPay(productId);
+        Map<String, Object> map = alipayService.ftofLoginPay(resourceId,userid);
 
         return R.ok().setData(map);
     }

@@ -8,6 +8,8 @@ public interface WxPayService {
 
     Map<String, Object> nativePayTemp(Long productId) throws Exception;
 
+    Map<String, Object> nativePayLogin(Long productId,Integer userid) throws Exception;
+
     void processOrder(Map<String, Object> bodyMap) throws GeneralSecurityException;
 
     void cancelOrder(String orderNo) throws Exception;

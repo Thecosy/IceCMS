@@ -12,9 +12,13 @@ public interface OrderInfoService extends IService<OrderInfo> {
 
     OrderInfo createOrderTempByWxResourceId(Long productId , String payMent);
 
+    OrderInfo createOrderLoginByWxResourceId(Long productId , String payMent, Integer userid);
+
     OrderInfo createOrderByAliProductId(Long productId , String payMent);
 
     OrderInfo createOrderTempByAliResourceId(Long productId , String payMent);
+
+    OrderInfo createOrderLoginByAliResourceId(Long productId , String payMent, Integer userid);
 
     void saveCodeUrl(String orderNo, String codeUrl,String payMent);
 
@@ -23,6 +27,8 @@ public interface OrderInfoService extends IService<OrderInfo> {
     void updateStatusByOrderNo(String orderNo, OrderStatus orderStatus);
 
     String getOrderStatus(String orderNo);
+
+    String getOrderStatusBytrue(String userid,String resourceid);
 
     List<OrderInfo> getNoPayOrderByDuration(int minutes);
 
