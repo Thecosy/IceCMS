@@ -20,4 +20,6 @@ public class ArticleVO {
     private String thumb;
     private String sortClass;
     private String profile;
+    private Integer hits;
+    private Integer CommentNum;
 }

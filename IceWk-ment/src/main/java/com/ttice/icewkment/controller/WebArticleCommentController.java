@@ -4,6 +4,7 @@ package com.ttice.icewkment.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ttice.icewkment.entity.ArticleComment;
 import com.ttice.icewkment.mapper.ArticleCommentMapper;
+import com.ttice.icewkment.service.ArticleCommentService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class WebArticleCommentController {
 
     @Autowired
     ArticleCommentMapper articleCommentMapper;
+
+    @Autowired
+    ArticleCommentService articleCommentService;
 
     @ApiOperation(value = "根据文章id查询对应的评论")
     @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
@@ -53,9 +57,8 @@ public class WebArticleCommentController {
     public int getArticleCommentnum(
             @PathVariable("articleId") Integer articleId
     ) {
-        QueryWrapper<ArticleComment> wrapper = new QueryWrapper<>();
-        wrapper.eq("article_id",articleId);
-        return articleCommentMapper.selectCount(wrapper);
+
+        return articleCommentService.GetCommentNum(articleId);
     }
 
     @ApiOperation(value = "最新评论")
