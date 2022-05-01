@@ -39,11 +39,11 @@ import lombok.EqualsAndHashCode;
       /**
        * 价格
        */
-      private Integer price;
+      private String price;
       /**
-       * 是否免费(0免费 ， 1付费）
+       * 是否免费
        */
-      private Integer isFree;
+      private Boolean isFree;
 
       /**
      * 标题颜色
@@ -184,6 +184,11 @@ import lombok.EqualsAndHashCode;
      * 缩略图地址
      */
       private String thumb;
+
+      /**
+       * 轮播图地址
+       */
+      private String carousel;
 
       /**
      * 生成状态
