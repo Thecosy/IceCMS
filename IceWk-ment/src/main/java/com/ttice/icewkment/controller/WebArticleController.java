@@ -4,17 +4,23 @@ package com.ttice.icewkment.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ttice.icewkment.commin.vo.ArticlePageVO;
 import com.ttice.icewkment.commin.vo.ArticleVO;
+import com.ttice.icewkment.commin.vo.SquareVO;
 import com.ttice.icewkment.entity.Article;
+import com.ttice.icewkment.entity.ArticleClass;
 import com.ttice.icewkment.entity.User;
+import com.ttice.icewkment.mapper.ArticleClassMapper;
 import com.ttice.icewkment.mapper.ArticleMapper;
 import com.ttice.icewkment.mapper.ArticleVOMapper;
 import com.ttice.icewkment.mapper.UserMapper;
+import com.ttice.icewkment.service.ArticleCommentService;
 import com.ttice.icewkment.service.ArticleService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +44,10 @@ public class WebArticleController {
     private ArticleVOMapper articleVOMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private ArticleCommentService articleCommentService;
+    @Autowired
+    private ArticleClassMapper articleClassMapper;
 
     @ApiOperation(value = "根据id获取文章内容")
     @ApiImplicitParam(name = "id",value = "文章id",required = true)
@@ -79,10 +89,19 @@ public class WebArticleController {
     @ApiOperation(value = "统计文章浏览量+1")
     @GetMapping("/articles/{id}/view")
     @ApiImplicitParam(name = "id",value = "文章id",required = true)
-    public Boolean articlesBrowse(
+    public Boolean articlesViewBrowse(
         @PathVariable("id") Integer id
     ) {
         return articleMapper.articlesBrowse(id);
+    }
+
+    @ApiOperation(value = "统计文章喜欢量+1")
+    @GetMapping("/articles/{id}/love")
+    @ApiImplicitParam(name = "id",value = "文章id",required = true)
+    public Boolean articlesLoveBrowse(
+            @PathVariable("id") Integer id
+    ) {
+        return articleMapper.articlesLoveBrowse(id);
     }
 
     @ApiOperation(value = "文章查询(全部)")
@@ -130,6 +149,45 @@ public class WebArticleController {
         Wrapper.eq("USERNAME",name);
         User user = this.userMapper.selectOne(Wrapper);
         return user.getProfile();
+    }
+
+    @ApiOperation(value = "获取重要文章")
+    @ApiImplicitParam(name = "name",value = "作者名称",required = true)
+    @GetMapping("/GetArticleBtmatter")
+    public List<ArticleVO> GetArticleBtmatter(
+    ) {
+        List<ArticleVO> result = new ArrayList<>();
+
+        QueryWrapper<Article> Wrapper = new QueryWrapper<>();
+        Wrapper.select().orderByAsc("add_time");
+        Wrapper.orderByDesc("owner_tag");
+        Wrapper.last("limit 0,4");
+        List<Article> articles = this.articleMapper.selectList(Wrapper);
+        for (Article article : articles) {
+            //获取id
+            Integer aid = article.getId();
+            //获取对应评论数量
+            int acnum = articleCommentService.GetCommentNum(aid);
+            //根据作者名称查询对应的头像地址
+            String author = article.getAuthor();
+            User users = userMapper.searchName(author);
+            String profile = users.getProfile();
+            //获取对应分类
+            String sortClass = article.getSortClass();
+            ArticleClass articleClass = articleClassMapper.selectById(sortClass);
+            String classname = articleClass.getName();
+
+            ArticleVO articleVOs = new ArticleVO();
+            articleVOs.setProfile(profile);
+            articleVOs.setCommentNum(acnum);
+            articleVOs.setClassName(classname);
+
+            BeanUtils.copyProperties(article,articleVOs);
+            result.add(articleVOs);
+        }
+        return result;
+
+
     }
 }
 

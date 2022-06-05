@@ -18,16 +18,16 @@ import java.util.List;
 @Component
 public class WxPayTask {
 
-    @Resource
+    @Autowired
     private OrderInfoService orderInfoService;
 
-    @Resource
+    @Autowired
     private WxPayService wxPayService;
 
     @Autowired
-    private AlipayService aliPayService;
+    private AlipayService alipayService;
 
-    @Resource
+    @Autowired
     private RefundInfoService refundInfoService;
 
     /**
@@ -53,7 +53,7 @@ public class WxPayTask {
         log.info("orderConfirm 被执行......");
 
         //查询出超过一分钟未支付的订单
-        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(3);
+        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(1);
 
         for (OrderInfo orderInfo : orderInfoList) {
             String orderNo = orderInfo.getOrderNo();
@@ -65,7 +65,7 @@ public class WxPayTask {
             }
             if(orderInfo.getPayMent().equals("支付宝")){
                 System.out.println("支付宝去处理");
-                aliPayService.checkOrderStatus(orderNo);
+                alipayService.checkOrderStatus(orderNo);
             }
         }
     }

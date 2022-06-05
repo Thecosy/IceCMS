@@ -84,6 +84,46 @@ public class WxPayController {
     }
 
     /**
+     * Native下单
+     * @param price
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("调用统一下单API，生成支付二维码（Vip）")
+    @PostMapping("/vip-native/{price}/{userid}")
+    public R nativePayVipLogin(@PathVariable Long price,
+                            @PathVariable Integer userid) throws Exception {
+
+        log.info("发起支付请求 v3");
+
+        //返回支付二维码连接和订单号
+//        Map<String, Object> map = wxPayService.nativePayForVipLogin(price,userid);
+
+//        return R.ok().setData(map);
+        return R.ok();
+    }
+
+    /**
+     * Native下单
+     * @param price
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation("调用统一下单API，生成支付二维码（Vip）")
+    @PostMapping("/vipIntegral-native/{price}/{userid}")
+    public R nativePayVipIntegralLogin (
+            @PathVariable Integer price,
+            @PathVariable Integer userid
+    ) throws Exception {
+
+        log.info("发起支付请求 v3");
+
+        //返回支付二维码连接和订单号
+        Map<String, Object> map = wxPayService.nativePayForVipIntegralLogin(price,userid);
+        return R.ok().setData(map);
+    }
+
+    /**
      * 支付通知
      * 微信支付通过支付通知接口将用户支付成功消息通知给商户
      */

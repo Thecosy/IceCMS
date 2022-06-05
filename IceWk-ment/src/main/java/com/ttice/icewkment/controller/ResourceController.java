@@ -4,9 +4,12 @@ package com.ttice.icewkment.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ttice.icewkment.Util.MathUtils;
 import com.ttice.icewkment.commin.vo.ResourcePageVO;
+import com.ttice.icewkment.entity.ArticleComment;
 import com.ttice.icewkment.entity.Resource;
 import com.ttice.icewkment.entity.ResourceClass;
+import com.ttice.icewkment.entity.ResourceComment;
 import com.ttice.icewkment.mapper.ResourceClassMapper;
+import com.ttice.icewkment.mapper.ResourceCommentMapper;
 import com.ttice.icewkment.service.ResourceService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +37,9 @@ public class ResourceController {
 
     @Autowired
     private ResourceClassMapper resourceClassMapper;
+
+    @Autowired
+    private ResourceCommentMapper resourceCommentMapper;
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "新增资源(修改)")
@@ -72,6 +78,10 @@ public class ResourceController {
     public boolean DelectResourceById(
             @PathVariable("id") Integer id
     ) {
+        //根据文章id删除评论
+        QueryWrapper<ResourceComment> wrapper= new QueryWrapper<ResourceComment>();
+        wrapper.eq("resource_id",id);
+        resourceCommentMapper.delete(wrapper);
         return this.resourceService.removeById(id);
     }
 

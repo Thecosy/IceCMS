@@ -6,7 +6,9 @@ import com.ttice.icewkment.Util.MathUtils;
 import com.ttice.icewkment.commin.vo.ArticlePageVO;
 import com.ttice.icewkment.entity.Article;
 import com.ttice.icewkment.entity.ArticleClass;
+import com.ttice.icewkment.entity.ArticleComment;
 import com.ttice.icewkment.mapper.ArticleClassMapper;
+import com.ttice.icewkment.mapper.ArticleCommentMapper;
 import com.ttice.icewkment.mapper.ArticleMapper;
 import com.ttice.icewkment.service.ArticleClassService;
 import com.ttice.icewkment.service.ArticleService;
@@ -43,6 +45,9 @@ public class ArticleController {
     @Autowired
     private ArticleClassMapper articleClassMapper;
 
+    @Autowired
+    private ArticleCommentMapper articleCommentMapper;
+
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "新增文章(修改)")
     @ApiImplicitParam(name = "article",value = "文章",required = true)
@@ -69,6 +74,10 @@ public class ArticleController {
     public boolean DelectArticleById(
             @PathVariable("id") Integer id
     ) {
+        //根据文章id删除评论
+        QueryWrapper<ArticleComment> wrapper= new QueryWrapper<ArticleComment>();
+        wrapper.eq("article_id",id);
+        articleCommentMapper.delete(wrapper);
         return this.articleService.removeById(id);
     }
 

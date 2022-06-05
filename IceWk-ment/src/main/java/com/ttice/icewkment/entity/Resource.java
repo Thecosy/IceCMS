@@ -41,6 +41,14 @@ import lombok.EqualsAndHashCode;
        */
       private String price;
       /**
+       * 价格
+       */
+      private String resAddress;
+      /**
+       * 价格
+       */
+      private String resPassword;
+      /**
        * 是否免费
        */
       private Boolean isFree;
@@ -115,7 +123,12 @@ import lombok.EqualsAndHashCode;
      */
       private Integer postNum;
 
-      /**
+    /**
+     * 喜欢数
+     */
+    private Integer loveNum;
+
+  /**
      * 是否评论
      */
       private String commentDisabled;

@@ -2,14 +2,19 @@ package com.ttice.icewkment.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ttice.icewkment.entity.Article;
 import com.ttice.icewkment.entity.ArticleComment;
+import com.ttice.icewkment.entity.ArticleCommentVO;
 import com.ttice.icewkment.mapper.ArticleCommentMapper;
+import com.ttice.icewkment.mapper.ArticleMapper;
 import com.ttice.icewkment.service.ArticleCommentService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,10 +31,13 @@ import java.util.List;
 public class WebArticleCommentController {
 
     @Autowired
-    ArticleCommentMapper articleCommentMapper;
+    private ArticleCommentMapper articleCommentMapper;
 
     @Autowired
-    ArticleCommentService articleCommentService;
+    private ArticleCommentService articleCommentService;
+
+    @Autowired
+    private ArticleMapper articleMapper;
 
     @ApiOperation(value = "根据文章id查询对应的评论")
     @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
@@ -64,14 +72,27 @@ public class WebArticleCommentController {
     @ApiOperation(value = "最新评论")
     @GetMapping("/getNewArticleComment/{num}")
     @ApiImplicitParam(name = "num",value = "获取数量",required = true)
-    public List<ArticleComment> getNewArticleComment(
+    public List<ArticleCommentVO> getNewArticleComment(
             @PathVariable("num") Integer num
     ) {
+        List<ArticleCommentVO> result = new ArrayList<>();
         QueryWrapper<ArticleComment> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("add_time");
         //使用last方法拼接sql语句
         wrapper.last("limit "+ num);
-        return articleCommentMapper.selectList(wrapper);
+        List<ArticleComment> articleComments = articleCommentMapper.selectList(wrapper);
+        for (ArticleComment articleComment : articleComments) {
+            ArticleCommentVO articleCommentVO = new ArticleCommentVO();
+            Integer articleId = articleComment.getArticleId();
+            //根据文章id查询文章名称
+            Article article = articleMapper.selectById(articleId);
+            String title = article.getTitle();
+            articleCommentVO.setArticleName(title);
+            BeanUtils.copyProperties(articleComment,articleCommentVO);
+
+            result.add(articleCommentVO);
+        }
+        return result;
     }
 
 }

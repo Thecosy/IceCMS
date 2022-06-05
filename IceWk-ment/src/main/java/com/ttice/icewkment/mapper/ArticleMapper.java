@@ -18,4 +18,7 @@ import org.springframework.stereotype.Repository;
 public interface ArticleMapper extends BaseMapper<Article> {
     @Select("update article set hits=IFNULL(hits,0)+1 where id = ${id}")
     Boolean articlesBrowse(@Param("id") Integer id);
+
+    @Select("update article set love_num=IFNULL(love_num,0)+1 where id = ${id}")
+    Boolean articlesLoveBrowse(@Param("id") Integer id);
 }

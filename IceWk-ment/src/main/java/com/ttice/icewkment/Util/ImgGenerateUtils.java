@@ -59,7 +59,6 @@ public class ImgGenerateUtils {
             FontDesignMetrics metrics = FontDesignMetrics.getMetrics(textfont);
             // 获取字符的最高的高度
             int height = metrics.getHeight();
-
             int width = 0;
             int count = 0;
             int total = text.length();
@@ -147,5 +146,6 @@ public class ImgGenerateUtils {
         }
         return null;
     }
+
 
 }

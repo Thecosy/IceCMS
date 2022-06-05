@@ -3,9 +3,11 @@ package com.ttice.icepayment.service;
 import com.ttice.icepayment.entity.OrderInfo;
 import com.ttice.icepayment.enums.OrderStatus;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface OrderInfoService extends IService<OrderInfo> {
 
     OrderInfo createOrderByWxProductId(Long productId , String payMent);
@@ -13,6 +15,8 @@ public interface OrderInfoService extends IService<OrderInfo> {
     OrderInfo createOrderTempByWxResourceId(Long productId , String payMent);
 
     OrderInfo createOrderLoginByWxResourceId(Long productId , String payMent, Integer userid);
+
+    OrderInfo createOrderForVipIntegralLoginByPrice(Integer price , String payMent, Integer userid);
 
     OrderInfo createOrderByAliProductId(Long productId , String payMent);
 

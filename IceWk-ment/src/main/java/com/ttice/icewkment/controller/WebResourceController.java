@@ -46,6 +46,16 @@ public class WebResourceController {
         return this.resourceService.getById(id);
     }
 
+    @ApiOperation(value = "根据分类id获取资源内容")
+    @ApiImplicitParam(name = "id",value = "Classid",required = true)
+    @GetMapping("/getResourceByClassId/{id}")
+    public List<ResourceVO> getResourceByClassId(
+            @PathVariable("id") Integer id
+    ) {
+
+        return this.resourceService.ClassVoList(id);
+    }
+
     @ApiOperation(value = "获取全部资源列表(分页)")
     @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
     @GetMapping("/getAllResource/{page}/{limit}")
@@ -62,6 +72,24 @@ public class WebResourceController {
         QueryWrapper<Resource> wrapper = new QueryWrapper<>();
         wrapper.select().eq("status","published");
         return resourceMapper.selectCount(wrapper);
+    }
+
+    @ApiOperation(value = "统计文章浏览量+1")
+    @GetMapping("/resource/{id}/view")
+    @ApiImplicitParam(name = "id",value = "资源id",required = true)
+    public Boolean resourceViewBrowse(
+            @PathVariable("id") Integer id
+    ) {
+        return resourceMapper.resourceBrowse(id);
+    }
+
+    @ApiOperation(value = "统计文章喜欢量+1")
+    @GetMapping("/resource/{id}/love")
+    @ApiImplicitParam(name = "id",value = "资源id",required = true)
+    public Boolean resourceLoveBrowse(
+            @PathVariable("id") Integer id
+    ) {
+        return resourceMapper.resourceLoveBrowse(id);
     }
 
     @ApiOperation(value = "获取最新资源列表")

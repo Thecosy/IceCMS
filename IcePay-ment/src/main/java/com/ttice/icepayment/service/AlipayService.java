@@ -3,6 +3,7 @@ package com.ttice.icepayment.service;
 import com.alipay.api.AlipayApiException;
 import com.ttice.icepayment.entity.AlipayClientEntity;
 import com.ttice.icepayment.entity.AlipayTradeInfoEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ import java.util.Map;
  * @date ：Created in 2019/12/18
  * @description: Alipay业务接口
  */
-@Service
+@Repository
 public interface AlipayService {
 
     Map<String, Object> ftofPay(Long productId) throws Exception;

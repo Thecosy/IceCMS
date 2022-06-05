@@ -2,12 +2,12 @@ package com.ttice.icewkment.controller;
 
 
 import com.ttice.icewkment.entity.DispositionCarousel;
+import com.ttice.icewkment.entity.Setting;
 import com.ttice.icewkment.mapper.DispositionCarouselMapper;
+import com.ttice.icewkment.mapper.SettingMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,20 +22,18 @@ import java.util.List;
 @io.swagger.annotations.Api(tags = "后台设置接口")
 @RestController
 @RequestMapping("/Sitting")
-public class SittingController {
-
+public class SettingController {
 
     @Autowired
-    private DispositionCarouselMapper disposition_carouselMapper;
+    private SettingMapper settingMapper;
 
-    @ApiOperation(value = "获取首页轮播图")
-    @GetMapping("/getCarousel")
-    public List<DispositionCarousel> getCarousel(
-
+    @ApiOperation(value = "修改设置")
+    @PostMapping("/setSetting")
+    public int setSetting(
+            @RequestBody Setting setting
     ) {
-        return this.disposition_carouselMapper.selectAll();
+        return settingMapper.updateById(setting);
     }
-
 
 }
 

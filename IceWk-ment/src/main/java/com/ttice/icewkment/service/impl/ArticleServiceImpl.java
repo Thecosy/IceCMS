@@ -3,7 +3,9 @@ package com.ttice.icewkment.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ttice.icewkment.entity.Article;
+import com.ttice.icewkment.entity.ArticleClass;
 import com.ttice.icewkment.entity.User;
+import com.ttice.icewkment.mapper.ArticleClassMapper;
 import com.ttice.icewkment.mapper.ArticleMapper;
 import com.ttice.icewkment.mapper.UserMapper;
 import com.ttice.icewkment.service.ArticleCommentService;
@@ -37,6 +39,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private ArticleCommentService articleCommentService;
+
+    @Autowired
+    private ArticleClassMapper articleClassMapper;
 
     @Override
     public ArticlePageVO FindVoList(Integer page, Integer limit , String content) {
@@ -98,6 +103,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             Integer aid = article.getId();
             int acnum = articleCommentService.GetCommentNum(aid);
             articleVO.setCommentNum(acnum);
+            //获取对应分类
+            String sortClass = article.getSortClass();
+            ArticleClass articleClass = articleClassMapper.selectById(sortClass);
+            String classname = articleClass.getName();
+            articleVO.setClassName(classname);
 
             BeanUtils.copyProperties(article,articleVO);
             result.add(articleVO);

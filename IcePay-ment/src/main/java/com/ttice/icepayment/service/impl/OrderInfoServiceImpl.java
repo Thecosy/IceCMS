@@ -3,17 +3,18 @@ package com.ttice.icepayment.service.impl;
 import com.ttice.icepayment.entity.OrderInfo;
 import com.ttice.icepayment.entity.Product;
 import com.ttice.icepayment.entity.Resource;
+import com.ttice.icepayment.entity.VipProduct;
 import com.ttice.icepayment.enums.OrderStatus;
 import com.ttice.icepayment.mapper.OrderInfoMapper;
 import com.ttice.icepayment.mapper.ProductMapper;
 import com.ttice.icepayment.mapper.PayResourceMapper;
+import com.ttice.icepayment.mapper.VipProductMapper;
 import com.ttice.icepayment.service.OrderInfoService;
 import com.ttice.icepayment.util.OrderNoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -30,8 +31,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Autowired
     private PayResourceMapper resourceMapper;
 
-    /*@Resource
-    private OrderInfoMapper orderInfoMapper;*/
+    @Autowired
+    private VipProductMapper vipProductMapper;
 
     @Override
     public OrderInfo createOrderTempByAliResourceId(Long ResourceId , String payMent) {
@@ -134,12 +135,38 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return orderInfo;
     }
 
+    @Override
+    public OrderInfo createOrderForVipIntegralLoginByPrice(Integer price , String payMent, Integer userid) {
+
+        //查找已存在但未支付的订单
+        OrderInfo orderInfo = this.getNoPayOrderByProductIdAndFee(1L, price , userid,"微信");
+        if( orderInfo != null && orderInfo.getUserId()!= null){
+            return orderInfo;
+        }
+
+        //获取商品信息
+        QueryWrapper<VipProduct> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",1);
+        VipProduct vipProduct = vipProductMapper.selectOne(wrapper);
+        //生成订单
+        orderInfo = new OrderInfo();
+        orderInfo.setTitle(vipProduct.getTitle());
+        orderInfo.setUserId(Long.valueOf(userid));
+        orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); //订单号
+        orderInfo.setPayMent(payMent);
+        orderInfo.setProductId(1L);
+        orderInfo.setTotalFee(price); //分
+        orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
+        baseMapper.insert(orderInfo);
+
+        return orderInfo;
+    }
 
     @Override
     public OrderInfo createOrderLoginByWxResourceId(Long resourceId , String payMent, Integer userid) {
 
         //查找已存在但未支付的订单
-        OrderInfo orderInfo = this.getNoPayOrderByProductId(resourceId,"微信");
+        OrderInfo orderInfo = this.getNoPayOrderByProductIdAndUser(resourceId,userid,"微信");
         if( orderInfo != null && orderInfo.getUserId()!= null){
             return orderInfo;
         }
@@ -333,4 +360,41 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         OrderInfo orderInfo = baseMapper.selectOne(queryWrapper);
         return orderInfo;
     }
+
+    /**
+     * 根据商品id查询未支付订单
+     * 防止重复创建订单对象
+     * @param productId
+     * @return
+     */
+    private OrderInfo getNoPayOrderByProductIdAndFee(Long productId ,Integer fee , Integer Userid,String payMent) {
+
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("product_id", productId);
+        queryWrapper.eq("total_fee", fee);
+        queryWrapper.eq("user_id", Userid);
+        queryWrapper.eq("pay_ment", payMent);
+        queryWrapper.eq("order_status", OrderStatus.NOTPAY.getType());
+//        queryWrapper.eq("user_id", userId);
+        OrderInfo orderInfo = baseMapper.selectOne(queryWrapper);
+        return orderInfo;
+    }
+    /**
+     * 根据商品id查询未支付订单
+     * 防止重复创建订单对象
+     * @param productId
+     * @return
+     */
+    private OrderInfo getNoPayOrderByProductIdAndUser(Long productId ,Integer Userid ,String payMent) {
+
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("product_id", productId);
+        queryWrapper.eq("user_id", Userid);
+        queryWrapper.eq("pay_ment", payMent);
+        queryWrapper.eq("order_status", OrderStatus.NOTPAY.getType());
+//        queryWrapper.eq("user_id", userId);
+        OrderInfo orderInfo = baseMapper.selectOne(queryWrapper);
+        return orderInfo;
+    }
+
 }

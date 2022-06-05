@@ -54,4 +54,22 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         resourcePageVO.setTotal(resultPage.getTotal());
         return resourcePageVO;
     }
+
+    @Override
+    public List<ResourceVO> ClassVoList(Integer id) {
+        QueryWrapper<Resource> wrapper = new QueryWrapper<>();
+        wrapper.like("sort_class",id);
+        List<Resource> resources = resourceMapper.selectList(wrapper);
+
+        ResourceVO resourceVO = null;
+
+        List<ResourceVO> result = new ArrayList<>();
+
+        for (Resource resource : resources) {
+            resourceVO = new ResourceVO();
+            BeanUtils.copyProperties(resource,resourceVO);
+            result.add(resourceVO);
+        }
+        return result;
+    }
 }

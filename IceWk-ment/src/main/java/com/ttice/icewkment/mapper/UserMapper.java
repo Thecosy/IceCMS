@@ -18,4 +18,7 @@ import org.springframework.stereotype.Repository;
 public interface UserMapper extends BaseMapper<User> {
     @Select("select * from user where USERNAME='${nameCn}' limit 1")
     User searchName(@Param("nameCn") String nameCn);
+
+    @Select("select * from user where user_id='${id}' limit 1")
+    User searchId(@Param("id") Integer id);
 }

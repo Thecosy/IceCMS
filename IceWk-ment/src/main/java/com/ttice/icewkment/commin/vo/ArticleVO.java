@@ -22,4 +22,5 @@ public class ArticleVO {
     private String profile;
     private Integer hits;
     private Integer CommentNum;
+    private String className;
 }
