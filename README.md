@@ -1,6 +1,6 @@
 <p align="center">
 	<a href="https://naccl.top/" target="_blank">
-		<img src="./pic/NBlog.png" alt="NBlog logo" style="width: 200px; height: 200px">
+		<img style="height: 120px" src="https://self-1305088812.cos.ap-nanjing.myqcloud.com/2021/83dc9cd0954a3c8d6d81c3d92d529389f9d184674ef9-5zqq0l_fw1200.png"/>
 	</a>
 </p>
 <p align="center">
