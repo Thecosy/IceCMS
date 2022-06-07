@@ -51,14 +51,14 @@ import lombok.EqualsAndHashCode;
     private Date lastLogin;
 
     //从开始之日算起
-    private Date vip_valid_date;
+    private Date vipValidDate;
 
     //加上30/90/365/之后的日期
-    private Date vip_expire_date;
+    private Date vipExpireDate;
 
     //积分
     private Integer integral;
 
     //会员是否禁用
-    private Boolean vip_disableTip;
+    private Boolean vipDisableTip;
 }

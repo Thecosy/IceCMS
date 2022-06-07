@@ -1,11 +1,13 @@
-package com.ttice.icepayment.entity;
+package com.ttice.icewkment.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @TableName("t_order_info")
-public class OrderInfo  extends BaseEntity{
+public class OrderInfo implements Serializable{
 
     private String title;//订单标题
 

@@ -104,6 +104,7 @@ public class AlipayServiceImpl implements AlipayService {
 
         return map;
     }
+
     public Map<String, Object> ftofLoginPay(Long ResourceId, Integer userid) throws Exception {
 
         log.info("生成订单");
@@ -135,6 +136,102 @@ public class AlipayServiceImpl implements AlipayService {
         AlipayTradeInfoEntity alipayTradeInfoEntity = new AlipayTradeInfoEntity();
         alipayTradeInfoEntity.setOutTradeNo(orderInfo.getOrderNo());//订单号
         alipayTradeInfoEntity.setTotalAmount(price);
+        alipayTradeInfoEntity.setSubject(orderInfo.getTitle());
+        alipayTradeInfoEntity.setTimeoutExpress(alipayConfig.getTIMEOUT_EXPRESS());
+
+        codeUrl = buildAlipayUrl(alipayClientEntity,alipayTradeInfoEntity);
+
+        //返回二维码
+        Map<String, Object> map = new HashMap<>();
+        map.put("codeUrl", codeUrl);
+        map.put("orderNo", orderInfo.getOrderNo());
+        //保存二维码
+        String orderNo = orderInfo.getOrderNo();
+        orderInfoService.saveCodeUrl(orderNo, codeUrl,"支付宝");
+
+        return map;
+    }
+
+    public Map<String, Object> ftofvipIntegralLoginPay(Integer price, Integer userid) throws Exception {
+
+        log.info("生成订单");
+
+        //生成订单
+        OrderInfo orderInfo = orderInfoService.createOrdervipIntegralLoginByPrice(price,"支付宝",userid);
+        String codeUrl = orderInfo.getCodeUrl();
+
+        if(orderInfo != null && !org.springframework.util.StringUtils.isEmpty(codeUrl)){
+            log.info("订单已存在，二维码已保存");
+            //返回二维码
+            Map<String, Object> map = new HashMap<>();
+            map.put("codeUrl", codeUrl);
+            map.put("orderNo", orderInfo.getOrderNo());
+            return map;
+        }
+
+        log.info("调用统一下单API");
+
+        // 填充 alipayClientEntity
+        AlipayClientEntity alipayClientEntity = new AlipayClientEntity();
+        alipayClientEntity.setAppId(alipayConfig.getAPP_ID());
+        alipayClientEntity.setPrivateKey(alipayConfig.getPRIVATE_KEY());
+        alipayClientEntity.setAlipayPublicKey(alipayConfig.getALIPAY_PUBLIC_KEY());
+        //把元为单位转化为分为单位
+        double orderprice = orderInfo.getTotalFee();
+//        String Theprice = String.valueOf(orderprice/100);//价格 单位:分
+        String Theprice = String.valueOf(orderprice);//价格 单位:分
+        // 填充订单信息
+        AlipayTradeInfoEntity alipayTradeInfoEntity = new AlipayTradeInfoEntity();
+        alipayTradeInfoEntity.setOutTradeNo(orderInfo.getOrderNo());//订单号
+        alipayTradeInfoEntity.setTotalAmount(Theprice);
+        alipayTradeInfoEntity.setSubject(orderInfo.getTitle());
+        alipayTradeInfoEntity.setTimeoutExpress(alipayConfig.getTIMEOUT_EXPRESS());
+
+        codeUrl = buildAlipayUrl(alipayClientEntity,alipayTradeInfoEntity);
+
+        //返回二维码
+        Map<String, Object> map = new HashMap<>();
+        map.put("codeUrl", codeUrl);
+        map.put("orderNo", orderInfo.getOrderNo());
+        //保存二维码
+        String orderNo = orderInfo.getOrderNo();
+        orderInfoService.saveCodeUrl(orderNo, codeUrl,"支付宝");
+
+        return map;
+    }
+
+    public Map<String, Object> ftofvipLoginPay(Integer price, Integer userid,Integer payid) throws Exception {
+
+        log.info("生成订单");
+
+        //生成订单
+        OrderInfo orderInfo = orderInfoService.createOrdervipLoginByPrice(price,"支付宝",userid,payid);
+        String codeUrl = orderInfo.getCodeUrl();
+
+        if(orderInfo != null && !org.springframework.util.StringUtils.isEmpty(codeUrl)){
+            log.info("订单已存在，二维码已保存");
+            //返回二维码
+            Map<String, Object> map = new HashMap<>();
+            map.put("codeUrl", codeUrl);
+            map.put("orderNo", orderInfo.getOrderNo());
+            return map;
+        }
+
+        log.info("调用统一下单API");
+
+        // 填充 alipayClientEntity
+        AlipayClientEntity alipayClientEntity = new AlipayClientEntity();
+        alipayClientEntity.setAppId(alipayConfig.getAPP_ID());
+        alipayClientEntity.setPrivateKey(alipayConfig.getPRIVATE_KEY());
+        alipayClientEntity.setAlipayPublicKey(alipayConfig.getALIPAY_PUBLIC_KEY());
+        //把元为单位转化为分为单位
+        double orderprice = orderInfo.getTotalFee();
+//        String Theprice = String.valueOf(orderprice/100);//价格 单位:分
+        String Theprice = String.valueOf(orderprice);//价格 单位:分
+        // 填充订单信息
+        AlipayTradeInfoEntity alipayTradeInfoEntity = new AlipayTradeInfoEntity();
+        alipayTradeInfoEntity.setOutTradeNo(orderInfo.getOrderNo());//订单号
+        alipayTradeInfoEntity.setTotalAmount(Theprice);
         alipayTradeInfoEntity.setSubject(orderInfo.getTitle());
         alipayTradeInfoEntity.setTimeoutExpress(alipayConfig.getTIMEOUT_EXPRESS());
 
@@ -503,6 +600,8 @@ public class AlipayServiceImpl implements AlipayService {
 
             } else {
                 log.info("==================调用支付宝查询接口失败！");
+                //更新本地订单状态
+                orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.CLOSED);
             }
         } catch (AlipayApiException e) {
             // TODO Auto-generated catch block

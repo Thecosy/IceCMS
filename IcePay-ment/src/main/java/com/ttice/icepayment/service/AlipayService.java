@@ -25,6 +25,10 @@ public interface AlipayService {
 
     Map<String, Object> ftofLoginPay(Long productId,Integer userid) throws Exception;
 
+    Map<String, Object> ftofvipIntegralLoginPay(Integer price,Integer userid) throws Exception;
+
+    Map<String, Object> ftofvipLoginPay(Integer price,Integer userid,Integer payid) throws Exception;
+
     /**
      * @description : 生成支付宝二维码
      * @author : Jiaxl

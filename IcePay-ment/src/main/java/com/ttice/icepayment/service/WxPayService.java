@@ -15,6 +15,8 @@ public interface WxPayService {
 
     Map<String, Object> nativePayForVipIntegralLogin(Integer price,Integer userid) throws Exception;
 
+    Map<String, Object> nativePayForVipLogin(Integer price,Integer userid, Integer payid) throws Exception;
+
     void processOrder(Map<String, Object> bodyMap) throws GeneralSecurityException;
 
     void cancelOrder(String orderNo) throws Exception;

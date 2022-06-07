@@ -40,10 +40,6 @@ public class WxPayTask {
      * ?：不指定
      * 日和周不能同时制定，指定其中之一，则另一个设置为?
      */
-    //@Scheduled(cron = "0/3 * * * * ?")
-    public void task1(){
-        log.info("task1 被执行......");
-    }
 
     /**
      * 从第0秒开始每隔30秒执行1次，查询创建超过5分钟，并且未支付的订单
@@ -52,8 +48,8 @@ public class WxPayTask {
     public void orderConfirm() throws Exception {
         log.info("orderConfirm 被执行......");
 
-        //查询出超过一分钟未支付的订单
-        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(1);
+        //查询出超过三分钟未支付的订单
+        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(3);
 
         for (OrderInfo orderInfo : orderInfoList) {
             String orderNo = orderInfo.getOrderNo();
@@ -74,19 +70,19 @@ public class WxPayTask {
     /**
      * 从第0秒开始每隔30秒执行1次，查询创建超过5分钟，并且未成功的退款单
      */
-    @Scheduled(cron = "0/30 * * * * ?")
-    public void refundConfirm() throws Exception {
-        log.info("refundConfirm 被执行......");
-
-        //找出申请退款超过3分钟并且未成功的退款单
-        List<RefundInfo> refundInfoList = refundInfoService.getNoRefundOrderByDuration(3);
-
-        for (RefundInfo refundInfo : refundInfoList) {
-            String refundNo = refundInfo.getRefundNo();
-            log.warn("超时未退款的退款单号 ===> {}", refundNo);
-
-            //核实订单状态：调用微信/支付宝支付退款接口
-            wxPayService.checkRefundStatus(refundNo);
+//    @Scheduled(cron = "0/30 * * * * ?")
+//    public void refundConfirm() throws Exception {
+//        log.info("refundConfirm 被执行......");
+//
+//        //找出申请退款超过3分钟并且未成功的退款单
+//        List<RefundInfo> refundInfoList = refundInfoService.getNoRefundOrderByDuration(3);
+//
+//        for (RefundInfo refundInfo : refundInfoList) {
+//            String refundNo = refundInfo.getRefundNo();
+//            log.warn("超时未退款的退款单号 ===> {}", refundNo);
+//
+//            //核实订单状态：调用微信/支付宝支付退款接口
+//            wxPayService.checkRefundStatus(refundNo);
             //TODO
 //            if(refundInfo.getPayMent().equals("微信")){
 //                wxPayService.checkRefundStatus(refundNo);
@@ -95,7 +91,7 @@ public class WxPayTask {
 //                System.out.println("支付宝去处理");
 //                aliPayService.checkOrderStatus(orderNo);
 //            }
-        }
-    }
+//        }
+//    }
 
 }

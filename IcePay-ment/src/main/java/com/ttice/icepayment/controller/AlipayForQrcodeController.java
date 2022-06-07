@@ -66,6 +66,45 @@ public class AlipayForQrcodeController {
 
         return R.ok().setData(map);
     }
+
+    /**
+     * @description : 生成支付宝二维码（登陆）
+     * @author : Jiaxl
+     * @date : 2019/12/18
+     * @return : java.lang.String
+     */
+    @ApiOperation("调用统一下单API，生成支付二维码（vipIntegral）")
+    @PostMapping(value = "/vipIntegral-ftof/{price}/{userid}")
+    public R buildAlipayQrcodeUrlvipIntegralLogin(
+            @PathVariable Integer price,
+            @PathVariable Integer userid) throws Exception {
+
+        //返回支付二维码连接和订单号
+        Map<String, Object> map = alipayService.ftofvipIntegralLoginPay(price,userid);
+
+        return R.ok().setData(map);
+    }
+
+    /**
+     * @description : 生成支付宝二维码（登陆）
+     * @author : Jiaxl
+     * @date : 2019/12/18
+     * @return : java.lang.String
+     */
+    @ApiOperation("调用统一下单API，生成支付二维码（vip）")
+    @PostMapping(value = "/vip-ftof/{price}/{userid}/{payid}")
+    public R buildAlipayQrcodeUrlvipLogin(
+            @PathVariable Integer price,
+            @PathVariable Integer userid,
+            @PathVariable Integer payid
+    ) throws Exception {
+
+        //返回支付二维码连接和订单号
+        Map<String, Object> map = alipayService.ftofvipLoginPay(price,userid,payid);
+
+        return R.ok().setData(map);
+    }
+
     /**
      * @description : 生成支付宝二维码（测试）
      * @author : Jiaxl

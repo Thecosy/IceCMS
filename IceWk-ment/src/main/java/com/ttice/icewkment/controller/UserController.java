@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ttice.icewkment.Util.JwtUtil;
 import com.ttice.icewkment.commin.lang.Result;
+import com.ttice.icewkment.entity.OrderInfo;
 import com.ttice.icewkment.entity.Role;
 import com.ttice.icewkment.entity.User;
 import com.ttice.icewkment.entity.UserRole;
 import com.ttice.icewkment.mapper.RoleMapper;
 import com.ttice.icewkment.mapper.UserMapper;
 import com.ttice.icewkment.mapper.UserRoleMapper;
+import com.ttice.icewkment.mapper.VipOrderInfoMapper;
 import com.ttice.icewkment.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -40,6 +42,9 @@ public class UserController {
 
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private VipOrderInfoMapper vipOrderInfoMapper;
 
     @ApiOperation(value = "后台登陆")
     @GetMapping("/loginAdmin")//登陆
@@ -154,6 +159,12 @@ public class UserController {
 
         user.setUsername(Newuser.getUsername());
         user.setPassword(Newuser.getPassword());
+        //默认信息
+        user.setIntro("这个人很懒，什么都没有留下！");
+        user.setCreated(new Date());
+        user.setUsername("新用户");
+        //会员禁用
+        user.setVipDisableTip(true);
 
         userMapper.insert(user);
 
@@ -222,13 +233,14 @@ public class UserController {
         return Result.fail(400,"失败",null);
     }
 
-    @ApiOperation(value = "绑定邮箱")
-    @ApiImplicitParam(name = "day",value = "会员有效期",required = true)
-    @GetMapping("/CreateEmail/{id}/{email}/{jwt}")
-    public int CreateEmail(
-            @PathVariable("id") String id,
-            @PathVariable("email") String email,
-            @PathVariable("jwt") String jwt
+    @ApiOperation(value = "修改密码")
+    @ApiImplicitParam(name = "NewPassWord",value = "新密码",required = true)
+    @PostMapping("/ChangePassword/{jwt}/{yuanPassWord}/{NewPassWord}/{userid}")
+    public Result ChangePassword(
+            @PathVariable("jwt") String jwt,
+            @PathVariable("yuanPassWord") String yuanPassWord,
+            @PathVariable("NewPassWord") String NewPassWord,
+            @PathVariable("userid") Integer userid
     ){
         //登陆状态检验jwt
         if(org.apache.commons.lang.StringUtils.isEmpty(jwt)){
@@ -243,24 +255,65 @@ public class UserController {
                 //前端接收后进行处理
                 Result.fail(403,"Token已过期",null);
             }
-            //执行修改您称
-            UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-            //设置要更新的字段和值，key是db的属性名称
-            updateWrapper.set("email",email);
-            //条件
-            updateWrapper.eq("id",id);
-            return  userMapper.update(null,updateWrapper);
+            //验证之前密码是否正确
+            QueryWrapper<User> wrapper = new QueryWrapper<>();
+            wrapper.eq("user_id",userid);
+            User usercheak = userMapper.selectOne(wrapper);
+            String password = usercheak.getPassword();
+            if(Objects.equals(password, yuanPassWord)) {
+                User user = new User();
+                user.setUserId(userid);
+                user.setPassword(NewPassWord);
+                userMapper.updateById(user);
+                return Result.succ(200, "修改成功", null);
+            }
+                return Result.fail(400,"原密码不正确",null);
+
         }
-        return 0;
+        return Result.fail(402,"失败",null);
+    }
+
+    @ApiOperation(value = "绑定邮箱")
+    @ApiImplicitParam(name = "NewPassWord",value = "新密码",required = true)
+    @PostMapping("/CreateEmail/{jwt}/{email}/{userid}")
+    public Result CreateEmail(
+            @PathVariable("jwt") String jwt,
+            @PathVariable("email") String email,
+            @PathVariable("userid") Integer userid
+    ){
+        //登陆状态检验jwt
+        if(org.apache.commons.lang.StringUtils.isEmpty(jwt)){
+            //前端接收后进行处理
+            Result.fail(403,"jwt为空",null);
+        }else{
+            //校验jwt
+            boolean claims = JwtUtil.checkToken(jwt);
+            //校验是否为空和时间是否过期
+            //如果过期了就真的没有一点退路了吗？
+            if(!claims){
+                //前端接收后进行处理
+                Result.fail(403,"Token已过期",null);
+            }
+            //验证是否绑定过邮箱
+
+                User user = new User();
+                user.setUserId(userid);
+                user.setEmail(email);
+                userMapper.updateById(user);
+                return Result.succ(200, "修改成功", null);
+
+
+        }
+        return Result.fail(402,"失败",null);
     }
 
     @ApiOperation(value = "修改名称")
-    @ApiImplicitParam(name = "name",value = "名称",required = true)
-    @GetMapping("/ChangeName/{id}/{name}/{jwt}")
-    public int ChangeName(
-            @PathVariable("id") String id,
-           @PathVariable("name") String name,
-           @PathVariable("jwt") String jwt
+    @ApiImplicitParam(name = "NewPassWord",value = "新密码",required = true)
+    @PostMapping("/ChangeName/{jwt}/{name}/{userid}")
+    public Result ChangeName(
+            @PathVariable("jwt") String jwt,
+            @PathVariable("name") String name,
+            @PathVariable("userid") Integer userid
     ){
         //登陆状态检验jwt
         if(org.apache.commons.lang.StringUtils.isEmpty(jwt)){
@@ -275,15 +328,17 @@ public class UserController {
                 //前端接收后进行处理
                 Result.fail(403,"Token已过期",null);
             }
-            //执行修改您称
-            UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-             //设置要更新的字段和值，key是db的属性名称
-            updateWrapper.set("name",name);
-            //条件
-            updateWrapper.eq("id",id);
-            return  userMapper.update(null,updateWrapper);
+            //验证是否绑定过邮箱
+
+            User user = new User();
+            user.setUserId(userid);
+            user.setName(name);
+            userMapper.updateById(user);
+            return Result.succ(200, "修改成功", null);
+
+
         }
-        return 0;
+        return Result.fail(402,"失败",null);
     }
 
     @ApiOperation(value = "验证Token")
@@ -294,54 +349,112 @@ public class UserController {
         return JwtUtil.checkToken(token);
     }
 
-    @ApiOperation(value = "开通会员")
-    @ApiImplicitParam(name = "day",value = "会员有效期",required = true)
-    @GetMapping("/CreateVip/{id}/{months}")
-    public int CreateVip(
-            @PathVariable("id") Integer id,
-            //months为 1 / 3 / 12
-            @PathVariable("months") Integer months
-            ){
-        //设置过期时间
-        LocalDateTime date = LocalDateTime.now(); // java8 当前时间
-        LocalDateTime oneMonthLater = date.plusMonths(months); // months个月之后的时间
-        Date expireDate = Date.from(oneMonthLater.atZone(ZoneId.systemDefault()).toInstant()); // LocalDateTime 转换为 Date
-        Date nowDate = Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
-
-        //配置时间字段
-        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id",id);
-        updateWrapper.set("vip_valid_date",nowDate);
-        //配置数据库vip字段标识
-        updateWrapper.set("vip_expire_date",expireDate);
-        updateWrapper.set("vip_disableTip",false);
-
-        return userMapper.update(null,updateWrapper);
-    }
 
     @ApiOperation(value = "积分充值")
     @ApiImplicitParam(name = "integral",value = "积分",required = true)
     @GetMapping("/UpdateIntegral/{id}/{integral}/{order}")
-    public int UpdateIntegral(
+    public Result UpdateIntegral(
             @PathVariable("id") Integer id,
             @PathVariable("integral") Integer integral,
-            @PathVariable("order") Integer order
+            @PathVariable("order") String order
     ){
             //根据订单号检测是否购买成功
+            QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("order_no", order);
+            OrderInfo orderInfo = vipOrderInfoMapper.selectOne(queryWrapper);
+            if(orderInfo == null){
+                return Result.fail(("失败"));
+            }
+            String orderStatus = orderInfo.getOrderStatus();
+             Boolean alreadyDone = orderInfo.getAlreadyDone();
+             //判断，只修改一次
+            if(Boolean.TRUE.equals(alreadyDone)){
+                return Result.fail(("已经修改过"));
+            }
+            if(orderStatus.equals("支付成功")){
+                UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+                updateWrapper.eq("user_id",id);
 
-//            String orderStatus = orderInfoService.getOrderStatus(orderNo);
-//            if(OrderStatus.SUCCESS.getType().equals(orderStatus)){
-//                return R.ok().setMessage("支付成功"); //支付成功
-//            }
+                User user1 = userMapper.selectOne(updateWrapper);
+                Integer integral1 = user1.getIntegral();
+                User user = new User();
+                user.setIntegral(integral+integral1);
+                userMapper.update(user,updateWrapper);
 
+                UpdateWrapper<OrderInfo> updateorderWrapper = new UpdateWrapper<>();
+                updateorderWrapper.eq("order_no",order);
+
+                OrderInfo orderInfo1 = new OrderInfo();
+                orderInfo1.setAlreadyDone(true);
+                vipOrderInfoMapper.update(orderInfo1,updateorderWrapper);
+
+                return Result.succ(200,"修改成功",null);
+            }else{
+                return Result.fail(("暂未支付"));
+            }
+    }
+
+    @ApiOperation(value = "会员充值")
+    @ApiImplicitParam(name = "integral",value = "积分",required = true)
+    @GetMapping("/CreateVip/{id}/{payid}/{order}")
+    public Result CreateVip(
+            @PathVariable("id") Integer id,
+            @PathVariable("payid") Integer payid,
+            @PathVariable("order") String order
+    ){
+        //根据订单号检测是否购买成功
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_no", order);
+        OrderInfo orderInfo = vipOrderInfoMapper.selectOne(queryWrapper);
+        if(orderInfo == null){
+            return Result.fail(("失败"));
+        }
+        String orderStatus = orderInfo.getOrderStatus();
+        Boolean alreadyDone = orderInfo.getAlreadyDone();
+        //判断，只修改一次
+        if(Boolean.TRUE.equals(alreadyDone)){
+            return Result.fail(("已经修改过"));
+        }
+        if(orderStatus.equals("支付成功")){
+            //查看充值月份
+            int months = 0;
+            if(payid == 2){
+                 months = 1;
+            }
+            if(payid == 3){
+                months = 6;
+            }
+            if(payid == 4){
+                 months = 12;
+            }
+            //设置过期时间
+            LocalDateTime date = LocalDateTime.now(); // java8 当前时间
+            LocalDateTime oneMonthLater = date.plusMonths(months); // months个月之后的时间
+            Date expireDate = Date.from(oneMonthLater.atZone(ZoneId.systemDefault()).toInstant()); // LocalDateTime 转换为 Date
+            Date nowDate = Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
+
+            //配置时间字段
             UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("user_id",id);
 
-            User user1 = userMapper.selectOne(updateWrapper);
-            Integer integral1 = user1.getIntegral();
-            User user = new User();
-            user.setIntegral(integral+integral1);
-           return userMapper.update(user,updateWrapper);
+            //配置数据库vip字段标识
+            User userSet = new User();
+            userSet.setVipDisableTip(false);
+            userSet.setVipExpireDate(expireDate);
+            userSet.setVipValidDate(nowDate);
+            userMapper.update(userSet,updateWrapper);
+            //订单已完成
+            UpdateWrapper<OrderInfo> updateorderWrapper = new UpdateWrapper<>();
+            updateorderWrapper.eq("order_no",order);
+
+            OrderInfo orderInfo1 = new OrderInfo();
+            orderInfo1.setAlreadyDone(true);
+            vipOrderInfoMapper.update(orderInfo1,updateorderWrapper);
+
+            return Result.succ(200,"修改成功",null);
+        }else{
+            return Result.fail(("暂未支付"));
+        }
     }
 
     @ApiOperation(value = "检测会员是否有效")
@@ -350,11 +463,11 @@ public class UserController {
             @PathVariable("id") Integer id
     ){
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",id);
+        queryWrapper.eq("user_id",id);
 
         User user = userMapper.selectOne(queryWrapper);
-        Boolean vip_disableTip = user.getVip_disableTip();
-        Date expireDate = user.getVip_expire_date();
+        Boolean vip_disableTip = user.getVipDisableTip();
+        Date expireDate = user.getVipExpireDate();
 
         //判断逻辑
         //1.vip_disableTip字段判断
@@ -372,13 +485,15 @@ public class UserController {
                 
                 //把数据库中的vip_disableTip字段设置为true
                 UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-                updateWrapper.eq("id",id);
-                updateWrapper.set("vip_disableTip",true);
-                userMapper.update(null,updateWrapper);
+                updateWrapper.eq("user_id",id);
+                User user1 = new User();
+                user1.setUserId(id);
+                user1.setVipDisableTip(true);
+                userMapper.update(user1,updateWrapper);
 
                 return false;
             } else { // 还未过期 disableTip=true
-                return true;
+                    return true;
             }
 
     }

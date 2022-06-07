@@ -18,11 +18,17 @@ public interface OrderInfoService extends IService<OrderInfo> {
 
     OrderInfo createOrderForVipIntegralLoginByPrice(Integer price , String payMent, Integer userid);
 
+    OrderInfo createOrderForVipLoginByPrice(Integer price , String payMent, Integer userid, Integer payid);
+
     OrderInfo createOrderByAliProductId(Long productId , String payMent);
 
     OrderInfo createOrderTempByAliResourceId(Long productId , String payMent);
 
     OrderInfo createOrderLoginByAliResourceId(Long productId , String payMent, Integer userid);
+
+    OrderInfo createOrdervipIntegralLoginByPrice(Integer price , String payMent, Integer userid);
+
+    OrderInfo createOrdervipLoginByPrice(Integer price , String payMent, Integer userid, Integer payid);
 
     void saveCodeUrl(String orderNo, String codeUrl,String payMent);
 

@@ -90,17 +90,18 @@ public class WxPayController {
      * @throws Exception
      */
     @ApiOperation("调用统一下单API，生成支付二维码（Vip）")
-    @PostMapping("/vip-native/{price}/{userid}")
-    public R nativePayVipLogin(@PathVariable Long price,
-                            @PathVariable Integer userid) throws Exception {
+    @PostMapping("/vip-native/{price}/{userid}/{payid}")
+    public R nativePayVipLogin(
+            @PathVariable Integer price,
+            @PathVariable Integer userid,
+            @PathVariable Integer payid
+    ) throws Exception {
 
         log.info("发起支付请求 v3");
 
         //返回支付二维码连接和订单号
-//        Map<String, Object> map = wxPayService.nativePayForVipLogin(price,userid);
-
-//        return R.ok().setData(map);
-        return R.ok();
+        Map<String, Object> map = wxPayService.nativePayForVipLogin(price,userid,payid);
+        return R.ok().setData(map);
     }
 
     /**
@@ -109,7 +110,7 @@ public class WxPayController {
      * @return
      * @throws Exception
      */
-    @ApiOperation("调用统一下单API，生成支付二维码（Vip）")
+    @ApiOperation("调用统一下单API，生成支付二维码（VipIntegral）")
     @PostMapping("/vipIntegral-native/{price}/{userid}")
     public R nativePayVipIntegralLogin (
             @PathVariable Integer price,

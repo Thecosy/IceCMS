@@ -13,6 +13,7 @@ import com.ttice.icepayment.service.OrderInfoService;
 import com.ttice.icepayment.util.OrderNoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,6 +80,63 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setPayMent(payMent);
         orderInfo.setProductId(ResourceId);
         orderInfo.setTotalFee(resource.getPrice()); //分
+        orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
+        baseMapper.insert(orderInfo);
+
+        return orderInfo;
+    }
+
+    @Override
+    public OrderInfo createOrdervipIntegralLoginByPrice(Integer price , String payMent, Integer userid) {
+
+        //查找已存在但未支付的订单
+        OrderInfo orderInfo = this.getNoPayOrderByProductIdAndFee(1L, price , userid,"支付宝");
+        if( orderInfo != null && orderInfo.getUserId() != null){
+            return orderInfo;
+        }
+
+        //获取商品信息
+        QueryWrapper<VipProduct> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",1);
+        VipProduct vipProduct = vipProductMapper.selectOne(wrapper);
+
+        //生成订单
+        orderInfo = new OrderInfo();
+        orderInfo.setTitle(vipProduct.getTitle());
+        orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); //订单号
+        orderInfo.setUserId(Long.valueOf(userid)); //订单号
+        orderInfo.setPayMent(payMent);
+        orderInfo.setProductId(1L);
+        orderInfo.setTotalFee(price); //分
+        orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
+        baseMapper.insert(orderInfo);
+
+        return orderInfo;
+    }
+
+    @Override
+    public OrderInfo createOrdervipLoginByPrice(Integer price , String payMent, Integer userid, Integer payid) {
+
+        //查找已存在但未支付的订单
+        OrderInfo orderInfo = this.getNoPayOrderByProductIdAndFee(Long.valueOf(payid), price , userid,"支付宝");
+
+        if( orderInfo != null && orderInfo.getUserId() != null){
+            return orderInfo;
+        }
+
+        //获取商品信息
+        QueryWrapper<VipProduct> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",payid);
+        VipProduct vipProduct = vipProductMapper.selectOne(wrapper);
+
+        //生成订单
+        orderInfo = new OrderInfo();
+        orderInfo.setTitle(vipProduct.getTitle());
+        orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); //订单号
+        orderInfo.setUserId(Long.valueOf(userid)); //订单号
+        orderInfo.setPayMent(payMent);
+        orderInfo.setProductId(Long.valueOf(payid));
+        orderInfo.setTotalFee(price); //分
         orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
         baseMapper.insert(orderInfo);
 
@@ -155,6 +213,33 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); //订单号
         orderInfo.setPayMent(payMent);
         orderInfo.setProductId(1L);
+        orderInfo.setTotalFee(price); //分
+        orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
+        baseMapper.insert(orderInfo);
+
+        return orderInfo;
+    }
+
+    @Override
+    public OrderInfo createOrderForVipLoginByPrice(Integer price , String payMent, Integer userid, Integer payid) {
+
+        //查找已存在但未支付的订单
+        OrderInfo orderInfo = this.getNoPayOrderByProductIdAndFee(Long.valueOf(payid), price , userid,"微信");
+        if( orderInfo != null && orderInfo.getUserId()!= null){
+            return orderInfo;
+        }
+
+        //获取商品信息
+        QueryWrapper<VipProduct> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",payid);
+        VipProduct vipProduct = vipProductMapper.selectOne(wrapper);
+        //生成订单
+        orderInfo = new OrderInfo();
+        orderInfo.setTitle(vipProduct.getTitle());
+        orderInfo.setUserId(Long.valueOf(userid));
+        orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); //订单号
+        orderInfo.setPayMent(payMent);
+        orderInfo.setProductId(Long.valueOf(payid));
         orderInfo.setTotalFee(price); //分
         orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
         baseMapper.insert(orderInfo);
@@ -321,7 +406,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
         QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("order_status", OrderStatus.NOTPAY.getType());
-        queryWrapper.le("create_time", instant);
+        queryWrapper.ge("create_time", instant);
 
         List<OrderInfo> orderInfoList = baseMapper.selectList(queryWrapper);
 
