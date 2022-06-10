@@ -9,6 +9,7 @@ import com.ttice.icewkment.mapper.ResourceMapper;
 import com.ttice.icewkment.mapper.ResourceVOMapper;
 import com.ttice.icewkment.service.ResourceService;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class WebResourceController {
     private ResourceVOMapper resourceVOMapper;
 
     @ApiOperation(value = "根据id获取资源内容")
-    @ApiImplicitParam(name = "id",value = "文章id",required = true)
+    @ApiImplicitParam(name = "id",value = "资源id",required = true)
     @GetMapping("/getResourceById/{id}")
     public Resource getResourceById(
             @PathVariable("id") Integer id
@@ -47,7 +48,7 @@ public class WebResourceController {
     }
 
     @ApiOperation(value = "根据分类id获取资源内容")
-    @ApiImplicitParam(name = "id",value = "Classid",required = true)
+    @ApiImplicitParam(name = "id",value = "分类id",required = true)
     @GetMapping("/getResourceByClassId/{id}")
     public List<ResourceVO> getResourceByClassId(
             @PathVariable("id") Integer id
@@ -57,7 +58,10 @@ public class WebResourceController {
     }
 
     @ApiOperation(value = "获取全部资源列表(分页)")
-    @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数",required = true),
+            @ApiImplicitParam(name = "limit",value = "总量",required = true)
+    })
     @GetMapping("/getAllResource/{page}/{limit}")
     public ResourcePageVO getAllArticle(
             @PathVariable("page") Integer page,
@@ -75,8 +79,8 @@ public class WebResourceController {
     }
 
     @ApiOperation(value = "统计文章浏览量+1")
-    @GetMapping("/resource/{id}/view")
     @ApiImplicitParam(name = "id",value = "资源id",required = true)
+    @GetMapping("/resource/{id}/view")
     public Boolean resourceViewBrowse(
             @PathVariable("id") Integer id
     ) {
@@ -84,8 +88,8 @@ public class WebResourceController {
     }
 
     @ApiOperation(value = "统计文章喜欢量+1")
-    @GetMapping("/resource/{id}/love")
     @ApiImplicitParam(name = "id",value = "资源id",required = true)
+    @GetMapping("/resource/{id}/love")
     public Boolean resourceLoveBrowse(
             @PathVariable("id") Integer id
     ) {
@@ -93,7 +97,7 @@ public class WebResourceController {
     }
 
     @ApiOperation(value = "获取最新资源列表")
-    @ApiImplicitParam(name = "articleNum",value = "文章数量",required = true)
+    @ApiImplicitParam(name = "articleNum",value = "数量",required = true)
     @GetMapping("/getNewResource/{resourceNum}")
     public List<ResourceVO> getNewResource(
             @PathVariable("resourceNum") Integer resourceNum
@@ -103,8 +107,11 @@ public class WebResourceController {
     }
 
     @ApiOperation(value = "文章查询(预览)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "content",value = "内容",required = true),
+            @ApiImplicitParam(name = "num",value = "总量",required = true)
+    })
     @GetMapping("/findresourcebynum/{content}/{num}")
-    @ApiImplicitParam(name = "content",value = "模糊查询标题",required = true)
     public List<Resource> FindresourceByNum(
             @PathVariable("content") String content,
             @PathVariable("num") String num

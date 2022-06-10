@@ -47,9 +47,9 @@ public class UserController {
     private VipOrderInfoMapper vipOrderInfoMapper;
 
     @ApiOperation(value = "后台登陆")
+    @ApiImplicitParam(name = "user",value = "用户对象",required = true)
     @GetMapping("/loginAdmin")//登陆
     public Result loginAdmin(User user) {
-
         //进行登陆核验操作
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         //用户名判断
@@ -107,6 +107,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "登陆")
+    @ApiImplicitParam(name = "user",value = "用户对象",required = true)
     @GetMapping("/login")//登陆
     public Result login(User user) {
 
@@ -144,6 +145,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "注册账号")
+    @ApiImplicitParam(name = "Newuser",value = "用户对象",required = true)
     @GetMapping("/Create")
     public Result Create(User Newuser) {
 
@@ -208,7 +210,10 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改用户信息")
-    @ApiImplicitParam(name = "name",value = "名称",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user",value = "用户对象",required = true),
+            @ApiImplicitParam(name = "jwt",value = "jwt",required = true)
+    })
     @PostMapping("/ChangeUser/{jwt}")
     public Result ChangeUser(
             @RequestBody User user,
@@ -234,7 +239,12 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改密码")
-    @ApiImplicitParam(name = "NewPassWord",value = "新密码",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "jwt",value = "jwt",required = true),
+            @ApiImplicitParam(name = "yuanPassWord",value = "原密码",required = true),
+            @ApiImplicitParam(name = "NewPassWord",value = "新密码",required = true),
+            @ApiImplicitParam(name = "userid",value = "用户id",required = true)
+    })
     @PostMapping("/ChangePassword/{jwt}/{yuanPassWord}/{NewPassWord}/{userid}")
     public Result ChangePassword(
             @PathVariable("jwt") String jwt,
@@ -274,7 +284,11 @@ public class UserController {
     }
 
     @ApiOperation(value = "绑定邮箱")
-    @ApiImplicitParam(name = "NewPassWord",value = "新密码",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "jwt",value = "jwt",required = true),
+            @ApiImplicitParam(name = "email",value = "邮箱",required = true),
+            @ApiImplicitParam(name = "userid",value = "用户id",required = true)
+    })
     @PostMapping("/CreateEmail/{jwt}/{email}/{userid}")
     public Result CreateEmail(
             @PathVariable("jwt") String jwt,
@@ -308,7 +322,11 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改名称")
-    @ApiImplicitParam(name = "NewPassWord",value = "新密码",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "jwt",value = "jwt",required = true),
+            @ApiImplicitParam(name = "name",value = "名称",required = true),
+            @ApiImplicitParam(name = "userid",value = "用户id",required = true)
+    })
     @PostMapping("/ChangeName/{jwt}/{name}/{userid}")
     public Result ChangeName(
             @PathVariable("jwt") String jwt,
@@ -349,9 +367,12 @@ public class UserController {
         return JwtUtil.checkToken(token);
     }
 
-
     @ApiOperation(value = "积分充值")
-    @ApiImplicitParam(name = "integral",value = "积分",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "id",required = true),
+            @ApiImplicitParam(name = "integral",value = "积分",required = true),
+            @ApiImplicitParam(name = "order",value = "订单",required = true)
+    })
     @GetMapping("/UpdateIntegral/{id}/{integral}/{order}")
     public Result UpdateIntegral(
             @PathVariable("id") Integer id,
@@ -395,7 +416,11 @@ public class UserController {
     }
 
     @ApiOperation(value = "会员充值")
-    @ApiImplicitParam(name = "integral",value = "积分",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "id",required = true),
+            @ApiImplicitParam(name = "payid",value = "支付id",required = true),
+            @ApiImplicitParam(name = "order",value = "订单",required = true)
+    })
     @GetMapping("/CreateVip/{id}/{payid}/{order}")
     public Result CreateVip(
             @PathVariable("id") Integer id,
@@ -458,6 +483,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "检测会员是否有效")
+    @ApiImplicitParam(name = "id",value = "id",required = true)
     @GetMapping("/CheckVip/{id}")
     public Boolean CheckVip(
             @PathVariable("id") Integer id

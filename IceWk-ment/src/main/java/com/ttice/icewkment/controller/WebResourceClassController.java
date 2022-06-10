@@ -4,6 +4,7 @@ package com.ttice.icewkment.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ttice.icewkment.entity.ResourceClass;
 import com.ttice.icewkment.mapper.ResourceClassMapper;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class WebResourceClassController {
     }
 
     @ApiOperation(value = "根据classid查询对应的资源分类名称")
+    @ApiImplicitParam(name = "classId",value = "分类id",required = true)
     @GetMapping("/getResourceClassNameByid/{classId}")
     public String getResourceClassNameByid(
             @PathVariable Integer classId

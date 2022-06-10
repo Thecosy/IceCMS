@@ -36,8 +36,8 @@ public class WebResourceCommentController {
     @Autowired
     private ResourceMapper resourceMapper;
 
-    @ApiOperation(value = "根据文章id查询对应的评论")
-    @ApiImplicitParam(name = "resourceId",value = "文章id",required = true)
+    @ApiOperation(value = "根据资源id查询对应的评论")
+    @ApiImplicitParam(name = "resourceId",value = "资源id",required = true)
     @GetMapping("/getallResourceComment/{resourceId}")
     public List<ResourceComment> getallResourceComment(
             @PathVariable("resourceId") Integer resourceId
@@ -51,14 +51,14 @@ public class WebResourceCommentController {
 
     @ApiOperation(value = "增加评论")
     @PostMapping("/addResourceComment")
-    @ApiImplicitParam(name = "resourceComment",value = "文章分类对象",required = true)
+    @ApiImplicitParam(name = "resourceComment",value = "资源分类对象",required = true)
     public int addResourceComment(@RequestBody ResourceComment resourceComment) {
         return resourceCommentMapper.insert(resourceComment);
     }
 
     @ApiOperation(value = "查看文章对应评论数")
+    @ApiImplicitParam(name = "resourceId",value = "资源id",required = true)
     @GetMapping("/getResourceCommentnum/{resourceId}")
-    @ApiImplicitParam(name = "resourceId",value = "文章id",required = true)
     public int getResourceCommentnum(
             @PathVariable("resourceId") Integer resourceId
     ) {

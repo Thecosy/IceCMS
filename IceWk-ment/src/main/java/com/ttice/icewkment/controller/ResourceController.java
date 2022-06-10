@@ -12,6 +12,7 @@ import com.ttice.icewkment.mapper.ResourceClassMapper;
 import com.ttice.icewkment.mapper.ResourceCommentMapper;
 import com.ttice.icewkment.service.ResourceService;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,10 @@ public class ResourceController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "获取全部资源(分页)")
-    @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数",required = true),
+            @ApiImplicitParam(name = "limit",value = "总量",required = true)
+    })
     @GetMapping("/getAllResource/{page}/{limit}")
     public ResourcePageVO getAllResource(
             @PathVariable("page") Integer page,
@@ -73,7 +77,7 @@ public class ResourceController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "根据id删除资源")
-    @ApiImplicitParam(name = "id",value = "文章id",required = true)
+    @ApiImplicitParam(name = "id",value = "资源id",required = true)
     @GetMapping("/DelectResourceById/{id}")
     public boolean DelectResourceById(
             @PathVariable("id") Integer id
@@ -87,7 +91,7 @@ public class ResourceController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "根据id获取资源")
-    @ApiImplicitParam(name = "id",value = "文章id",required = true)
+    @ApiImplicitParam(name = "id",value = "资源id",required = true)
     @GetMapping("/getResourceById/{id}")
     public Resource getResourceById(
             @PathVariable("id") Integer id

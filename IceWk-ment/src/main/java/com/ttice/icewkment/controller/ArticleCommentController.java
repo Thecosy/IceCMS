@@ -45,7 +45,6 @@ public class ArticleCommentController {
 
     @ApiOperation(value = "获取全部评论")
     @RequiresAuthentication  //需要登陆认证的接口
-    @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
     @GetMapping("/getallArticleComments")
     public List<ArticleComment> getallArticleComments(
     ) {
@@ -64,8 +63,8 @@ public class ArticleCommentController {
 
     @ApiOperation(value = "查看文章对应评论数")
     @RequiresAuthentication  //需要登陆认证的接口
-    @GetMapping("/getArticleCommentnum/{articleId}")
     @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
+    @GetMapping("/getArticleCommentnum/{articleId}")
     public int getArticleCommentnum(
             @PathVariable("articleId") Integer articleId
     ) {

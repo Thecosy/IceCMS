@@ -6,6 +6,8 @@ import com.ttice.icepayment.util.WechatPay2ValidatorForRequest;
 import com.ttice.icepayment.vo.R;
 import com.google.gson.Gson;
 import com.wechat.pay.contrib.apache.httpclient.auth.Verifier;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +32,8 @@ public class WxPayController {
     @Resource
     private Verifier verifier;
 
-    /**
-     * Native下单
-     * @param productId
-     * @return
-     * @throws Exception
-     */
     @ApiOperation("调用统一下单API，生成支付二维码（调试）")
+    @ApiImplicitParam(name = "productId",value = "商品id",required = true)
     @PostMapping("/test-native/{productId}")
     public R nativePayTest(@PathVariable Long productId) throws Exception {
 
@@ -47,13 +44,9 @@ public class WxPayController {
 
         return R.ok().setData(map);
     }
-    /**
-     * Native下单
-     * @param resourceId
-     * @return
-     * @throws Exception
-     */
+
     @ApiOperation("调用统一下单API，生成支付二维码（临时）")
+    @ApiImplicitParam(name = "resourceId",value = "商品id",required = true)
     @PostMapping("/temp-native/{resourceId}")
     public R nativePayTemp(@PathVariable Long resourceId) throws Exception {
 
@@ -64,13 +57,12 @@ public class WxPayController {
 
         return R.ok().setData(map);
     }
-    /**
-     * Native下单
-     * @param productId
-     * @return
-     * @throws Exception
-     */
+
     @ApiOperation("调用统一下单API，生成支付二维码（登陆）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "productId",value = "资源id",required = true),
+            @ApiImplicitParam(name = "userid",value = "用户id",required = true)
+    })
     @PostMapping("/login-native/{productId}/{userid}")
     public R nativePayLogin(@PathVariable Long productId,
                             @PathVariable Integer userid) throws Exception {
@@ -83,13 +75,12 @@ public class WxPayController {
         return R.ok().setData(map);
     }
 
-    /**
-     * Native下单
-     * @param price
-     * @return
-     * @throws Exception
-     */
     @ApiOperation("调用统一下单API，生成支付二维码（Vip）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "price",value = "价格",required = true),
+            @ApiImplicitParam(name = "userid",value = "用户id",required = true),
+            @ApiImplicitParam(name = "payid",value = "支付id",required = true)
+    })
     @PostMapping("/vip-native/{price}/{userid}/{payid}")
     public R nativePayVipLogin(
             @PathVariable Integer price,
@@ -104,13 +95,11 @@ public class WxPayController {
         return R.ok().setData(map);
     }
 
-    /**
-     * Native下单
-     * @param price
-     * @return
-     * @throws Exception
-     */
     @ApiOperation("调用统一下单API，生成支付二维码（VipIntegral）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "price",value = "价格",required = true),
+            @ApiImplicitParam(name = "userid",value = "用户id",required = true)
+    })
     @PostMapping("/vipIntegral-native/{price}/{userid}")
     public R nativePayVipIntegralLogin (
             @PathVariable Integer price,
@@ -128,7 +117,7 @@ public class WxPayController {
      * 支付通知
      * 微信支付通过支付通知接口将用户支付成功消息通知给商户
      */
-//    @ApiOperation("支付通知")
+    @ApiOperation("支付通知")
     @PostMapping("/native/notify")
     public String nativeNotify(HttpServletRequest request, HttpServletResponse response){
 
@@ -182,13 +171,7 @@ public class WxPayController {
 
     }
 
-    /**
-     * 用户取消订单
-     * @param orderNo
-     * @return
-     * @throws Exception
-     */
-//    @ApiOperation("用户取消订单")
+    @ApiOperation("用户取消订单")
     @PostMapping("/cancel/{orderNo}")
     public R cancel(@PathVariable String orderNo) throws Exception {
 
@@ -198,13 +181,7 @@ public class WxPayController {
         return R.ok().setMessage("订单已取消");
     }
 
-    /**
-     * 查询订单
-     * @param orderNo
-     * @return
-     * @throws Exception
-     */
-//    @ApiOperation("查询订单：测试订单状态用")
+    @ApiOperation("查询订单：测试订单状态用")
     @GetMapping("/query/{orderNo}")
     public R queryOrder(@PathVariable String orderNo) throws Exception {
         //TODO
@@ -216,7 +193,7 @@ public class WxPayController {
     }
 
 
-//    @ApiOperation("申请退款")
+    @ApiOperation("申请退款")
     @PostMapping("/refunds/{orderNo}/{reason}")
     public R refunds(@PathVariable String orderNo, @PathVariable String reason) throws Exception {
 
@@ -225,13 +202,7 @@ public class WxPayController {
         return R.ok();
     }
 
-    /**
-     * 查询退款
-     * @param refundNo
-     * @return
-     * @throws Exception
-     */
-//    @ApiOperation("查询退款：测试用")
+    @ApiOperation("查询退款：测试用")
     @GetMapping("/query-refund/{refundNo}")
     public R queryRefund(@PathVariable String refundNo) throws Exception {
 
@@ -246,7 +217,7 @@ public class WxPayController {
      * 退款结果通知
      * 退款状态改变后，微信会把相关退款结果发送给商户。
      */
-//    @ApiOperation("退款结果通知")
+    @ApiOperation("退款结果通知")
     @PostMapping("/refunds/notify")
     public String refundsNotify(HttpServletRequest request, HttpServletResponse response){
 
@@ -294,7 +265,7 @@ public class WxPayController {
         }
     }
 
-//    @ApiOperation("获取账单url：测试用")
+    @ApiOperation("获取账单url：测试用")
     @GetMapping("/querybill/{billDate}/{type}")
     public R queryTradeBill(
             @PathVariable String billDate,
@@ -306,7 +277,7 @@ public class WxPayController {
         return R.ok().setMessage("获取账单url成功").data("downloadUrl", downloadUrl);
     }
 
-//    @ApiOperation("下载账单")
+    @ApiOperation("下载账单")
     @GetMapping("/downloadbill/{billDate}/{type}")
     public R downloadBill(
             @PathVariable String billDate,

@@ -5,6 +5,8 @@ import com.ttice.icepayment.config.AlipayConfig;
 import com.ttice.icepayment.entity.AlipayClientEntity;
 import com.ttice.icepayment.service.AlipayService;
 import com.ttice.icepayment.vo.R;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +18,6 @@ import java.security.GeneralSecurityException;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * @author ：Jiaxl
- * @version : V1.0
- * @date ：Created in 2019/12/18
- * @description: 支付宝扫二维码支付相关业务
- */
 @CrossOrigin //开放前端的跨域访问
 @RestController
 @RequestMapping("/Pay-api/ali-pay")
@@ -34,13 +30,8 @@ public class AlipayForQrcodeController {
     @Autowired
     private AlipayConfig alipayConfig;
 
-    /**
-     * @description : 生成支付宝二维码（临时）
-     * @author : Jiaxl
-     * @date : 2019/12/18
-     * @return : java.lang.String
-     */
     @ApiOperation("调用统一下单API，生成支付二维码（临时）")
+    @ApiImplicitParam(name = "resourceId",value = "商品id",required = true)
     @PostMapping(value = "/temp-ftof/{resourceId}")
     public R buildAlipayQrcodeUrlTemp(@PathVariable Long resourceId) throws Exception {
 
@@ -49,13 +40,12 @@ public class AlipayForQrcodeController {
 
         return R.ok().setData(map);
     }
-    /**
-     * @description : 生成支付宝二维码（登陆）
-     * @author : Jiaxl
-     * @date : 2019/12/18
-     * @return : java.lang.String
-     */
+
     @ApiOperation("调用统一下单API，生成支付二维码（登陆）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "resourceId",value = "商品id",required = true),
+            @ApiImplicitParam(name = "userid",value = "用户id",required = true)
+    })
     @PostMapping(value = "/login-ftof/{resourceId}/{userid}")
     public R buildAlipayQrcodeUrlLogin(
             @PathVariable Long resourceId,
@@ -67,13 +57,11 @@ public class AlipayForQrcodeController {
         return R.ok().setData(map);
     }
 
-    /**
-     * @description : 生成支付宝二维码（登陆）
-     * @author : Jiaxl
-     * @date : 2019/12/18
-     * @return : java.lang.String
-     */
     @ApiOperation("调用统一下单API，生成支付二维码（vipIntegral）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "price",value = "价格",required = true),
+            @ApiImplicitParam(name = "userid",value = "用户id",required = true)
+    })
     @PostMapping(value = "/vipIntegral-ftof/{price}/{userid}")
     public R buildAlipayQrcodeUrlvipIntegralLogin(
             @PathVariable Integer price,
@@ -85,13 +73,12 @@ public class AlipayForQrcodeController {
         return R.ok().setData(map);
     }
 
-    /**
-     * @description : 生成支付宝二维码（登陆）
-     * @author : Jiaxl
-     * @date : 2019/12/18
-     * @return : java.lang.String
-     */
     @ApiOperation("调用统一下单API，生成支付二维码（vip）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "price",value = "价格",required = true),
+            @ApiImplicitParam(name = "userid",value = "用户id",required = true),
+            @ApiImplicitParam(name = "payid",value = "支付id",required = true)
+    })
     @PostMapping(value = "/vip-ftof/{price}/{userid}/{payid}")
     public R buildAlipayQrcodeUrlvipLogin(
             @PathVariable Integer price,
@@ -105,13 +92,8 @@ public class AlipayForQrcodeController {
         return R.ok().setData(map);
     }
 
-    /**
-     * @description : 生成支付宝二维码（测试）
-     * @author : Jiaxl
-     * @date : 2019/12/18
-     * @return : java.lang.String
-     */
     @ApiOperation("调用统一下单API，生成支付二维码（测试）")
+    @ApiImplicitParam(name = "productId",value = "商品id",required = true)
     @PostMapping(value = "/test-ftof/{productId}")
     public R buildAlipayQrcodeUrlTest(@PathVariable Long productId) throws Exception {
 
@@ -122,13 +104,8 @@ public class AlipayForQrcodeController {
     }
 
 
-    /**
-     * 用户取消订单
-     * @param orderNo
-     * @return
-     * @throws Exception
-     */
     @ApiOperation("用户取消订单")
+    @ApiImplicitParam(name = "orderNo",value = "订单编号",required = true)
     @PostMapping("/cancel/{orderNo}")
     public R cancel(@PathVariable String orderNo) throws Exception {
 
@@ -136,14 +113,6 @@ public class AlipayForQrcodeController {
         return R.ok().setMessage("订单已取消");
     }
 
-    /**
-     * @description : 支付宝同步回调
-     * @author : Jiaxl
-     * @date : 2019/12/18
-     * @param : request
-     * @param : response
-     * @return : java.lang.String
-     */
     @ApiOperation("支付宝同步回调")
     @PostMapping(value = "/alipay/return")
     public void alipayReturn(HttpServletRequest request, HttpServletResponse response) {
@@ -176,14 +145,6 @@ public class AlipayForQrcodeController {
 
     }
 
-    /**
-     * @description : 支付宝异步回调
-     * @author : Jiaxl
-     * @date : 2019/12/18
-     * @param : request
-     * @param : response
-     * @return : java.lang.String
-     */
     @ApiOperation("支付宝异步回调")
     @PostMapping(value = "/alipay/notify")
     public void alipayNotify(HttpServletRequest request, HttpServletResponse response) {

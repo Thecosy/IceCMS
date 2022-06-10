@@ -6,6 +6,7 @@ import com.ttice.icewkment.entity.Article;
 import com.ttice.icewkment.entity.ArticleClass;
 import com.ttice.icewkment.mapper.ArticleClassMapper;
 import com.ttice.icewkment.mapper.ArticleMapper;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class WebArticleClassController {
     private ArticleClassMapper articleClassMapper;
 
     @ApiOperation(value = "根据分类id获取文章数量")
+    @ApiImplicitParam(name = "id",value = "id",required = true)
     @GetMapping("/getArticleClassNum/{id}")
     public int getArticleClassNum(
             @PathVariable("id") Integer id

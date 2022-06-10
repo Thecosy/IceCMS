@@ -45,7 +45,7 @@ public class WebSquareController {
     private UserMapper userMapper;
 
     @ApiOperation(value = "新增圈子(修改)")
-    @ApiImplicitParam(name = "square",value = "圈子",required = true)
+    @ApiImplicitParam(name = "square",value = "圈子对象",required = true)
     @PostMapping("/create")
     public Integer add(@RequestBody Square square) throws ParseException {
         //查询分类名称对应的id值

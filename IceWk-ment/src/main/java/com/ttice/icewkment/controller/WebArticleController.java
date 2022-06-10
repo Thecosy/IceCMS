@@ -15,6 +15,7 @@ import com.ttice.icewkment.mapper.UserMapper;
 import com.ttice.icewkment.service.ArticleCommentService;
 import com.ttice.icewkment.service.ArticleService;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,10 @@ public class WebArticleController {
     }
 
     @ApiOperation(value = "获取全部文章列表(分页)")
-    @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数",required = true),
+            @ApiImplicitParam(name = "limit",value = "总量",required = true)
+    })
     @GetMapping("/getAllArticle/{page}/{limit}")
     public ArticlePageVO getAllArticle(
             @PathVariable("page") Integer page,
@@ -69,7 +73,7 @@ public class WebArticleController {
     }
 
     @ApiOperation(value = "获取最新文章列表")
-    @ApiImplicitParam(name = "articleNum",value = "文章数量",required = true)
+    @ApiImplicitParam(name = "articleNum",value = "数量",required = true)
     @GetMapping("/getNewArticle/{articleNum}")
     public List<ArticleVO> getNewAllArticle(
             @PathVariable("articleNum") Integer articleNum
@@ -87,8 +91,8 @@ public class WebArticleController {
     }
 
     @ApiOperation(value = "统计文章浏览量+1")
-    @GetMapping("/articles/{id}/view")
     @ApiImplicitParam(name = "id",value = "文章id",required = true)
+    @GetMapping("/articles/{id}/view")
     public Boolean articlesViewBrowse(
         @PathVariable("id") Integer id
     ) {
@@ -96,8 +100,8 @@ public class WebArticleController {
     }
 
     @ApiOperation(value = "统计文章喜欢量+1")
-    @GetMapping("/articles/{id}/love")
     @ApiImplicitParam(name = "id",value = "文章id",required = true)
+    @GetMapping("/articles/{id}/love")
     public Boolean articlesLoveBrowse(
             @PathVariable("id") Integer id
     ) {
@@ -105,8 +109,8 @@ public class WebArticleController {
     }
 
     @ApiOperation(value = "文章查询(全部)")
-    @GetMapping("/findarticles/{content}")
     @ApiImplicitParam(name = "content",value = "模糊查询标题",required = true)
+    @GetMapping("/findarticles/{content}")
     public List<Article> Findarticles(
             @PathVariable("content") String content
     ) {
@@ -116,8 +120,8 @@ public class WebArticleController {
     }
 
     @ApiOperation(value = "文章查询(预览)")
-    @GetMapping("/findarticlesbynum/{content}/{num}")
     @ApiImplicitParam(name = "content",value = "模糊查询标题",required = true)
+    @GetMapping("/findarticlesbynum/{content}/{num}")
     public List<Article> FindarticlesByNum(
             @PathVariable("content") String content,
             @PathVariable("num") String num
@@ -129,7 +133,11 @@ public class WebArticleController {
     }
 
     @ApiOperation(value = "查询文章(分页)")
-    @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "content",value = "内容",required = true),
+            @ApiImplicitParam(name = "page",value = "页数",required = true),
+            @ApiImplicitParam(name = "limit",value = "总量",required = true)
+    })
     @GetMapping("/FindAllArticle/{content}/{page}/{limit}")
     public ArticlePageVO FindAllArticle(
             @PathVariable("content") String content,
@@ -152,7 +160,6 @@ public class WebArticleController {
     }
 
     @ApiOperation(value = "获取重要文章")
-    @ApiImplicitParam(name = "name",value = "作者名称",required = true)
     @GetMapping("/GetArticleBtmatter")
     public List<ArticleVO> GetArticleBtmatter(
     ) {

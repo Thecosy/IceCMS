@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ttice.icewkment.Util.ImgGenerateUtils;
 import com.ttice.icewkment.Util.TencentCOS;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +19,11 @@ import java.io.IOException;
 public class ImageApi {
 
     @ApiOperation(value = "上传图片(添加文字水印)")
-    @ApiImplicitParam(name = "editormd-image-file",value = "图片Formate",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "editormd-image-file",value = "图片Formate",required = true),
+            @ApiImplicitParam(name = "title",value = "标题",required = true),
+            @ApiImplicitParam(name = "content",value = "内容",required = true)
+    })
     @PostMapping("/addwatermarkimageUpload/{title}/{content}")
     public JSONObject addwatermarkimageUpload(
             @RequestParam("editormd-image-file") MultipartFile image,

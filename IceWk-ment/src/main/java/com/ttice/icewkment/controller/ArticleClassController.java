@@ -8,6 +8,7 @@ import com.ttice.icewkment.entity.ArticleClass;
 import com.ttice.icewkment.mapper.ArticleClassMapper;
 import com.ttice.icewkment.service.ArticleClassService;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +39,7 @@ public class ArticleClassController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "新建文章分类")
-    @ApiImplicitParam(name = "class",value = "文章分类对象",required = true)
+    @ApiImplicitParam(name = "articleClass",value = "文章分类对象",required = true)
     @PostMapping("/newArticleClass")
     public int newArticleClass(
             @RequestBody ArticleClass articleClass
@@ -56,6 +57,10 @@ public class ArticleClassController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "获取文章分类列表(分页)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数",required = true),
+            @ApiImplicitParam(name = "limit",value = "总量",required = true)
+    })
     @PostMapping("/allArticleClass/{page}/{limit}")
     public ArticleClassPageVO allArticleClass(
             @PathVariable("page") Integer page,
@@ -66,6 +71,7 @@ public class ArticleClassController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "删除文章分类")
+    @ApiImplicitParam(name = "id",value = "id",required = true)
     @GetMapping("/DeleteArticleClass/{id}")
     public int DeleteArticleClass(
             @PathVariable("id") Integer id
@@ -93,6 +99,7 @@ public class ArticleClassController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "根据id值查询对应的分类名称")
+    @ApiImplicitParam(name = "id",value = "id",required = true)
     @GetMapping("/getClassNameById/{id}")
     public String getClassNameById(
             @PathVariable("id") Integer id

@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @CrossOrigin //开放前端的跨域访问
-@io.swagger.annotations.Api(tags = "商品订单管理")
+@io.swagger.annotations.Api(tags = "测试商品订单管理")
 @RestController
 @RequestMapping("/Pay-api/order-info")
 public class OrderInfoController {
@@ -36,12 +36,6 @@ public class OrderInfoController {
 
     }
 
-
-    /**
-     * 查询本地订单状态
-     * @param userid,resourceid
-     * @return
-     */
     @ApiOperation("查询本地订单状态(userid和resourceid)")
     @GetMapping("/query-order-status-Bytrue/{userid}/{resourceid}")
     public R queryOrderStatusBytrue(@PathVariable String userid,@PathVariable String resourceid){
@@ -54,11 +48,6 @@ public class OrderInfoController {
         return R.error().setCode(101).setMessage("没有支付");
     }
 
-    /**
-     * 查询本地订单状态
-     * @param orderNo
-     * @return
-     */
     @ApiOperation("根据订单号查询本地订单状态")
     @GetMapping("/query-order-status/{orderNo}")
     public R queryOrderStatus(@PathVariable String orderNo){
@@ -70,7 +59,4 @@ public class OrderInfoController {
 
         return R.ok().setCode(101).setMessage("支付中......");
     }
-
-
-
 }

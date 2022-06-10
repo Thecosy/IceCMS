@@ -33,7 +33,6 @@ public class ResourceCommentController {
 
     @ApiOperation(value = "获取全部评论")
     @RequiresAuthentication  //需要登陆认证的接口
-    @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
     @GetMapping("/getAllResourceComments")
     public List<ResourceComment> getAllResourceComments(
     ) {

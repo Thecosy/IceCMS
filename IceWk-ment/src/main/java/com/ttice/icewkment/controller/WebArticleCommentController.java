@@ -60,8 +60,8 @@ public class WebArticleCommentController {
     }
 
     @ApiOperation(value = "查看文章对应评论数")
-    @GetMapping("/getArticleCommentnum/{articleId}")
     @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
+    @GetMapping("/getArticleCommentnum/{articleId}")
     public int getArticleCommentnum(
             @PathVariable("articleId") Integer articleId
     ) {
@@ -70,8 +70,8 @@ public class WebArticleCommentController {
     }
 
     @ApiOperation(value = "最新评论")
+    @ApiImplicitParam(name = "num",value = "数量",required = true)
     @GetMapping("/getNewArticleComment/{num}")
-    @ApiImplicitParam(name = "num",value = "获取数量",required = true)
     public List<ArticleCommentVO> getNewArticleComment(
             @PathVariable("num") Integer num
     ) {

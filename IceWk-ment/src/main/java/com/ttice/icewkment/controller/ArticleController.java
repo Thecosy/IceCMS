@@ -13,6 +13,7 @@ import com.ttice.icewkment.mapper.ArticleMapper;
 import com.ttice.icewkment.service.ArticleClassService;
 import com.ttice.icewkment.service.ArticleService;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,7 @@ public class ArticleController {
     //暂时无用
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "根据id修改文章")
-    @ApiImplicitParam(name = "id",value = "文章对象",required = true)
+    @ApiImplicitParam(name = "id",value = "文章id",required = true)
     @PostMapping("/ReviseArticleById/{id}")
     public boolean ReviseArticleById(
             @RequestBody Article article
@@ -104,7 +105,10 @@ public class ArticleController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "获取全部文章(分页)")
-    @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数",required = true),
+            @ApiImplicitParam(name = "limit",value = "总量",required = true)
+    })
     @GetMapping("/getAllArticle/{page}/{limit}")
     public ArticlePageVO getAllArticle(
         @PathVariable("page") Integer page,

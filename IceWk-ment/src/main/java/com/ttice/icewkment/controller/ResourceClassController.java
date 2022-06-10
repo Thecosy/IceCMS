@@ -8,6 +8,7 @@ import com.ttice.icewkment.entity.ResourceClass;
 import com.ttice.icewkment.mapper.ResourceClassMapper;
 import com.ttice.icewkment.service.ResourceClassService;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.BeanUtils;
@@ -38,12 +39,11 @@ public class ResourceClassController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "新建资源分类")
-    @ApiImplicitParam(name = "class",value = "文章分类对象",required = true)
+    @ApiImplicitParam(name = "resourceClass",value = "文章分类对象",required = true)
     @PostMapping("/newResourceClass")
     public int newResourceClass(
             @RequestBody ResourceClass resourceClass
     ) {
-
         QueryWrapper<ResourceClass> wrapper= new QueryWrapper<ResourceClass>();
         wrapper.eq("name", resourceClass.getName());
         ResourceClass userjudje = resourceClassService.getOne(wrapper);
@@ -56,6 +56,10 @@ public class ResourceClassController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "获取资源分类列表(分页)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数",required = true),
+            @ApiImplicitParam(name = "limit",value = "总量",required = true)
+    })
     @PostMapping("/allResourceClass/{page}/{limit}")
     public ResourceClassPageVO allResourceClass(
             @PathVariable("page") Integer page,
@@ -66,6 +70,7 @@ public class ResourceClassController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "删除资源分类")
+    @ApiImplicitParam(name = "id",value = "id",required = true)
     @GetMapping("/DeleteResourceClass/{id}")
     public int DeleteResourceClass(
             @PathVariable("id") Integer id
@@ -75,6 +80,7 @@ public class ResourceClassController {
 
     @RequiresAuthentication  //需要登陆认证的接口
     @ApiOperation(value = "根据id值查询对应的分类名称")
+    @ApiImplicitParam(name = "id",value = "id",required = true)
     @GetMapping("/getClassNameById/{id}")
     public String getClassNameById(
             @PathVariable("id") Integer id
