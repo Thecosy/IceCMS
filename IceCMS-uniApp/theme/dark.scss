@@ -1,0 +1,22 @@
+// 示范如何适配多主题
+// 示范如何切换主题
+// name_theme方式决定主题，我们只需要添加不同的主题以及切换主题即可
+// 暗黑主题配置示范（部分）
+.n {
+	&-bg {
+		&-inverse_dark {
+			background-color: #000000;
+		}
+	}
+	&-color {
+		&-text_dark {
+			color: #ffffff;
+		}
+		&-second_dark {
+			color: #999696;
+		}
+		&-primary-opacity {
+			color: rgba($color: $n-color-primary, $alpha: 0.5);
+		}
+	}
+}

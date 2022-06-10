@@ -1,0 +1,10 @@
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["components/goods/goodsClubCell"],{"0b4c":function(t,n,e){"use strict";e.r(n);var a=e("11fd"),i=e.n(a);for(var r in a)"default"!==r&&function(t){e.d(n,t,(function(){return a[t]}))}(r);n["default"]=i.a},"11fd":function(t,n,e){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.default=void 0;var a={props:{item:{type:Object,default:function(){return{}}}},computed:{height:function(){var t=350*this.item.height/this.item.width;return t>400?400:t<100?100:t},tags:function(){return this.item.tags?this.item.tags.split(","):[]},members:function(){return[{avatar:"/static/caiman.jpeg"},{avatar:"/static/logo-dark.png"},{avatar:"/static/caiman.jpeg"}]}},methods:{toDetail:function(){this.$emit("detail",this.item)}}};n.default=a},"2a2d":function(t,n,e){"use strict";var a=e("5f81"),i=e.n(a);i.a},"5f81":function(t,n,e){},"79d0":function(t,n,e){"use strict";e.r(n);var a=e("da1a"),i=e("0b4c");for(var r in i)"default"!==r&&function(t){e.d(n,t,(function(){return i[t]}))}(r);e("2a2d");var o,u=e("f0c5"),c=Object(u["a"])(i["default"],a["b"],a["c"],!1,null,"20a5c587",null,!1,a["a"],o);n["default"]=c.exports},da1a:function(t,n,e){"use strict";e.d(n,"b",(function(){return i})),e.d(n,"c",(function(){return r})),e.d(n,"a",(function(){return a}));var a={nIcon:function(){return Promise.all([e.e("common/vendor"),e.e("nPro/icon/icon")]).then(e.bind(null,"0efe"))},nAvatars:function(){return e.e("nPro/avatars/avatars").then(e.bind(null,"8ad3"))}},i=function(){var t=this,n=t.$createElement,e=(t._self._c,t.item.sale.toFixed(2)),a=t.item.price.toFixed(2);t.$mp.data=Object.assign({},{$root:{g0:e,g1:a}})},r=[]}}]);
+;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
+    'components/goods/goodsClubCell-create-component',
+    {
+        'components/goods/goodsClubCell-create-component':(function(module, exports, __webpack_require__){
+            __webpack_require__('543d')['createComponent'](__webpack_require__("79d0"))
+        })
+    },
+    [['components/goods/goodsClubCell-create-component']]
+]);

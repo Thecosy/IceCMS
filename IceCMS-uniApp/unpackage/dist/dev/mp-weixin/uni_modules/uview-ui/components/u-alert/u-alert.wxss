@@ -1,0 +1,331 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些"u-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
+ */
+/* 主题颜色 */
+.margin-b5.data-v-ec4d7d1a {
+  margin-bottom: 5rpx;
+}
+.margin-b10.data-v-ec4d7d1a {
+  margin-bottom: 10rpx;
+}
+.margin-b15.data-v-ec4d7d1a {
+  margin-bottom: 15rpx;
+}
+.margin-b20.data-v-ec4d7d1a {
+  margin-bottom: 20rpx;
+}
+.margin-b25.data-v-ec4d7d1a {
+  margin-bottom: 25rpx;
+}
+.margin-b30.data-v-ec4d7d1a {
+  margin-bottom: 30rpx;
+}
+.margin-b40.data-v-ec4d7d1a {
+  margin-bottom: 40rpx;
+}
+.margin-b60.data-v-ec4d7d1a {
+  margin-bottom: 60rpx;
+}
+.margin-b80.data-v-ec4d7d1a {
+  margin-bottom: 80rpx;
+}
+.margin-b100.data-v-ec4d7d1a {
+  margin-bottom: 100rpx;
+}
+.margin-r5.data-v-ec4d7d1a {
+  margin-right: 5rpx;
+}
+.margin-r10.data-v-ec4d7d1a {
+  margin-right: 10rpx;
+}
+.margin-r15.data-v-ec4d7d1a {
+  margin-right: 15rpx;
+}
+.margin-r20.data-v-ec4d7d1a {
+  margin-right: 20rpx;
+}
+.margin-r25.data-v-ec4d7d1a {
+  margin-right: 25rpx;
+}
+.margin-r30.data-v-ec4d7d1a {
+  margin-right: 30rpx;
+}
+.margin-r40.data-v-ec4d7d1a {
+  margin-right: 40rpx;
+}
+.margin-r60.data-v-ec4d7d1a {
+  margin-right: 60rpx;
+}
+.font-18.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 18rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-20.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 20rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-22.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 22rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-24.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 24rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-26.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 26rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-28.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 28rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-30.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 30rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-32.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 32rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-34.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 34rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-36.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 36rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-38.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 38rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-40.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 40rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-46.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 46rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-50.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 50rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-60.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 60rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-80.data-v-ec4d7d1a {
+  font-style: normal;
+  font-size: 80rpx;
+  font-family: Droid Sans Fallback;
+}
+.text-left.data-v-ec4d7d1a {
+  text-align: left;
+}
+.text-center.data-v-ec4d7d1a {
+  text-align: center;
+}
+.text-right.data-v-ec4d7d1a {
+  text-align: right;
+}
+.color-white.data-v-ec4d7d1a {
+  color: #FFFFFF;
+}
+.color-red.data-v-ec4d7d1a {
+  color: #dc0000;
+}
+.font-weight-400.data-v-ec4d7d1a {
+  font-weight: 400;
+}
+.font-weight-500.data-v-ec4d7d1a {
+  font-weight: bold;
+}
+.spacing-20.data-v-ec4d7d1a {
+  width: 750rpx;
+  height: 20rpx;
+  background-color: #f8f8f8;
+}
+.radius-10.data-v-ec4d7d1a {
+  border-radius: 10rpx;
+}
+.radius-20.data-v-ec4d7d1a {
+  border-radius: 20rpx;
+}
+.radius-30.data-v-ec4d7d1a {
+  border-radius: 30rpx;
+}
+.radius-circle.data-v-ec4d7d1a {
+  border-radius: 50%;
+}
+.radius-height.data-v-ec4d7d1a {
+  border-radius: 10000px;
+}
+.vs-flex-item.data-v-ec4d7d1a {
+  flex: 1;
+}
+.vs-space-between.data-v-ec4d7d1a {
+  justify-content: space-between;
+}
+.vs-space-around.data-v-ec4d7d1a {
+  justify-content: space-around;
+}
+.vs-space-center.data-v-ec4d7d1a {
+  justify-content: center;
+}
+.vs-space-end.data-v-ec4d7d1a {
+  justify-content: flex-end;
+}
+.vs-row.data-v-ec4d7d1a {
+  flex-direction: row;
+}
+.vs-column.data-v-ec4d7d1a {
+  flex-direction: column;
+}
+.vs-align-end.data-v-ec4d7d1a {
+  align-items: flex-end;
+}
+.vs-align-center.data-v-ec4d7d1a {
+  align-items: center;
+}
+.vs-align-start.data-v-ec4d7d1a {
+  align-items: flex-start;
+}
+.vs-item-hover.data-v-ec4d7d1a {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.vs-btn-hover.data-v-ec4d7d1a {
+  opacity: 0.8;
+}
+.color-base.data-v-ec4d7d1a {
+  color: #50A1FF;
+}
+.bg-color-base.data-v-ec4d7d1a {
+  background-color: #50A1FF;
+}
+/* 行为相关颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+view.data-v-ec4d7d1a, scroll-view.data-v-ec4d7d1a, swiper-item.data-v-ec4d7d1a {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+}
+.u-alert.data-v-ec4d7d1a {
+  position: relative;
+  background-color: #3c9cff;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.u-alert--primary--dark.data-v-ec4d7d1a {
+  background-color: #3c9cff;
+}
+.u-alert--primary--light.data-v-ec4d7d1a {
+  background-color: #ecf5ff;
+}
+.u-alert--error--dark.data-v-ec4d7d1a {
+  background-color: #f56c6c;
+}
+.u-alert--error--light.data-v-ec4d7d1a {
+  background-color: #FEF0F0;
+}
+.u-alert--success--dark.data-v-ec4d7d1a {
+  background-color: #50A1FF;
+}
+.u-alert--success--light.data-v-ec4d7d1a {
+  background-color: #f5fff0;
+}
+.u-alert--warning--dark.data-v-ec4d7d1a {
+  background-color: #f9ae3d;
+}
+.u-alert--warning--light.data-v-ec4d7d1a {
+  background-color: #FDF6EC;
+}
+.u-alert--info--dark.data-v-ec4d7d1a {
+  background-color: #909399;
+}
+.u-alert--info--light.data-v-ec4d7d1a {
+  background-color: #f4f4f5;
+}
+.u-alert__icon.data-v-ec4d7d1a {
+  margin-right: 5px;
+}
+.u-alert__content.data-v-ec4d7d1a {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.u-alert__content__title.data-v-ec4d7d1a {
+  color: #303133;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.u-alert__content__desc.data-v-ec4d7d1a {
+  color: #303133;
+  font-size: 14px;
+  flex-wrap: wrap;
+  color: #fff;
+}
+.u-alert__title--dark.data-v-ec4d7d1a, .u-alert__desc--dark.data-v-ec4d7d1a {
+  color: #FFFFFF;
+}
+.u-alert__text--primary--light.data-v-ec4d7d1a, .u-alert__text--primary--light.data-v-ec4d7d1a {
+  color: #3c9cff;
+}
+.u-alert__text--success--light.data-v-ec4d7d1a, .u-alert__text--success--light.data-v-ec4d7d1a {
+  color: #50A1FF;
+}
+.u-alert__text--warning--light.data-v-ec4d7d1a, .u-alert__text--warning--light.data-v-ec4d7d1a {
+  color: #f9ae3d;
+}
+.u-alert__text--error--light.data-v-ec4d7d1a, .u-alert__text--error--light.data-v-ec4d7d1a {
+  color: #f56c6c;
+}
+.u-alert__text--info--light.data-v-ec4d7d1a, .u-alert__text--info--light.data-v-ec4d7d1a {
+  color: #909399;
+}
+.u-alert__close.data-v-ec4d7d1a {
+  position: absolute;
+  top: 11px;
+  right: 10px;
+}
+

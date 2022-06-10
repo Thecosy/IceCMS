@@ -1,0 +1,402 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些"u-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
+ */
+/* 主题颜色 */
+.margin-b5.data-v-0fe228ae {
+  margin-bottom: 5rpx;
+}
+.margin-b10.data-v-0fe228ae {
+  margin-bottom: 10rpx;
+}
+.margin-b15.data-v-0fe228ae {
+  margin-bottom: 15rpx;
+}
+.margin-b20.data-v-0fe228ae {
+  margin-bottom: 20rpx;
+}
+.margin-b25.data-v-0fe228ae {
+  margin-bottom: 25rpx;
+}
+.margin-b30.data-v-0fe228ae {
+  margin-bottom: 30rpx;
+}
+.margin-b40.data-v-0fe228ae {
+  margin-bottom: 40rpx;
+}
+.margin-b60.data-v-0fe228ae {
+  margin-bottom: 60rpx;
+}
+.margin-b80.data-v-0fe228ae {
+  margin-bottom: 80rpx;
+}
+.margin-b100.data-v-0fe228ae {
+  margin-bottom: 100rpx;
+}
+.margin-r5.data-v-0fe228ae {
+  margin-right: 5rpx;
+}
+.margin-r10.data-v-0fe228ae {
+  margin-right: 10rpx;
+}
+.margin-r15.data-v-0fe228ae {
+  margin-right: 15rpx;
+}
+.margin-r20.data-v-0fe228ae {
+  margin-right: 20rpx;
+}
+.margin-r25.data-v-0fe228ae {
+  margin-right: 25rpx;
+}
+.margin-r30.data-v-0fe228ae {
+  margin-right: 30rpx;
+}
+.margin-r40.data-v-0fe228ae {
+  margin-right: 40rpx;
+}
+.margin-r60.data-v-0fe228ae {
+  margin-right: 60rpx;
+}
+.font-18.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 18rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-20.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 20rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-22.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 22rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-24.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 24rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-26.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 26rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-28.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 28rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-30.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 30rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-32.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 32rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-34.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 34rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-36.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 36rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-38.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 38rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-40.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 40rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-46.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 46rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-50.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 50rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-60.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 60rpx;
+  font-family: Droid Sans Fallback;
+}
+.font-80.data-v-0fe228ae {
+  font-style: normal;
+  font-size: 80rpx;
+  font-family: Droid Sans Fallback;
+}
+.text-left.data-v-0fe228ae {
+  text-align: left;
+}
+.text-center.data-v-0fe228ae {
+  text-align: center;
+}
+.text-right.data-v-0fe228ae {
+  text-align: right;
+}
+.color-white.data-v-0fe228ae {
+  color: #FFFFFF;
+}
+.color-red.data-v-0fe228ae {
+  color: #dc0000;
+}
+.font-weight-400.data-v-0fe228ae {
+  font-weight: 400;
+}
+.font-weight-500.data-v-0fe228ae {
+  font-weight: bold;
+}
+.spacing-20.data-v-0fe228ae {
+  width: 750rpx;
+  height: 20rpx;
+  background-color: #f8f8f8;
+}
+.radius-10.data-v-0fe228ae {
+  border-radius: 10rpx;
+}
+.radius-20.data-v-0fe228ae {
+  border-radius: 20rpx;
+}
+.radius-30.data-v-0fe228ae {
+  border-radius: 30rpx;
+}
+.radius-circle.data-v-0fe228ae {
+  border-radius: 50%;
+}
+.radius-height.data-v-0fe228ae {
+  border-radius: 10000px;
+}
+.vs-flex-item.data-v-0fe228ae {
+  flex: 1;
+}
+.vs-space-between.data-v-0fe228ae {
+  justify-content: space-between;
+}
+.vs-space-around.data-v-0fe228ae {
+  justify-content: space-around;
+}
+.vs-space-center.data-v-0fe228ae {
+  justify-content: center;
+}
+.vs-space-end.data-v-0fe228ae {
+  justify-content: flex-end;
+}
+.vs-row.data-v-0fe228ae {
+  flex-direction: row;
+}
+.vs-column.data-v-0fe228ae {
+  flex-direction: column;
+}
+.vs-align-end.data-v-0fe228ae {
+  align-items: flex-end;
+}
+.vs-align-center.data-v-0fe228ae {
+  align-items: center;
+}
+.vs-align-start.data-v-0fe228ae {
+  align-items: flex-start;
+}
+.vs-item-hover.data-v-0fe228ae {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.vs-btn-hover.data-v-0fe228ae {
+  opacity: 0.8;
+}
+.color-base.data-v-0fe228ae {
+  color: #50A1FF;
+}
+.bg-color-base.data-v-0fe228ae {
+  background-color: #50A1FF;
+}
+/* 行为相关颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+view.data-v-0fe228ae, scroll-view.data-v-0fe228ae, swiper-item.data-v-0fe228ae {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+}
+.u-loading-icon.data-v-0fe228ae {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #c8c9cc;
+}
+.u-loading-icon__text.data-v-0fe228ae {
+  margin-left: 4px;
+  color: #606266;
+  font-size: 14px;
+  line-height: 20px;
+}
+.u-loading-icon__spinner.data-v-0fe228ae {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  box-sizing: border-box;
+  max-width: 100%;
+  max-height: 100%;
+  -webkit-animation: u-rotate-data-v-0fe228ae 1s linear infinite;
+          animation: u-rotate-data-v-0fe228ae 1s linear infinite;
+}
+.u-loading-icon__spinner--semicircle.data-v-0fe228ae {
+  border-width: 2px;
+  border-color: transparent;
+  border-top-right-radius: 100px;
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  border-style: solid;
+}
+.u-loading-icon__spinner--circle.data-v-0fe228ae {
+  border-top-right-radius: 100px;
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  border-width: 2px;
+  border-top-color: #e5e5e5;
+  border-right-color: #e5e5e5;
+  border-bottom-color: #e5e5e5;
+  border-left-color: #e5e5e5;
+  border-style: solid;
+}
+.u-loading-icon--vertical.data-v-0fe228ae {
+  flex-direction: column;
+}
+.data-v-0fe228ae:host {
+  font-size: 0px;
+  line-height: 1;
+}
+.u-loading-icon__spinner--spinner.data-v-0fe228ae {
+  -webkit-animation-timing-function: steps(12);
+          animation-timing-function: steps(12);
+}
+.u-loading-icon__text.data-v-0fe228ae:empty {
+  display: none;
+}
+.u-loading-icon--vertical .u-loading-icon__text.data-v-0fe228ae {
+  margin: 6px 0 0;
+  color: #606266;
+}
+.u-loading-icon__dot.data-v-0fe228ae {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.u-loading-icon__dot.data-v-0fe228ae:before {
+  display: block;
+  width: 2px;
+  height: 25%;
+  margin: 0 auto;
+  background-color: currentColor;
+  border-radius: 40%;
+  content: " ";
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(1) {
+  -webkit-transform: rotate(30deg);
+          transform: rotate(30deg);
+  opacity: 1;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(2) {
+  -webkit-transform: rotate(60deg);
+          transform: rotate(60deg);
+  opacity: 0.9375;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(3) {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+  opacity: 0.875;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(4) {
+  -webkit-transform: rotate(120deg);
+          transform: rotate(120deg);
+  opacity: 0.8125;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(5) {
+  -webkit-transform: rotate(150deg);
+          transform: rotate(150deg);
+  opacity: 0.75;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(6) {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  opacity: 0.6875;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(7) {
+  -webkit-transform: rotate(210deg);
+          transform: rotate(210deg);
+  opacity: 0.625;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(8) {
+  -webkit-transform: rotate(240deg);
+          transform: rotate(240deg);
+  opacity: 0.5625;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(9) {
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+  opacity: 0.5;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(10) {
+  -webkit-transform: rotate(300deg);
+          transform: rotate(300deg);
+  opacity: 0.4375;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(11) {
+  -webkit-transform: rotate(330deg);
+          transform: rotate(330deg);
+  opacity: 0.375;
+}
+.u-loading-icon__dot.data-v-0fe228ae:nth-of-type(12) {
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+  opacity: 0.3125;
+}
+@-webkit-keyframes u-rotate-data-v-0fe228ae {
+0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+}
+to {
+    -webkit-transform: rotate(1turn);
+            transform: rotate(1turn);
+}
+}
+@keyframes u-rotate-data-v-0fe228ae {
+0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+}
+to {
+    -webkit-transform: rotate(1turn);
+            transform: rotate(1turn);
+}
+}
+

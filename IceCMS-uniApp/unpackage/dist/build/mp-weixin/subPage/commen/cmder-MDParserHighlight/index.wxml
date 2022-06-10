@@ -1,0 +1,1 @@
+<view><parser class="parse" vue-id="57a193b7-1" tag-style="{{tagStyle}}" html="{{inputHTML}}" show-with-animation="{{true}}" bind:__l="__l" vue-slots="{{['default']}}"><view class="loading"><view class="loading_wrap"><image class="image" src="./assets/loading.gif"></image><text>加载中...</text></view></view></parser></view>

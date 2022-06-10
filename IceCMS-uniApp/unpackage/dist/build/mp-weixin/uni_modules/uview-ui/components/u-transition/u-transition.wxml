@@ -1,0 +1,1 @@
+<block wx:if="{{inited}}"><view data-ref="u-transition" data-event-opts="{{[['tap',[['clickHandler',['$event']]]],['touchmove',[['noop',['$event']]]]]}}" class="{{['u-transition','data-v-06ef4c74','vue-ref',classes]}}" style="{{$root.s0}}" bindtap="__e" bindtouchmove="__e"><slot></slot></view></block>

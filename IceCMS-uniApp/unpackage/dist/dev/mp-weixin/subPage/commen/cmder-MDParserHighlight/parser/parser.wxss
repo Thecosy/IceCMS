@@ -1,0 +1,25 @@
+
+@-webkit-keyframes _show {
+0% {
+		opacity: 0;
+}
+100% {
+		opacity: 1;
+}
+}
+@keyframes _show {
+0% {
+		opacity: 0;
+}
+100% {
+		opacity: 1;
+}
+}
+:host {
+	display: block;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+
+

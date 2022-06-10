@@ -1,0 +1,1 @@
+<view class="{{['data-v-2d9ea4c8','n-justify-center','n-align-center','n-bg-'+bgType,'n-border-'+border]}}" style="{{(mrBoxStyle)}}"><text class="{{['data-v-2d9ea4c8','n-color-'+textType,'n-size-'+textSize]}}" style="{{(textStyle)}}">{{text}}</text></view>

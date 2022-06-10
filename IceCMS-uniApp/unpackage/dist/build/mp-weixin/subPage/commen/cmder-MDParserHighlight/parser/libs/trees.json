@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "trees": "/subPage/commen/cmder-MDParserHighlight/parser/libs/trees"
+  }
+}

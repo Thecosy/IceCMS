@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "圈子",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-tabs": "/uni_modules/uview-ui/components/u-tabs/u-tabs",
+    "post-list": "/components/post-list/post-list",
+    "u-image": "/uni_modules/uview-ui/components/u-image/u-image",
+    "u-popup": "/uni_modules/uview-ui/components/u-popup/u-popup",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon"
+  }
+}

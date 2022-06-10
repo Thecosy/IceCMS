@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-overlay": "/uni_modules/uview-ui/components/u-overlay/u-overlay",
+    "u-transition": "/uni_modules/uview-ui/components/u-transition/u-transition",
+    "u-status-bar": "/uni_modules/uview-ui/components/u-status-bar/u-status-bar",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-safe-bottom": "/uni_modules/uview-ui/components/u-safe-bottom/u-safe-bottom"
+  }
+}

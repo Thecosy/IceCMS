@@ -1,0 +1,9 @@
+
+.mt20 {
+	margin-top: 20rpx;
+	height: 60rpx;
+}
+.index {
+	margin: 30rpx;
+}
+

@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-badge": "/uni_modules/uview-ui/components/u-badge/u-badge"
+  }
+}

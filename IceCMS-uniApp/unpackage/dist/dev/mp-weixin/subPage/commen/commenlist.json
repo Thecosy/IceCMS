@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "软件列表",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-empty": "/uni_modules/uview-ui/components/u-empty/u-empty",
+    "u-no-network": "/uni_modules/uview-ui/components/u-no-network/u-no-network"
+  }
+}

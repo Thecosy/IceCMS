@@ -1,0 +1,1 @@
+<view class="grid-wrap"><view class="{{[title?'o-title':'p-1']}}">{{title}}</view><view class="{{['grid',Gutter]}}"><slot></slot></view></view>

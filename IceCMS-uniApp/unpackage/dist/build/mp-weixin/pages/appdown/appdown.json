@@ -1,0 +1,22 @@
+{
+  "navigationBarTitleText": "软件",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "n-list-cell": "/nPro/list-cell/list-cell",
+    "n-search": "/nPro/search/search",
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-search": "/uni_modules/uview-ui/components/u-search/u-search",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
+    "o-grid": "/uni_modules/o-grid/components/o-grid/o-grid",
+    "o-grid-item": "/uni_modules/o-grid/components/o-grid-item/o-grid-item",
+    "u-cell-group": "/uni_modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell",
+    "u-scroll-list": "/uni_modules/uview-ui/components/u-scroll-list/u-scroll-list",
+    "u-tag": "/uni_modules/uview-ui/components/u-tag/u-tag",
+    "u-empty": "/uni_modules/uview-ui/components/u-empty/u-empty",
+    "circle-card": "/components/circleCard"
+  }
+}

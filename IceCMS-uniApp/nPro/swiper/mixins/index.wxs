@@ -1,0 +1,143 @@
+var MIN_DISTANCE = 10;
+
+function changeData(newValue, oldValue, ownerInstance, instance) {
+	var state = instance.getState();
+	if (newValue.left != undefined) {
+		state.left = newValue.left
+	}
+	if (newValue.bounce != undefined) {
+		state.bounce = newValue.bounce
+	}
+	// console.log('changeData', JSON.stringify(newValue))
+}
+
+/**
+ * 开始触摸操作
+ * @param {Object} e
+ * @param {Object} ins
+ */
+function touchstart(e, ins) {
+	var instance = e.instance;
+	// 计算滑动开始位置
+	stopTouchStart(e, ins)
+}
+
+/**
+ * 开始滑动操作
+ * @param {Object} e
+ * @param {Object} ownerInstance
+ */
+function touchmove(e, ownerInstance) {
+	var instance = e.instance;
+	// 是否可以滑动页面
+	stopTouchMove(e);
+	if (e.preventDefault) {
+		// 阻止页面滚动
+		e.preventDefault()
+	}
+	// var state = instance.getState();
+	 // && state.bounce
+	move(instance, ownerInstance)
+	return false
+}
+
+/**
+ * 结束触摸操作
+ * @param {Object} e
+ * @param {Object} ownerInstance
+ */
+function touchend(e, ownerInstance) {
+	var instance = e.instance;
+	var state = instance.getState()
+	ownerInstance.callMethod('moveEnd', {
+		velocity: Math.abs(state.deltaX / state.timing),
+		direction: state.direction,
+		deltaX: state.deltaX,
+		deltaY: state.deltaY
+	})
+}
+
+/**
+ * 设置移动距离
+ * @param {Object} instance
+ * @param {Object} ownerInstance
+ */
+function move(instance, ownerInstance) {
+	var state = instance.getState()
+	var value = state.deltaX || 0
+	var state = instance.getState()
+	if (state.direction == 'horizontal') {
+		// instance.requestAnimationFrame(function() {
+		// 	instance.setStyle({
+		// 		transform: 'translateX(' + value + 'px)',
+		// 		'-webkit-transform': 'translateX(' + value + 'px)'
+		// 	})
+		// })
+		ownerInstance.callMethod('moveTo', {
+			deltaX: value,
+			deltaY: state.deltaY || 0,
+			left: state.left + value
+		})
+	}
+
+}
+
+/**
+ * 滑动中，是否禁止打开
+ * @param {Object} event
+ */
+function stopTouchMove(event) {
+	var instance = event.instance;
+	var state = instance.getState();
+	var touch = event.touches[0];
+	state.timing = getDate().getTime() - state.startTime;
+	state.deltaX = touch.clientX - state.startX;
+	state.deltaY = touch.clientY - state.startY;
+	state.offsetX = Math.abs(state.deltaX);
+	state.offsetY = Math.abs(state.deltaY);
+	state.direction = state.direction || getDirection(state.offsetX, state.offsetY);
+}
+
+/**
+ * 设置滑动开始位置
+ * @param {Object} event
+ */
+function stopTouchStart(event) {
+	var instance = event.instance;
+	var state = instance.getState();
+	resetTouchStatus(instance);
+	var touch = event.touches[0];
+	state.startTime = getDate().getTime();
+	state.startX = touch.clientX;
+	state.startY = touch.clientY;
+}
+
+function getDirection(x, y) {
+	if (x > y && x > MIN_DISTANCE) {
+		return 'horizontal';
+	}
+	if (y > x && y > MIN_DISTANCE) {
+		return 'vertical';
+	}
+	return '';
+}
+
+/**
+ * 重置滑动状态
+ * @param {Object} event
+ */
+function resetTouchStatus(instance) {
+	var state = instance.getState();
+	state.direction = '';
+	state.deltaX = 0;
+	state.deltaY = 0;
+	state.offsetX = 0;
+	state.offsetY = 0;
+}
+
+module.exports = {
+	changeData: changeData,
+	touchstart: touchstart,
+	touchmove: touchmove,
+	touchend: touchend
+}

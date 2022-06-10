@@ -1,0 +1,17 @@
+{
+  "navigationBarTitleText": "软件详情",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-cell-group": "/uni_modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell",
+    "u-scroll-list": "/uni_modules/uview-ui/components/u-scroll-list/u-scroll-list",
+    "u-tag": "/uni_modules/uview-ui/components/u-tag/u-tag",
+    "u-empty": "/uni_modules/uview-ui/components/u-empty/u-empty",
+    "u-line-progress": "/uni_modules/uview-ui/components/u-line-progress/u-line-progress",
+    "u-no-network": "/uni_modules/uview-ui/components/u-no-network/u-no-network",
+    "m-d-parser-highlight": "/subPage/commen/cmder-MDParserHighlight/index"
+  }
+}

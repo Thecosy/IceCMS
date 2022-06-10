@@ -1,0 +1,78 @@
+{
+  "pages": [
+    "pages/appdown/appdown",
+    "pages/appsort/appsort",
+    "pages/my/my",
+    "pages/appsort/appsortlist",
+    "pages/circle/index",
+    "pages/find/find"
+  ],
+  "subPackages": [
+    {
+      "root": "subPage",
+      "pages": [
+        "my/account/login",
+        "my/account/forget",
+        "my/account/name",
+        "my/account/email",
+        "my/account/changeword",
+        "my/vip/vip",
+        "my/vip/shoplist",
+        "commen/appsearchlist",
+        "commen/apprank",
+        "commen/apptaglist",
+        "commen/commenlist",
+        "commen/appdetails",
+        "commen/post"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uView",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#000000",
+    "iconWidth": "30px",
+    "borderStyle": "white",
+    "spacing": "3px",
+    "height": "55px",
+    "fontSize": "10px",
+    "list": [
+      {
+        "pagePath": "pages/appdown/appdown",
+        "text": "资源",
+        "iconPath": "static/tabicon/app.png",
+        "selectedIconPath": "static/tabicon/apped.png"
+      },
+      {
+        "pagePath": "pages/appsort/appsort",
+        "text": "分类",
+        "iconPath": "static/tabicon/forum.png",
+        "selectedIconPath": "static/tabicon/forumed.png"
+      },
+      {
+        "pagePath": "pages/circle/index",
+        "text": "圈子",
+        "iconPath": "static/tabicon/query.png",
+        "selectedIconPath": "static/tabicon/queryed.png"
+      },
+      {
+        "pagePath": "pages/find/find",
+        "text": "发现",
+        "iconPath": "static/tabicon/find.png",
+        "selectedIconPath": "static/tabicon/finded.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "static/tabicon/my.png",
+        "selectedIconPath": "static/tabicon/myed.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

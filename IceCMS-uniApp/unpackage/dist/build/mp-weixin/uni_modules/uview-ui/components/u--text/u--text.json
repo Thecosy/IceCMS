@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "uv-text": "/uni_modules/uview-ui/components/u-text/u-text"
+  }
+}

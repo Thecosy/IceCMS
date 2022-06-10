@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-loading-icon": "/uni_modules/uview-ui/components/u-loading-icon/u-loading-icon",
+    "u-swiper-indicator": "/uni_modules/uview-ui/components/u-swiper-indicator/u-swiper-indicator"
+  }
+}

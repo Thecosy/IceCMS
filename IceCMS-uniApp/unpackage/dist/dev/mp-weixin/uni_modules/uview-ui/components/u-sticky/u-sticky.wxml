@@ -1,0 +1,1 @@
+<view class="u-sticky data-v-e18bd96e" style="{{$root.s0}}" id="{{elId}}"><view class="u-sticky__content data-v-e18bd96e" style="{{$root.s1}}"><slot></slot></view></view>
