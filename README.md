@@ -23,8 +23,7 @@
 
 前台：[https://naccl.top](https://naccl.top)
 
-后台：[https://admin.naccl.top](https://admin.naccl.top) 账号`Visitor`密码`123456`
-
+后台：[https://admin.naccl.top](https://admin.naccl.top) 账号`admin`密码`123123`
 
 
 ## 后端
@@ -41,7 +40,6 @@
 10. UserAgent 解析：[yauaa](https://github.com/nielsbasjes/yauaa)
 
 
-
 邮件模板参考自[Typecho-CommentToMail-Template](https://github.com/MisakaTAT/Typecho-CommentToMail-Template)
 
 基于 JDK8 开发，8以上要添加依赖：
@@ -54,8 +52,6 @@
 </dependency>
 ```
 
-
-
 ## 前端
 
 核心框架：Vue2.x、Vue Router、Vuex
@@ -63,7 +59,6 @@
 Vue 项目基于 @vue/cli4.x 构建
 
 JS 依赖及参考的 css：[axios](https://github.com/axios/axios)、[moment](https://github.com/moment/moment)、[nprogress](https://github.com/rstacruz/nprogress)、[v-viewer](https://github.com/fengyuanchen/viewerjs)、[prismjs](https://github.com/PrismJS/prism)、[APlayer](https://github.com/DIYgod/APlayer)、[MetingJS](https://github.com/metowolf/MetingJS)、[lodash](https://github.com/lodash/lodash)、[mavonEditor](https://github.com/hinesboy/mavonEditor)、[echarts](https://github.com/apache/echarts)、[tocbot](https://github.com/tscanlin/tocbot)、[iCSS](https://github.com/chokcoco/iCSS)
-
 
 
 ### 后台 UI
@@ -102,17 +97,15 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
    1. 代理：配置`http.proxy.server`，通过你的代理发送请求
    2. 反向代理：可以直接使用我跑在 Cloudflare Workers 上的反代，默认配置即可，但建议自行搭建，示例反代随时可能关闭🙃。示例代码已放在`blog-api/cfworker-tg-api-open.js`，CV 即可 run
 
-
-
+    
 ## 快速开始
 
-1. 创建 MySQL 数据库`nblog`，并执行`/blog-api/nblog.sql`初始化表数据
-2. 修改配置信息`blog-api/src/main/resources/application-dev.properties`
+1. 创建 MySQL 数据库`IceCMS`，并执行`/sql/IceCMS.sql`初始化表数据
+2. 修改配置信息`IceCMS-main/src/main/resources/application.yml`
 3. 安装 Redis 并启动
 4. 启动后端服务
-5. 分别在`blog-cms`和`blog-view`目录下执行`npm install`安装依赖
-6. 分别在`blog-cms`和`blog-view`目录下执行`npm run serve`启动前后台页面
-
+5. 在`IceWK-vue`目录下执行`npm install`安装依赖,执行`npm run serve`启动前后台页面
+6. 下载HBuilderX打开`IceWK-uniApp`目录,进行编译打包
 
 
 ## 注意事项
@@ -141,7 +134,6 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 ## And...
 
 自用博客，长期维护，欢迎勘误
-
 
 
 ## Thanks
