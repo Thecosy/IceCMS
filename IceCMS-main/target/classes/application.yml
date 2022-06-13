@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/icewktest?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/IceCMS?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC
     username: root
     password: Fuck258!
     driver-class-name: com.mysql.cj.jdbc.Driver
