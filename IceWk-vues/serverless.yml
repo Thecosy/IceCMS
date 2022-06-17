@@ -1,0 +1,18 @@
+# serverless.yml
+
+component: website # (必填) 引用 component 的名称，当前用到的是 tencent-website 组件
+name: icwCms # (必填) 该 website 组件创建的实例名称
+app: icwCms  # (可选) 该 website 应用名称
+stage: pro # (可选) 用于区分环境信息
+
+inputs:
+  src: 
+    src: ./src # 执行目录路径
+    dist: ./dist # 部署目录路劲
+    index: index.html # 网站主页入口文件
+    error: 404.html # 网站错误入口文件
+    hook: npm run build:prod #  构建命令,在代码上传之前执行
+  region: ap-beijing # 地区
+  protocol: http # 协议
+  bucket: element-website #OSS存储桶名称
+  

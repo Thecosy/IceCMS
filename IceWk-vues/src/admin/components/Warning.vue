@@ -1,0 +1,4 @@
+<template>
+  <aside></aside>
+</template>
+
