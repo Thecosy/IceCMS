@@ -31,8 +31,8 @@ public class AlipayClientEntity {
 
 
     // @ApiModelProperty(value = "支付宝网管 -- 生产环境")
-    // private String gatewayUrl = "https://openapi.alipay.com/gateway.do";
+     private String gatewayUrl = "https://openapi.alipay.com/gateway.do";
 
-//    @ApiModelProperty(value = "支付宝网管 -- 测试环境")
-    private String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
+    //    @ApiModelProperty(value = "支付宝网管 -- 测试环境")
+    //    private String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
 }

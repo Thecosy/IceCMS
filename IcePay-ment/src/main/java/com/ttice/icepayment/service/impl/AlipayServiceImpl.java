@@ -449,7 +449,8 @@ public class AlipayServiceImpl implements AlipayService {
         Objects.requireNonNull(alipayClientEntity.getAlipayPublicKey(),"AlipayPublicKey 不能为空");
 
         // 初始化AlipayClient
-        return new DefaultAlipayClient(alipayClientEntity.getGatewayUrl(), alipayClientEntity.getAppId()
+        return new DefaultAlipayClient(alipayConfig.getALI_URL()
+                , alipayClientEntity.getAppId()
                 , alipayClientEntity.getPrivateKey(), alipayClientEntity.getContentType(), alipayClientEntity.getCharset()
                 , alipayClientEntity.getAlipayPublicKey(), alipayClientEntity.getSignType());
     }

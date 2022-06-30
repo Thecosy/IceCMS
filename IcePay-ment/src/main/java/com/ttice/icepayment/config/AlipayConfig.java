@@ -49,7 +49,7 @@ public class AlipayConfig {
     private String RETURN_URL;
 
     /**
-     * 请求支付宝服务器网关域名(沙箱)
+     * 请求支付宝服务器网关域名
      */
     private String ALI_URL;
 
