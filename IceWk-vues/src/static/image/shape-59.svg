@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="23px" viewBox="0 0 36 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>Rectangle 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#BDEBFF" offset="0%"></stop>
+            <stop stop-color="#0098FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Main-Files" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.237444196">
+        <g id="01_index-Agency" transform="translate(-625.000000, -862.000000)" fill="url(#linearGradient-1)">
+            <g id="Banner" transform="translate(127.000000, 35.000000)">
+                <g id="Shape" transform="translate(0.000000, 203.000000)">
+                    <rect id="Rectangle-3" transform="translate(516.000000, 635.500000) rotate(-30.000000) translate(-516.000000, -635.500000) " x="496" y="634" width="40" height="3" rx="1.5"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

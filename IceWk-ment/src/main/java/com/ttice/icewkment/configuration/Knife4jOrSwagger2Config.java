@@ -30,7 +30,7 @@ public class Knife4jOrSwagger2Config {
         Docket docket=new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 //分组名称
-                .groupName("测试分组")
+                .groupName("ICE分组")
                 .select()
                 //这里指定Controller扫描包路径
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
