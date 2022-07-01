@@ -83,20 +83,6 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 
 支持 Telegram Bot 快捷操作
 
-| 桌面                                                         | Phone                                                        | Phone                                                        |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ![桌面客户端效果图](./pic/TelegramBot.png "桌面客户端效果图") | ![手机客户端效果图1](./pic/TgBotPhone1.png "手机客户端效果图1") | ![手机客户端效果图2](./pic/TgBotPhone2.png "手机客户端效果图2") |
-
-若要启用该功能，参考以下步骤：
-
-1. 向 @BotFather 申请一个 Bot，得到该 Bot 的`token`，格式如`1234567890:qwertyuiopasdfghjklzxcvbnm`
-2. 与该 Bot 私聊，随便发个消息，然后打开此链接`https://api.telegram.org/bot<botToken>/getUpdates`（替换链接中的 token），在`result -> message -> chat -> id`得到`chatId`
-3. 将获取的`token`和`chatId`填入`application-dev.properties`，并启用`comment.notify.channel=tg`
-4. 由于目前仅提供 webhook 的方式获取消息更新，所以`application-dev.properties`中的`blog.api`需要填写后端 API 的地址，并且**必须是`https`(Telegram 的要求)**，也就是说如果你没有公网 IP 或内网穿透或反向代理，那么在本地环境是无法测试的，建议直接扔服务器上
-5. 因为 GFW 的存在，正常无法访问 TG 的 API，因此提供了两种方式
-   1. 代理：配置`http.proxy.server`，通过你的代理发送请求
-   2. 反向代理：可以直接使用我跑在 Cloudflare Workers 上的反代，默认配置即可，但建议自行搭建，示例反代随时可能关闭🙃。示例代码已放在`blog-api/cfworker-tg-api-open.js`，CV 即可 run
-
     
 ## 快速开始
 
