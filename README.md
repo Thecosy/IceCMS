@@ -86,12 +86,35 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
     
 ## 快速开始
 
-1. 创建 MySQL 数据库`IceCMS`，并执行`/sql/IceCMS.sql`初始化表数据
-2. 修改配置信息`IceCMS-main/src/main/resources/application.yml`
-3. 安装 Redis 并启动
-4. 启动后端服务
-5. 在`IceWK-vue`目录下执行`npm install`安装依赖,执行`npm run serve`启动前后台页面
-6. 下载HBuilderX打开`IceWK-uniApp`目录,进行编译打包
+
+1.配置最小开发环境：
+
+MySQL
+JDK1.8或以上
+Maven
+Nodejs
+微信开发者工具
+2.创建 MySQL 数据库`IceCMS`，并执行`/sql/IceCMS.sql`初始化表数据
+3.启动小商场和管理后台的后端服务
+3.1修改配置信息`IceCMS-main/src/main/resources/application.yml`
+3.2安装 Redis 并启动
+3.3打开命令行，输入以下命令
+cd iceCMS
+mvn install
+mvn clean package
+java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
+4.启动后台前端
+
+打开命令行，输入以下命令
+在`IceWK-vue`目录下执行`npm install`安装依赖,执行`npm run serve`启动前后台页面
+此时，浏览器打开，输入网址http://localhost:9528/admin, 此时进入管理后台登录页面。
+
+5.启动前端
+
+浏览器打开，输入网址http://localhost:9528, 此时进入前端页面。
+
+6. 启动uniapp
+下载HBuilderX打开`IceWK-uniApp`目录,进行编译打包
 
 
 ## 注意事项
