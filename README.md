@@ -94,15 +94,22 @@ JDK1.8或以上
 Maven
 Nodejs
 微信开发者工具
+
 2.创建 MySQL 数据库`IceCMS`，并执行`/sql/IceCMS.sql`初始化表数据
+
 3.启动小商场和管理后台的后端服务
-3.1修改配置信息`IceCMS-main/src/main/resources/application.yml`
-3.2安装 Redis 并启动
-3.3打开命令行，输入以下命令
+
+3.1.修改配置信息`IceCMS-main/src/main/resources/application.yml`
+
+3.2.安装 Redis 并启动
+
+3.3.打开命令行，输入以下命令
+
 cd iceCMS
 mvn install
 mvn clean package
 java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
+
 4.启动后台前端
 
 打开命令行，输入以下命令
@@ -114,6 +121,7 @@ java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
 浏览器打开，输入网址http://localhost:9528, 此时进入前端页面。
 
 6. 启动uniapp
+
 下载HBuilderX打开`IceWK-uniApp`目录,进行编译打包
 
 
