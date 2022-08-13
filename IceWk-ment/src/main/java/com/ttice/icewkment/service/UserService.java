@@ -15,4 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserService extends IService<User> {
 
+    User GetUserInfoById(Integer id);
+
 }

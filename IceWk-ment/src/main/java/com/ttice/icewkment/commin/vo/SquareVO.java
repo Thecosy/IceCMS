@@ -42,6 +42,8 @@ public class SquareVO implements Serializable {
      */
     private String title;
 
+    private Integer commentNum;
+
     /**
      * 标题颜色
      */

@@ -10,6 +10,7 @@ import com.ttice.icewkment.entity.Square;
 import com.ttice.icewkment.entity.User;
 import com.ttice.icewkment.mapper.SquareMapper;
 import com.ttice.icewkment.mapper.UserMapper;
+import com.ttice.icewkment.service.PlanetCommentService;
 import com.ttice.icewkment.service.SquareService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +44,9 @@ public class WebSquareController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PlanetCommentService planetCommentService;
 
     @ApiOperation(value = "新增圈子(修改)")
     @ApiImplicitParam(name = "square",value = "圈子对象",required = true)
@@ -81,6 +85,9 @@ public class WebSquareController {
             SquareVO squareVO = new SquareVO();
             squareVO.setAuthor(username);
             squareVO.setAuthorImg(authorImg);
+
+            Integer planetCommentNum = planetCommentService.GetCommentNum(square.getId());
+            squareVO.setCommentNum(planetCommentNum);
 
             BeanUtils.copyProperties(square,squareVO);
             result.add(squareVO);
