@@ -2,21 +2,20 @@ package com.ttice.icewkment.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ttice.icewkment.commin.vo.ArticleVO;
 import com.ttice.icewkment.commin.vo.SquareVO;
-import com.ttice.icewkment.entity.Article;
 import com.ttice.icewkment.entity.Square;
+import com.ttice.icewkment.entity.SquareClass;
 import com.ttice.icewkment.entity.User;
 import com.ttice.icewkment.mapper.SquareMapper;
 import com.ttice.icewkment.mapper.UserMapper;
-import com.ttice.icewkment.service.PlanetCommentService;
+import com.ttice.icewkment.service.SquareCommentService;
+import com.ttice.icewkment.service.SquareClassService;
 import com.ttice.icewkment.service.SquareService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.RequestPath;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -46,33 +45,55 @@ public class WebSquareController {
     private UserMapper userMapper;
 
     @Autowired
-    private PlanetCommentService planetCommentService;
+    private SquareCommentService squareCommentService;
 
-    @ApiOperation(value = "新增圈子(修改)")
+    @Autowired
+    private SquareClassService squareClassService;
+
+    @ApiOperation(value = "新增圈子")
     @ApiImplicitParam(name = "square",value = "圈子对象",required = true)
-    @PostMapping("/create")
-    public Integer add(@RequestBody Square square) throws ParseException {
-        //查询分类名称对应的id值
-//        QueryWrapper<ArticleClass> wrapper= new QueryWrapper<ArticleClass>();
-//        wrapper.eq("name", article.getSortClass());
-//        ArticleClass articleClass = articleClassMapper.selectOne(wrapper);
+    @PostMapping("/create/{SortName}")
+    public Integer add(
+            @RequestBody Square square,
+            @PathVariable("SortName") String SortName
 
-//        article.setSortClass(articleClass.getId().toString());
+        ) throws ParseException {
+//        查询分类名称对应的id值
+        QueryWrapper<SquareClass> wrapper= new QueryWrapper<SquareClass>();
+        wrapper.eq("other_name", SortName);
+        SquareClass squareClass = squareClassService.getOne(wrapper);
+        square.setSortClass(squareClass.getId());
         //saveOrUpdate:要在插入数据库时，如果有某一个主要字段的值重复，则不插入，否则则插入！
         squareService.save(square);
         return square.getId();
     }
 
-    @ApiOperation(value = "获取全部圈子")
-    @GetMapping("/getAllSquare")
-    public List<SquareVO> getAllArticle(
-
+    @ApiOperation(value = "评论点赞")
+    @ApiImplicitParam(name = "id",value = "评论id",required = true)
+    @GetMapping("/likeClickComment/{id}")
+    public Boolean likeClickComment(
+            @PathVariable("id") Integer id
     ) {
-        //TODO 分类功能
+        return squareMapper.resourceLoveBrowse(id);
+    }
+
+    @ApiOperation(value = "根据别名获取全部圈子")
+    @ApiImplicitParam(name = "otherName",value = "otherName",required = true)
+    @GetMapping("/getAllSquare/{otherName}")
+    public List<SquareVO> getAllArticle(
+            @PathVariable("otherName") String otherName
+    ) {
+        //查询分类名称对应的id值
+        QueryWrapper<SquareClass> queryWrapperSquareClass = new QueryWrapper<SquareClass>();
+        queryWrapperSquareClass.eq("other_name", otherName);
+        SquareClass SquareClass = squareClassService.getOne(queryWrapperSquareClass);
+        Integer SquareClassId = SquareClass.getId();
+
         List<SquareVO> result = new ArrayList<>();
         QueryWrapper<Square> queryWrapper = new QueryWrapper<Square>();
         queryWrapper.select().orderByDesc("add_time");
-        List<Square> squares = squareMapper.selectList(queryWrapper);;
+        queryWrapper.eq("sort_class", SquareClassId);
+        List<Square> squares = squareMapper.selectList(queryWrapper);
 
         for (Square square : squares) {
 
@@ -85,8 +106,11 @@ public class WebSquareController {
             SquareVO squareVO = new SquareVO();
             squareVO.setAuthor(username);
             squareVO.setAuthorImg(authorImg);
+            //查询分类名称对应的id值
+            SquareClass SquareClassIs = squareClassService.getById(square.getSortClass());
+            squareVO.setSortName(SquareClassIs.getName());
 
-            Integer planetCommentNum = planetCommentService.GetCommentNum(square.getId());
+            Integer planetCommentNum = squareCommentService.GetCommentNum(square.getId());
             squareVO.setCommentNum(planetCommentNum);
 
             BeanUtils.copyProperties(square,squareVO);

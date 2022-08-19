@@ -2,7 +2,7 @@ package com.ttice.icewkment.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ttice.icewkment.entity.ArticleClass;
-import com.ttice.icewkment.entity.PlanetComment;
+import com.ttice.icewkment.entity.SquareClass;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @since 2022-02-19
  */
 @Repository
-public interface PlanetCommentMapper extends BaseMapper<PlanetComment> {
+public interface SquareClassMapper extends BaseMapper<SquareClass> {
 
 }
 

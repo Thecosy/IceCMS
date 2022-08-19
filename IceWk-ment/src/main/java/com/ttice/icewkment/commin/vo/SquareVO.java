@@ -38,6 +38,11 @@ public class SquareVO implements Serializable {
     private String sortClass;
 
     /**
+     * 所厲栏目name
+     */
+    private String sortName;
+
+    /**
      * 文章标题
      */
     private String title;
@@ -63,6 +68,8 @@ public class SquareVO implements Serializable {
      * 文章内容
      */
     private String content;
+
+    private Integer loveNum;
 
     /**
      * 作者

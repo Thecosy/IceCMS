@@ -22,7 +22,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PlanetComment implements Serializable {
+public class SquareComment implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -49,6 +49,7 @@ public class PlanetComment implements Serializable {
     private Integer toUserId;
     private Integer postId;
     private String content;
+    private Integer loveNum;
     private Integer status;
     /**
      * 添加时间

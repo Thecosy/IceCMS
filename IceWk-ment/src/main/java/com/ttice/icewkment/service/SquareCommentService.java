@@ -1,9 +1,7 @@
 package com.ttice.icewkment.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ttice.icewkment.commin.vo.ArticlePageVO;
-import com.ttice.icewkment.entity.Article;
-import com.ttice.icewkment.entity.PlanetComment;
+import com.ttice.icewkment.entity.SquareComment;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * @since 2022-02-19
  */
 @Repository
-public interface PlanetCommentService extends IService<PlanetComment> {
+public interface SquareCommentService extends IService<SquareComment> {
 
     Integer GetCommentNum(Integer planetId);
 

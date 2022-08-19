@@ -3,7 +3,7 @@ package com.ttice.icewkment.commin.vo;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ttice.icewkment.entity.PlanetComment;
+import com.ttice.icewkment.entity.SquareComment;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class PlanetCommentVO {
+public class SquareCommentVO {
 
     private static final long serialVersionUID=1L;
 
@@ -21,6 +21,7 @@ public class PlanetCommentVO {
     private Integer userId;
     private Integer toUserId;
     private Integer postId;
+    private Integer loveNum;
     private String responder;
     private String reviewers;
     private Integer responderId;
@@ -40,6 +41,6 @@ public class PlanetCommentVO {
     /**
      * 回复列表
      */
-    private List<PlanetComment> reply = new ArrayList<>();
+    private List<SquareComment> reply = new ArrayList<>();
 
 }

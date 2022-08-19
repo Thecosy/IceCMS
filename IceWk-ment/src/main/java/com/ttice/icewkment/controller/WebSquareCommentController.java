@@ -1,10 +1,10 @@
 package com.ttice.icewkment.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ttice.icewkment.commin.vo.PlanetCommentVO;
+import com.ttice.icewkment.commin.vo.SquareCommentVO;
 import com.ttice.icewkment.entity.*;
-import com.ttice.icewkment.mapper. PlanetCommentMapper;
-import com.ttice.icewkment.service. PlanetCommentService;
+import com.ttice.icewkment.mapper.SquareCommentMapper;
+import com.ttice.icewkment.service.SquareCommentService;
 import com.ttice.icewkment.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -23,16 +23,16 @@ import java.util.List;
  * @author admin
  * @since 2022-02-19
  */
-@io.swagger.annotations.Api(tags = "Web星球评论接口")
+@io.swagger.annotations.Api(tags = "Web圈子评论接口")
 @RestController
-@RequestMapping("/WebPlanetComment")
-public class WebPlanetCommentController {
+@RequestMapping("/WebSquareComment")
+public class WebSquareCommentController {
 
     @Autowired
-    private PlanetCommentMapper planetCommentMapper;
+    private SquareCommentMapper squareCommentMapper;
 
     @Autowired
-    private PlanetCommentService planetCommentService;
+    private SquareCommentService squareCommentService;
 
     @Autowired
     private UserService userService;
@@ -40,8 +40,8 @@ public class WebPlanetCommentController {
     @ApiOperation(value = "增加评论")
     @PostMapping("/addPlanetComment")
     @ApiImplicitParam(name = "PlanetComment",value = "评论分类对象",required = true)
-    public boolean addPlanetComment(@RequestBody PlanetComment PlanetComment) {
-        return planetCommentService.save(PlanetComment);
+    public boolean addPlanetComment(@RequestBody SquareComment SquareComment) {
+        return squareCommentService.save(SquareComment);
     }
 
     @ApiOperation(value = "根据文章id查看对应评论数")
@@ -50,55 +50,54 @@ public class WebPlanetCommentController {
     public int getPlanetCommentnum(
                 @PathVariable("planetId") Integer planetId
     ) {
-        return planetCommentService.GetCommentNum(planetId);
+        return squareCommentService.GetCommentNum(planetId);
     }
 
-    @ApiOperation(value = "查询评论(全部)")
-    @GetMapping("/getallPlanetComment")
-    public List<PlanetComment> getallPlanetComment(
-    ) {
-        //条件查询 parentId为0的为根评论
-        QueryWrapper<PlanetComment> wrapper = new QueryWrapper<>();
-        wrapper.eq("parent_id",0);
-
-        return  planetCommentMapper.selectList(wrapper);
-
-    }
-
-//    @ApiOperation(value = "根据评论id查询评论的回复")
-//    @ApiImplicitParam(name = "Id",value = "评论id",required = true)
-//    @GetMapping("/getallPlanetIdComment/{Id}")
-//    public List<PlanetComment> getallPlanetIdComment(
-//            @PathVariable("Id") Integer Id
+//    @ApiOperation(value = "查询评论(全部)")
+//    @GetMapping("/getallPlanetComment")
+//    public List<SquareComment> getallPlanetComment(
 //    ) {
-//        QueryWrapper<PlanetComment> wrapper = new QueryWrapper<>();
-//        wrapper.eq("parent_id",Id);
-//        return  planetCommentMapper.selectList(wrapper);
+//        //条件查询 parentId为0的为根评论
+//        QueryWrapper<SquareComment> wrapper = new QueryWrapper<>();
+//        wrapper.eq("parent_id",0);
+//
+//        return  squareCommentMapper.selectList(wrapper);
 //    }
+
+    @ApiOperation(value = "评论点赞")
+    @ApiImplicitParam(name = "id",value = "评论id",required = true)
+    @GetMapping("/likeClickComment/{id}")
+    public Boolean likeClickComment(
+            @PathVariable("id") Integer id
+    ) {
+        return squareCommentMapper.resourceLoveBrowse(id);
+    }
 
     @ApiOperation(value = "根据文章id查询评论")
     @ApiImplicitParam(name = "postId",value = "postId",required = true)
     @GetMapping("/getPlanetIdComment/{postId}")
-    public List<PlanetCommentVO> getPlanetIdComment(
+    public List<SquareCommentVO> getPlanetIdComment(
             @PathVariable("postId") Integer postId
     ) {
-        List<PlanetCommentVO> result = new ArrayList<>();
+        List<SquareCommentVO> result = new ArrayList<>();
 
         //条件查询 查询文章为postId的根评论
-        QueryWrapper<PlanetComment> wrapper = new QueryWrapper<>();
+        QueryWrapper<SquareComment> wrapper = new QueryWrapper<>();
+        wrapper.select().orderByDesc("add_time");
         wrapper.eq("post_id",postId);
         wrapper.eq("parent_id",0);
-        List<PlanetComment> planetComments = planetCommentMapper.selectList(wrapper);
+        List<SquareComment> squareComments = squareCommentMapper.selectList(wrapper);
 
-        PlanetCommentVO planetCommentVO = null;
+        SquareCommentVO planetCommentVO = null;
         //分解planetComments，并把PlanetCommentVO中的reply赋值为planetComment
-        for (PlanetComment planetComment : planetComments) {
-            Integer id = planetComment.getId();
-            planetCommentVO = new PlanetCommentVO();
-            QueryWrapper<PlanetComment> wrapper1 = new QueryWrapper<>();
+        for (SquareComment squareComment : squareComments) {
+            Integer id = squareComment.getId();
+            planetCommentVO = new SquareCommentVO();
+            QueryWrapper<SquareComment> wrapper1 = new QueryWrapper<>();
+            wrapper1.select().orderByDesc("add_time");
             wrapper1.eq("parent_id",id);
-            List<PlanetComment> planetComments1 = planetCommentMapper.selectList(wrapper1);
-            for (PlanetComment comment : planetComments1) {
+            List<SquareComment> squareComments1 = squareCommentMapper.selectList(wrapper1);
+            for (SquareComment comment : squareComments1) {
                 //用userService查获录入着信息
                 User user = userService.GetUserInfoById(comment.getUserId());
                 //用userService查获回复着信息
@@ -112,14 +111,14 @@ public class WebPlanetCommentController {
                 comment.setReviewersId(user.getUserId());
                 comment.setProfile(user.getProfile());
             }
-            planetCommentVO.setReply(planetComments1);
+            planetCommentVO.setReply(squareComments1);
 
-            User user3 = userService.GetUserInfoById(planetComment.getUserId());
-            planetComment.setReviewers(user3.getName());
-            planetComment.setResponderId(planetComment.getUserId());
-            planetComment.setProfile(user3.getProfile());
+            User user3 = userService.GetUserInfoById(squareComment.getUserId());
+            squareComment.setReviewers(user3.getName());
+            squareComment.setResponderId(squareComment.getUserId());
+            squareComment.setProfile(user3.getProfile());
 
-            BeanUtils.copyProperties(planetComment,planetCommentVO);
+            BeanUtils.copyProperties(squareComment,planetCommentVO);
 
             result.add(planetCommentVO);
         }

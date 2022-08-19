@@ -36,7 +36,7 @@ public class Square implements Serializable {
     /**
      * 所厲栏目id
      */
-    private String sortClass;
+    private Integer sortClass;
 
     /**
      * 文章标题
@@ -62,6 +62,8 @@ public class Square implements Serializable {
      * 文章内容
      */
     private String content;
+
+    private Integer loveNum;
 
     /**
      * 作者
