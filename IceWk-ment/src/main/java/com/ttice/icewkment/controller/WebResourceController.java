@@ -6,7 +6,6 @@ import com.ttice.icewkment.commin.vo.ResourcePageVO;
 import com.ttice.icewkment.commin.vo.ResourceVO;
 import com.ttice.icewkment.entity.Resource;
 import com.ttice.icewkment.mapper.ResourceMapper;
-import com.ttice.icewkment.mapper.ResourceVOMapper;
 import com.ttice.icewkment.service.ResourceService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,9 +33,6 @@ public class WebResourceController {
 
     @Autowired
     private ResourceMapper resourceMapper;
-
-    @Autowired
-    private ResourceVOMapper resourceVOMapper;
 
     @ApiOperation(value = "根据id获取资源内容")
     @ApiImplicitParam(name = "id",value = "资源id",required = true)
@@ -78,7 +74,7 @@ public class WebResourceController {
         return resourceMapper.selectCount(wrapper);
     }
 
-    @ApiOperation(value = "统计文章浏览量+1")
+    @ApiOperation(value = "统计资源浏览量+1")
     @ApiImplicitParam(name = "id",value = "资源id",required = true)
     @GetMapping("/resource/{id}/view")
     public Boolean resourceViewBrowse(
@@ -87,7 +83,7 @@ public class WebResourceController {
         return resourceMapper.resourceBrowse(id);
     }
 
-    @ApiOperation(value = "统计文章喜欢量+1")
+    @ApiOperation(value = "统计资源喜欢量+1")
     @ApiImplicitParam(name = "id",value = "资源id",required = true)
     @GetMapping("/resource/{id}/love")
     public Boolean resourceLoveBrowse(
@@ -103,7 +99,8 @@ public class WebResourceController {
             @PathVariable("resourceNum") Integer resourceNum
     ) {
 
-        return resourceVOMapper.selectAll(resourceNum);
+//        return resourceVOMapper.selectAll(resourceNum);
+        return resourceService.GetNewResource(resourceNum);
     }
 
     @ApiOperation(value = "文章查询(预览)")

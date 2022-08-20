@@ -2,10 +2,13 @@ package com.ttice.icewkment.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ttice.icewkment.commin.vo.ArticleVO;
 import com.ttice.icewkment.commin.vo.ResourcePageVO;
 import com.ttice.icewkment.commin.vo.ResourceVO;
 import com.ttice.icewkment.entity.Resource;
+import com.ttice.icewkment.entity.User;
 import com.ttice.icewkment.mapper.ResourceMapper;
+import com.ttice.icewkment.mapper.UserMapper;
 import com.ttice.icewkment.service.ResourceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -29,6 +32,9 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     @Autowired
     private ResourceMapper resourceMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public ResourcePageVO VoList(Integer page, Integer limit) {
         List<ResourceVO> result = new ArrayList<>();
@@ -45,7 +51,13 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         List<Resource> resources = resultPage.getRecords();
 
         for (Resource resource : resources) {
+            String author = resource.getAuthor();
+            QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+            userQueryWrapper.eq("USERNAME",author);
+            User user = userMapper.selectOne(userQueryWrapper);
+            String profile = user.getProfile();
             resourceVO = new ResourceVO();
+            resourceVO.setAuthorThumb(profile);
             BeanUtils.copyProperties(resource,resourceVO);
             result.add(resourceVO);
         }
@@ -70,6 +82,31 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
             BeanUtils.copyProperties(resource,resourceVO);
             result.add(resourceVO);
         }
+        return result;
+    }
+
+    @Override
+    public List<ResourceVO> GetNewResource(Integer num) {
+        List<ResourceVO> result = new ArrayList<>();
+
+        ResourceVO resourceVO = null;
+
+        QueryWrapper<Resource> wrapper = new QueryWrapper<>();
+        //wrapper限制查询数量
+        wrapper.last("limit "+num);
+        List<Resource> resources = resourceMapper.selectList(wrapper);
+        for (Resource resource : resources) {
+            String author = resource.getAuthor();
+            QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+            userQueryWrapper.eq("USERNAME",author);
+            User user = userMapper.selectOne(userQueryWrapper);
+            String profile = user.getProfile();
+            resourceVO = new ResourceVO();
+            resourceVO.setAuthorThumb(profile);
+            BeanUtils.copyProperties(resource,resourceVO);
+            result.add(resourceVO);
+        }
+
         return result;
     }
 }
