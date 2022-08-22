@@ -106,6 +106,23 @@ public class UserController {
 
     }
 
+    @ApiOperation(value = "根据用户名判断是否是管理员")
+    @ApiImplicitParam(name = "userid",value = "用户名id",required = true)
+    @GetMapping("/CheckAdmin/{userid}")
+    public Result CheckAdmin(
+            @PathVariable Integer userid
+    ) {
+        QueryWrapper<UserRole> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userid);
+        UserRole userRole = userRoleMapper.selectOne(wrapper);
+        Integer roleId = userRole.getRoleId();
+        if(roleId == 2) {
+            return Result.succ(200, "是管理员", null);
+        }else{
+            return Result.fail(("不是管理员"));
+        }
+    }
+
     @ApiOperation(value = "登陆")
     @ApiImplicitParam(name = "user",value = "用户对象",required = true)
     @GetMapping("/login")//登陆
@@ -164,7 +181,8 @@ public class UserController {
         //默认信息
         user.setIntro("这个人很懒，什么都没有留下！");
         user.setCreated(new Date());
-        user.setUsername("新用户");
+        user.setName("新用户");
+        user.setProfile("https://img2.woyaogexing.com/2022/07/17/5bbaa5352282a8f7!400x400.jpg");
         //会员禁用
         user.setVipDisableTip(true);
 
