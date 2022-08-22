@@ -17,7 +17,7 @@
 
 ## 简介
 
-本着『前后端分离，人不分离』的要领，开发了此基于 Spring Boot + Vue 前后端分离博客系统
+本着『前后端分离，人不分离』的要领，开发了此基于 Spring Boot + Vue 前后端分离的内容管理系统
 
 预览地址：
 
@@ -36,11 +36,6 @@
 6. NoSQL缓存：[Redis](https://github.com/redis/redis)
 7. Markdown 转 HTML：[commonmark-java](https://github.com/commonmark/commonmark-java)
 8. 离线 IP 地址库：[ip2region](https://github.com/lionsoul2014/ip2region)
-9. 定时任务：[quartz](https://github.com/quartz-scheduler/quartz)
-10. UserAgent 解析：[yauaa](https://github.com/nielsbasjes/yauaa)
-
-
-邮件模板参考自[Typecho-CommentToMail-Template](https://github.com/MisakaTAT/Typecho-CommentToMail-Template)
 
 基于 JDK8 开发，8以上要添加依赖：
 
@@ -60,13 +55,11 @@ Vue 项目基于 @vue/cli4.x 构建
 
 JS 依赖及参考的 css：[axios](https://github.com/axios/axios)、[moment](https://github.com/moment/moment)、[nprogress](https://github.com/rstacruz/nprogress)、[v-viewer](https://github.com/fengyuanchen/viewerjs)、[prismjs](https://github.com/PrismJS/prism)、[APlayer](https://github.com/DIYgod/APlayer)、[MetingJS](https://github.com/metowolf/MetingJS)、[lodash](https://github.com/lodash/lodash)、[mavonEditor](https://github.com/hinesboy/mavonEditor)、[echarts](https://github.com/apache/echarts)、[tocbot](https://github.com/tscanlin/tocbot)、[iCSS](https://github.com/chokcoco/iCSS)
 
-
 ### 后台 UI
 
 后台 CMS 部分基于 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template) 二次修改后的 [my-vue-admin-template](https://github.com/Naccl/my-vue-admin-template) 模板进行开发（[于2021年11月1日重构](https://github.com/Naccl/NBlog/commit/b33641fe34b2bed34e8237bacf67146cd64be4cf)）
 
 UI 框架为 [Element UI](https://github.com/ElemeFE/element)
-
 
 
 ### 前台 UI
@@ -85,9 +78,23 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 
     
 ## 快速开始
+Docker部署方式
+    
+    1.下载docker2.拉取docker镜像
+    docker pull thecosy/icecms:latest
+    docker pull thecosy/icemysql:v5.7sql
+    2.安装
 
+    docker run -d -p 0:3389 \
+    --name MySQL \
+    thecosy/icemysql
 
-1.配置最小开发环境：
+    docker run -d -p 8181:8181 \
+    --name springboot-admin \
+    --link MySQL:db \
+    thecosy/icecms
+
+<strong>配置最小开发环境</strong>
 
 MySQL
 JDK1.8或以上
@@ -105,10 +112,10 @@ Nodejs
 
 3.3.打开命令行，输入以下命令
 
-cd iceCMS
-mvn install
-mvn clean package
-java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
+    cd iceCMS
+    mvn install
+    mvn clean package
+    java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
 
 4.启动后台前端
 
@@ -120,10 +127,9 @@ java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
 
 浏览器打开，输入网址http://localhost:9528, 此时进入前端页面。
 
-6. 启动uniapp
+6.启动uniapp
 
 下载HBuilderX打开`IceWK-uniApp`目录,进行编译打包
-
 
 ## 注意事项
 
@@ -131,8 +137,8 @@ java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
 
 - MySQL 确保数据库字符集为`utf8mb4`的情况下通常没有问题（”站点设置“及”文章详情“等许多表字段需要`utf8mb4`格式字符集来支持 emoji 表情，否则在导入 sql 文件时，即使成功导入，也会有部分字段内容不完整，导致前端页面渲染数据时报错）
 - 确保 Maven 能够成功导入现版本依赖，请勿升级或降低依赖版本
-- 数据库中默认用户名密码为`Admin`，`123456`，因为是个人博客，没打算做修改密码的页面，可在`top.naccl.util.HashUtils`下的`main`方法手动生成密码存入数据库
-- 注意修改`application-dev.properties`的配置信息
+- 数据库中默认用户名密码为`root`，`123123`，因为是个人项目，没打算做修改密码的页面，可在`top.naccl.util.HashUtils`下的`main`方法手动生成密码存入数据库
+- 注意修改IceCMS-main目录下的`application-dev.properties`的配置信息
   - Redis 若没有密码，留空即可
   - 注意修改`token.secretKey`，否则无法保证 token 安全性
   - `spring.mail.host`及`spring.mail.port`的默认配置为阿里云邮箱，其它邮箱服务商参考关键字`spring mail 服务器`（邮箱配置用于接收评论提醒）
@@ -145,12 +151,6 @@ java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
 - 在 Markdown 中加入`<meting-js server="netease" type="song" id="歌曲id" theme="#25CCF7"></meting-js>` （注意以正文形式添加，而不是代码片段）可以在文章中添加 [APlayer](https://github.com/DIYgod/APlayer) 音乐播放器，`netease`为网易云音乐，其它配置及具体用法参考 [MetingJS](https://github.com/metowolf/MetingJS)
 - 提供了两种隐藏文字效果：在 Markdown 中使用`@@`包住文字，文字会被渲染成“黑幕”效果，鼠标悬浮在上面时才会显示；使用`%%`包住文字，文字会被“蓝色覆盖层”遮盖，只有鼠标选中状态才会反色显示。例如：`@@隐藏文字@@`，`%%隐藏文字%%`
 - 大部分个性化配置可以在后台“站点设置”中修改，小部分由于考虑到首屏加载速度（如首页大图）需要修改前端源码
-
-
-
-## And...
-
-自用博客，长期维护，欢迎勘误
 
 
 ## Thanks
