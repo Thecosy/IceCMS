@@ -4,13 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 分页VO
- */
-
 @Data
-public class ArticlePageVO {
-    private List<ArticleVO> data;
+public class SquarePageVO {
+    private List<SquareVO> data;
     private Long total;
     private Long Pages;
 }

@@ -115,6 +115,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         ArticlePageVO articlePageVO = new ArticlePageVO();
         articlePageVO.setData(result);
         articlePageVO.setTotal(resultPage.getTotal());
+        articlePageVO.setPages(resultPage.getPages());
         return articlePageVO;
     }
 }

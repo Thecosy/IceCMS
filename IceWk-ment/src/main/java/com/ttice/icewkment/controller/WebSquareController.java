@@ -2,6 +2,7 @@ package com.ttice.icewkment.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ttice.icewkment.commin.vo.SquarePageVO;
 import com.ttice.icewkment.commin.vo.SquareVO;
 import com.ttice.icewkment.entity.Square;
 import com.ttice.icewkment.entity.SquareClass;
@@ -42,13 +43,13 @@ public class WebSquareController {
     private SquareService squareService;
 
     @Autowired
+    private SquareClassService squareClassService;
+
+    @Autowired
     private UserMapper userMapper;
 
     @Autowired
     private SquareCommentService squareCommentService;
-
-    @Autowired
-    private SquareClassService squareClassService;
 
     @ApiOperation(value = "新增圈子")
     @ApiImplicitParam(name = "square",value = "圈子对象",required = true)
@@ -77,45 +78,43 @@ public class WebSquareController {
         return squareMapper.resourceLoveBrowse(id);
     }
 
-    @ApiOperation(value = "根据别名获取全部圈子")
-    @ApiImplicitParam(name = "otherName",value = "otherName",required = true)
-    @GetMapping("/getAllSquare/{otherName}")
-    public List<SquareVO> getAllArticle(
-            @PathVariable("otherName") String otherName
+    @ApiOperation(value = "根据id获取圈子内容")
+    @ApiImplicitParam(name = "id",value = "圈子id",required = true)
+    @GetMapping("/getSquareById/{id}")
+    public SquareVO getSquareById(
+            @PathVariable("id") Integer id
     ) {
+        Square square = squareMapper.selectById(id);
+        //根据用户id获取名称信息
+        //id是内容发布者id
+        Integer authors = square.getAuthor();
+        User users = userMapper.searchId(authors);
+        String username = users.getName();
+        String authorImg = users.getProfile();
+        SquareVO squareVO = new SquareVO();
+        squareVO.setAuthor(username);
+        squareVO.setAuthorImg(authorImg);
         //查询分类名称对应的id值
-        QueryWrapper<SquareClass> queryWrapperSquareClass = new QueryWrapper<SquareClass>();
-        queryWrapperSquareClass.eq("other_name", otherName);
-        SquareClass SquareClass = squareClassService.getOne(queryWrapperSquareClass);
-        Integer SquareClassId = SquareClass.getId();
+        SquareClass SquareClassIs = squareClassService.getById(square.getSortClass());
+        squareVO.setSortName(SquareClassIs.getName());
 
-        List<SquareVO> result = new ArrayList<>();
-        QueryWrapper<Square> queryWrapper = new QueryWrapper<Square>();
-        queryWrapper.select().orderByDesc("add_time");
-        queryWrapper.eq("sort_class", SquareClassId);
-        List<Square> squares = squareMapper.selectList(queryWrapper);
+        Integer planetCommentNum = squareCommentService.GetCommentNum(square.getId());
+        squareVO.setCommentNum(planetCommentNum);
 
-        for (Square square : squares) {
+        BeanUtils.copyProperties(square,squareVO);
 
-            //根据用户id获取名称信息
-            //id是内容发布者id
-            Integer authors = square.getAuthor();
-            User users = userMapper.searchId(authors);
-            String username = users.getName();
-            String authorImg = users.getProfile();
-            SquareVO squareVO = new SquareVO();
-            squareVO.setAuthor(username);
-            squareVO.setAuthorImg(authorImg);
-            //查询分类名称对应的id值
-            SquareClass SquareClassIs = squareClassService.getById(square.getSortClass());
-            squareVO.setSortName(SquareClassIs.getName());
+        return squareVO;
+    }
 
-            Integer planetCommentNum = squareCommentService.GetCommentNum(square.getId());
-            squareVO.setCommentNum(planetCommentNum);
+    @ApiOperation(value = "根据别名获取全部圈子(分页)")
+    @ApiImplicitParam(name = "otherName",value = "otherName",required = true)
+    @GetMapping("/getAllSquare/{otherName}/{page}/{limit}")
+    public SquarePageVO getAllArticle(
+            @PathVariable("otherName") String otherName,
+            @PathVariable("page") Integer page,
+            @PathVariable("limit") Integer limit
+    ) {
 
-            BeanUtils.copyProperties(square,squareVO);
-            result.add(squareVO);
-        }
-        return result;
+        return squareService.VoList(otherName, page, limit);
     }
 }

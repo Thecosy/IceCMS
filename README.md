@@ -80,19 +80,16 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 ## 快速开始
 Docker部署方式
     
-    1.下载docker2.拉取docker镜像
-    docker pull thecosy/icecms:latest
-    docker pull thecosy/icemysql:v5.7sql
-    2.安装
-
+    1.运行Mysql容器
     docker run -d -p 0:3389 \
     --name MySQL \
-    thecosy/icemysql
+    thecosy/icemysql:v5.7sql
 
+    2.运行Spring容器
     docker run -d -p 8181:8181 \
     --name springboot-admin \
     --link MySQL:db \
-    thecosy/icecms
+    thecosy/icecms:latest
 
 <strong>配置最小开发环境</strong>
 

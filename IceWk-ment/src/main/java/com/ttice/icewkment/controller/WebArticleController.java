@@ -36,7 +36,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/WebArticle")
 public class WebArticleController {
-
     @Autowired
     private ArticleService articleService;
     @Autowired
