@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/icecms?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC
+    url: jdbc:mysql://db:3306/icecms?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC
     username: root
-    password: Fuck258!
+    password: 123456789
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis-plus:
   #  mybatis-plus??sql??

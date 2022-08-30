@@ -65,6 +65,10 @@ public class Square implements Serializable {
 
     private Integer loveNum;
 
+    private String media;
+
+    private Integer type;
+
     /**
      * 作者
      */

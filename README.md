@@ -78,12 +78,30 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 
     
 ## 快速开始
-Docker部署方式
-    
+Docker部署方式(推荐,可用于快速上线或测试)
+
+    # 未安装docker的请先安装docker，已经安装的跳过此步
+    yum -y install docker
+    #启动docker
+    systemctl start docker
+    # 配置国内源
+    # 创建docker目录
+    sudo mkdir -p /etc/docker
+    # 创建配置文件
+    sudo tee /etc/docker/daemon.json <<-'EOF'
+    {
+    "registry-mirrors": ["https://registry.docker-cn.com"]
+    }
+    EOF
+    # 加载新的配置文件
+    sudo systemctl daemon-reload
+    # 重启docker服务
+    sudo systemctl restart docker
+
     1.运行Mysql容器
     docker run -d -p 0:3389 \
     --name MySQL \
-    thecosy/icemysql:v5.7sql
+    thecosy/icemysql:latest
 
     2.运行Spring容器
     docker run -d -p 8181:8181 \

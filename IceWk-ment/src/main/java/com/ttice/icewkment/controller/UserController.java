@@ -157,6 +157,9 @@ public class UserController {
         myMap.put("name", userjudje.getName());
         myMap.put("profile", userjudje.getProfile());
         myMap.put("email", userjudje.getEmail());
+        myMap.put("intro", userjudje.getIntro());
+//        myMap.put("age", userjudje.getUserAge().toString());
+        myMap.put("gender", userjudje.getGender());
         myMap.put("userid", userjudje.getUserId().toString());
         return Result.succ(200,"成功登陆",myMap);
     }

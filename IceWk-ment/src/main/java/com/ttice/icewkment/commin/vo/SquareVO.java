@@ -71,10 +71,16 @@ public class SquareVO implements Serializable {
 
     private Integer loveNum;
 
+    private String media;
+
+    private Integer type;
+
     /**
      * 作者
      */
     private String author;
+
+    private Integer userid;
 
     /**
      * 作者头像

@@ -93,6 +93,7 @@ public class WebSquareController {
         String authorImg = users.getProfile();
         SquareVO squareVO = new SquareVO();
         squareVO.setAuthor(username);
+        squareVO.setUserid(authors);
         squareVO.setAuthorImg(authorImg);
         //查询分类名称对应的id值
         SquareClass SquareClassIs = squareClassService.getById(square.getSortClass());

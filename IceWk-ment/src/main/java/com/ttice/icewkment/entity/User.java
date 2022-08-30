@@ -30,6 +30,8 @@ import lombok.EqualsAndHashCode;
 
     private String intro;
 
+    private String gender;
+
     private String name;
 
     @TableField("USERNAME")
