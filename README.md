@@ -21,9 +21,11 @@
 
 预览地址：
 
-前台：[snym.cn](snym.cn)
-uniapp移动端：[m.snym.cn](m.snym.cn)
-后台：[snym.cn/admin](snym.cn/admin) 账号`admin`密码`123123`
+前台：[http://snym.cn](http://snym.cn)
+
+uniapp移动端：[http://m.snym.cn](http://m.snym.cn)
+
+后台：[http://snym.cn/admin](http://snym.cn/admin) 账号`admin`密码`123123`
 
 ## h5端
 <div class = "half">
