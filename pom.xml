@@ -25,7 +25,6 @@
     <!--声明你有四个儿子 -->
     <modules>
         <module>IceWk-ment</module>
-        <module>IcePay-ment</module>
         <module>IceCMS-main</module>
     </modules>
     <dependencies>
