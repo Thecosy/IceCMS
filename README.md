@@ -19,7 +19,7 @@
 
 本着『前后端分离，人不分离』的要领，开发了此基于 Spring Boot + Vue 前后端分离的内容管理系统
 
-预览地址：
+## 预览地址：
 
 前台：[http://snym.cn](http://snym.cn)
 
@@ -47,6 +47,8 @@ uniapp移动端：[http://m.snym.cn](http://m.snym.cn)
 <div class = "half">
 <img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934226-截屏2022-08-30-17.05.45.png"  width = “50%” align = left><img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934233-截屏2022-08-30-17.06.42.png"  width = “50%” align = right>
 </div>
+
+
 ## 后端
 
 1. 核心框架：[Spring Boot](https://github.com/spring-projects/spring-boot)

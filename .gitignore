@@ -18,6 +18,9 @@ target/
 *.iml
 *.iws
 
+/IcePay-ment
+pom.xml
+
 .classpath
 .project
 .settings
