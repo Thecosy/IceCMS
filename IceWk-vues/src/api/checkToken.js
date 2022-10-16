@@ -9,3 +9,11 @@ export function checkToken(data) {
     }
   })
 }
+
+export function CheckAdmin(userid) {
+  return request({
+    url: '/User/CheckAdmin/' + userid,
+    method: 'get',
+
+  })
+}

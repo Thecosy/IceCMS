@@ -10,12 +10,20 @@
               <div class="py-6">
                 <div class="article-details-fg">
                   <div class="article-banner">
-                    <div class="imgBox">
+                    <!-- <div class="imgBox">
                       <img alt="" />
-                    </div>
+                    </div> -->
+                    <div class="section-head">
+                <!-- <h2 class="heading-secondary">Lifestyle</h2> -->
+                <ul class="c-bredcrumb">
+                    <li><a href="#">主页 </a></li>
+                    <li><a href="#">文章</a></li>
+                    <li><a href="#">当前文章</a></li>
+                </ul>
+            </div>
                   </div>
-                  <div class="article-content py-7 px-10">
-                    <h1 id="article-top" class="b-0 mt-0 pb-0 mb-15">
+                  <div class="article-contents">
+                    <!-- <h1 id="article-top" class="b-0 mt-0 pb-0 mb-15">
                       {{ this.title }}
                     </h1>
                     <div class="d-flex mb-6 align-items-center">
@@ -46,10 +54,222 @@
                         />
                       </div>
                     </div>
-                    <div class="content-markdown">
+                    <div class="content-markdown"> -->
                       <!-- 内容区域 -->
-
-                      <div id="sidelist" v-html="this.content"></div>
+                     <div class="row gy-5">
+                     <div class="col-lg-9">
+                          <div class="left-content">
+                        <!-- Post card -->
+                        <div class="post-card">
+                            <div >
+                            <img class="card-thumb bg-cover" src="../static/img/post1.png" />
+                            </div>
+                            <div class="card-content">
+                                <div class="card-meta mar-top">
+                                    <div class="meta-item post-author"><span class="categorys">分类</span><a href="#"
+                                            class="author-name">{{this.author}}</a></div><span class="meta-item">{{this.addTime}} </span><span class="meta-item"><i class="el-icon-chat-line-square"></i>13
+                                    </span><span class="meta-item">{{this.hits}}点击</span><span class="meta-item"><i class="el-icon-share"></i></span>
+                                </div>
+                                <div class="post-content">
+                                    <div>
+                                        <h5 class="heading-primary">{{this.title}}</h5>
+                                        <!-- Post quote -->
+                                          <div v-show="this.intro" class="post-quote">
+                                              <p class="body-text">{{this.intro}}</p>
+                                              <div class="quote-bottom"><a href="#" class="author">{{this.author}}</a><span
+                                                      class="gradient-bar small"></span></div><img class="quote-icon"
+                                                  src="../static/img/quote-icon.png" alt="">
+                                          </div>
+                                            <div class="article-content ">
+                                          <div id="sidelist" v-html="this.content"></div>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   <!-- Tags -->
+                        <div class="tags">
+                            <h3 class="heading-tertiary">文章标签</h3>
+                            <div class="categories-tags"><a href="">编程 </a><a href="">教程 </a><a href="">资源
+                                </a></div>
+                        </div><!-- Post navigation -->
+                        <div class="post-navigation">
+                          <a >
+                            <div class="nav-prev">
+                              <div  class="nav-button-left">
+                              <span><img src="../static/img/long-arrow-2.png" alt="arrow"></span>
+                                             <span>上一篇 </span> </div>
+                                <div class="nav-post">
+                                        <h3 class="heading-tertiary">Glasses Review:Enterprise Usage</h3>
+                                   <span class="date body-text">Feb 06,2022</span></div>
+                            </div>
+                              </a>
+                              <a>
+                            <div class="nav-next"><div class="nav-button-right">下一篇 <span><img
+                                            src="../static/img/long-arrow.png" alt="arrow"></span></div>
+                                <div class="nav-post">
+                                        <h3 class="heading-tertiary">Glasses Review:Enterprise Usage</h3>
+                                    <span class="date body-text">Feb 06,2022</span></div>
+                            </div>
+                            </a>
+                        </div><!-- Comments -->
+                        <!-- <div class="post-comments">
+                            <h3 class="heading-secondary">Comments(3)</h3>
+                            <div class="comment-card">
+                                <div class="card-top">
+                                    <div class="card-meta">
+                                        <div class="meta-item post-author">
+                                            <div class="author-avatar bg-cover" style="
+                                                        background-image: url('../static/img/post-author1.png');
+                                                    "></div><a href="#" class="author-name">Terence Whittle</a>
+                                        </div><span class="meta-item">Feb 06,2022 </span><span class="meta-item">6:15
+                                            pm</span>
+                                    </div><a href="#" class="button button-replay"><span><img
+                                                src="../static/img/corner-left-down.png" alt=""></span>Replay </a>
+                                </div>
+                                <p class="body-text">My hands really liked it,it was absorbed easily and
+                                    quickly,creating a feeling of hydration. And my hands really liked it,it was
+                                    absorbed easily and quickly,creating a feeling of hydration. </p>
+                            </div>
+                            <div class="comment-card replay">
+                                <div class="card-top">
+                                    <div class="card-meta">
+                                        <div class="meta-item post-author">
+                                            <div class="author-avatar bg-cover" style="
+                                                        background-image: url('../static/img/post-author1.png');
+                                                    "></div><a href="#" class="author-name">Ruqayyah Povey</a>
+                                        </div><span class="meta-item">Feb 06,2022 </span><span class="meta-item">6:15
+                                            pm</span>
+                                    </div><a href="#" class="button button-replay"><span><img
+                                                src="../static/img/corner-left-down.png" alt=""></span>Replay </a>
+                                </div>
+                                <p class="body-text">My hands really liked it,it was absorbed easily and
+                                    quickly,creating a feeling of hydration. And my hands really liked it,it was
+                                    absorbed easily and quickly,creating a feeling of hydration. </p>
+                            </div>
+                            <div class="comment-card">
+                                <div class="card-top">
+                                    <div class="card-meta">
+                                        <div class="meta-item post-author">
+                                            <div class="author-avatar bg-cover" style="
+                                                        background-image: url('../static/img/post-author1.png');
+                                                    "></div><a href="#" class="author-name">Said Mclean</a>
+                                        </div><span class="meta-item">Feb 06,2022 </span><span class="meta-item">6:15
+                                            pm</span>
+                                    </div><a href="#" class="button button-replay"><span><img
+                                                src="../static/img/corner-left-down.png" alt=""></span>Replay </a>
+                                </div>
+                                <p class="body-text">My hands really liked it,it was absorbed easily and
+                                    quickly,creating a feeling of hydration. And my hands really liked it,it was
+                                    absorbed easily and quickly,creating a feeling of hydration. </p>
+                            </div>
+                        </div>
+                        <div class="comment-box">
+                            <h3 class="heading-secondary">Post a comment</h3>
+                            <form class="comment-form">
+                                <div class="row">
+                                    <div class="col-md-4"><input type="text" placeholder="Your Name"></div>
+                                    <div class="col-md-4"><input type="email" placeholder="Your Email"></div>
+                                    <div class="col-md-4"><input type="text" placeholder="+1 (___) __ __ ___"></div>
+                                    <div class="col-12"><textarea placeholder="Enter your comment"></textarea></div>
+                                </div><button class="button button-primary">Post Comment</button>
+                            </form>
+                        </div> -->
+                        <!-- ============= AD CAMPAIGN-2 ============= -->
+                        <!-- <div class="ad-campaign-2 bg-cover mt-100"
+                            style="background-image: url('../static/img/add-campign-3.png')">
+                            <div class="row">
+                                <div class="col-lg-6"></div>
+                                <div class="col-lg-6">
+                                    <div class="right-content">
+                                        <div class="content"><span class="discount">20% off</span>
+                                            <h2 class="heading-primary">Home furniture</h2>
+                                        </div><a href="#" class="button icon-button active"><span class="icon"><i
+                                                    class="fas fa-chevron-right"></i></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="right-content">
+                        <!-- Widget search box -->
+                        <div class="widget-search-box"><input type="text" placeholder="输入内容">
+                      <button
+                    class="search-btn"
+                  >
+                    <i class="el-icon-search"></i>
+                  </button>
+                          </div>
+                        <h3 class="heading-tertiary">推荐文章</h3>
+                        <div v-for="item in newArticle" :key="item.id" class="recent-post-card">
+                            <div>
+                            <img class="card-thumb bg-cover" :src="item.thumb"  />
+                            </div>
+                            <div class="card-content">
+                                <div class="post-meta"><span class="meta-item">{{item.author}} </span>
+                                
+                                <span  v-if="item.createTime != null"  class="meta-item"> {{formatDate(item.createTime)}} </span>
+                                  <span  v-else  class="meta-item"> {{formatDate(item.addTime)}} </span>
+                                <span class="meta-item"><i class="el-icon-chat-line-square"></i>{{item.hits}} </span>
+                                </div><a href="">
+                                    <h3 class="heading-secondary">{{item.title}}</h3>
+                                 
+                                </a>
+                            </div>
+                        </div>
+                       <!-- Widget category -->
+                        <div class="widget-categories">
+                            <h3 class="heading-tertiary">标签云</h3>
+                            <div class="categories-tags"><a href="" class="active">travel </a><a href="">kitchen </a><a
+                                    href="">cars </a><a href="">garden </a><a href="">home </a><a href="">holiday </a><a
+                                    href="">software </a><a href="">health </a><a href="">appliences </a><a
+                                    href="">money </a><a href="">pets </a><a href="">office </a><a href="">electronics
+                                </a><a href="">hobby </a><a href="">baby </a><a href="">digital </a></div>
+                        </div><!-- Widget ad banner -->
+                        <div class="widget-ad-banner bg-cover"
+                            style="">
+                            <div class="content"><span class="discount">20% off</span>
+                                <h2 class="heading-secondary">会员折扣</h2>
+                                <p class="body-text">开通会员享受更多优惠</p><a href="#"
+                                    class="button icon-button active"><span><i
+                                            class="el-icon-caret-right"></i></span></a>
+                            </div>
+                        </div><!-- Widget social profile -->
+                        <div class="widget-social-profile">
+                             <h3 class="heading-tertiary mb-20">关注我们</h3>
+                            <p class="body-text">找到更多</p>
+                            <div class="social-items"><a href="#" class="social-link"><span class="icon"><i
+                                            class="el-icon-lollipop"></i>
+                                            </span></a><a href="#"
+                                    class="social-link"><span class="icon"><i
+                                            class="el-icon-ice-cream-square"></i></span></a><a href="#"
+                                    class="social-link"><span class="icon"><i class="el-icon-lollipop"></i></span></a>
+                            </div>
+                        </div><!-- Widget popular post -->
+                        <!-- Widget popular post -->
+                        <div class="widget-popular-post mt-30">
+                            <h3 class="heading-tertiary mb-20">热门文章</h3><!-- Cat item -->
+                            <div  v-for="item in newArticle" :key="item.id" class="widget-category">
+                                
+                                    <img class="cat-thumb bg-cover" :src="item.thumb" />
+                                <div class="cat-content"><a href="#">
+                                        <h4 class="cat-title">{{item.title}}</h4>
+                                    </a>
+                                    <div class="cat-meta">
+                                             <span  v-if="item.createTime != null"  class="post-date meta-item"> {{formatDate(item.createTime)}} </span>
+                                  <span  v-else  class="post-date meta-item"> {{formatDate(item.addTime)}} </span>
+                                  <span
+                                            class="meta-item comment"><i class="el-icon-chat-line-square"></i>{{item.hits}} </span></div>
+                                </div>
+                            </div><!-- Cat item -->
+                           <!-- Cat item -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+                      <!-- <div id="sidelist" v-html="this.content"></div> -->
                       <side-catalog class="catalog" v-bind="catalogProps">
                         <template #default="{ isActive }">
                           <i
@@ -81,6 +301,7 @@
                                 aria-label="Like"
                                 aria-pressed="false"
                                 class="
+                                  reaction-butt-
                                   sogood
                                   crayons-reaction crayons-reaction--like
                                   activated
@@ -155,6 +376,7 @@
                                 aria-label="React with unicorn"
                                 aria-pressed="false"
                                 class="
+                                   reaction-butt-
                                   make
                                   crayons-reaction crayons-reaction--unicorn
                                 "
@@ -198,6 +420,7 @@
                                 aria-label="Add to reading list"
                                 aria-pressed="false"
                                 class="
+                                reaction-butt-
                                   collect
                                   crayons-reaction crayons-reaction--readinglist
                                 "
@@ -242,6 +465,7 @@
                                   aria-expanded="false"
                                   aria-haspopup="true"
                                   class="
+                                  reaction-butt-
                                     more
                                     dropbtn
                                     crayons-btn
@@ -383,75 +607,89 @@
 <script>
 import { VEmojiPicker, emojisDefault, categoriesDefault } from "v-emoji-picker";
 
-import Prismjs from 'prismjs'; //引入插件
-import { getArticleById, FindProfileByName, viewarticle, lovearticle } from '@/api/webarticle'
-import { getArticleCommentnum } from '@/api/webarticleComment'
+import Prismjs from "prismjs"; //引入插件
+import {
+  getArticleById,
+  FindProfileByName,
+  viewarticle,
+  lovearticle,
+  getNewArticle,
+} from "@/api/webarticle";
+import { getArticleCommentnum } from "@/api/webarticleComment";
 
 import "vue-side-catalog/lib/vue-side-catalog.css";
 import SideCatalog from "vue-side-catalog";
-import Sticky from '@/components/Sticky'
+import Sticky from "@/components/Sticky";
 
-import top from './components/Top.vue'
-import foot from './components/Foots.vue'
-import comment from './components/Comment.vue'
+import top from "./components/Top.vue";
+import foot from "./components/Foots.vue";
+import comment from "./components/Comment.vue";
 
-import {mapState,mapMutations} from 'vuex'
+import { formatDate } from "@/utils/date.js";
+
+import { mapState, mapMutations } from "vuex";
 
 export default {
-
-  name: 'Post',
+  name: "Post",
   components: {
-    SideCatalog, top, foot, comment, Sticky, Prismjs, VEmojiPicker
+    SideCatalog,
+    top,
+    foot,
+    comment,
+    Sticky,
+    Prismjs,
+    VEmojiPicker,
   },
-    computed:{
-       ...mapState(['playlist','glabledata','count'])
-        },
+  computed: {
+    ...mapState(["playlist", "glabledata", "count"]),
+  },
   created() {
     //数据回填
-    this.fetchData(this.$route.params.id)
+    this.fetchData(this.$route.params.id);
     //获取文章评论数量
-    getArticleCommentnum(this.$route.params.id).then(resp => {
-      this.commentnum = resp.data
-    })
+    getArticleCommentnum(this.$route.params.id).then((resp) => {
+      this.commentnum = resp.data;
+    });
     //文章浏览量+1，临时
-    viewarticle(this.$route.params.id).then(resp => {
-    })
+    viewarticle(this.$route.params.id).then((resp) => {});
   },
   mounted() {
     setTimeout(() => {
-      prismjs.highlightAll()
-    }
-      , 20000)
+      prismjs.highlightAll();
+    }, 20000);
     //下面这行代码解决prismjs不能异步加载必须刷新一下才显示的问题
-    process.browser && document.querySelectorAll("pre code").forEach(block => Prism.highlightElement(block));
+    process.browser&&document.querySelectorAll("pre code").forEach((block) => Prism.highlightElement(block));
   },
 
   methods: {
+
+    formatDate(time) {
+      let data = new Date(time);
+      return formatDate(data, "yyyy-MM-dd  ");
+    },
     loveClick() {
-      if(!this.lovecheck){
-        if(this.firstLoveFlag) {
-      lovearticle(this.$route.params.id).then(resp => {
-      })
-      this.firstLoveFlag = false
-      }
-      this.$notify({
-        title: '点赞成功👍',
-        message: '您的赞我们已经收到🫡',
-        type: 'success',
-        offset: 50
-      });
-      this.loveNum+=1
-      this.lovecheck = true
-      }
-      else{
+      if (!this.lovecheck) {
+        if (this.firstLoveFlag) {
+          lovearticle(this.$route.params.id).then((resp) => {});
+          this.firstLoveFlag = false;
+        }
         this.$notify({
-        title: '取消点赞',
-        message: '是什么让您不喜欢了吗，我道歉',
-        type: 'success',
-        offset: 50
-      });
-      this.loveNum-=1
-       this.lovecheck = false
+          title: "点赞成功👍",
+          message: "您的赞我们已经收到🫡",
+          type: "success",
+          offset: 50,
+        });
+        this.loveNum += 1;
+        this.lovecheck = true;
+      } else {
+        this.$notify({
+          title: "取消点赞",
+          message: "是什么让您不喜欢了吗，我道歉",
+          type: "success",
+          offset: 50,
+        });
+        this.loveNum -= 1;
+        this.lovecheck = false;
       }
     },
     onSelectEmoji(emoji) {
@@ -462,12 +700,12 @@ export default {
       this.showDialog = !this.showDialog;
     },
     sendMsg() {
-      this.$refs.child.getMsg('true');
+      this.$refs.child.getMsg("true");
       this.mycomment = false;
     },
     updateDate() {
       //关闭表情
-      this.showDialog = false
+      this.showDialog = false;
       // console.log(data.show)
       this.mycomment = true;
       // console.log("调用了父组件的方法")
@@ -476,39 +714,47 @@ export default {
       // console.log('toCity:'+this.show1)
     },
     fetchData(id) {
-      getArticleById(id).then(resp => {
-        this.thumb = resp.data.thumb
-        this.title = resp.data.title
-        this.loveNum = resp.data.loveNum
-        this.author = resp.data.author
+      getArticleById(id).then((resp) => {
+        console.log(resp.data.intro);
+        this.thumb = resp.data.thumb;
+        this.title = resp.data.title;
+        this.loveNum = resp.data.loveNum;
+        this.author = resp.data.author;
         if (resp.data.commentDisabled == "true") {
-          this.judjeComment = true
+          this.judjeComment = true;
         }
-        FindProfileByName(this.author).then(resp => {
-          this.profile = resp.data
-        })
+        FindProfileByName(this.author).then((resp) => {
+          this.profile = resp.data;
+        });
         //目录加载需要延时
         setTimeout(() => {
-          this.content = resp.data.content
+          this.content = resp.data.content;
           //代码高亮
           this.$nextTick(() => {
-            Prism.highlightAll()
-          })
+            Prism.highlightAll();
+          });
         }, 500);
         //Prism.highlightAll()需要写在this.$nextTick()中，
 
-        if (resp.data.createTime != null) { this.addTime = resp.data.createTime } else { this.addTime = resp.data.addTime }
-        this.intro = resp.data.intro
-        this.hits = resp.data.hits
-
-      })
+        if (resp.data.createTime != null) {
+          this.addTime = resp.data.createTime;
+        } else {
+          this.addTime = resp.data.addTime;
+        }
+        this.intro = resp.data.intro;
+        this.hits = resp.data.hits;
+      });
+      getNewArticle(2).then((resp) => {
+        this.newArticle = resp.data;
+      });
     },
   },
   data() {
     return {
+      newArticle: [],
       firstLoveFlag: true,
       lovecheck: false,
-      loveNum:"",
+      loveNum: "",
       judjeComment: false,
       profile: "",
       thumb: "",
@@ -517,7 +763,7 @@ export default {
       commentnum: "",
       mycomment: true,
       show1: "",
-      acticve: 'nav-link active',
+      acticve: "nav-link active",
       catalogProps: {
         // 内容容器selector(必需)
         container: "#sidelist",
@@ -532,29 +778,27 @@ export default {
       author: "",
       content: "",
       title: "",
-      show: false
-    }
+      show: false,
+    };
   },
-
-
-}
+};
 </script>
-
+<style scoped>
+  @import "../static/mycss/blog.css";
+  </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import "../static/mycss/body.css";
-
 .chat-container {
-    z-index: 20!important;
-    border-radius: 10px!important;
-    -webkit-box-shadow: 0 5px 25px 0 rgb(0 0 0 / 13%)!important;
-    box-shadow: 0 5px 25px 0 rgb(0 0 0 / 13%)!important;
-    background-color: #fff!important;
-    width: 360px!important;
-    height: 80%!important;
-    left: auto!important;
-    right: 20px!important;
-    bottom: 20px!important;
+  z-index: 20 !important;
+  border-radius: 10px !important;
+  -webkit-box-shadow: 0 5px 25px 0 rgb(0 0 0 / 13%) !important;
+  box-shadow: 0 5px 25px 0 rgb(0 0 0 / 13%) !important;
+  background-color: #fff !important;
+  width: 360px !important;
+  height: 80% !important;
+  left: auto !important;
+  right: 20px !important;
+  bottom: 20px !important;
 }
 
 .myVEmojiPicker ::v-deep.category {
@@ -638,9 +882,13 @@ export default {
 
 
 <style scoped>
-.article-content button {
-  padding: 10px;
-}
+.reaction-butt- {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;}
 #sidelist {
   width: 700px;
   overflow: auto;
@@ -654,14 +902,14 @@ p {
 .catalog {
   position: fixed;
   top: 70px;
-  right: 10%;
+  right: 5%;
   cursor: not-allowed;
   /* height: calc(100% - 100px); */
 }
 .catalogleft {
   position: fixed;
   top: 30%;
-  left: 12%;
+  left: 5%;
   cursor: not-allowed;
   /* height: calc(100% - 100px); */
   -webkit-text-size-adjust: 100%;
@@ -1125,5 +1373,11 @@ p {
   right: 390px;
   bottom: 20px;
   z-index: 10;
+}
+.widget-ad-banner {
+  background-image: url("../static/img/sidebar-add-banner.png");
+}
+.mar-top{
+margin-top:8px;
 }
 </style>

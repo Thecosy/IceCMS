@@ -75,6 +75,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/planet/:square',
+    component: () => import('@/page/Planet'),
+    hidden: true
+  },
+  {
     path: '/planet',
     component: () => import('@/page/Planet'),
     hidden: true
@@ -244,6 +249,62 @@ export const constantRoutes = [
         meta: { title: '分类管理', icon: 'el-icon-receiving', requireAuth: true }
         // 需要登录才能进入的页面可以增加一个requireAuth属性
       }
+    ]
+  },
+  {
+    path: '/adplanet',
+    component: Layout,
+    redirect: '/adplanet/Allplanet',
+    name: 'adplanet',
+    meta: {
+      title: '圈子管理',
+      icon: 'el-icon-help',
+      requireAuth: true
+      // 需要登录才能进入的页面可以增加一个requireAuth属性
+    },
+    children: [
+      {
+        path: 'PlanetList',
+        component: () => import('@/admin/PlanetList'),
+        name: 'PlanetList',
+        meta: { title: '圈子列表', icon: 'documentation', requireAuth: true }
+        // 需要登录才能进入的页面可以增加一个requireAuth属性
+      },
+      {
+        path: 'PlanetCommentList',
+        component: () => import('@/admin/PlanetCommentList'),
+        name: 'PlanetCommentList',
+        meta: { title: '评论管理', icon: 'message', requireAuth: true }
+        // 需要登录才能进入的页面可以增加一个requireAuth属性
+      },
+      {
+        path: 'PlanetClass',
+        component: () => import('@/admin/PlanetClass'),
+        name: 'PlanetClass',
+        meta: { title: '分类管理', icon: 'el-icon-upload', requireAuth: true }
+        // 需要登录才能进入的页面可以增加一个requireAuth属性
+      },
+      {
+        path: 'PlanetUser',
+        component: () => import('@/admin/PlanetUser'),
+        name: 'PlanetUser',
+        meta: { title: '用户管理', icon: 'message', requireAuth: true }
+        // 需要登录才能进入的页面可以增加一个requireAuth属性
+      },
+      // {
+      //   path: 'ArticleClass',
+      //   component: () => import('@/admin/ArticleClass'),
+      //   name: 'ArticleClass',
+      //   meta: { title: '积分管理', icon: 'el-icon-receiving', requireAuth: true }
+      //   // 需要登录才能进入的页面可以增加一个requireAuth属性
+      // },
+            // {
+      //   path: 'ArticleClass',
+      //   component: () => import('@/admin/ArticleClass'),
+      //   name: 'ArticleClass',
+      //   meta: { title: '圈子设置', icon: 'el-icon-receiving', requireAuth: true }
+      //   // 需要登录才能进入的页面可以增加一个requireAuth属性
+      // }
     ]
   },
   {

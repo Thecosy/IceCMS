@@ -11,7 +11,7 @@
             <el-input v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item label="父级分类">
-            <el-select v-model="form.father" placeholder="请选择活动区域">
+            <el-select v-model="form.father" placeholder="请选择父级分类">
               <el-option label="区域一" value="1"></el-option>
               <el-option label="区域二" value="2"></el-option>
             </el-select>

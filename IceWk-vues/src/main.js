@@ -33,6 +33,9 @@ import { getSetting } from '@/api/websetting'
 // set ElementUI lang to EN
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+import SlideVerify from 'vue-monoplasty-slide-verify';
+
+Vue.use(SlideVerify);
 
 Vue.config.productionTip = false
 
@@ -71,6 +74,7 @@ import {
   FormItem,
   Select,
   Dialog,
+  Pagination,
 
   Menu,
   Submenu,
@@ -116,9 +120,12 @@ import {
  
   MessageBox,
   Message,
-  Notification
+  Notification,
+
+  Scrollbar
 } from 'element-ui';
 
+Vue.use(Scrollbar);
 Vue.use(Popover);
 Vue.use(Dialog);
 Vue.use(Input);
@@ -169,6 +176,7 @@ Vue.use(Rate);
 Vue.use(Radio);
 Vue.use(RadioGroup);
 Vue.use(RadioButton);
+Vue.use(Pagination);
 Vue.prototype.$notify = Notification;
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;

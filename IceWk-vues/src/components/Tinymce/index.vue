@@ -28,7 +28,8 @@ import { updateImage } from '@/api/updateImage'
 
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+// const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+const tinymceCDN = 'https://cdn.staticfile.org/tinymce/4.9.3/tinymce.min.js'
 
 export default {
   name: 'Tinymce',
@@ -130,9 +131,11 @@ export default {
         theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
         font_size_style_values: "10px,12px,13px,14px,16px,18px,20px",
         selector: `#${this.tinymceId}`,
-        language: this.languageTypeList['zh'],
+        language: 'zh_CN',
+        language_url: require('./zh_CN.js'),
         height: this.height,
         body_class: 'panel-body ',
+        statusbar: false,
         object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
         menubar: this.menubar,

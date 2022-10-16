@@ -10,7 +10,7 @@
       style="width: 100%"
     >
 
-      <el-table-column align="center" prop="date" label="ID" width="80">
+      <!-- <el-table-column align="center" prop="date" label="ID" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
@@ -24,7 +24,7 @@
         <template slot-scope="scope">
           <span>{{ scope.row.parentId }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       
             <el-table-column align="center" prop="date" label="ID" width="80">
         <template slot-scope="scope">
@@ -46,19 +46,19 @@
         </template>
       </el-table-column>
       
-        <el-table-column align="center" prop="date" label="ID" width="80">
+        <el-table-column align="center" prop="date" label="文章ID" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.articleId }}</span>
         </template>
       </el-table-column>
       
-         <el-table-column align="center" prop="date" label="ID" width="80">
+         <el-table-column align="center" prop="date" label="内容" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.content }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="140px" label="头像">
+      <el-table-column width="140px" label="头像">
         <template slot-scope="{ row }">
           <router-link target="_blank"  :to="'/post/' + row.id" class="link-type">
             <span>{{ row.profile }}</span>

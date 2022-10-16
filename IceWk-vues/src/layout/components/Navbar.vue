@@ -1,32 +1,42 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
 
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
+      <template> </template>
       <template>
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
       </template>
+
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img src="https://inews.gtimg.com/newsapp_bt/0/13392595208/1000" class="user-avatar">
+          <img :src="profile" class="user-avatar" />
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item>
-              主页
-            </el-dropdown-item>
+            <el-dropdown-item> 主页 </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
+          <a
+            target="_blank"
+            href="https://github.com/PanJiaChen/vue-admin-template/"
+          >
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
+          <a
+            target="_blank"
+            href="https://panjiachen.github.io/vue-element-admin-site/#/"
+          >
             <el-dropdown-item>文档</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">退出</span>
+            <span style="display: block">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -52,7 +62,25 @@ export default {
       'avatar'
     ])
   },
+  created() {
+    this.getUser()
+  },
+  data() {
+    return {
+      name: "",
+      profile: "",
+    }
+  },
   methods: {
+    getUser() {
+      const user = JSON.parse(window.localStorage.getItem('access-admin'))
+      this.userJudje = (user == null)
+      if (!this.userJudje) {
+        this.userid = user.data.userid
+        this.name = user.data.name
+        this.profile = user.data.profile
+      }
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -71,18 +99,18 @@ export default {
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
     line-height: 46px;
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    transition: background 0.3s;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: rgba(0, 0, 0, 0.025);
     }
   }
 
@@ -96,9 +124,14 @@ export default {
   }
 
   .right-menu {
+    display: flex;
     float: right;
-    height: 100%;
-    line-height: 50px;
+    /* height: 100%; */
+    /* line-height: 50px; */
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 
     &:focus {
       outline: none;
@@ -114,10 +147,10 @@ export default {
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
     }

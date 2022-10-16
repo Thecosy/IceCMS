@@ -232,37 +232,73 @@
               </div>
               <div class="container">
                 <div class="row align-items-center">
+                    <div class="col-xs-12 col-lg-6 col-xl-6 text-center">
+                   
+                      <div v-if="carouselNum === 0" class="device-frame">
+                        <el-carousel height="350px">
+                          <el-carousel-item v-for="item in 1" :key="item">
+                            <img
+                              style="height: 349px; width: 576px"
+                              :src="thumb"
+                            /><img />
+                          </el-carousel-item>
+                        </el-carousel>
+                      </div>
+                      <div v-else class="device-frame">
+                        <el-carousel height="350px">
+                          <el-carousel-item
+                            v-for="item in carousel"
+                            :key="item"
+                          >
+                            <img
+                              style="height: 349px; width: 576px"
+                              :src="item.url"
+                            /><img />
+                          </el-carousel-item>
+                        </el-carousel>
+                      </div>
+                      <div class="device-stripe"></div>
+                      <div class="device-header"></div>
+                      <div class="device-sensors"></div>
+                      <div class="device-btns"></div>
+                      <div class="device-power"></div>
+                      <!---->
+                    
+                  </div>
                   <div class="col-xs-12 col-lg-6 col-xl-6">
                     <div class="header-app">
                       <img class="app-icon mr-3" />
                       <div class="list-body">
-                        <h2 class="mb-4">
-                          {{ title }}
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </h2>
+                       
+                        <h3 style="font-size: 30px;font-weight: 700;
+text-rendering: optimizeLegibility;">  {{ this.title }}</h3>
+<p style="font-size: 15px;
+line-height: 28px;font-weight: 400;" class="mg-bt-42">{{this.intro}}</p>
+
+<div class="infor-bid">
+<div class="content-left">
+<h6>商品价格</h6>
+<div class="value">{{this.price}} &#8194; &#8194;积分</div>
+</div>
+<div  v-if="this.createTime != null"  class="pagi"> 
+
+                       {{formatDate(this.createTime)}}
+
+                       {{Theweeks}}
+                        </div>
+                        <div  v-else  class="pagi"> 
+
+                       {{formatDate(this.addTime)}}
+                        {{Theweeks}}
+                        </div>
+</div>
+
                         <div class="mb-15">
-                          <el-button
-                            v-if="payJudej"
-                            :disabled="payBtnDisabled"
-                            @click="Download()"
-                            class="btn btn-theme btn-round w-200 cursor mr-4"
-                            round
-                            ><i class="el-icon-download"></i>
-                            支付下载</el-button
-                          >
-                          <el-button
-                            v-else
-                            :disabled="payBtnDisabled"
-                            @click="NowDownload()"
-                            class="btn btn-theme btn-round w-200 cursor mr-4"
-                            round
-                            ><i class="el-icon-download"></i>
-                            立即下载(已支付)</el-button
-                          >
+                         <a     v-if="payJudej"  @click="Download()" href="#" data-toggle="modal" data-target="#popup_bid" class="sc-button style letter style-2 style-item-details"><span style="color: #ffffff;font-weight: 700;"><i class="el-icon-download"></i>支付购买</span>
+</a>
+<a       v-else   @click="NowDownload()" href="#" data-toggle="modal" data-target="#popup_bid" class="sc-button style letter style-2 style-item-details"><span style="color: #ffffff;font-weight: 700;"><i class="el-icon-download"></i>立即购买(已支付)</span>
+</a>
+                        
                           <button
                             v-if="!lovecheck"
                             @click="loveClick()"
@@ -298,7 +334,106 @@
                             <span class="likeanimation">+1</span>
                           </button>
                         </div>
-                        <div class="mt-4 mb-6"></div>
+                        
+                        <div class="mt-4 mb-6">
+                          <div class="flat-tabs themesflat-tabs">
+<ul class="menu-tab tab-title">
+<li class="item-title titleactive">
+<span class="inner">最近购买</span>
+ </li>
+<li class="item-title">
+<span class="inner">历史</span>
+</li>
+<li class="item-title">
+<span class="inner">用户</span>
+</li>
+</ul>
+<div class="content-tab">
+<div class="content-inner tab-content" style="">
+<ul class="bid-history-list">
+<li>
+<div class="content">
+<s></s><div class="author-item">
+<div class="avatar">
+                                           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+</div>
+<div class="infor">
+<p>Bid listed for <span class="status">25 ETH 8</span>
+hours ago
+by <span class="creator">@Johnson</span> </p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<div class="content">
+<div class="author-item">
+<div class="avatar">
+                                           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+</div>
+<div class="infor">
+<p>Bid listed for <span class="status">25 ETH 8</span>
+hours ago
+by <span class="creator">@Johnson</span> </p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<div class="content">
+<div class="author-item">
+<div class="avatar">
+                                           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+</div>
+<div class="infor">
+<p>Bid listed for <span class="status">25 ETH 8</span>
+hours ago
+by <span class="creator">@Johnson</span> </p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+ <div class="content-inner tab-content" style="display: none;">
+<ul class="bid-history-list">
+<li>
+<div class="content">
+<div class="client">
+<div class="author-item">
+<div class="avatar">
+                                           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+</div>
+<div class="infor">
+<p>Bid listed for <span class="status">25 ETH
+8</span> hours ago
+by <span class="creator">@Johnson</span> </p>
+</div>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="content-inner tab-content" style="display: none;">
+<div class="provenance">
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting
+industry.
+Lorem Ipsum has been the industry's standard dummy text ever since
+the 1500s,
+when an unknown printer took a galley of type and scrambled it to
+make a type specimen book.
+It has survived not only five centuries, but also the leap into
+electronic typesetting,
+remaining essentially unchanged. It was popularised in the 1960s
+with the release of Letraset sheets containing Lorem Ipsum passages,
+and more recently with desktop publishing software like Aldus
+PageMaker including versions of Lorem Ipsum.</p>
+</div>
+</div>
+</div>
+</div>
+                        </div>
 
                         <div class="mt-6 fs-13">
                           <!---->
@@ -306,48 +441,12 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-xs-12 col-lg-6 col-xl-6 text-center">
-                    <div
-                      class="
-                        device device-macbook-pro device-silver device-silver
-                      "
-                    >
-                      <div v-if="carouselNum === 0" class="device-frame">
-                        <el-carousel height="350px">
-                          <el-carousel-item v-for="item in 1" :key="item">
-                            <img
-                              style="height: 349px; width: 576px"
-                              :src="thumb"
-                            /><img />
-                          </el-carousel-item>
-                        </el-carousel>
-                      </div>
-                      <div v-else class="device-frame">
-                        <el-carousel height="350px">
-                          <el-carousel-item
-                            v-for="item in carousel"
-                            :key="item"
-                          >
-                            <img
-                              style="height: 349px; width: 576px"
-                              :src="item.url"
-                            /><img />
-                          </el-carousel-item>
-                        </el-carousel>
-                      </div>
-                      <div class="device-stripe"></div>
-                      <div class="device-header"></div>
-                      <div class="device-sensors"></div>
-                      <div class="device-btns"></div>
-                      <div class="device-power"></div>
-                      <!---->
-                    </div>
-                  </div>
+                
                 </div>
               </div>
             </div>
-            <div class="soft-layout white bg mb-8 pc-model">
-              <section class="layout-info">
+            <div class="soft-layouts bg mb-8 pc-model">
+              <!-- <section class="layout-info">
                 <div class="app-info shadow-2 white bg text-center">
                   <div class="w-r">
                     <div class="w-c w-c-4">
@@ -513,8 +612,7 @@
                   id="step-read"
                   class="layout-content-install pt-7 mb-5"
                 ></div>
-                <!---->
-                <!---->
+             
                 <div id="step-content" class="layout-content-infos">
                   <div class="container">
                     <div class="content-header">
@@ -547,7 +645,7 @@
                         <div class="w-c w-c-22">
                           <h3>
                             正文概述
-                            <!---->
+                           
                           </h3>
                         </div>
                       </div>
@@ -558,17 +656,232 @@
                           <p>{{ intro }}</p>
                         </div>
                       </div>
-                      <!---->
-                      <!---->
+                     
                     </div>
-                    <!-- 内容区域 -->
-
+                 
                     <div id="sidelist" v-html="this.content"></div>
                   </div>
                 </div>
-                <!---->
-                <!---->
-              </section>
+              
+             
+              </section> -->
+                <div class="row gy-5">
+                <div class="col-lg-9">
+                    <div class="left-content">
+                        <!-- Post card -->
+                        <div class="post-card">
+                         
+                            <div class="card-content">
+                               
+                                <div class="post-content">
+                                    <div>
+                                          <h3 class="heading-secondary">商品简介</h3>
+                                        <div id="sidelist" v-html="this.content"></div>
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- Tags -->
+                        <div class="tags">
+                            <h3 class="heading-secondary">标签</h3>
+                            <div class="categories-tags"><a href="">kitchen </a><a href="">garden </a><a href="">cars
+                                </a></div>
+                        </div><!-- Author card -->
+                        <div class="author-card">
+                            <div >
+                                <img class="card-img bg-cover" src="../static/img/author-card-img.png" />
+                                </div>
+                            <div class="card-text">
+                                <h3 class="heading-secondary">Nimra Skinner</h3>
+                                <p class="body-text">Web developer since 2006. Create hundreds of websites,HTML
+                                    and CSS3 expert,who started to learn web design on a world-class level. </p>
+                            </div>
+                        </div><!-- Post navigation -->
+                        <div class="post-navigation">
+                          <a >
+                            <div class="nav-prev">
+                              <div  class="nav-button-left">
+                              <span><img src="../static/img/long-arrow-2.png" alt="arrow"></span>
+                                             <span>上一篇 </span> </div>
+                                <div class="nav-post">
+                                        <h3 class="heading-tertiary">Glasses Review:Enterprise Usage</h3>
+                                   <span class="date body-text">Feb 06,2022</span></div>
+                            </div>
+                              </a>
+                              <a>
+                            <div class="nav-next"><div class="nav-button-right">下一篇 <span><img
+                                            src="../static/img/long-arrow.png" alt="arrow"></span></div>
+                                <div class="nav-post">
+                                        <h3 class="heading-tertiary">Glasses Review:Enterprise Usage</h3>
+                                    <span class="date body-text">Feb 06,2022</span></div>
+                            </div>
+                            </a>
+                        </div><!-- Comments -->
+                        <!-- <div class="post-comments">
+                            <h3 class="heading-secondary">Comments(3)</h3>
+                            <div class="comment-card">
+                                <div class="card-top">
+                                    <div class="card-meta">
+                                        <div class="meta-item post-author">
+                                            <div class="author-avatar bg-cover" style="
+                                                        background-image: url('../static/img/post-author1.png');
+                                                    "></div><a href="#" class="author-name">Terence Whittle</a>
+                                        </div><span class="meta-item">Feb 06,2022 </span><span class="meta-item">6:15
+                                            pm</span>
+                                    </div><a href="#" class="button button-replay"><span><img
+                                                src="../static/img/corner-left-down.png" alt=""></span>Replay </a>
+                                </div>
+                                <p class="body-text">My hands really liked it,it was absorbed easily and
+                                    quickly,creating a feeling of hydration. And my hands really liked it,it was
+                                    absorbed easily and quickly,creating a feeling of hydration. </p>
+                            </div>
+                            <div class="comment-card replay">
+                                <div class="card-top">
+                                    <div class="card-meta">
+                                        <div class="meta-item post-author">
+                                            <div class="author-avatar bg-cover" style="
+                                                        background-image: url('../static/img/post-author1.png');
+                                                    "></div><a href="#" class="author-name">Ruqayyah Povey</a>
+                                        </div><span class="meta-item">Feb 06,2022 </span><span class="meta-item">6:15
+                                            pm</span>
+                                    </div><a href="#" class="button button-replay"><span><img
+                                                src="../static/img/corner-left-down.png" alt=""></span>Replay </a>
+                                </div>
+                                <p class="body-text">My hands really liked it,it was absorbed easily and
+                                    quickly,creating a feeling of hydration. And my hands really liked it,it was
+                                    absorbed easily and quickly,creating a feeling of hydration. </p>
+                            </div>
+                            <div class="comment-card">
+                                <div class="card-top">
+                                    <div class="card-meta">
+                                        <div class="meta-item post-author">
+                                            <div class="author-avatar bg-cover" style="
+                                                        background-image: url('../static/img/post-author1.png');
+                                                    "></div><a href="#" class="author-name">Said Mclean</a>
+                                        </div><span class="meta-item">Feb 06,2022 </span><span class="meta-item">6:15
+                                            pm</span>
+                                    </div><a href="#" class="button button-replay"><span><img
+                                                src="../static/img/corner-left-down.png" alt=""></span>Replay </a>
+                                </div>
+                                <p class="body-text">My hands really liked it,it was absorbed easily and
+                                    quickly,creating a feeling of hydration. And my hands really liked it,it was
+                                    absorbed easily and quickly,creating a feeling of hydration. </p>
+                            </div>
+                        </div>
+                        <div class="comment-box">
+                            <h3 class="heading-secondary">Post a comment</h3>
+                            <form class="comment-form">
+                                <div class="row">
+                                    <div class="col-md-4"><input type="text" placeholder="Your Name"></div>
+                                    <div class="col-md-4"><input type="email" placeholder="Your Email"></div>
+                                    <div class="col-md-4"><input type="text" placeholder="+1 (___) __ __ ___"></div>
+                                    <div class="col-12"><textarea placeholder="Enter your comment"></textarea></div>
+                                </div><button class="button button-primary">Post Comment</button>
+                            </form>
+                        </div> -->
+                        <!-- ============= AD CAMPAIGN-2 ============= -->
+                        <!-- <div class="ad-campaign-2 bg-cover mt-100"
+                            style="background-image: url('../static/img/add-campign-3.png')">
+                            <div class="row">
+                                <div class="col-lg-6"></div>
+                                <div class="col-lg-6">
+                                    <div class="right-content">
+                                        <div class="content"><span class="discount">20% off</span>
+                                            <h2 class="heading-primary">Home furniture</h2>
+                                        </div><a href="#" class="button icon-button active"><span class="icon"><i
+                                                    class="fas fa-chevron-right"></i></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="right-content">
+                        <!-- Widget search box -->
+                        <div class="widget-search-box"><input type="text" placeholder="输入内容"><button
+                                class="search-btn"><i class="fas el-icon-search"></i></button></div>
+                        <h3 class="heading-tertiary">最近商品</h3>
+                        <div class="recent-post-card">
+                            <div>
+                            <img class="card-thumb bg-cover" src="../static/img/thumb1.png"  />
+                            </div>
+                            <div class="card-content">
+                                <div class="post-meta"><span class="meta-item">Design </span><span class="meta-item">Feb
+                                        06,2022 </span><span class="meta-item"><i class="fal fa-comment"></i>13 </span>
+                                </div><a href="">
+                                    <h3 class="heading-secondary">Animated Cartoon Is The New Future Of Entertainment
+                                    </h3>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="recent-post-card">
+                            <div >
+                              <img class="card-thumb bg-cover" src="../static/img/thumb2.png"  />
+                           </div>
+                            <div class="card-content">
+                                <div class="post-meta"><span class="meta-item">Food </span><span class="meta-item">Feb
+                                        06,2022 </span><span class="meta-item"><i class="el-icon-chat-line-square"></i>13 </span>
+                                </div><a href="">
+                                    <h3 class="heading-secondary">The Beautiful French Village Of Saint-Emilion</h3>
+                                </a>
+                            </div>
+                        </div><!-- Widget category -->
+                        <div class="widget-categories">
+                            <h3 class="heading-tertiary">标签云</h3>
+                            <div class="categories-tags"><a href="" class="active">travel </a><a href="">kitchen </a><a
+                                    href="">cars </a><a href="">garden </a><a href="">home </a><a href="">holiday </a><a
+                                    href="">software </a><a href="">health </a><a href="">appliences </a><a
+                                    href="">money </a><a href="">pets </a><a href="">office </a><a href="">electronics
+                                </a><a href="">hobby </a><a href="">baby </a><a href="">digital </a></div>
+                        </div><!-- Widget ad banner -->
+                        <div class="widget-ad-banner bg-cover"
+                            style="">
+                            <div class="content"><span class="discount">20% off</span>
+                                <h2 class="heading-secondary">Home Garden</h2>
+                                <p class="body-text">Magna incididunt commodo aute consectetur cupida.</p><a href="#"
+                                    class="button icon-button active"><span><i
+                                            class="fas el-icon-caret-right"></i></span></a>
+                            </div>
+                        </div><!-- Widget social profile -->
+                        <div class="widget-social-profile">
+                             <h3 class="heading-tertiary mb-20">关注我们</h3>
+                            <p class="body-text">找到更多</p>
+                            <div class="social-items"><a href="#" class="social-link"><span class="icon"><i
+                                            class="el-icon-lollipop"></i>
+                                            </span></a><a href="#"
+                                    class="social-link"><span class="icon"><i
+                                            class="el-icon-ice-cream-square"></i></span></a><a href="#"
+                                    class="social-link"><span class="icon"><i class="el-icon-lollipop"></i></span></a>
+                            </div>
+                        </div><!-- Widget popular post -->
+                        <!-- Widget popular post -->
+                        <div class="widget-popular-post mt-30">
+                            <h3 class="heading-tertiary mb-20">Popular posts</h3><!-- Cat item -->
+                            <div class="widget-category">
+                                
+                                    <img class="cat-thumb bg-cover" src="../static/img/recent-post-sm1.png" />
+                                <div class="cat-content"><a href="#">
+                                        <h4 class="cat-title">How to Make Every Trip</h4>
+                                    </a>
+                                    <div class="cat-meta"><span class="post-date meta-item">Feb 06,2022 </span><span
+                                            class="meta-item comment"><i class="fal fa-comment"></i>13 </span></div>
+                                </div>
+                            </div><!-- Cat item -->
+                            <div class="widget-category">
+                    
+                                    <img class="cat-thumb bg-cover" src="../static/img/recent-post-sm2.png" />
+                                <div class="cat-content"><a href="#">
+                                        <h4 class="cat-title">Mental Shoot Tips to Cope With the End of Summer </h4>
+                                    </a>
+                                    <div class="cat-meta"><span class="post-date meta-item">Feb 06,2022 </span><span
+                                            class="meta-item comment"><i class="fal fa-comment"></i>13 </span></div>
+                                </div>
+                            </div><!-- Cat item -->
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
             <div class="mobile-model">
               <div
@@ -1030,7 +1343,7 @@ export default {
         this.intro = resp.data.intro
 
         var str = JSON.parse(resp.data.carousel)
-        this.carouselNum = str.length
+        // this.carouselNum = str.length
         this.carousel = str
         var sortClasss = resp.data.sortClass
          this.sortClasss = sortClasss
@@ -1038,9 +1351,10 @@ export default {
         getResourceClassNameByid(sortClasss).then(resp => {
           this.className = resp.data;
         })
-
+       this.addTime = resp.data.addTime
+         this.createTime = resp.data.createTime
         if (resp.data.createTime != null) {
-          this.createTime = resp.data.createTime
+        
 
           let data = new Date(resp.data.createTime)
           var intime = formatDate(data, 'yyyy-MM-dd')
@@ -1052,15 +1366,12 @@ export default {
 
 
         } else {
-          this.addTime = resp.data.addTime
+   
 
           let data = new Date(resp.data.addTime)
           var intime = formatDate(data, 'yyyy-MM-dd')
           var tiems = GetWeekdate(intime)
           this.Theweeks = this.weeks[tiems]
-          console.log(intime)
-          console.log(resp.data.addTime)
-          console.log(this.addTime)
         }
         this.intro = resp.data.intro
 
@@ -1070,6 +1381,8 @@ export default {
   },
   data() {
     return {
+      createTime: '',
+      addTime: '',
       lovecheck: false,
       firstLoveFlag: true,
       loveNum: "",
@@ -1116,9 +1429,9 @@ export default {
 }
 </script>
 
+<style scoped src="../static/mycss/blog.css"></style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import "../static/mycss/body.css";
 .chat-container {
   z-index: 20 !important;
   border-radius: 10px !important;
@@ -1207,7 +1520,7 @@ export default {
   border-radius: 0 0 10px 10px;
 }
 </style>
-<style>
+<style scoped>
 .el-dialog--center {
   border-radius: 10px;
 }
@@ -1282,4 +1595,127 @@ export default {
   weight: 25px;
   height: 25px;
 }
+.soft-layouts {
+      margin: 0 auto;
+    overflow: hidden;
+        width: 1170px;
+
+
+}
+.el-carousel__item[data-v-3aa17da5]:nth-child(2n + 1) {
+    background-color: #d3dce6;
+    border-radius: 17px;
+}
+.sc-button.style-item-details {
+width: 240px;
+height: 55px;
+line-height: 55px;
+padding: unset;
+text-align: center;
+}
+.sc-button.style-2:hover {
+background-position: right center;
+}
+.sc-button.style-2 {
+background-image: linear-gradient(to left, #6345ED 58.12%, #DC39FC 81.74%);
+border: unset;
+background-size: 200% auto;
+}
+a:hover, a:focus {
+color: var(--primary-color3);
+text-decoration: none;
+outline: 0;
+-webkit-transition: all 0.3s ease-in-out;
+-moz-transition: all 0.3s ease-in-out;
+-ms-transition: all 0.3s ease-in-out;
+-o-transition: all 0.3s ease-in-out;
+transition: all 0.3s ease-in-out;
+}
+.sc-button {
+display: inline-block;
+position: relative;
+padding: 9px 22px;
+border-radius: 100px !important;
+border: 0 none;
+outline: 0 none;
+cursor: pointer;
+z-index: 1;
+}
+.menu-tab {
+display: flex;
+margin-bottom: 29px;
+}
+.titleactive {
+background-color: #6345ED;
+color: #fff;
+box-shadow: unset;
+}
+.menu-tab li {
+border-radius: 104px;
+padding: 8px 21px;
+font-size: 14px;
+font-weight: 700;
+margin-right: 8px;
+cursor: pointer;
+box-shadow: 4px 4px 60px rgba(99, 69, 237, 0.3);
+-webkit-transition: all 0.3s ease-in-out;
+-moz-transition: all 0.3s ease-in-out;
+-ms-transition: all 0.3s ease-in-out;
+-o-transition: all 0.3s ease-in-out;
+transition: all 0.3s ease-in-out;
+}
+.author-item {
+display: flex;
+align-items: center;
+}
+.bid-history-list li {
+margin-bottom: 17px;
+}
+.infor {
+margin-top: -2px;
+display: flex;
+    text-align: center;
+
+
+}
+.infor p{
+margin:0 auto;width:300px;
+
+}
+.btn-outline-theme {
+    margin-left: 17px;
+}
+.btn-outline-theme {
+    margin-left: 17px;
+}
+.btn-outline-theme:hover {
+color: #fff;
+}
+.dianzan:hover {
+color: #fff;
+}
+.fas {
+font-weight: 900;
+}
+.infor-bid {
+background: var(--color-4);
+box-shadow: 4px 4px 60px rgba(99, 69, 237, 0.15);
+border-radius: 8px;
+padding: 17px 31px;
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+font-size: 13px;
+margin-right: 17px;
+margin-bottom: 31px;
+}
+
+.value {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 10px;
+    letter-spacing: 0.0015em;
+    color: #50A0FF;
+}
 </style>
+

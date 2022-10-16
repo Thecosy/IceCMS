@@ -51,7 +51,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="mb-5">
+                  <!-- <div class="mb-5">
                     <p class="fs-12 opacity-40 mb-3">兼容性</p>
                     <a class="d-block mb-2 fs-15 cursor-pointer active"
                       ><i class="fs-14 mr-1 icon-check-circle"></i>
@@ -102,7 +102,7 @@
                       ><i class="fs-14 mr-1 icon-circle text-muted"></i>
                       <span class="el-tooltip item">侵权</span></a
                     >
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="app-content pc-model">
@@ -273,47 +273,31 @@
                                 </div>
 
                                 <div class="macwk-app__body">
-                                  <h5 class="macwk-app__body--title">
-                                    <span
-                                      class="el-tooltip today-update v-3 item"
-                                    ></span>
-
-                                    <span>{{ item.title | ellipsis }}</span>
-                                    <span
-                                      class="
-                                        macwk-app__body--title--version
-                                        text-muted
-                                        fs-14
-                                      "
-                                      ><span class="mx-1">-</span>83.1</span
-                                    >
-                                  </h5>
-                                  <p class="macwk-app__body--info">
-                                    <span>{{ item.intro }}</span>
-                                  </p>
+                                  <div class="card-meta">
+                                        <div class="meta-item post-author">
+                                           <el-avatar style=" margin-bottom: 3px;  margin-right: 3px;" :src="item.authorThumb"></el-avatar>
+                                           <a href="blog-list.html" class="author-name">天天</a>
+                                        </div>
+        <span v-if="item.createTime != null"  class="meta-item"> {{formatDate(item.createTime)}}</span>
+                                        <span v-else  class="meta-item"> {{formatDate(item.addTime)}}</span>
+                                        
+                                        <span class="meta-item"><i class="el-icon-share"></i></span>
+                                    </div>
+                                 <h3 class="heading-tertiary-list">{{item.title}}</h3>
                                 </div>
-                                <div class="macwk-app__extend">
-                                  <div class="macwk-app__extend--download">
-                                    <i class="icon-download2"></i>
-                                    <span>366.4k</span>
-                                  </div>
-                                  <div class="macwk-app__extend--comment">
-                                    <i class="icon-bubble"></i> <span>800</span>
-                                  </div>
-                                  <div class="macwk-app__extend--os">
-                                    <i class="icon-disc fw-600"></i>
-                                    <span>&gt;= 10.12</span>
-                                  </div>
-                                  <div
-                                    class="
-                                      macwk-app__extend--update
-                                      justify-content-end
-                                    "
-                                  >
-                                    <i class="icon-clock"></i>
+                                <div class="extend">
+                                  <div class="button">
+                                    <div style="margin-left:12px">
+                                    <span style="font-size: 36px;line-height: 1;">
+                                      
+                                    <i data-v-1c369514="" class="light-icon-more icon-next-arrow"></i>
+                                      </span>
+                                      </div>
 
-                                    <span> 02-10 </span>
-                                  </div>
+                                      <div style="margin-right:12px">
+                                      <span class="value">${{item.price}}</span>
+                                      </div>
+                                      </div>
                                 </div>
                                 <div class="macwk-app__footer">
                                   <div
@@ -397,136 +381,7 @@
               </div>
             </div>
           </div>
-          <div
-            class="macwk-footer white border-top pc-model"
-            data-v-ea53b530=""
-          >
-            <div class="container" data-v-ea53b530="">
-              <a href="index1.html" class="logo" data-v-ea53b530=""
-                ><svg
-                  id="macwk-svg-logo"
-                  width="32"
-                  height="32"
-                  xmlns="http://www.w3.org/2000/svg"
-                  data-v-6dd0b122=""
-                  data-v-ea53b530=""
-                >
-                  <title data-v-6dd0b122="">ICEcms</title>
-                  <defs data-v-6dd0b122="">
-                    <lineargradient
-                      x1="50%"
-                      y1="0%"
-                      x2="50%"
-                      y2="100%"
-                      id="a"
-                      data-v-6dd0b122=""
-                    >
-                      <stop
-                        offset="0%"
-                        class="stop-color-circle"
-                        data-v-6dd0b122=""
-                      ></stop>
-                      <stop
-                        offset="100%"
-                        class="stop-color-circle"
-                        data-v-6dd0b122=""
-                      ></stop>
-                    </lineargradient>
-                    <lineargradient
-                      x1="100%"
-                      y1="86.198%"
-                      x2="-14.813%"
-                      y2="-4.357%"
-                      id="b"
-                      data-v-6dd0b122=""
-                    >
-                      <stop
-                        offset="0%"
-                        class="stop-color-default"
-                        data-v-6dd0b122=""
-                      ></stop>
-                      <stop
-                        offset="40.927%"
-                        class="stop-color-default"
-                        data-v-6dd0b122=""
-                      ></stop>
-                      <stop
-                        offset="100%"
-                        class="stop-color-default"
-                        data-v-6dd0b122=""
-                      ></stop>
-                    </lineargradient>
-                    <lineargradient
-                      x1="86.515%"
-                      y1="24.533%"
-                      x2="0%"
-                      y2="24.533%"
-                      id="c"
-                      data-v-6dd0b122=""
-                    >
-                      <stop
-                        stop-opacity="0"
-                        offset="0%"
-                        class="stop-color-default"
-                        data-v-6dd0b122=""
-                      ></stop>
-                      <stop
-                        offset="100%"
-                        class="stop-color-default-linearGradient"
-                        data-v-6dd0b122=""
-                      ></stop>
-                    </lineargradient>
-                  </defs>
-                  <g fill="none" fill-rule="evenodd" data-v-6dd0b122="">
-                    <path
-                      d="M29.952 16c0-1.933-1.562-3.5-3.488-3.5a3.494 3.494 0 0 0-3.488 3.5c0 1.933 1.561 3.5 3.488 3.5a3.494 3.494 0 0 0 3.488-3.5"
-                      fill="url(#a)"
-                      data-v-6dd0b122=""
-                    ></path>
-                    <path
-                      d="M25.865 25.9a13.932 13.932 0 0 1-6.377 3.66c-1.115.286-2.284.44-3.488.44a13.893 13.893 0 0 1-10.512-4.797A13.968 13.968 0 0 1 2.048 16c0-3.523 1.298-6.742 3.44-9.203A13.893 13.893 0 0 1 16 2c1.204 0 2.373.154 3.488.44a13.932 13.932 0 0 1 6.377 3.66l-4.933 4.95A6.942 6.942 0 0 0 16 9c-3.852 0-6.976 3.134-6.976 7l.002.18C9.122 19.964 12.208 23 16 23c1.926 0 3.67-.784 4.932-2.05l4.933 4.95z"
-                      fill="url(#b)"
-                      data-v-6dd0b122=""
-                    ></path>
-                    <path
-                      d="M20.932 11.05A6.942 6.942 0 0 0 16 9c-3.852 0-6.976 3.134-6.976 7a13.98 13.98 0 0 1 4.087-9.9 13.932 13.932 0 0 1 6.377-3.66l1.444 8.61z"
-                      fill="url(#c)"
-                      data-v-6dd0b122=""
-                    ></path>
-                  </g>
-                </svg>
-                <span class="ml-4" data-v-ea53b530="">MacWk</span></a
-              >
-              <div class="nav" data-v-ea53b530="">
-                <a href="index1.html" class="nav-link" data-v-ea53b530=""
-                  >首页</a
-                >
-                <a href="about.html" class="nav-link" data-v-ea53b530=""
-                  >关于 </a
-                ><a href="contact.html" class="nav-link" data-v-ea53b530=""
-                  >联系 </a
-                ><a href="privacy.html" class="nav-link" data-v-ea53b530=""
-                  >隐私 </a
-                ><a href="version.html" class="nav-link" data-v-ea53b530=""
-                  >版本检测 </a
-                ><a href="changelogs.html" class="nav-link" data-v-ea53b530=""
-                  >更新日志
-                </a>
-              </div>
-              <div class="copyright" data-v-ea53b530="">
-                <p class="mb-0" data-v-ea53b530="">
-                  <span class="mr-3" data-v-ea53b530=""
-                    ><a href="javascript:;" target="_blank" data-v-ea53b530=""
-                      >鲁ICP备19036164号</a
-                    ></span
-                  >
-                  <span data-v-ea53b530=""
-                    >Macwk.com © 2019. All rights reserved.</span
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
+        <foot/>
           <div infos="0">
             <div
               class="
@@ -547,6 +402,7 @@
 <script>
 import top from './components/Top.vue'
 import foot from './components/Foots.vue'
+import { formatDate, GetWeekdate } from '@/utils/date.js'
 
 import { getResourceClasslist } from '@/api/webresourceclass'
 
@@ -597,6 +453,10 @@ export default ({
     }
   },
   methods: {
+    formatDate(time) {
+      let data = new Date(time)
+      return formatDate(data, 'yyyy-MM-dd ')
+    },
     changeNews() {
       this.sortOrder = "news"
     },
@@ -677,6 +537,7 @@ export default ({
       this.allIndex = true
       this.clickIndex = false
       getAllResource(this.listQuery).then(resp => {
+        console.log(resp)
         //获取文章
         this.list = resp.data.data
         this.template = resp.data.data
@@ -685,7 +546,6 @@ export default ({
       })
       getResourceClasslist().then(resp => {
         //获取分类
-
         this.classlist = resp.data
 
       })
@@ -719,8 +579,6 @@ export default ({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import "../static/mycss/top.css";
-@import "../static/mycss/body.css";
 
 .macwk-app__body {
   padding: 13px 9px 5px;
@@ -730,7 +588,7 @@ export default ({
 }
 .listtitleimg {
   height: 155px;
-  width: 260.5px;
+  width: 100%;
 }
 </style>
 
@@ -749,5 +607,77 @@ export default ({
 }
 .app-content-main .app-content-bottom {
   border-radius: 15px;
+}
+.heading-tertiary-list{
+font-size: 15px;
+    line-height: 23px;
+    font-weight: 670;
+        text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.card-meta {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 1px;
+    margin-bottom: 3px;
+}
+.post-author {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.meta-item {
+    margin-right: 25px;
+    position: relative;
+    font-size: 14px;
+}
+.author-name {
+font-size: 12px;
+font-weight: 600;
+font-family: "Advent Pro",sans-serif;
+color: #222;
+}
+.value {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 10px;
+    letter-spacing: 0.0015em;
+    color: #50A0FF;
+}
+.button{
+  display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: "Titillium Web", sans-serif;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+.meta-item:not(:last-child)::after {
+    content: "";
+    width: 5px;
+    height: 5px;
+    background-color: #177ef7;
+    border-radius: 50%;
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 </style>

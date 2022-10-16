@@ -6,9 +6,44 @@
         <div data-fetch-key="0" class="app light macwk-animation">
           <top :message1="acticve" />
           <div>
-            <section class="layout-index pc-model mt-5">
+            <section class="layout-index pc-model">
               <!-- class="banner-index mb-6" -->
+               <div class="search-header bg-fixed text-center text-light backimg">
+                          <div class="containers">
+                            <div class="row">
+                              <div class="col-md-8 col-md-offset-2">
+                                <div class="hero-box">
+                                  <h2>
+                                    资讯、资源、社交、商城、圈子、等&amp;
+                                   多功能CMS
+                                  </h2>
+                                  <ul>
+                                    <li>资讯</li>
+                                    <li>商城</li>
+                                    <li>圈子</li>
+                                  </ul>
+                                </div>
+                                <div class="search-box">
+                                  <form action="#">
+                                    <input
+                                      type="text"
+                                      placeholder="输入你想要内容"
+                                      class="form-control"
+                                      name="search"
+                                    /><button type="submit">
+                                      <i class="fas el-icon-search"></i>
+                                    </button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
               <div class="outsection">
+         
+                 <!-- 首页轮播图 -->
+                 <!-- 
                 <el-carousel
                   indicator-position="outside"
                   class="index1 banner-index mb-6 Thecarousel"
@@ -22,11 +57,15 @@
                     :key="id"
                   >
                     <div>
+                         
+                           
                       <div
                         data-v-bffc9160=""
                         class="index-banner el-carousel el-carousel--horizontal"
                       >
-                        <div
+                  
+                    
+                      <div
                           class="el-carousel__container"
                           style="height: 450px"
                         >
@@ -148,21 +187,40 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> 
                       </div>
                     </div>
                   </el-carousel-item>
-                </el-carousel>
+                </el-carousel>-->
               </div>
               <!-- class="container" -->
               <div class="container">
                 <div data-v-0a1f67c4="" class="index-special row mb-6">
                   <div data-v-0a1f67c4="" class="col-3">
-                    <a
-                      data-v-0a1f67c4=""
-                     
-                      class=""
-                    >
+                    <a data-v-0a1f67c4="" class="">
+                    <img style="border-radius: 8px;" src="../static/image/home/query.jpeg"></img>
+                    </a>
+                  </div>
+                    <div data-v-0a1f67c4="" class="col-3">
+                    <a data-v-0a1f67c4="" class="">
+                    <img style="border-radius: 8px;" src="../static/image/home/web.jpeg"></img>
+                    </a>
+                  </div>
+                    <div data-v-0a1f67c4="" class="col-3">
+                    <a data-v-0a1f67c4="" class="">
+                    <img style="border-radius: 8px;" src="../static/image/home/news.jpeg"></img>
+                    </a>
+                  </div>
+                    <div data-v-0a1f67c4="" class="col-3">
+                    <a data-v-0a1f67c4="" class="">
+                    <img style="border-radius: 8px;" src="../static/image/home/vip.jpeg"></img>
+                    </a>
+                  </div>
+                 
+                </div>
+                <!-- <div data-v-0a1f67c4="" class="index-special row mb-6">
+                  <div data-v-0a1f67c4="" class="col-3">
+                    <a data-v-0a1f67c4="" class="">
                       <div
                         data-v-0a1f67c4=""
                         class="
@@ -178,7 +236,7 @@
                             rotateY(0deg) scale3d(1, 1, 1);
                         "
                       >
-                        <!---->
+                       
                         <div
                           class="
                             macwk-card__collapsible-content
@@ -194,17 +252,13 @@
                               <span data-v-0a1f67c4="">新人必备</span>
                             </h6>
                           </div>
-                          <!---->
+                         
                         </div>
                       </div>
                     </a>
                   </div>
                   <div data-v-0a1f67c4="" class="col-3">
-                    <a
-                      data-v-0a1f67c4=""
-                     
-                      class=""
-                    >
+                    <a data-v-0a1f67c4="" class="">
                       <div
                         data-v-0a1f67c4=""
                         class="
@@ -215,7 +269,7 @@
                           text-center
                         "
                       >
-                        <!---->
+                     
                         <div
                           class="
                             macwk-card__collapsible-content
@@ -231,17 +285,13 @@
                               <span data-v-0a1f67c4="">图像处理工具</span>
                             </h6>
                           </div>
-                          <!---->
+                         
                         </div>
                       </div>
                     </a>
                   </div>
                   <div data-v-0a1f67c4="" class="col-3">
-                    <a
-                      data-v-0a1f67c4=""
-                   
-                      class=""
-                    >
+                    <a data-v-0a1f67c4="" class="">
                       <div
                         data-v-0a1f67c4=""
                         class="
@@ -252,7 +302,7 @@
                           text-center
                         "
                       >
-                        <!---->
+                       
                         <div
                           class="
                             macwk-card__collapsible-content
@@ -268,17 +318,13 @@
                               <span data-v-0a1f67c4="">产品经理工具</span>
                             </h6>
                           </div>
-                          <!---->
+                        
                         </div>
                       </div>
                     </a>
                   </div>
                   <div data-v-0a1f67c4="" class="col-3">
-                    <a
-                      data-v-0a1f67c4=""
-                      
-                      class=""
-                    >
+                    <a data-v-0a1f67c4="" class="">
                       <div
                         data-v-0a1f67c4=""
                         class="
@@ -289,30 +335,30 @@
                           text-center
                         "
                       >
-                        <!---->
+                      
                         <div
                           class="
                             macwk-card__collapsible-content
                             vs-con-loading__container
                           "
                         >
-                        <router-link to="/class">
-                          <div class="macwk-card__body">
-                            <h6 data-v-0a1f67c4="" class="mb-0 text-white">
-                              <i
-                                data-v-0a1f67c4=""
-                                class="icon-code fs-22 mr-3 v-m-3"
-                              ></i>
-                              <span data-v-0a1f67c4="">更多专题</span>
-                            </h6>
-                          </div>
+                          <router-link to="/class">
+                            <div class="macwk-card__body">
+                              <h6 data-v-0a1f67c4="" class="mb-0 text-white">
+                                <i
+                                  data-v-0a1f67c4=""
+                                  class="icon-code fs-22 mr-3 v-m-3"
+                                ></i>
+                                <span data-v-0a1f67c4="">更多专题</span>
+                              </h6>
+                            </div>
                           </router-link>
-                          <!---->
+                         
                         </div>
                       </div>
                     </a>
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="container mb-5">
                 <div class="d-flex app-content-header mb-6">
@@ -332,51 +378,51 @@
                   </nav>
                   <div class="more-action">
                     <router-link to="/list">
-                    <a
-                     
-                      class="btn btn-more active"
-                    >
-                      更多软件 <i class="icon-arrow-right fw-600 fs-12 v-2"></i
-                    ></a>
+                      <a class="btn btn-more active">
+                        更多软件
+                        <i class="icon-arrow-right fw-600 fs-12 v-2"></i
+                      ></a>
                     </router-link>
                   </div>
                 </div>
-                <div
-                  class="soft-index lazy-transition w-r"
-                  style="margin-left: -10px; margin-right: -10px"
-                >
-                  <div
-                    v-for="item in rlist" :key="item.id"
-                    class="list-animation-leftIn w-c w-c-4 delay-0"
-                    style="
-                      padding-left: 10px;
-                      padding-right: 10px;
-                      padding-bottom: 20px;
-                    "
-                  >
-                   <div v-if="item.status.includes('published')" >
-                            <router-link  :to="'/list/' + item.id">
-                    <a
-                     
-                      target="_self"
-                      class="macwk-app border white cursor-pointer mb-0"
+                <!---->
+                    <div
+                      id="listAppContainer"
+                      class="app-content-body listAppContainer"
                     >
-                      <div class="macwk-app__header--icon">
+                      <div class="mw-row">
                         <div
-                          class="macwk-app__header--icon--content"
-                          
-                        ></div>
-                       
-                          <el-image v-if="item.thumb != null" class="listtitleimg delay-3"  :src="item.thumb" lazy>
-                                <div slot="placeholder" class="image-slot">
-                                  
-                               <img  style="width:100%; height:100%; object-fit:cover;"  src="../static/image/loding.gif" />
-                                </div>
-                            </el-image>
+                          v-for="item in rlist"
+                          :key="item.id"
+                          class="mw-col list-animation-leftIn delay-3"
+                        >
+                          <div v-if="item.status.includes('published')">
+                            <router-link
                            
-                               <div
+                              :to="'/list/' + item.id"
+                            >
+                              <a class="macwk-app border white cursor-pointer">
+                                <el-image
+                                  v-if="item.thumb != null"
+                                  class="listtitleimg delay-3"
+                                  :src="item.thumb"
+                                  lazy
+                                >
+                                  <div slot="placeholder" class="image-slot">
+                                    <img
+                                      style="
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                      "
+                                      src="../static/image/loding.gif"
+                                    />
+                                  </div>
+                                </el-image>
+
+                                <div
                                   v-else
-                                  class="delayImgs"
+                                  class="delayImgss"
                                   :style="getStyles()"
                                 >
                                   <h3
@@ -389,55 +435,39 @@
                                     NOPIC
                                   </h3>
                                 </div>
-                       
-                      </div>
-                      <div class="macwk-app__body h-150">
-                        <h5
-                          class="macwk-app__body--title"
-                          style="
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
-                            overflow: hidden;
-                            word-break: break-all;
-                            text-overflow: ellipsis;
-                            -webkit-line-clamp: 1;
-                          "
-                        >
-                          <!---->
-                          <!---->
-                          <span>{{item.title}}</span>
-                        </h5>
-                        <p
-                          class="macwk-app__body--info"
-                          style="
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
-                            overflow: hidden;
-                            word-break: break-all;
-                            text-overflow: ellipsis;
-                            -webkit-line-clamp: 1;
-                          "
-                        >
-                          <!---->
-                          <!---->
-                          <!---->
-                          <span>{{item.intro}}</span>
-                          <!---->
-                        </p>
-                      </div>
-                      <!---->
-                      <div class="macwk-app__footer macwk-app__footer--margin">
-                        <div class="macwk-app__footer--more">
-                          <i class="light-icon-more icon-next-arrow"></i>
+
+                                <div class="macwk-app__body">
+                                  <div class="card-meta">
+                                        <div class="meta-item post-author">
+                                           <el-avatar style=" margin-bottom: 3px;  margin-right: 3px;" :src="item.authorThumb"></el-avatar>
+                                           <a href="blog-list.html" class="author-name">天天</a>
+                                        </div>
+        <span v-if="item.createTime != null"  class="meta-item"> {{rformatDate(item.createTime)}}</span>
+                                        <span v-else  class="meta-item"> {{rformatDate(item.addTime)}}</span>
+                                        
+                                    </div>
+                                 <h3 class="heading-tertiary-list">{{item.title}}</h3>
+                                </div>
+                                <div class="extend">
+                                  <div class="button">
+                                    <div style="margin-left:12px">
+                                    <span style="font-size: 36px;line-height: 1;">
+                                      
+                                    <i data-v-1c369514="" class="light-icon-more icon-next-arrow"></i>
+                                      </span>
+                                      </div>
+
+                                      <div style="margin-right:12px">
+                                      <span class="value">${{item.price}}</span>
+                                      </div>
+                                      </div>
+                                </div>
+                               </a>
+                            </router-link>
+                          </div>
                         </div>
                       </div>
-                    </a>
-                      </router-link>
-                        </div>
-                  </div>
-                 
-                 
-                </div>
+                    </div>
               </div>
               <div class="white dk py-7">
                 <div class="container">
@@ -472,7 +502,6 @@
                       <a
                         v-for="(item, id) in this.leftArr"
                         :key="id"
-                        
                         class="
                           feature-block-three
                           border
@@ -487,12 +516,23 @@
                           <router-link :to="'/post/' + item.id">
                             <div class="d-flex align-items-center">
                               <div class="icon-box icon-one">
-                            <el-image  v-if="item.thumb != null"
-                                  class="delayImg"  :src="item.thumb" lazy>
-                                <div slot="placeholder" class="image-slot">
-                               <img  style="width:100%; height:100%; object-fit:cover;"  src="../static/image/loding.gif" />
-                                </div>
-                            </el-image>
+                                <el-image
+                                  v-if="item.thumb != null"
+                                  class="delayImg"
+                                  :src="item.thumb"
+                                  lazy
+                                >
+                                  <div slot="placeholder" class="image-slot">
+                                    <img
+                                      style="
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                      "
+                                      src="../static/image/loding.gif"
+                                    />
+                                  </div>
+                                </el-image>
                                 <div
                                   v-else
                                   class="delayImg"
@@ -556,7 +596,6 @@
                       <a
                         v-for="(item, id) in this.rightArr"
                         :key="id"
-                       
                         class="
                           feature-block-three
                           border
@@ -571,12 +610,23 @@
                           <router-link :to="'/post/' + item.id">
                             <div class="d-flex align-items-center">
                               <div class="icon-box icon-one">
-                                 <el-image  v-if="item.thumb != null"
-                                  class="delayImg"  :src="item.thumb" lazy>
-                                <div slot="placeholder" class="image-slot">
-                               <img  style="width:100%; height:100%; object-fit:cover;"  src="../static/image/loding.gif" />
-                                </div>
-                            </el-image>
+                                <el-image
+                                  v-if="item.thumb != null"
+                                  class="delayImg"
+                                  :src="item.thumb"
+                                  lazy
+                                >
+                                  <div slot="placeholder" class="image-slot">
+                                    <img
+                                      style="
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                      "
+                                      src="../static/image/loding.gif"
+                                    />
+                                  </div>
+                                </el-image>
                                 <div
                                   v-else
                                   class="delayImg"
@@ -674,36 +724,36 @@
 </template>
 
 <script>
-import { getNewResource } from '@/api/webresource'
-import { getNewArticle } from '@/api/webarticle'
-import { formatDate } from '@/utils/date.js'
-import { getCarousel } from '@/api/websetting'
+import { getNewResource } from "@/api/webresource";
+import { getNewArticle } from "@/api/webarticle";
+import { formatDate } from "@/utils/date.js";
+import { getCarousel } from "@/api/websetting";
 
-import top from './components/Top.vue'
-import foot from './components/Foots.vue'
+import top from "./components/Top.vue";
+import foot from "./components/Foots.vue";
 
-export default ({
-  name: 'Home',
-  components: {top, foot},
+export default {
+  name: "Home",
+  components: { top, foot },
   data() {
     return {
-      rlist:"",
-      acticve:'nav-link active',
+      rlist: "",
+      acticve: "nav-link active",
       Carousel: {},
       list: null,
       leftArr: null,
       rightArr: null,
-    }
+    };
   },
   created() {
-    this.getList()
-    this.getSetting()
+    this.getList();
+    this.getSetting();
   },
   props: {
     dataHeight: {
       type: String,
-      default: '450px'
-    }
+      default: "450px",
+    },
   },
   methods: {
     getStyles() {
@@ -716,72 +766,74 @@ export default ({
       const backcolor = "randomColor" + x;
 
       if (backcolor == "randomColor1") {
-        return "background-image: linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%);"
+        return "background-image: linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%);";
       }
       if (backcolor == "randomColor2") {
-        return "background-image: linear-gradient( 135deg, #FEB692 10%, #EA5455 100%);"
+        return "background-image: linear-gradient( 135deg, #FEB692 10%, #EA5455 100%);";
       }
       if (backcolor == "randomColor3") {
-        return "background-image: linear-gradient( 135deg, #CE9FFC 10%, #7367F0 100%);"
+        return "background-image: linear-gradient( 135deg, #CE9FFC 10%, #7367F0 100%);";
       }
       if (backcolor == "randomColor4") {
-        return "background-image: linear-gradient( 135deg, #90F7EC 10%, #32CCBC 100%);"
+        return "background-image: linear-gradient( 135deg, #90F7EC 10%, #32CCBC 100%);";
       }
       if (backcolor == "randomColor5") {
-        return "background-image: linear-gradient( 135deg, #81FBB8 10%, #28C76F 100%);"
+        return "background-image: linear-gradient( 135deg, #81FBB8 10%, #28C76F 100%);";
       }
       if (backcolor == "randomColor6") {
-        return "background-image: linear-gradient( 135deg, #E2B0FF 10%, #9F44D3 100%);"
+        return "background-image: linear-gradient( 135deg, #E2B0FF 10%, #9F44D3 100%);";
       }
       if (backcolor == "randomColor7") {
-        return "background-image: linear-gradient( 135deg, #5EFCE8 10%, #736EFE 100%);"
+        return "background-image: linear-gradient( 135deg, #5EFCE8 10%, #736EFE 100%);";
       }
       if (backcolor == "randomColor8") {
-        return "background-image: linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%);"
+        return "background-image: linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%);";
       }
 
-
-      return "background-image: linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%);"
+      return "background-image: linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%);";
     },
     formatDate(time) {
-      let data = new Date(time)
-      return formatDate(data, 'yyyy-MM-dd hh:mm ')
+      let data = new Date(time);
+      return formatDate(data, "yyyy-MM-dd hh:mm ");
+    },
+    rformatDate(time) {
+      let data = new Date(time);
+      return formatDate(data, "yyyy-MM-dd ");
     },
     getSetting() {
-      getCarousel().then(resp => {
-        this.Carousel = resp.data
-      })
+      getCarousel().then((resp) => {
+        this.Carousel = resp.data;
+      });
     },
     getList() {
-      this.listLoading = true
-      getNewResource(6).then(resp => {
-        this.rlist = resp.data
-      })
-      getNewArticle(6).then(resp => {
-        this.list = resp.data
-        this.total = resp.data.total
-        this.listLoading = false
+      this.listLoading = true;
+      getNewResource(6).then((resp) => {
+        this.rlist = resp.data;
+      });
+      getNewArticle(6).then((resp) => {
+        this.list = resp.data;
+        this.total = resp.data.total;
+        this.listLoading = false;
         //将array进行处理,他的index索引余2===0的就放到一个新数组中leftArr
         this.leftArr = this.list.filter((_item, index) => index % 2 === 0);
         //将array进行处理,他的index索引余2 ！===0的就放到一个新数组中rightArr
         this.rightArr = this.list.filter((_item, index) => index % 2 !== 0);
-
-      })
-    }
-  }
-})
+      });
+    },
+  },
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-@import "../static/mycss/top.css";
-@import "../static/mycss/body.css";
-</style>
 <style scoped>
 .delayImg {
   height: 100px;
   width: 145px;
-  border-radius: 8px ;
+  border-radius: 8px;
+}
+.delayImgss {
+  height: 128px;
+  width: 216px;
+  border-radius: 8px;
 }
 </style>
 
@@ -828,29 +880,284 @@ export default ({
 .delayImg {
   ::v-deep {
     .el-image__inner {
-       
-     border-radius: 8px ;
+      border-radius: 8px;
     }
   }
 }
-.delay-3{
+.delayImgss {
   ::v-deep {
-    
     .el-image__inner {
-     width: 224px;
-    height: 128px;
-     border-radius: 8px 8px 0px 0px;
+      border-radius: 8px;
+    }
+  }
+}
+.delay-3 {
+  ::v-deep {
+    .el-image__inner {
+      width: 224px;
+      height: 128px;
+      border-radius: 8px 8px 0px 0px;
     }
   }
 }
 .delayImgs {
   width: 224px;
-    height: 128px;
+  height: 128px;
   border-radius: 8px 8px 0px 0px;
 }
 .h-150 {
-    margin-top: -20px;
-    margin-bottom: -55px;
-    height: 150px!important;
+  margin-top: -20px;
+  margin-bottom: -55px;
+  height: 150px !important;
+}
+.backimg{
+  background-image: url("../static/image/home/homeimg.png");
+}
+.search-header {
+position: relative;
+z-index: 1;
+padding: 100px 0;
+}
+.search-header::after {
+position: absolute;
+left: 0;
+top: 0;
+content: "";
+height: 100%;
+background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 100%) repeat scroll 0 0;
+width: 100%;
+z-index: -1;
+}
+.containers {
+padding-right: 15px;
+padding-left: 15px;
+margin-right: auto;
+margin-left: auto;
+margin-bottom: 20px;
+}
+.containers {
+width: 1170px;
+padding:0;
+// width: 100%;
+//     padding-right: 15px;
+//     padding-left: 15px;
+//     margin-right: auto;
+//     margin-left: auto;
+}
+.bg-fixed {
+background-attachment: fixed;
+background-position: center center;
+background-size: cover;
+}
+.text-center {
+text-align: center;
+}
+.index-special {
+
+    margin-top: 35px;
+}
+.search-header .hero-box h2 {
+font-size: 44px;
+font-weight: 600;
+line-height: 1.3;
+margin-top: -8px;
+margin-bottom: 25px;
+letter-spacing: 0.6px;
+}
+.text-light h2{
+color: #ffffff;
+}
+.col-md-offset-2 {
+margin-left: 16.66666667%;
+}
+.col-md-8 {
+width: 66.66666667%;
+}
+.col-md-8 {
+float: left;
+position: relative;
+min-height: 1px;
+padding-right: 15px;
+padding-left: 15px;
+}
+.hero-box ul {
+margin-bottom: -5px;
+}
+.hero-box ul li {
+color: #ffffff;
+display: inline-block;
+text-transform: capitalize;
+font-family: 'Poppins', sans-serif;
+font-size: 20px;
+font-weight: 400;
+letter-spacing: 0.6px;
+margin: 0 7px;
+padding: 0 7px;
+position: relative;
+z-index: 1;
+}
+// .hero-box ul li::before {
+// position: absolute;
+// right: -12px;
+// top: 12px;
+// content: "";
+// height: 7px;
+// width: 7px;
+// background: #ffffff;
+// -webkit-border-radius: 50%;
+// -moz-border-radius: 50%;
+// border-radius: 50%;
+// }
+.search-box {
+position: relative;
+z-index: 1;
+padding-top: 25px;
+margin-top: 20px;
+}
+.search-box::after {
+position: absolute;
+left: 0;
+top: 0;
+content: "";
+height: 1px;
+width: 100%;
+background: rgba(255, 255, 255, 0.2);
+z-index: -1;
+}
+.search-box form {
+position: relative;
+z-index: 1;
+max-width: 70%;
+margin: auto;
+}
+.search-box form input {
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+min-height: 60px;
+}
+.form-control {
+display: block;
+width: 100%;
+height: 34px;
+padding: 6px 12px;
+font-size: 14px;
+line-height: 1.42857143;
+color: #555;
+background-color: #fff;
+background-image: none;
+border: 1px solid #ccc;
+border-radius: 4px;
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.search-box form button {
+position: absolute;
+right: 5px;
+top: 5px;
+min-height: 50px;
+min-width: 50px;
+background: #0078ff;
+border: none;
+color: #ffffff;
+-webkit-border-radius: 50%;
+-moz-border-radius: 50%;
+border-radius: 50%;
+-webkit-transition: all 0.35s ease-in-out;
+font-family: inherit;
+font-size: inherit;
+line-height: inherit;
+}
+.fas {
+font-weight: 900;
+}
+.heading-tertiary-list{
+font-size: 15px;
+    line-height: 23px;
+    font-weight: 670;
+        text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.card-meta {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 1px;
+    margin-bottom: 3px;
+}
+.post-author {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.meta-item {
+    margin-right: 25px;
+    position: relative;
+    font-size: 14px;
+}
+.author-name {
+font-size: 12px;
+font-weight: 600;
+font-family: "Advent Pro",sans-serif;
+color: #222;
+}
+.value {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 10px;
+    letter-spacing: 0.0015em;
+    color: #50A0FF;
+}
+.button{
+  display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: "Titillium Web", sans-serif;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+.meta-item:not(:last-child)::after {
+    content: "";
+    width: 5px;
+    height: 5px;
+    background-color: #177ef7;
+    border-radius: 50%;
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.delay-3 {
+  ::v-deep {
+    .el-image__inner {
+      border-radius: 8px 8px 0px 0px;
+    }
+  }
+}
+.app-content-main .app-content-bottom {
+  border-radius: 15px;
+}
+.macwk-app__body {
+  padding: 13px 9px 5px;
 }
 </style>

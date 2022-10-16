@@ -1624,7 +1624,9 @@ export default {
     checkToken(admin.data).then(respose => {
       console.log(respose)
       if (respose.data !== true) {
-        console.log('检验失败')
+        console.log('logout检验token合法性检验失败')
+         //清除本地数据
+        window.localStorage.removeItem('access-admin')
         const that = this
         this.$alert('登陆信息失效！', '提示', {
           confirmButtonText: '确定'

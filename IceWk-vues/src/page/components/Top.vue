@@ -7,6 +7,132 @@
       top="30px"
       center
       title=""
+      :visible.sync="dialogRegisterFormVisible"
+    >
+      <div class="box">
+        <div class="login-logo">
+          <img height="40" width="40" src="../../static/image/logo.svg" />
+        </div>
+        <div class="login-title">
+          <span><b>立即注册</b></span>
+        </div>
+        <label class="login-form-item" style="display: none"
+          ><input
+            type="text"
+            name="nickname"
+            tabindex="1"
+            spellcheck="false"
+            autocomplete="off"
+            class=""
+          />
+          <span><b>可爱的昵称</b></span></label
+        >
+        <el-form
+          ref="RegisterForm"
+          :model="RegisterForm"
+          :rules="registerRules"
+          class="login-form"
+          auto-complete="on"
+          label-position="left"
+        >
+          <el-form-item prop="username">
+            <el-input
+              ref="username"
+              v-model="RegisterForm.username"
+              placeholder="用户名"
+              name="username"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+          </el-form-item>
+
+          <el-form-item prop="password">
+            <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="RegisterForm.password"
+              :type="passwordType"
+              placeholder="密码"
+              name="password"
+              tabindex="2"
+              auto-complete="on"
+              @keyup.enter.native="handleLogin"
+            />
+            <!-- <span class="show-pwd" @click="showPwd">
+          <svg-icon
+            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+          />
+        </span> -->
+          </el-form-item>
+          <el-form-item prop="confirmpassword">
+            <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="RegisterForm.confirmpassword"
+              :type="passwordType"
+              placeholder="确认密码"
+              name="confirmpassword"
+              tabindex="2"
+              auto-complete="on"
+              @keyup.enter.native="handleLogin"
+            />
+            <!-- <span class="show-pwd" @click="showPwd">
+          <svg-icon
+            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+          />
+        </span> -->
+          </el-form-item>
+          <el-button
+            :loading="loading"
+            type="primary"
+            style="width: 100%; margin-bottom: 30px"
+            @click.native.prevent="userRegister"
+            >立即注册</el-button
+          >
+          <div data-v-11bb2e85="" class="ss-login_statement">
+            <span data-v-11bb2e85="">登陆注册即代表同意</span>
+            <router-link to="/Protocol">
+              <a data-v-11bb2e85="" target="_blank">用户协议</a></router-link
+            ><span data-v-11bb2e85="">及</span>
+            <router-link to="/Privacy">
+              <a data-v-11bb2e85="" target="_blank">隐私条款</a></router-link
+            >
+          </div>
+          <div data-v-11bb2e85="" class="line"></div>
+          <div data-v-11bb2e85="" class="footer">
+            <p data-v-11bb2e85="" class="text-align-center">
+              其他登录方式
+              <a style="text-decoration: none">或</a>
+              {{ "\xa0" }}
+                <a data-v-11bb2e85="" @click="ChangeLogin" class="text-align-center"
+                  >立即登陆</a
+                >
+            </p>
+            <div data-v-11bb2e85="" class="other-login">
+              <button data-v-11bb2e85="" class="btn-login circle weixin">
+                <img class="qqloginsvg" src="../../static/image/qq.svg" />
+              </button>
+              <button data-v-11bb2e85="" class="btn-login circle weibo">
+                <img class="qqloginsvg" src="../../static/image/weixin.svg" />
+              </button>
+            </div>
+          </div>
+
+          <div class="tips">
+            <span style="margin-right: 20px"></span>
+            <span> </span>
+          </div>
+        </el-form>
+      </div>
+      <el-form :model="form"> </el-form>
+    </el-dialog>
+    <el-dialog
+      class="dialogdeep"
+      width="30%"
+      top="30px"
+      center
+      title=""
       :visible.sync="dialogFormVisible"
     >
       <div class="box">
@@ -87,11 +213,10 @@
             <p data-v-11bb2e85="" class="text-align-center">
               其他登录方式
               <a style="text-decoration: none">或</a>
-              <router-link to="/register">
-                <a data-v-11bb2e85="" class="text-align-center"
+              {{ "\xa0" }}
+                <a data-v-11bb2e85="" @click="ChangeRegister" class="text-align-center"
                   >立即注册</a
-                ></router-link
-              >
+                >
             </p>
             <div data-v-11bb2e85="" class="other-login">
               <button data-v-11bb2e85="" class="btn-login circle weixin">
@@ -150,7 +275,7 @@
             :class="message2"
             data-v-1f33282a=""
             to="/list"
-            >资源</router-link
+            >商品</router-link
           >
           <router-link
             target="_self"
@@ -525,14 +650,14 @@
            -->
           <div slot="reference">
             <router-link to="/userinfo/index">
-              <div v-show="!userJudje" class="avatartext">
+              <div v-if="!userJudje" class="avatartext">
                 <el-avatar :src="user.profile"></el-avatar>
                 <span class="spans">{{ user.name }}</span>
               </div>
             </router-link>
           </div>
         </el-popover>
-        <a v-show="userJudje" class="actions" style="cursor: pointer">
+        <a v-if="userJudje" class="actions" style="cursor: pointer">
           <div @click="showlogin()" class="app-header-user" data-v-122eae44="">
             <div class="login-button">
               <span class="logintext">登录/注册</span>
@@ -548,6 +673,8 @@
 import { FindarticlesByNum } from '@/api/webarticle'
 import { FindresourceByNum } from '@/api/webresource'
 import { login } from '@/api/login'
+import { register } from '@/api/register'
+
 import { getAllResource, getAllResourceNumber } from '@/api/webresource'
 import { getAllArticle, getAllArticleNumber } from '@/api/webarticle'
 
@@ -570,7 +697,64 @@ export default ({
     this.fullnum()
   },
 
-  methods: {
+  methods: {//用户注册
+    userRegister() {
+      if (this.RegisterForm.username === "") {
+        this.$message.error("用户名不能为空！")
+        return false
+      } else if (this.RegisterForm.password != this.RegisterForm.confirmpassword) {
+        this.$message.error("两次密码输入不同，请检查后重新注册！")
+        return false
+      }
+      // else if (this.isShowyan!=false){
+      //   this.$message.error("请先验证！")
+      //   return false
+      // }
+      else {
+        let user = {};
+        user.username = this.RegisterForm.username
+        user.password = this.RegisterForm.password
+        //  user.auditor = this.regUser.selectValue
+
+        var that = this
+
+        this.loading = true
+        register(user).then(resp => {
+          if (resp.data.code == 402 || resp.data.code == 400) {
+            that.$message({
+              message: '用户名已经存在',
+              type: 'warning'
+            })
+            this.loading = false
+          } else if (resp.data.code == 200) {
+            that.$router.push({ path: '/' }) // 跳到主页
+            that.$message({
+              message: '注册成功',
+              type: 'success'
+            })
+            this.loading = false
+             // 关闭登录框
+             that.dialogFormVisible = false
+             this.dialogRegisterFormVisible = false
+              // 关闭登陆按钮
+              that.userJudje = true
+            //登陆
+            localStorage.setItem('access-admin', JSON.stringify(resp.data))
+               //立即获取用户数据
+            that.getUserInfo()
+          }
+        }).catch((e) => { })
+
+      }
+    },
+    ChangeLogin(){
+      this.dialogRegisterFormVisible = false
+      this.dialogFormVisible = true
+    },
+    ChangeRegister(){
+      this.dialogRegisterFormVisible = true
+      this.dialogFormVisible = false
+    },
     fullnum() {
       getAllResourceNumber().then(resp => {
         this.ResourceNumber = resp.data
@@ -581,12 +765,17 @@ export default ({
     },
     async loginout() {
       //退出登陆
+      this.user = null
+            //关闭用户头像
+            this.userJudje = false
       //清除本地数据
       window.localStorage.removeItem('access-admin')
-      //关闭用户头像
-      this.userJudje = false
+      console.log(this.userJudje)
+      console.log(this.user)
       //跳转刷新
-      this.$router.push('/')
+      // this.$router.push('/')
+      location. reload()
+this.$router.go(0)
       //显示退出成功
       this.$notify({
         title: '成功',
@@ -597,6 +786,7 @@ export default ({
     },
     getUserInfo() {
       const user = JSON.parse(window.localStorage.getItem('access-admin'))
+      if(user != null){
       this.user = user.data
       this.userJudje = (user == null)
       //获取会员有效性
@@ -605,6 +795,7 @@ export default ({
           this.vipTrue = true
         }
       })
+    }
     },
     handleLogin() {
       var that = this
@@ -752,14 +943,25 @@ export default ({
         username: '',
         password: ''
       },
+      RegisterForm: {
+        username: '',
+        password: '',
+        confirmpassword: '',
+      },
       loginRules: {
         username: [{ required: true, message: '请您输入用户名', trigger: 'blur' }],
         password: [{ required: true, message: '请您输入密码', trigger: 'blur' }]
+      },
+      registerRules: {
+        username: [{ required: true, message: '请您输入用户名', trigger: 'blur' }],
+        password: [{ required: true, message: '请您输入密码', trigger: 'blur' }],
+        confirmpassword: [{ required: true, message: '请您确认密码', trigger: 'blur' }],
       },
       loading: false,
       passwordType: 'password',
       redirect: undefined,
       dialogFormVisible: false,
+      dialogRegisterFormVisible: false,
       form: {
         name: '',
         region: '',

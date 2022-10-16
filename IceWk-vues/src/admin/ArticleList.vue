@@ -63,7 +63,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="140px" label="标题">
+      <el-table-column width="220px" min-width="140px" label="标题">
         <template slot-scope="{ row }">
           <router-link target="_blank"  :to="'/post/' + row.id" class="link-type">
             <span>{{ row.title }}</span>

@@ -1,6 +1,21 @@
 <template>
   <div class="app-container">
+    <div class="topList">
+      <div class="topListLeft" >
+    <el-input style="padding:8px;" maxlength="12" v-model="input" placeholder="请输入内容"></el-input>
+    <el-button style="margin:8px;" icon="el-icon-search" type="success" @click="handleAdd">
+          查询
+        </el-button>
+    <el-button style="margin:8px;" icon="el-icon-plus" type="primary" @click="handleAdd">
+          添加
+        </el-button>
+        <el-button style="margin:8px;" icon="el-icon-delete" type="danger" @click="handleDelete">
+          删除
+        </el-button>
+      </div>
+      </div>
     <el-table
+    class="my_table"
       v-loading="listLoading"
       :data="list"
       :default-sort="{ prop: 'date', order: 'ascending' }"
@@ -9,6 +24,10 @@
       highlight-current-row
       style="width: 100%"
     >
+    <el-table-column
+      type="selection"
+      width="55">
+    </el-table-column>
       <el-table-column align="center" prop="date" label="封面" width="220">
         <template slot-scope="scope">
           <img
@@ -63,7 +82,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="140px" label="标题">
+      <el-table-column width="220px" min-width="140px" label="标题">
         <template slot-scope="{ row }">
           <router-link target="_blank"  :to="'/post/' + row.id" class="link-type">
             <span>{{ row.title }}</span>
@@ -259,10 +278,37 @@ export default {
 .flex {
   flex: 1;
 }
-.text-white {
+
+
+</style>
+<style  scoped>
+  .text-white {
   color: #fff !important;
 }
 .opacity-50 {
   opacity: 0.5 !important;
 }
-</style>
+.topList{
+  display: flex;
+  background-color: #fff !important;
+  border-radius: 8px 8px 0 0;
+}
+.topListLeft{
+  display: flex;
+  width: 500px;
+}
+.my_table >>> .el-table__row>td{
+  /* 去除表格线 */
+  border: none;
+  /* border: 1pxsolidhsla(210,8%,51%,.09); */
+}
+.my_table >>> .el-table th.is-leaf {
+  /* 去除上边框 */
+    border: none;
+}
+.my_table >>> .el-table::before{
+  /* 去除下边框 */
+  height: 0;
+}
+
+   </style>

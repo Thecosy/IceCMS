@@ -135,8 +135,3 @@ components: {top, foot},
 })
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-@import '../static/mycss/top.css';
-@import '../static/mycss/body.css'
-</style>

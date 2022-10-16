@@ -1,295 +1,567 @@
 <template>
-  <div class="login-container">
-    <div class="background">
-      <img :src="imgSrc" width="100%" height="100%" alt="" />
+  <div class="base">
+    <div class="backHui" v-show="showDialog"></div>
+    <!-- 注册登录界面 -->
+    <div class="loginAndRegist">
+   
+      <div class="popover" v-show="showDialog">
+        <div class="checkHua">
+          <i @click="closeDialog" style="margin-right:14px;margin-top:14px"  class="el-icon-close fs-18"/>
+          <div style="z-index: 2147483647;transform: translate(-59px,273px);">{{msg}}</div>
+        </div>
+        <slide-verify ref="slideblock" @again="onAgain" @fulfilled="onFulfilled" @success="onSuccess" @fail="onFail"
+          @refresh="onRefresh" :accuracy="accuracy" :slider-text="text"></slide-verify>
+       
+      </div>
+      <!--登录表单-->
+      <div class="loginArea">
+        <transition name="animate__animated animate__bounce" enter-active-class="animate__fadeInUp"
+          leave-active-class="animate__zoomOut" appear>
+          <!-- 标语 -->
+          <div v-show="isShow" class="title">
+            LOGIN
+          </div>
+        </transition>
+        <transition name="animate__animated animate__bounce" enter-active-class="animate__fadeInUp"
+          leave-active-class="animate__zoomOut" appear>
+          <!-- 密码框和用户名框 -->
+          <div v-show="isShow" class="pwdArea">
+            <div style="flex: 1;justify-content: center;display: flex;align-items: center">
+              <el-input size="medium" class="username" v-model="loginUser.username" style="width: 165px"
+                placeholder="用户名"></el-input>
+            </div>
+            <div style="flex: 1;justify-content: center;display: flex;align-items: center">
+              <el-input size="medium" placeholder="密码" v-model="loginUser.password" style="width: 165px" show-password>
+              </el-input>
+            </div>
+            <div  style="flex: 1;justify-content: center;display: flex;align-items: center">
+           
+            <el-button v-show="isShowyan" type="primary"  @click="showemoge()">
+              <div>  <a class="nav-link p-0 cursor-pointer"><i  class="icon-smile fs-18" />
+             
+            </a>
+            <div>验证</div></div>
+            </el-button>
+            <el-button v-show="!isShowyan" type="success"  >
+              <div>  <a class="nav-link p-0 cursor-pointer"><i  class="icon-smile fs-18" />
+             
+            </a>
+            <div>成功</div></div>
+            </el-button>
+            </div>
+ 
+
+          </div>
+        </transition>
+        <transition name="animate__animated animate__bounce" enter-active-class="animate__fadeInUp"
+          leave-active-class="animate__zoomOut" appear>
+          <!-- 登录注册按钮 -->
+          <div v-show="isShow" class="btnArea">
+            <el-button type="success" round style="background-color: #257B5E;letter-spacing: 5px" @click="UserLogin">登录
+            </el-button>
+          </div>
+        </transition>
+      </div>
+      <!-- 注册表单 -->
+      <div class="registArea">
+        <transition name="animate__animated animate__bounce" enter-active-class="animate__fadeInUp"
+          leave-active-class="animate__zoomOut" appear>
+          <!--  注册表头-->
+          <div v-show="!isShow" class="rigestTitle">
+            管理员注册
+          </div>
+        </transition>
+        <transition name="animate__animated animate__bounce" enter-active-class="animate__fadeInUp"
+          leave-active-class="animate__zoomOut" appear>
+          <!--            注册表单-->
+          <div v-show="!isShow" class="registForm">
+            <div style="flex: 1;display: flex;justify-content: center;align-items: center">
+              用{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}户{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}名:
+              <el-input size="medium" placeholder="请输入用户名" v-model="regUser.regUsername"
+                style="width: 165px;margin-left: 10px" clearable>
+              </el-input>
+            </div>
+            <div style="flex: 1;display: flex;justify-content: center;align-items: center">
+              密{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0" }}{{ "\xa0"
+              }}{{ "\xa0" }}码:
+              <el-input size="medium" placeholder="请输入密码" style="width: 165px;margin-left: 10px"
+                v-model="regUser.regPwd" show-password></el-input>
+            </div>
+            <div style="flex: 1;display: flex;justify-content: center;align-items: center;">
+              确认密码:
+              <el-input size="medium" placeholder="请再次输入密码" style="width: 165px;margin-left: 10px"
+                v-model="regUser.regRePwd" show-password></el-input>
+            </div>
+            
+            <!-- <div style="flex: 1;display: flex;align-items: center">
+                    管理员审核:
+                    <template>
+                    <el-select id="elselect"  v-model="regUser.selectValue" filterable style="width: 100px;margin-left: 10px"  placeholder="请选择">
+                        <el-option
+                                v-for="item in admins"
+                                :key="item.id"
+                                :label="item.nickname"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </template>
+                </div> -->
+                <div  style="flex: 1;justify-content: center;display: flex;align-items: center">
+           
+           <el-button v-show="isShowyan" type="primary"  @click="showemoge()">
+             <div>  <a class="nav-link p-0 cursor-pointer"><i  class="icon-smile fs-18" />
+            
+           </a>
+           <div>验证</div></div>
+           </el-button>
+           <el-button v-show="!isShowyan" type="success"  >
+             <div>  <a class="nav-link p-0 cursor-pointer"><i  class="icon-smile fs-18" />
+            
+           </a>
+           <div>成功</div></div>
+           </el-button>
+           </div>
+          </div>
+        </transition>
+        <transition name="animate__animated animate__bounce" enter-active-class="animate__fadeInUp"
+          leave-active-class="animate__zoomOut" appear>
+          <!--            注册按钮-->
+          <div v-show="!isShow" class="registBtn">
+            <el-button type="success" round style="background-color: #257B5E;letter-spacing: 5px" @click="userRegister">
+              注册</el-button>
+          </div>
+        </transition>
+      </div>
+      <!-- 信息展示界面 -->
+      <div id="aaa" class="showInfo" :style="{
+       borderTopRightRadius:styleObj.bordertoprightradius,
+       borderBottomRightRadius:styleObj.borderbottomrightradius,
+       borderTopLeftRadius:styleObj.bordertopleftradius,
+       borderBottomLeftRadius:styleObj.borderbottomleftradius,
+       right:styleObj.rightDis
+      }" ref="showInfoView">
+
+        <transition name="animate__animated animate__bounce" enter-active-class="animate__fadeInUp"
+          leave-active-class="animate__zoomOut" appear>
+          <!-- 没有用户输入用户名或者找不到用户名的时候 -->
+          <div v-show="isShow"
+            style="display: flex;flex-direction: column;align-items: center;justify-content: center;width: 100%;height: 100%">
+            <!-- 欢迎语 -->
+            <div style="flex: 2;display: flex;align-items: center;font-size: 22px;color: #FFFFFF;font-weight: bold">
+              欢迎登入后台管理系统
+            </div>
+            <!-- 欢迎图片 -->
+            <div style="flex: 2">
+              <el-button type="success" style="background-color:#257B5E;border: 1px solid #ffffff;" round
+                @click="changeToRegiest">还没有账户？点击注册</el-button>
+            </div>
+          </div>
+        </transition>
+        <!-- 用户输入用户名时展示头像以及姓名 -->
+        <!--           <div>-->
+
+        <!--           </div>-->
+        <transition name="animate__animated animate__bounce" enter-active-class="animate__fadeInUp"
+          leave-active-class="animate__zoomOut" appear>
+          <!-- 用户注册的时候展示信息 -->
+          <div v-show="!isShow"
+            style="display: flex;flex-direction: column;align-items: center;justify-content: center;width: 100%;height: 100%">
+            <!-- 欢迎语 -->
+            <div style="flex: 2;display: flex;align-items: center;font-size: 22px;color: #FFFFFF;font-weight: bold">
+              欢迎注册
+            </div>
+            <!-- 欢迎图片 -->
+            <div style="flex: 2">
+              <el-button type="success" style="background-color:#257B5E;border: 1px solid #ffffff;" round
+                @click="changeToLogin">已有账户？点击登录</el-button>
+            </div>
+          </div>
+        </transition>
+      </div>
     </div>
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      auto-complete="on"
-      label-position="left"
-    >
-      <div class="title-container">
-        <h3 class="title">冰激凌CMS后台管理</h3>
-      </div>
 
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-      </el-form-item>
-
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon
-            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-          />
-        </span>
-      </el-form-item>
-
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width: 100%; margin-bottom: 30px"
-        @click.native.prevent="handleLogin"
-        >登陆</el-button
-      >
-
-      <div class="tips">
-        <span style="margin-right: 20px"></span>
-        <span> </span>
-      </div>
-    </el-form>
   </div>
 </template>
 
 <script>
 import { loginAdmin } from '@/api/login'
-
+import { register } from '@/api/register'
+import 'animate.css';
+// eslint-disable-next-line no-unused-vars
 export default {
+
   name: 'Login',
-  mounted() {
-    var that = this;
-    //开始背景图片自适应
-    that.setImgSize();
-    //屏幕尺寸改变的监听方法
-    window.onresize = () => {
-      that.setImgSize();
-    }
-  },
   data() {
     return {
-      imgSrc: require('../../static/image/login.jpg'),
-      bgImg: {
-        backgroundImage: "url(" + require("../../static/image/login.jpg") + ")",
-        height: '100vh',//这里一定要设置高度 否则背景图无法显示
-        backgroundRepeat: "no-repeat"
+      isShowyan: true,
+      showDialog: false,
+      msg: '',
+      text: '向右滑动验证',
+      // 精确度小，可允许的误差范围小；为1时，则表示滑块要与凹槽完全重叠，才能验证成功。默认值为5
+      accuracy: 1,
+      //看看用不用转成用户对象
+      loginUser: {
+        username: "",
+        password: ""
       },
-      loginForm: {
-        username: '',
-        password: ''
+
+      admins: {},
+      ////看看用不用转成用户对象
+      regUser: {
+        regUsername: '',
+        regRePwd: '',
+        regPwd: '',
+        selectValue: "",
       },
-      loginRules: {
-        username: [{ required: true, message: '请您输入用户名', trigger: 'blur' }],
-        password: [{ required: true, message: '请您输入密码', trigger: 'blur' }]
+      styleObj: {
+        bordertoprightradius: '15px',
+        borderbottomrightradius: '15px',
+        bordertopleftradius: '0px',
+        borderbottomleftradius: '0px',
+        rightDis: '0px'
       },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
+      isShow: true
     }
   },
-  watch: {
-    $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
-    }
+  created() {
+
   },
   methods: {
-    setImgSize() {
-      var that = this;
-      let height = document.body.clientHeight + "px"; //获取可见区域的高
-      let width = document.body.clientWidth + "px";//获取可见区域的宽
-      that.$set(that.bgImg, 'backgroundSize', width + "" + height);
+    closeDialog(){
+      this.showDialog = false;
     },
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
+
+    showemoge() {
+      // console.log("show")
+      this.showDialog = !this.showDialog;
+    },
+    onSuccess(times) {
+      console.log('验证通过，耗时 ' + times + '毫秒');
+      this.msg = '验证通过，耗时 ' + times + '毫秒'
+    
+  //延时两秒
+  setTimeout(() => {
+        this.showDialog = false;
+        this.isShowyan=false;
+      }, 1000);
+    },
+    onFail() {
+      console.log('验证不通过');
+      this.msg = ''
+    },
+    onRefresh() {
+      console.log('点击了刷新小图标');
+      this.msg = ''
+    },
+    onFulfilled() {
+      console.log('刷新成功啦！');
+    },
+    onAgain() {
+      console.log('检测到非人为操作的哦！');
+      this.msg = 'try again';
+      // 刷新
+      this.$refs.slideblock.reset();
+    },
+    handleClick() {
+      // 父组件直接可以调用刷新方法
+      this.$refs.slideblock.reset();
+    },
+    changeToRegiest() {
+      this.styleObj.bordertoprightradius = '0px'
+      this.styleObj.borderbottomrightradius = '0px'
+      this.styleObj.bordertopleftradius = '15px'
+      this.styleObj.borderbottomleftradius = '15px'
+      this.styleObj.rightDis = '50%'
+      this.isShow = !this.isShow
+    },
+    changeToLogin() {
+      this.styleObj.bordertoprightradius = '15px'
+      this.styleObj.borderbottomrightradius = '15px'
+      this.styleObj.bordertopleftradius = '0px'
+      this.styleObj.borderbottomleftradius = '0px'
+      this.styleObj.rightDis = '0px'
+      this.isShow = !this.isShow
+    },
+    //用户登录
+    UserLogin() {
+      
+      if (this.loginUser.username === "") {
+        this.$message.error("用户名不能为空！")
+        return false
+      } else if (this.loginUser.password.length < 6) {
+        this.$message.error("密码长度不能小于6位！")
+        return false
+      }else if (this.isShowyan!=false){
+        this.$message.error("请先验证！")
+        return false
       }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
-    handleLogin() {
+
       var that = this
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          loginAdmin(that.loginForm).then(resp => {
-            console.log(resp)
-            if (resp.data.code == 402 || resp.data.code == 400) {
-              that.$message({
-                message: '登陆失败',
-                type: 'warning'
-              })
-            } else if (resp.data.code == 200) {
-              localStorage.setItem('access-admin', JSON.stringify(resp.data))
-              that.$router.push({ path: '/admin' }) // 跳到账号管理
-              that.$message({
-                message: '登陆成功',
-                type: 'success'
-              })
-            }
-          }).catch((e) => { })
-          this.loading = false
-        } else {
-          console.log('error submit!!')
-          return false
+      this.loading = true
+      loginAdmin(that.loginUser).then(resp => {
+        console.log(resp)
+        if (resp.data.code == 402 || resp.data.code == 400) {
+          that.$message({
+            message: '登陆失败',
+            type: 'warning'
+          })
+        } else if (resp.data.code == 200) {
+          localStorage.setItem('access-admin', JSON.stringify(resp.data))
+          that.$router.push({ path: '/admin' }) // 跳到账号管理
+          that.$message({
+            message: '登陆成功',
+            type: 'success'
+          })
         }
-      })
+      }).catch((e) => { })
+      this.loading = false
+
+    },
+    //加载管理员信息
+    // loadInfoOfAdmin(){
+    //     this.request.get("http://localhost:9090/user/listOfAdmin").then(res=>{
+    //         if(res.code=="200"){
+    //                 this.admins=res.data
+    //             return true
+    //         }
+    //     })
+    // },
+    //用户注册
+    userRegister() {
+      if (this.regUser.regUsername === "") {
+        this.$message.error("用户名不能为空！")
+        return false
+      } else if (this.regUser.regPwd != this.regUser.regRePwd) {
+        this.$message.error("两次密码输入不同，请检查后重新注册！")
+        return false
+      }else if (this.isShowyan!=false){
+        this.$message.error("请先验证！")
+        return false
+      }
+      //  else if(this.regUser.selectValue===""){
+      //      this.$message.error("未选择审核员!")
+      //      return false
+      //  }
+      else {
+        let user = {};
+        user.username = this.regUser.regUsername
+        user.password = this.regUser.regPwd
+        //  user.auditor = this.regUser.selectValue
+
+        var that = this
+
+        this.loading = true
+        register(user).then(resp => {
+          if (resp.data.code == 402 || resp.data.code == 400) {
+            that.$message({
+              message: '用户名已经存在',
+              type: 'warning'
+            })
+          } else if (resp.data.code == 200) {
+            that.$router.push({ path: '/' }) // 跳到主页
+            that.$message({
+              message: '注册成功',
+              type: 'success'
+            })
+            //登陆
+            localStorage.setItem('access-admin', JSON.stringify(resp.data))
+          }
+        }).catch((e) => { })
+
+      }
     }
-  }
+  },
+
 }
 </script>
 
-<style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
-$bg: #283443;
-$light_gray: #fff;
-$cursor: #fff;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
+<style>
+/* @import '../assets/css/Login.css' */
+.base {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../../static/image/background.png");
+  background-size: 100%;
 }
 
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
-  }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
+.loginAndRegist {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
-</style>
 
-<style lang="scss" scoped>
-$bg: #2d3a4b;
-$dark_gray: #889aa4;
-$light_gray: #eee;
+.loginArea {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  height: 400px;
+  width: 350px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
 
-.login-container {
+.registArea {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  height: 400px;
+  width: 350px;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.showInfo {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  position: absolute;
+  height: 400px;
+  width: 350px;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  background-image: url("../../static/image/welcome.png");
+  background-size: 90%;
+}
+
+.showInfo:hover {
+  background-size: 100%;
+  background-position: -50px -50px;
+}
+
+.title {
+  width: 70%;
+  flex: 1;
+  border-bottom: 1px solid #257B5E;
+  display: flex;
+  align-items: center;
+  color: #257B5E;
+  font-weight: bold;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+#aaa {
+  transition: 0.3s linear;
+}
+
+.pwdArea {
+  width: 100%;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  flex-direction: column;
+
+
+}
+
+.pwdArea input {
+  outline: none;
+  height: 30%;
+  border-radius: 13px;
+  padding-left: 10px;
+  font-size: 12px;
+  border: 1px solid gray;
+}
+
+.pwdArea input:focus {
+  border: 2px solid #257B5E;
+}
+
+.btnArea {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.rigestTitle {
+  width: 70%;
+  flex: 1;
+  color: #257B5E;
+  font-weight: bold;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #257B5E;
+}
+
+.registForm {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  color: #257B5E;
+  font-size: 16px;
+}
+
+.registForm input {
+  outline: none;
+  height: 30%;
+  border-radius: 13px;
+  padding-left: 10px;
+  font-size: 12px;
+  border: 1px solid gray;
+}
+
+.registForm input:focus {
+  border: 2px solid #257B5E;
+}
+
+#elselect:focus {
+  border: 2px solid #257B5E;
+}
+
+.registBtn {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popover {
+  background-color: #f5f5f5;
+  position: absolute;
+  z-index: 999999999;
+}
+.checkHua{
+  display: flex;
+    position: absolute;
+    /* -webkit-transform: translateX(-15px); */
+    -webkit-transform: translate(-26px,-37px);
+    transform: translate(-34px,-53px);
+    border-radius: 14px;
+    height: 314px;
+    width: 370px;
+    background-color: #FFF;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+}
+.backHui{
+  
+ filter:alpha(opacity=50);
+ -moz-opacity:0.5;
+ opacity:0.5;
+
+ 
+  z-index: 999999999;
+  position: absolute;
   width: 100%;
   height: 100%;
-}
-.login-page {
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  margin: 180px auto;
-  width: 350px;
-  padding: 35px 35px 15px;
-  background: #fff;
-  border: 1px solid #eaeaea;
-  box-shadow: 0 0 25px #cac6c6;
-}
-label.el-checkbox.rememberme {
-  margin: 0px 0px 15px;
-  text-align: left;
-}
-.background {
-  width: 100%;
-  height: 100%; /**宽高100%是为了图片铺满屏幕 **/
-  z-index: -1;
-  position: absolute;
-}
-.content {
-  z-index: 1;
-}
-
-.login-container {
-  .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
-
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
-
-  .title-container {
-    position: relative;
-
-    .title {
-      font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
-  }
-
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
-  }
+  background-color: #cfc2c2;
 }
 </style>

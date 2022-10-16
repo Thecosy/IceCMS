@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function createSquare(data) {
+export function createSquare(data,SortName) {
   return request({
-    url: '/Websquare/create',
+    url: '/Websquare/create/' + SortName,
     method: 'post',
     data: data,
     dataType: 'json',
@@ -12,16 +12,16 @@ export function createSquare(data) {
   })
 }
 
-
-// export function getAllArticle(query) {
-//   return request({
-//     url: 'WebArticle/getAllArticle/' + query.page + '/' + query.limit,
-//     method: 'get'
-//   })
-// }
-export function getAllSquare() {
+export function getAllSquare(otherName,page,limit) {
   return request({
-    url: 'Websquare/getAllSquare',
+    url: 'Websquare/getAllSquare/' + otherName + '/' + page + '/' + limit,
     method: 'get'
+  })
+}
+
+export function likeClickComments(id) {
+  return request({
+    url: 'Websquare/likeClickComment/' + id,
+    method: 'get',
   })
 }
