@@ -1,137 +1,153 @@
 <template>
-	<u-transition
-	    mode="fade"
-	    :customStyle="backTopStyle"
-	    :show="show"
-	>
-		<view
-		    class="u-back-top"
-			:style="[contentStyle]"
-		    v-if="!$slots.default && !$slots.$default"
-			@click="backToTop"
-		>
-			<u-icon
-			    :name="icon"
-			    :custom-style="iconStyle"
-			></u-icon>
-			<text
-			    v-if="text"
-			    class="u-back-top__text"
-			>{{text}}</text>
+	<view @tap="backToTop" class="u-back-top" :class="['u-back-top--mode--' + mode]" :style="[{
+		bottom: bottom + 'rpx',
+		right: right + 'rpx',
+		borderRadius: mode == 'circle' ? '10000rpx' : '8rpx',
+		zIndex: uZIndex,
+		opacity: opacity
+	}, customStyle]">
+		<view class="u-back-top__content" v-if="!$slots.default && !$slots.$default">
+			<u-icon @click="backToTop" :name="icon" :custom-style="iconStyle"></u-icon>
+			<view class="u-back-top__content__tips">
+				{{tips}}
+			</view>
 		</view>
 		<slot v-else />
-	</u-transition>
+	</view>
 </template>
 
 <script>
-	import props from './props.js';
-	// #ifdef APP-NVUE
-	const dom = weex.requireModule('dom')
-	// #endif
-	/**
-	 * backTop 返回顶部
-	 * @description 本组件一个用于长页面，滑动一定距离后，出现返回顶部按钮，方便快速返回顶部的场景。
-	 * @tutorial https://uviewui.com/components/backTop.html
-	 * 
-	 * @property {String}			mode  		返回顶部的形状，circle-圆形，square-方形 （默认 'circle' ）
-	 * @property {String} 			icon 		自定义图标 （默认 'arrow-upward' ） 见官方文档示例
-	 * @property {String} 			text 		提示文字 
-	 * @property {String | Number}  duration	返回顶部滚动时间 （默认 100）
-	 * @property {String | Number}  scrollTop	滚动距离 （默认 0 ）
-	 * @property {String | Number}  top  		距离顶部多少距离显示，单位px （默认 400 ）
-	 * @property {String | Number}  bottom  	返回顶部按钮到底部的距离，单位px （默认 100 ）
-	 * @property {String | Number}  right  		返回顶部按钮到右边的距离，单位px （默认 20 ）
-	 * @property {String | Number}  zIndex 		层级   （默认 9 ）
-	 * @property {Object<Object>}  	iconStyle 	图标的样式，对象形式   （默认 {color: '#909399',fontSize: '19px'}）
-	 * @property {Object}			customStyle	定义需要用到的外部样式
-	 * 
-	 * @example <u-back-top :scrollTop="scrollTop"></u-back-top>
-	 */
 	export default {
 		name: 'u-back-top',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin,props],
+		props: {
+			// 返回顶部的形状，circle-圆形，square-方形
+			mode: {
+				type: String,
+				default: 'circle'
+			},
+			// 自定义图标
+			icon: {
+				type: String,
+				default: 'arrow-upward'
+			},
+			// 提示文字
+			tips: {
+				type: String,
+				default: ''
+			},
+			// 返回顶部滚动时间
+			duration: {
+				type: [Number, String],
+				default: 100
+			},
+			// 滚动距离
+			scrollTop: {
+				type: [Number, String],
+				default: 0
+			},
+			// 距离顶部多少距离显示，单位rpx
+			top: {
+				type: [Number, String],
+				default: 400
+			},
+			// 返回顶部按钮到底部的距离，单位rpx
+			bottom: {
+				type: [Number, String],
+				default: 200
+			},
+			// 返回顶部按钮到右边的距离，单位rpx
+			right: {
+				type: [Number, String],
+				default: 40
+			},
+			// 层级
+			zIndex: {
+				type: [Number, String],
+				default: '9'
+			},
+			// 图标的样式，对象形式
+			iconStyle: {
+				type: Object,
+				default() {
+					return {
+						color: '#909399',
+						fontSize: '38rpx'
+					}
+				}
+			},
+			// 整个组件的样式
+			customStyle: {
+				type: Object,
+				default() {
+					return {}
+				}
+			}
+		},
+		watch: {
+			showBackTop(nVal, oVal) {
+				// 当组件的显示与隐藏状态发生跳变时，修改组件的层级和不透明度
+				// 让组件有显示和消失的动画效果，如果用v-if控制组件状态，将无设置动画效果
+				if(nVal) {
+					this.uZIndex = this.zIndex;
+					this.opacity = 1;
+				} else {
+					this.uZIndex = -1;
+					this.opacity = 0;
+				}
+			}
+		},
 		computed: {
-			backTopStyle() {
-				// 动画组件样式
-				const style = {
-					bottom: uni.$u.addUnit(this.bottom),
-					right: uni.$u.addUnit(this.right),
-					width: '40px',
-					height: '40px',
-					position: 'fixed',
-					zIndex: 10,
-				}
-				return style
+			showBackTop() {
+				// 由于scrollTop为页面的滚动距离，默认为px单位，这里将用于传入的top(rpx)值
+				// 转为px用于比较，如果滚动条到顶的距离大于设定的距离，就显示返回顶部的按钮
+				return this.scrollTop > uni.upx2px(this.top);
 			},
-			show() {
-				let top
-				// 如果是rpx，转为px
-				if (/rpx$/.test(this.top)) {
-					top = uni.rpx2px(parseInt(this.top))
-				} else {
-					// 如果px，通过parseInt获取其数值部分
-					top = parseInt(this.top)
-				}
-				return this.scrollTop > top
-			},
-			contentStyle() {
-				const style = {}
-				let radius = 0
-				// 是否圆形
-				if(this.mode === 'circle') {
-					radius = '100px'
-				} else {
-					radius = '4px'
-				}
-				// 为了兼容安卓nvue，只能这么分开写
-				style.borderTopLeftRadius = radius
-				style.borderTopRightRadius = radius
-				style.borderBottomLeftRadius = radius
-				style.borderBottomRightRadius = radius
-				return uni.$u.deepMerge(style, uni.$u.addStyle(this.customStyle))
+		},
+		data() {
+			return {
+				// 不透明度，为了让组件有一个显示和隐藏的过渡动画
+				opacity: 0,
+				// 组件的z-index值，隐藏时设置为-1，就会看不到
+				uZIndex: -1
 			}
 		},
 		methods: {
 			backToTop() {
-				// #ifdef APP-NVUE
-				if (!this.$parent.$refs['u-back-top']) {
-					uni.$u.error(`nvue页面需要给页面最外层元素设置"ref='u-back-top'`)
-				}
-				dom.scrollToElement(this.$parent.$refs['u-back-top'], {
-					offset: 0
-				})
-				// #endif
-				
-				// #ifndef APP-NVUE
 				uni.pageScrollTo({
 					scrollTop: 0,
 					duration: this.duration
 				});
-				// #endif
-				this.$emit('click')
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	@import '../../libs/css/components.scss';
-     $u-back-top-flex:1 !default;
-     $u-back-top-height:100% !default;
-     $u-back-top-background-color:#E1E1E1 !default;
-     $u-back-top-tips-font-size:12px !default;
+	@import "../../libs/css/style.components.scss";
+	
 	.u-back-top {
-		@include flex;
+		width: 80rpx;
+		height: 80rpx;
+		position: fixed;
+		z-index: 9;
+		@include vue-flex;
 		flex-direction: column;
-		align-items: center;
-		flex:$u-back-top-flex;
-		height: $u-back-top-height;
 		justify-content: center;
-		background-color: $u-back-top-background-color;
-
-		&__tips {
-			font-size:$u-back-top-tips-font-size;
-			transform: scale(0.8);
+		background-color: #E1E1E1;
+		color: $u-content-color;
+		align-items: center;
+		transition: opacity 0.4s;
+		
+		&__content {
+			@include vue-flex;
+			flex-direction: column;
+			align-items: center;
+			
+			&__tips {
+				font-size: 24rpx;
+				transform: scale(0.8);
+				line-height: 1;
+			}
 		}
 	}
 </style>

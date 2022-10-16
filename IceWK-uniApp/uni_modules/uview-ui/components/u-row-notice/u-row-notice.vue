@@ -1,306 +1,269 @@
 <template>
 	<view
-		class="u-notice"
-		@tap="clickHandler"
+		v-if="show"
+		class="u-notice-bar"
+		:style="{
+			background: computeBgColor,
+			padding: padding
+		}"
+		:class="[
+			type ? `u-type-${type}-light-bg` : ''
+		]"
 	>
-		<slot name="icon">
-			<view
-				class="u-notice__left-icon"
-				v-if="icon"
-			>
-				<u-icon
-					:name="icon"
-					:color="color"
-					size="19"
-				></u-icon>
+		<view class="u-direction-row">
+			<view class="u-icon-wrap">
+				<u-icon class="u-left-icon" v-if="volumeIcon" name="volume-fill" :size="volumeSize" :color="computeColor"></u-icon>
 			</view>
-		</slot>
-		<view
-			class="u-notice__content"
-			ref="u-notice__content"
-		>
-			<text
-				ref="u-notice__content__text"
-				class="u-notice__content__text"
-				:style="[textStyle]"
-			>{{text}}</text>
-		</view>
-		<view
-			class="u-notice__right-icon"
-			v-if="['link', 'closable'].includes(mode)"
-		>
-			<u-icon
-				v-if="mode === 'link'"
-				name="arrow-right"
-				:size="17"
-				:color="color"
-			></u-icon>
-			<u-icon
-				v-if="mode === 'closable'"
-				@click="close"
-				name="close"
-				:size="16"
-				:color="color"
-			></u-icon>
+			<view class="u-notice-box" id="u-notice-box">
+				<view
+					class="u-notice-content"
+					id="u-notice-content"
+					:style="{
+						animationDuration: animationDuration,
+						animationPlayState: animationPlayState,
+					}"
+				>
+					<text class="u-notice-text" @tap="click" :style="[textStyle]"
+					:class="['u-type-' + type]">{{showText}}</text>
+				</view>
+			</view>
+			<view class="u-icon-wrap">
+				<u-icon @click="getMore" class="u-right-icon" v-if="moreIcon" name="arrow-right" :size="26" :color="computeColor"></u-icon>
+				<u-icon @click="close" class="u-right-icon" v-if="closeIcon" name="close" :size="24" :color="computeColor"></u-icon>
+			</view>
 		</view>
 	</view>
 </template>
 <script>
-	import props from './props.js';
-	// #ifdef APP-NVUE
-	const animation = uni.requireNativePlugin('animation')
-	const dom = uni.requireNativePlugin('dom')
-	// #endif
-	/**
-	 * RowNotice 滚动通知中的水平滚动模式
-	 * @description 水平滚动
-	 * @tutorial https://www.uviewui.com/components/noticeBar.html
-	 * @property {String | Number}	text			显示的内容，字符串
-	 * @property {String}			icon			是否显示左侧的音量图标 (默认 'volume' )
-	 * @property {String}			mode			通告模式，link-显示右箭头，closable-显示右侧关闭图标
-	 * @property {String}			color			文字颜色，各图标也会使用文字颜色 (默认 '#f9ae3d' )
-	 * @property {String}			bgColor			背景颜色 (默认 ''#fdf6ec' )
-	 * @property {String | Number}	fontSize		字体大小，单位px (默认 14 )
-	 * @property {String | Number}	speed			水平滚动时的滚动速度，即每秒滚动多少px(rpx)，这有利于控制文字无论多少时，都能有一个恒定的速度  (默认 80 )
-	 * 
-	 * @event {Function} click 点击通告文字触发
-	 * @event {Function} close 点击右侧关闭图标触发
-	 * @example 
-	 */
-	export default {
-		name: 'u-row-notice',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin,props],
-		data() {
-			return {
-				animationDuration: '0', // 动画执行时间
-				animationPlayState: 'paused', // 动画的开始和结束执行
-				// nvue下，内容发生变化，导致滚动宽度也变化，需要标志为是否需要重新计算宽度
-				// 不能在内容变化时直接重新计算，因为nvue的animation模块上一次的滚动不是刚好结束，会有影响
-				nvueInit: true,
-				show: true
-			};
-		},
-		watch: {
-			text: {
-				immediate: true,
-				handler(newValue, oldValue) {
-					// #ifdef APP-NVUE
-					this.nvueInit = true
-					// #endif
-					// #ifndef APP-NVUE
-					this.vue()
-					// #endif
-					
-					if(!uni.$u.test.string(newValue)) {
-						uni.$u.error('noticebar组件direction为row时，要求text参数为字符串形式')
-					}
-				}
-			},
-			fontSize() {
-				t // #ifdef APP-NVUE
-				this.nvueInit = true
-				// #endif
-				// #ifndef APP-NVUE
-				this.vue()
-				// #endif
-			},
-			speed() {
-				// #ifdef APP-NVUE
-				this.nvueInit = true
-				// #endif
-				// #ifndef APP-NVUE
-				this.vue()
-				// #endif
+export default {
+	props: {
+		// 显示的内容，数组
+		list: {
+			type: Array,
+			default() {
+				return [];
 			}
 		},
-		computed: {
-			// 文字内容的样式
-			textStyle() {
-				let style = {}
-				style.color = this.color
-				style.animationDuration = this.animationDuration
-				style.animationPlayState = this.animationPlayState
-				style.fontSize = uni.$u.addUnit(this.fontSize)
-				return style
-			},
+		// 显示的主题，success|error|primary|info|warning|none
+		// none主题默认为透明背景，黑色(contentColor)字体
+		type: {
+			type: String,
+			default: 'warning'
 		},
-		mounted() {
-			// #ifdef APP-PLUS
-			// 在APP上(含nvue)，监听当前webview是否处于隐藏状态(进入下一页时即为hide状态)
-			// 如果webivew隐藏了，为了节省性能的损耗，应停止动画的执行，同时也是为了保持进入下一页返回后，滚动位置保持不变
-			var pages = getCurrentPages()
-			var page = pages[pages.length - 1]
-			var currentWebview = page.$getAppWebview()
-			currentWebview.addEventListener('hide', () => {
-				this.webviewHide = true
-			})
-			currentWebview.addEventListener('show', () => {
-				this.webviewHide = false
-			})
-			// #endif
-
-			this.init()
+		// 是否显示左侧的音量图标
+		volumeIcon: {
+			type: Boolean,
+			default: true
 		},
-		methods: {
-			init() {
-				// #ifdef APP-NVUE
-				this.nvue()
-				// #endif
-
-				// #ifndef APP-NVUE
-				this.vue()
-				// #endif
-				
-				if(!uni.$u.test.string(this.text)) {
-					uni.$u.error('noticebar组件direction为row时，要求text参数为字符串形式')
-				}
-			},
-			// vue版处理
-			async vue() {
-				// #ifndef APP-NVUE
-				let boxWidth = 0,
-					textWidth = 0
-				// 进行一定的延时
-				await uni.$u.sleep()
-				// 查询盒子和文字的宽度
-				textWidth = (await this.$uGetRect('.u-notice__content__text')).width
-				boxWidth = (await this.$uGetRect('.u-notice__content')).width
+		// 是否显示右侧的右箭头图标
+		moreIcon: {
+			type: Boolean,
+			default: false
+		},
+		// 是否显示右侧的关闭图标
+		closeIcon: {
+			type: Boolean,
+			default: false
+		},
+		// 是否自动播放
+		autoplay: {
+			type: Boolean,
+			default: true
+		},
+		// 文字颜色，各图标也会使用文字颜色
+		color: {
+			type: String,
+			default: ''
+		},
+		// 背景颜色
+		bgColor: {
+			type: String,
+			default: ''
+		},
+		// 是否显示
+		show: {
+			type: Boolean,
+			default: true
+		},
+		// 字体大小，单位rpx
+		fontSize: {
+			type: [Number, String],
+			default: 26
+		},
+		// 音量喇叭的大小
+		volumeSize: {
+			type: [Number, String],
+			default: 34
+		},
+		// 水平滚动时的滚动速度，即每秒滚动多少rpx，这有利于控制文字无论多少时，都能有一个恒定的速度
+		speed: {
+			type: [Number, String],
+			default: 160
+		},
+		// 播放状态，play-播放，paused-暂停
+		playState: {
+			type: String,
+			default: 'play'
+		},
+		// 通知的边距
+		padding: {
+			type: [Number, String],
+			default: '18rpx 24rpx'
+		}
+	},
+	data() {
+		return {
+			textWidth: 0, // 滚动的文字宽度
+			boxWidth: 0, // 供文字滚动的父盒子的宽度，和前者一起为了计算滚动速度
+			animationDuration: '10s', // 动画执行时间
+			animationPlayState: 'paused', // 动画的开始和结束执行
+			showText: '' // 显示的文本
+		};
+	},
+	watch: {
+		list: {
+			immediate: true,
+			handler(val) {
+				this.showText = val.join('，');
+				this.$nextTick(() => {
+					this.initSize();
+				});
+			}
+		},
+		playState(val) {
+			if(val == 'play') this.animationPlayState = 'running';
+			else this.animationPlayState = 'paused';
+		},
+		speed(val) {
+			this.initSize();
+		}
+	},
+	computed: {
+		// 计算字体颜色，如果没有自定义的，就用uview主题颜色
+		computeColor() {
+			if (this.color) return this.color;
+			// 如果是无主题，就默认使用content-color
+			else if(this.type == 'none') return '#606266';
+			else return this.type;
+		},
+		// 文字内容的样式
+		textStyle() {
+			let style = {};
+			if (this.color) style.color = this.color;
+			else if(this.type == 'none') style.color = '#606266';
+			style.fontSize = this.fontSize + 'rpx';
+			return style;
+		},
+		// 计算背景颜色
+		computeBgColor() {
+			if (this.bgColor) return this.bgColor;
+			else if(this.type == 'none') return 'transparent';
+		}
+	},
+	mounted() {
+		this.$nextTick(() => {
+			this.initSize();
+		});
+	},
+	methods: {
+		initSize() {
+			let query = [],
+				boxWidth = 0,
+				textWidth = 0;
+			let textQuery = new Promise((resolve, reject) => {
+				uni.createSelectorQuery()
+					.in(this)
+					.select(`#u-notice-content`)
+					.boundingClientRect()
+					.exec(ret => {
+						this.textWidth = ret[0].width;
+						resolve();
+					});
+			});
+			query.push(textQuery);
+			Promise.all(query).then(() => {
 				// 根据t=s/v(时间=路程/速度)，这里为何不需要加上#u-notice-box的宽度，因为中设置了.u-notice-content样式中设置了padding-left: 100%
 				// 恰巧计算出来的结果中已经包含了#u-notice-box的宽度
-				this.animationDuration = `${textWidth / uni.$u.getPx(this.speed)}s`
-				// 这里必须这样开始动画，否则在APP上动画速度不会改变
-				this.animationPlayState = 'paused'
+				this.animationDuration = `${this.textWidth / uni.upx2px(this.speed)}s`;
+				// 这里必须这样开始动画，否则在APP上动画速度不会改变(HX版本2.4.6，IOS13)
+				this.animationPlayState = 'paused';
 				setTimeout(() => {
-					this.animationPlayState = 'running'
-				}, 10)
-				// #endif
-			},
-			// nvue版处理
-			async nvue() {
-				// #ifdef APP-NVUE
-				this.nvueInit = false
-				let boxWidth = 0,
-					textWidth = 0
-				// 进行一定的延时
-				await uni.$u.sleep()
-				// 查询盒子和文字的宽度
-				textWidth = (await this.getNvueRect('u-notice__content__text')).width
-				boxWidth = (await this.getNvueRect('u-notice__content')).width
-				// 将文字移动到盒子的右边沿，之所以需要这么做，是因为nvue不支持100%单位，否则可以通过css设置
-				animation.transition(this.$refs['u-notice__content__text'], {
-					styles: {
-						transform: `translateX(${boxWidth}px)`
-					},
-				}, () => {
-					// 如果非禁止动画，则开始滚动
-					!this.stopAnimation && this.loopAnimation(textWidth, boxWidth)
-				});
-				// #endif
-			},
-			loopAnimation(textWidth, boxWidth) {
-				// #ifdef APP-NVUE
-				animation.transition(this.$refs['u-notice__content__text'], {
-					styles: {
-						// 目标移动终点为-textWidth，也即当文字的最右边贴到盒子的左边框的位置
-						transform: `translateX(-${textWidth}px)`
-					},
-					// 滚动时间的计算为，时间 = 路程(boxWidth + textWidth) / 速度，最后转为毫秒
-					duration: (boxWidth + textWidth) / uni.$u.getPx(this.speed) * 1000,
-					delay: 10
-				}, () => {
-					animation.transition(this.$refs['u-notice__content__text'], {
-						styles: {
-							// 重新将文字移动到盒子的右边沿
-							transform: `translateX(${this.stopAnimation ? 0 : boxWidth}px)`
-						},
-					}, () => {
-						// 如果非禁止动画，则继续下一轮滚动
-						if (!this.stopAnimation) {
-							// 判断是否需要初始化计算尺寸
-							if (this.nvueInit) {
-								this.nvue()
-							} else {
-								this.loopAnimation(textWidth, boxWidth)
-							}
-						}
-					});
-				})
-				// #endif
-			},
-			getNvueRect(el) {
-				// #ifdef APP-NVUE
-				// 返回一个promise
-				return new Promise(resolve => {
-					dom.getComponentRect(this.$refs[el], (res) => {
-						resolve(res.size)
-					})
-				})
-				// #endif
-			},
-			// 点击通告栏
-			clickHandler(index) {
-				this.$emit('click')
-			},
-			// 点击右侧按钮，需要判断点击的是关闭图标还是箭头图标
-			close() {
-				this.$emit('close')
-			}
+					if(this.playState == 'play' && this.autoplay) this.animationPlayState = 'running';
+				}, 10);
+			});
 		},
-		// #ifdef APP-NVUE
-		beforeDestroy() {
-			this.stopAnimation = true
+		// 点击通告栏
+		click(index) {
+			this.$emit('click');
 		},
-		// #endif
-	};
+		// 点击关闭按钮
+		close() {
+			this.$emit('close');
+		},
+		// 点击更多箭头按钮
+		getMore() {
+			this.$emit('getMore');
+		}
+	}
+};
 </script>
 
 <style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
+@import "../../libs/css/style.components.scss";
+	
+.u-notice-bar {
+	padding: 18rpx 24rpx;
+	overflow: hidden;
+}
 
-	.u-notice {
-		@include flex;
-		align-items: center;
-		justify-content: space-between;
+.u-direction-row {
+	@include vue-flex;
+	align-items: center;
+	justify-content: space-between;
+}
 
-		&__left-icon {
-			align-items: center;
-			margin-right: 5px;
-		}
+.u-left-icon {
+	/* #ifndef APP-NVUE */
+	display: inline-flex;
+	/* #endif */
+	align-items: center;
+}
 
-		&__right-icon {
-			margin-left: 5px;
-			align-items: center;
-		}
+.u-notice-box {
+	flex: 1;
+	@include vue-flex;
+	overflow: hidden;
+	margin-left: 12rpx;
+}
 
-		&__content {
-			text-align: right;
-			flex: 1;
-			@include flex;
-			flex-wrap: nowrap;
-			overflow: hidden;
+.u-right-icon {
+	margin-left: 12rpx;
+	display: inline-flex;
+	align-items: center;
+}
 
-			&__text {
-				font-size: 14px;
-				color: $u-warning;
-				/* #ifndef APP-NVUE */
-				// 这一句很重要，为了能让滚动左右连接起来
-				padding-left: 100%;
-				word-break: keep-all;
-				white-space: nowrap;
-				animation: u-loop-animation 10s linear infinite both;
-				/* #endif */
-			}
-		}
+.u-notice-content {
+	animation: u-loop-animation 10s linear infinite both;
+	text-align: right;
+	// 这一句很重要，为了能让滚动左右连接起来
+	padding-left: 100%;
+	@include vue-flex;
+	flex-wrap: nowrap;
+}
 
+.u-notice-text {
+	font-size: 26rpx;
+	word-break: keep-all;
+	white-space: nowrap
+}
+
+@keyframes u-loop-animation {
+	0% {
+		transform: translate3d(0, 0, 0);
 	}
 
-	@keyframes u-loop-animation {
-		0% {
-			transform: translate3d(0, 0, 0);
-		}
-
-		100% {
-			transform: translate3d(-100%, 0, 0);
-		}
+	100% {
+		transform: translate3d(-100%, 0, 0);
 	}
+}
 </style>

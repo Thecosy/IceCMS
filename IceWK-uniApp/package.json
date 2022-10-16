@@ -1,11 +1,21 @@
 {
-	"id": "uview-ui",
-	"scripts": {
-		"test": "eslint . --fix"
+	"id": "jingtu-tag",
+	"name": "社区图片视频圈子app，适合做图片视频素材，社区论坛，聊天交友，",
+	"version": "v1.0.13",
+	"description": "(运营版）社区图片视频圈子app，适合做图片视频素材，社区论坛，摄影社区，聊天交友等，前端uniapp+后端php，整套可直接运营版，兼容多端，需要整套，联系17620115709，微同",
+	"keywords": [
+	    "社区，圈子，摄影，论坛，图片，视频，社交"
+	],
+	"dcloudext": {
+	    "category": [
+	        "uni-app前端模板",
+	        "uni-app前端项目模板"
+	    ]
 	},
-	"dependencies": {},
+	"scripts": {
+		
+	},
 	"devDependencies": {
-		"eslint": "^7.2.0",
-		"eslint-config-airbnb": "^19.0.0"
+
 	}
 }

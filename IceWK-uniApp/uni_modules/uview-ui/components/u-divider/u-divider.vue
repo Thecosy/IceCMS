@@ -1,115 +1,153 @@
 <template>
-	<view
-	    class="u-divider"
-	    :style="[$u.addStyle(customStyle)]"
-	>
-		<u-line
-		    :color="lineColor"
-		    :customStyle="leftLineStyle"
-		    :hairline="hairline"
-			:dashed="dashed"
-		></u-line>
-		<text
-		    v-if="dot"
-		    class="u-divider__dot"
-		>●</text>
-		<text
-		    v-else-if="text"
-		    class="u-divider__text"
-		    :style="[textStyle]"
-		>{{text}}</text>
-		<u-line
-		    :color="lineColor"
-		    :customStyle="rightLineStyle"
-		    :hairline="hairline"
-			:dashed="dashed"
-		></u-line>
+	<view class="u-divider" :style="{
+		height: height == 'auto' ? 'auto' : height + 'rpx',
+		backgroundColor: bgColor,
+		marginBottom: marginBottom + 'rpx',
+		marginTop: marginTop + 'rpx'
+	}" @tap="click">
+		<view class="u-divider-line" :class="[type ? 'u-divider-line--bordercolor--' + type : '']" :style="[lineStyle]"></view>
+		<view v-if="useSlot" class="u-divider-text" :style="{
+			color: color,
+			fontSize: fontSize + 'rpx'
+		}"><slot /></view>
+		<view class="u-divider-line" :class="[type ? 'u-divider-line--bordercolor--' + type : '']" :style="[lineStyle]"></view>
 	</view>
 </template>
 
 <script>
-	import props from './props.js';
-	/**
-	 * divider 分割线
-	 * @description 区隔内容的分割线，一般用于页面底部"没有更多"的提示。
-	 * @tutorial https://www.uviewui.com/components/divider.html
-	 * @property {Boolean}			dashed			是否虚线 （默认 false ）
-	 * @property {Boolean}			hairline		是否细线 （默认  true ）
-	 * @property {Boolean}			dot				是否以点替代文字，优先于text字段起作用 （默认 false ）
-	 * @property {String}			textPosition	内容文本的位置，left-左边，center-中间，right-右边 （默认 'center' ）
-	 * @property {String | Number}	text			文本内容 
-	 * @property {String | Number}	textSize		文本大小 （默认 14）
-	 * @property {String}			textColor		文本颜色 （默认 '#909399' ）
-	 * @property {String}			lineColor		线条颜色 （默认 '#dcdfe6' ）
-	 * @property {Object}			customStyle		定义需要用到的外部样式
-	 * 
-	 * @event {Function}	click	divider组件被点击时触发
-	 * @example <u-divider :color="color">锦瑟无端五十弦</u-divider>
-	 */
-	export default {
-		name:'u-divider',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin,props],
-		computed: {
-			textStyle() {
-				const style = {}
-				style.fontSize = uni.$u.addUnit(this.textSize)
-				style.color = this.textColor
-				return style
-			},
-			// 左边线条的的样式
-			leftLineStyle() {
-				const style = {}
-				// 如果是在左边，设置左边的宽度为固定值
-				if (this.textPosition === 'left') {
-					style.width = '80rpx'
-				} else {
-					style.flex = 1
-				}
-				return style
-			},
-			// 右边线条的的样式
-			rightLineStyle() {
-				const style = {}
-				// 如果是在右边，设置右边的宽度为固定值
-				if (this.textPosition === 'right') {
-					style.width = '80rpx'
-				} else {
-					style.flex = 1
-				}
-				return style
-			}
+/**
+ * divider 分割线
+ * @description 区隔内容的分割线，一般用于页面底部"没有更多"的提示。
+ * @tutorial https://www.uviewui.com/components/divider.html
+ * @property {String Number} half-width 文字左或右边线条宽度，数值或百分比，数值时单位为rpx
+ * @property {String} border-color 线条颜色，优先级高于type（默认#dcdfe6）
+ * @property {String} color 文字颜色（默认#909399）
+ * @property {String Number} fontSize 字体大小，单位rpx（默认26）
+ * @property {String} bg-color 整个divider的背景颜色（默认呢#ffffff）
+ * @property {String Number} height 整个divider的高度，单位rpx（默认40）
+ * @property {String} type 将线条设置主题色（默认primary）
+ * @property {Boolean} useSlot 是否使用slot传入内容，如果不传入，中间不会有空隙（默认true）
+ * @property {String Number} margin-top 与前一个组件的距离，单位rpx（默认0）
+ * @property {String Number} margin-bottom 与后一个组件的距离，单位rpx（0）
+ * @event {Function} click divider组件被点击时触发
+ * @example <u-divider color="#fa3534">长河落日圆</u-divider>
+ */
+export default {
+	name: 'u-divider',
+	props: {
+		// 单一边divider横线的宽度(数值)，单位rpx。或者百分比
+		halfWidth: {
+			type: [Number, String],
+			default: 150
 		},
-		methods: {
-			// divider组件被点击时触发
-			click() {
-				this.$emit('click');
-			}
+		// divider横线的颜色，如设置，
+		borderColor: {
+			type: String,
+			default: '#dcdfe6'
+		},
+		// 主题色，可以是primary|info|success|warning|error之一值
+		type: {
+			type: String,
+			default: 'primary'
+		},
+		// 文字颜色
+		color: {
+			type: String,
+			default: '#909399'
+		},
+		// 文字大小，单位rpx
+		fontSize: {
+			type: [Number, String],
+			default: 26
+		},
+		// 整个divider的背景颜色
+		bgColor: {
+			type: String,
+			default: '#ffffff'
+		},
+		// 整个divider的高度单位rpx
+		height: {
+			type: [Number, String],
+			default: 'auto'
+		},
+		// 上边距
+		marginTop: {
+			type: [String, Number],
+			default: 0
+		},
+		// 下边距
+		marginBottom: {
+			type: [String, Number],
+			default: 0
+		},
+		// 是否使用slot传入内容，如果不用slot传入内容，先的中间就不会有空隙
+		useSlot: {
+			type: Boolean,
+			default: true
+		}
+	},
+	computed: {
+		lineStyle() {
+			let style = {};
+			if(String(this.halfWidth).indexOf('%') != -1) style.width = this.halfWidth;
+			else style.width = this.halfWidth + 'rpx';
+			// borderColor优先级高于type值
+			if(this.borderColor) style.borderColor = this.borderColor;
+			return style;
+		}
+	},
+	methods: {
+		click() {
+			this.$emit('click');
 		}
 	}
+};
 </script>
 
 <style lang="scss" scoped>
-	@import '../../libs/css/components.scss';
-	$u-divider-margin:5px 0 !default;
-	$u-divider-text-margin:0 15px !default;
-	$u-divider-dot-font-size:12px !default;
-	$u-divider-dot-margin:0 15px !default;
-	$u-divider-dot-color: #c0c4cc !default;
+@import "../../libs/css/style.components.scss";
+.u-divider {
+	width: 100%;
+	position: relative;
+	text-align: center;
+	@include vue-flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	flex-direction: row;
+}
 
-	.u-divider {
-		@include flex;
-		flex-direction: row;
-		align-items: center;
-		margin: $u-divider-margin;
-
-		&__text {
-			margin: $u-divider-text-margin;
-		}
-
-		&__dot {
-			font-size: $u-divider-dot-font-size;
-			margin: $u-divider-dot-margin;
-			color: $u-divider-dot-color;
-		}
+.u-divider-line {
+	border-bottom: 1px solid $u-border-color;
+	transform: scale(1, 0.5);
+	transform-origin: center;
+	
+	&--bordercolor--primary {
+		border-color: $u-type-primary;
 	}
+	
+	&--bordercolor--success {
+		border-color: $u-type-success;
+	}
+	
+	&--bordercolor--error {
+		border-color: $u-type-primary;
+	}
+	
+	&--bordercolor--info {
+		border-color: $u-type-info;
+	}
+	
+	&--bordercolor--warning {
+		border-color: $u-type-warning;
+	}
+}
+
+.u-divider-text {
+	white-space: nowrap;
+	padding: 0 16rpx;
+	/* #ifndef APP-NVUE */
+	display: inline-flex;		
+	/* #endif */
+}
 </style>

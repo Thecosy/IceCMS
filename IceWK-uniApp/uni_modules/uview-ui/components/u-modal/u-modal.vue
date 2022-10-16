@@ -1,226 +1,282 @@
 <template>
-	<u-popup
-		mode="center"
-		:zoom="zoom"
-		:show="show"
-		:customStyle="{
-			borderRadius: '6px', 
-			overflow: 'hidden',
-			marginTop: `-${$u.addUnit(negativeTop)}`
-		}"
-		:closeOnClickOverlay="closeOnClickOverlay"
-		:safeAreaInsetBottom="false"
-		:duration="400"
-		@click="clickHandler"
-	>
-		<view
-			class="u-modal"
-			:style="{
-				width: $u.addUnit(width),
-			}"
-		>
-			<text
-				class="u-modal__title"
-				v-if="title"
-			>{{ title }}</text>
-			<view
-				class="u-modal__content"
-				:style="{
-					paddingTop: `${title ? 12 : 25}px`
-				}"
-			>
-				<slot>
-					<text class="u-modal__content__text">{{ content }}</text>
-				</slot>
-			</view>
-			<view
-				class="u-modal__button-group--confirm-button"
-				v-if="$slots.confirmButton"
-			>
-				<slot name="confirmButton"></slot>
-			</view>
-			<template v-else>
-				<u-line></u-line>
-				<view
-					class="u-modal__button-group"
-					:style="{
-						flexDirection: buttonReverse ? 'row-reverse' : 'row'
-					}"
-				>
-					<view
-						class="u-modal__button-group__wrapper u-modal__button-group__wrapper--cancel"
-						:hover-stay-time="150"
-						hover-class="u-modal__button-group__wrapper--hover"
-						:class="[showCancelButton && !showConfirmButton && 'u-modal__button-group__wrapper--only-cancel']"
-						v-if="showCancelButton"
-						@tap="cancelHandler"
-					>
-						<text
-							class="u-modal__button-group__wrapper__text"
-							:style="{
-								color: cancelColor
-							}"
-						>{{ cancelText }}</text>
+	<view>
+		<u-popup :zoom="zoom" mode="center" :popup="false" :z-index="uZIndex" v-model="value" :length="width"
+		 :mask-close-able="maskCloseAble" :border-radius="borderRadius" @close="popupClose" :negative-top="negativeTop">
+			<view class="u-model">
+				<view v-if="showTitle" class="u-model__title u-line-1" :style="[titleStyle]">{{ title }}</view>
+				<view class="u-model__content">
+					<view :style="[contentStyle]" v-if="$slots.default  || $slots.$default">
+						<slot />
 					</view>
-					<u-line
-						direction="column"
-						v-if="showConfirmButton && showCancelButton"
-					></u-line>
-					<view
-						class="u-modal__button-group__wrapper u-modal__button-group__wrapper--confirm"
-						:hover-stay-time="150"
-						hover-class="u-modal__button-group__wrapper--hover"
-						:class="[!showCancelButton && showConfirmButton && 'u-modal__button-group__wrapper--only-confirm']"
-						v-if="showConfirmButton"
-						@tap="confirmHandler"
-					>
-						<u-loading-icon v-if="loading"></u-loading-icon>
-						<text
-							v-else
-							class="u-modal__button-group__wrapper__text"
-							:style="{
-								color: confirmColor
-							}"
-						>{{ confirmText }}</text>
+					<view v-else class="u-model__content__message" :style="[contentStyle]">{{ content }}</view>
+				</view>
+				<view class="u-model__footer u-border-top" v-if="showCancelButton || showConfirmButton">
+					<view v-if="showCancelButton" :hover-stay-time="100" hover-class="u-model__btn--hover" class="u-model__footer__button"
+					 :style="[cancelBtnStyle]" @tap="cancel">
+						{{cancelText}}
+					</view>
+					<view v-if="showConfirmButton || $slots['confirm-button']" :hover-stay-time="100" :hover-class="asyncClose ? 'none' : 'u-model__btn--hover'"
+					 class="u-model__footer__button hairline-left" :style="[confirmBtnStyle]" @tap="confirm">
+						<slot v-if="$slots['confirm-button']" name="confirm-button"></slot>
+						<block v-else>
+							<u-loading mode="circle" :color="confirmColor" v-if="loading"></u-loading>
+							<block v-else>
+								{{confirmText}}
+							</block>
+						</block>
 					</view>
 				</view>
-			</template>
-		</view>
-	</u-popup>
+			</view>
+		</u-popup>
+	</view>
 </template>
 
 <script>
-	import props from './props.js';
 	/**
-	 * Modal 模态框
-	 * @description 弹出模态框，常用于消息提示、消息确认、在当前页面内完成特定的交互操作。
-	 * @tutorial https://www.uviewui.com/components/modul.html
-	 * @property {Boolean}			show				是否显示模态框，请赋值给show （默认 false ）
-	 * @property {String}			title				标题内容
-	 * @property {String}			content				模态框内容，如传入slot内容，则此参数无效
-	 * @property {String}			confirmText			确认按钮的文字 （默认 '确认' ）
-	 * @property {String}			cancelText			取消按钮的文字 （默认 '取消' ）
-	 * @property {Boolean}			showConfirmButton	是否显示确认按钮 （默认 true ）
-	 * @property {Boolean}			showCancelButton	是否显示取消按钮 （默认 false ）
-	 * @property {String}			confirmColor		确认按钮的颜色 （默认 '#2979ff' ）
-	 * @property {String}			cancelColor			取消按钮的颜色 （默认 '#606266' ）
-	 * @property {Boolean}			buttonReverse		对调确认和取消的位置 （默认 false ）
-	 * @property {Boolean}			zoom				是否开启缩放模式 （默认 true ）
-	 * @property {Boolean}			asyncClose			是否异步关闭，只对确定按钮有效，见上方说明 （默认 false ）
-	 * @property {Boolean}			closeOnClickOverlay	是否允许点击遮罩关闭Modal （默认 false ）
-	 * @property {String | Number}	negativeTop			往上偏移的值，给一个负的margin-top，往上偏移，避免和键盘重合的情况，单位任意，数值则默认为px单位 （默认 0 ）
-	 * @property {String | Number}	width				modal宽度，不支持百分比，可以数值，px，rpx单位 （默认 '650rpx' ）
-	 * @property {String}			confirmButtonShape	确认按钮的样式,如设置，将不会显示取消按钮
-	 * @event {Function} confirm	点击确认按钮时触发
-	 * @event {Function} cancel		点击取消按钮时触发
-	 * @event {Function} close		点击遮罩关闭出发，closeOnClickOverlay为true有效
-	 * @example <u-loadmore :status="status" icon-type="iconType" load-text="loadText" />
+	 * modal 模态框
+	 * @description 弹出模态框，常用于消息提示、消息确认、在当前页面内完成特定的交互操作
+	 * @tutorial https://www.uviewui.com/components/modal.html
+	 * @property {Boolean} value 是否显示模态框
+	 * @property {String | Number} z-index 层级
+	 * @property {String} title 模态框标题（默认"提示"）
+	 * @property {String | Number} width 模态框宽度（默认600）
+	 * @property {String} content 模态框内容（默认"内容"）
+	 * @property {Boolean} show-title 是否显示标题（默认true）
+	 * @property {Boolean} async-close 是否异步关闭，只对确定按钮有效（默认false）
+	 * @property {Boolean} show-confirm-button 是否显示确认按钮（默认true）
+	 * @property {Stringr | Number} negative-top modal往上偏移的值
+	 * @property {Boolean} show-cancel-button 是否显示取消按钮（默认false）
+	 * @property {Boolean} mask-close-able 是否允许点击遮罩关闭modal（默认false）
+	 * @property {String} confirm-text 确认按钮的文字内容（默认"确认"）
+	 * @property {String} cancel-text 取消按钮的文字内容（默认"取消"）
+	 * @property {String} cancel-color 取消按钮的颜色（默认"#606266"）
+	 * @property {String} confirm-color 确认按钮的文字内容（默认"#2979ff"）
+	 * @property {String | Number} border-radius 模态框圆角值，单位rpx（默认16）
+	 * @property {Object} title-style 自定义标题样式，对象形式
+	 * @property {Object} content-style 自定义内容样式，对象形式
+	 * @property {Object} cancel-style 自定义取消按钮样式，对象形式
+	 * @property {Object} confirm-style 自定义确认按钮样式，对象形式
+	 * @property {Boolean} zoom 是否开启缩放模式（默认true）
+	 * @event {Function} confirm 确认按钮被点击
+	 * @event {Function} cancel 取消按钮被点击
+	 * @example <u-modal :src="title" :content="content"></u-modal>
 	 */
 	export default {
 		name: 'u-modal',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
+		props: {
+			// 是否显示Modal
+			value: {
+				type: Boolean,
+				default: false
+			},
+			// 层级z-index
+			zIndex: {
+				type: [Number, String],
+				default: ''
+			},
+			// 标题
+			title: {
+				type: [String],
+				default: '提示'
+			},
+			// 弹窗宽度，可以是数值(rpx)，百分比，auto等
+			width: {
+				type: [Number, String],
+				default: 600
+			},
+			// 弹窗内容
+			content: {
+				type: String,
+				default: '内容'
+			},
+			// 是否显示标题
+			showTitle: {
+				type: Boolean,
+				default: true
+			},
+			// 是否显示确认按钮
+			showConfirmButton: {
+				type: Boolean,
+				default: true
+			},
+			// 是否显示取消按钮
+			showCancelButton: {
+				type: Boolean,
+				default: false
+			},
+			// 确认文案
+			confirmText: {
+				type: String,
+				default: '确认'
+			},
+			// 取消文案
+			cancelText: {
+				type: String,
+				default: '取消'
+			},
+			// 确认按钮颜色
+			confirmColor: {
+				type: String,
+				default: '#2979ff'
+			},
+			// 取消文字颜色
+			cancelColor: {
+				type: String,
+				default: '#606266'
+			},
+			// 圆角值
+			borderRadius: {
+				type: [Number, String],
+				default: 16
+			},
+			// 标题的样式
+			titleStyle: {
+				type: Object,
+				default () {
+					return {}
+				}
+			},
+			// 内容的样式
+			contentStyle: {
+				type: Object,
+				default () {
+					return {}
+				}
+			},
+			// 取消按钮的样式
+			cancelStyle: {
+				type: Object,
+				default () {
+					return {}
+				}
+			},
+			// 确定按钮的样式
+			confirmStyle: {
+				type: Object,
+				default () {
+					return {}
+				}
+			},
+			// 是否开启缩放效果
+			zoom: {
+				type: Boolean,
+				default: true
+			},
+			// 是否异步关闭，只对确定按钮有效
+			asyncClose: {
+				type: Boolean,
+				default: false
+			},
+			// 是否允许点击遮罩关闭modal
+			maskCloseAble: {
+				type: Boolean,
+				default: false
+			},
+			// 给一个负的margin-top，往上偏移，避免和键盘重合的情况
+			negativeTop: {
+				type: [String, Number],
+				default: 0
+			}
+		},
 		data() {
 			return {
-				loading: false
+				loading: false, // 确认按钮是否正在加载中
+			}
+		},
+		computed: {
+			cancelBtnStyle() {
+				return Object.assign({
+					color: this.cancelColor
+				}, this.cancelStyle);
+			},
+			confirmBtnStyle() {
+				return Object.assign({
+					color: this.confirmColor
+				}, this.confirmStyle);
+			},
+			uZIndex() {
+				return this.zIndex ? this.zIndex : this.$u.zIndex.popup;
 			}
 		},
 		watch: {
-			show(n) {
-				// 为了避免第一次打开modal，又使用了异步关闭的loading
-				// 第二次打开modal时，loading依然存在的情况
-				if (n && this.loading) this.loading = false
+			// 如果是异步关闭时，外部修改v-model的值为false时，重置内部的loading状态
+			// 避免下次打开的时候，状态混乱
+			value(n) {
+				if (n === true) this.loading = false;
 			}
 		},
 		methods: {
-			// 点击确定按钮
-			confirmHandler() {
-				// 如果配置了异步关闭，将按钮值为loading状态
+			confirm() {
+				// 异步关闭
 				if (this.asyncClose) {
 					this.loading = true;
+				} else {
+					this.$emit('input', false);
 				}
-				this.$emit('confirm')
+				this.$emit('confirm');
 			},
-			// 点击取消按钮
-			cancelHandler() {
-				this.$emit('cancel')
+			cancel() {
+				this.$emit('cancel');
+				this.$emit('input', false);
+				// 目前popup弹窗关闭有一个延时操作，此处做一个延时
+				// 避免确认按钮文字变成了"确定"字样，modal还没消失，造成视觉不好的效果
+				setTimeout(() => {
+					this.loading = false;
+				}, 300);
 			},
-			// 点击遮罩
-			// 从原理上来说，modal的遮罩点击，并不是真的点击到了遮罩
-			// 因为modal依赖于popup的中部弹窗类型，中部弹窗比较特殊，虽有然遮罩，但是为了让弹窗内容能flex居中
-			// 多了一个透明的遮罩，此透明的遮罩会覆盖在灰色的遮罩上，所以实际上是点击不到灰色遮罩的，popup内部在
-			// 透明遮罩的子元素做了.stop处理，所以点击内容区，也不会导致误触发
-			clickHandler() {
-				if (this.closeOnClickOverlay) {
-					this.$emit('close')
-				}
+			// 点击遮罩关闭modal，设置v-model的值为false，否则无法第二次弹起modal
+			popupClose() {
+				this.$emit('input', false);
+			},
+			// 清除加载中的状态
+			clearLoading() {
+				this.loading = false;
 			}
 		}
-	}
+	};
 </script>
 
 <style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
-	$u-modal-border-radius: 6px;
+	@import "../../libs/css/style.components.scss";
 
-	.u-modal {
-		width: 650rpx;
-		border-radius: $u-modal-border-radius;
+	.u-model {
+		height: auto;
 		overflow: hidden;
+		font-size: 32rpx;
+		background-color: #fff;
+
+		&__btn--hover {
+			background-color: rgb(230, 230, 230);
+		}
 
 		&__title {
-			font-size: 16px;
-			font-weight: bold;
-			color: $u-content-color;
+			padding-top: 48rpx;
+			font-weight: 500;
 			text-align: center;
-			padding-top: 25px;
+			color: $u-main-color;
 		}
 
 		&__content {
-			padding: 12px 25px 25px 25px;
-			@include flex;
-			justify-content: center;
-
-			&__text {
-				font-size: 15px;
+			&__message {
+				padding: 48rpx;
+				font-size: 30rpx;
+				text-align: center;
 				color: $u-content-color;
-				flex: 1;
 			}
 		}
 
-		&__button-group {
-			@include flex;
+		&__footer {
+			@include vue-flex;
 
-			&--confirm-button {
-				flex-direction: column;
-				padding: 0px 25px 15px 25px;
-			}
-
-			&__wrapper {
+			&__button {
 				flex: 1;
-				@include flex;
-				justify-content: center;
-				align-items: center;
-				height: 48px;
-				
-				&--confirm,
-				&--only-cancel {
-					border-bottom-right-radius: $u-modal-border-radius;
-				}
-				
-				&--cancel,
-				&--only-confirm {
-					border-bottom-left-radius: $u-modal-border-radius;
-				}
-
-				&--hover {
-					background-color: $u-bg-color;
-				}
-
-				&__text {
-					color: $u-content-color;
-					font-size: 16px;
-					text-align: center;
-				}
+				height: 100rpx;
+				line-height: 100rpx;
+				font-size: 32rpx;
+				box-sizing: border-box;
+				cursor: pointer;
+				text-align: center;
+				border-radius: 4rpx;
 			}
 		}
 	}

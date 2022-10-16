@@ -1,171 +1,216 @@
 <template>
-	<text
-		v-if="show && ((Number(value) === 0 ? showZero : true) || isDot)"
-		:class="[isDot ? 'u-badge--dot' : 'u-badge--not-dot', inverted && 'u-badge--inverted', shape === 'horn' && 'u-badge--horn', `u-badge--${type}${inverted ? '--inverted' : ''}`]"
-		:style="[$u.addStyle(customStyle), badgeStyle]"
-		class="u-badge"
-	>{{ isDot ? '' :showValue }}</text>
+	<view v-if="show" class="u-badge" :class="[
+			isDot ? 'u-badge-dot' : '', 
+			size == 'mini' ? 'u-badge-mini' : '',
+			type ? 'u-badge--bg--' + type : ''
+		]" :style="[{
+			top: offset[0] + 'rpx',
+			right: offset[1] + 'rpx',
+			fontSize: fontSize + 'rpx',
+			position: absolute ? 'absolute' : 'static',
+			color: color,
+			backgroundColor: bgColor
+		}, boxStyle]"
+	>
+		{{showText}}
+	</view>
 </template>
 
 <script>
-	import props from './props.js';
 	/**
-	 * badge 徽标数
-	 * @description 该组件一般用于图标右上角显示未读的消息数量，提示用户点击，有圆点和圆包含文字两种形式。
-	 * @tutorial https://uviewui.com/components/badge.html
-	 * 
-	 * @property {Boolean} 			isDot 		是否显示圆点 （默认 false ）
-	 * @property {String | Number} 	value 		显示的内容
-	 * @property {Boolean} 			show 		是否显示 （默认 true ）
-	 * @property {String | Number} 	max 		最大值，超过最大值会显示 '{max}+'  （默认999）
-	 * @property {String} 			type 		主题类型，error|warning|success|primary （默认 'error' ）
-	 * @property {Boolean} 			showZero	当数值为 0 时，是否展示 Badge （默认 false ）
-	 * @property {String} 			bgColor 	背景颜色，优先级比type高，如设置，type参数会失效
-	 * @property {String} 			color 		字体颜色 （默认 '#ffffff' ）
-	 * @property {String} 			shape 		徽标形状，circle-四角均为圆角，horn-左下角为直角 （默认 'circle' ）
-	 * @property {String} 			numberType	设置数字的显示方式，overflow|ellipsis|limit  （默认 'overflow' ）
-	 * @property {Array}} 			offset		设置badge的位置偏移，格式为 [x, y]，也即设置的为top和right的值，absolute为true时有效
-	 * @property {Boolean} 			inverted	是否反转背景和字体颜色（默认 false ）
-	 * @property {Boolean} 			absolute	是否绝对定位（默认 false ）
-	 * @property {Object}			customStyle	定义需要用到的外部样式
-	 * @example <u-badge :type="type" :count="count"></u-badge>
+	 * badge 角标
+	 * @description 本组件一般用于展示头像的地方，如个人中心，或者评论列表页的用户头像展示等场所。
+	 * @tutorial https://www.uviewui.com/components/badge.html
+	 * @property {String Number} count 展示的数字，大于 overflowCount 时显示为 ${overflowCount}+，为0且show-zero为false时隐藏
+	 * @property {Boolean} is-dot 不展示数字，只有一个小点（默认false）
+	 * @property {Boolean} absolute 组件是否绝对定位，为true时，offset参数才有效（默认true）
+	 * @property {String Number} overflow-count 展示封顶的数字值（默认99）
+	 * @property {String} type 使用预设的背景颜色（默认error）
+	 * @property {Boolean} show-zero 当数值为 0 时，是否展示 Badge（默认false）
+	 * @property {String} size Badge的尺寸，设为mini会得到小一号的Badge（默认default）
+	 * @property {Array} offset 设置badge的位置偏移，格式为 [x, y]，也即设置的为top和right的值，单位rpx。absolute为true时有效（默认[20, 20]）
+	 * @property {String} color 字体颜色（默认#ffffff）
+	 * @property {String} bgColor 背景颜色，优先级比type高，如设置，type参数会失效
+	 * @property {Boolean} is-center 组件中心点是否和父组件右上角重合，优先级比offset高，如设置，offset参数会失效（默认false）
+	 * @example <u-badge type="error" count="7"></u-badge>
 	 */
 	export default {
 		name: 'u-badge',
-		mixins: [uni.$u.mpMixin, props, uni.$u.mixin],
+		props: {
+			// primary,warning,success,error,info
+			type: {
+				type: String,
+				default: 'error'
+			},
+			// default, mini
+			size: {
+				type: String,
+				default: 'default'
+			},
+			//是否是圆点
+			isDot: {
+				type: Boolean,
+				default: false
+			},
+			// 显示的数值内容
+			count: {
+				type: [Number, String],
+			},
+			// 展示封顶的数字值
+			overflowCount: {
+				type: Number,
+				default: 99
+			},
+			// 当数值为 0 时，是否展示 Badge
+			showZero: {
+				type: Boolean,
+				default: false
+			},
+			// 位置偏移
+			offset: {
+				type: Array,
+				default: () => {
+					return [20, 20]
+				}
+			},
+			// 是否开启绝对定位，开启了offset才会起作用
+			absolute: {
+				type: Boolean,
+				default: true
+			},
+			// 字体大小
+			fontSize: {
+				type: [String, Number],
+				default: '24'
+			},
+			// 字体演示
+			color: {
+				type: String,
+				default: '#ffffff'
+			},
+			// badge的背景颜色
+			bgColor: {
+				type: String,
+				default: ''
+			},
+			// 是否让badge组件的中心点和父组件右上角重合，配置的话，offset将会失效
+			isCenter: {
+				type: Boolean,
+				default: false
+			}
+		},
 		computed: {
 			// 是否将badge中心与父组件右上角重合
 			boxStyle() {
 				let style = {};
+				if(this.isCenter) {
+					style.top = 0;
+					style.right = 0;
+					// Y轴-50%，意味着badge向上移动了badge自身高度一半，X轴50%，意味着向右移动了自身宽度一半
+					style.transform = "translateY(-50%) translateX(50%)";
+				} else {
+					style.top = this.offset[0] + 'rpx';
+					style.right = this.offset[1] + 'rpx';
+					style.transform = "translateY(0) translateX(0)";
+				}
+				// 如果尺寸为mini，后接上scal()
+				if(this.size == 'mini') {
+					style.transform = style.transform + " scale(0.8)";
+				}
 				return style;
 			},
-			// 整个组件的样式
-			badgeStyle() {
-				const style = {}
-				if(this.color) {
-					style.color = this.color
-				}
-				if (this.bgColor && !this.inverted) {
-					style.backgroundColor = this.bgColor
-				}
-				if (this.absolute) {
-					style.position = 'absolute'
-					// 如果有设置offset参数
-					if(this.offset.length) {
-						// top和right分为为offset的第一个和第二个值，如果没有第二个值，则right等于top
-						const top = this.offset[0]
-						const right = this.offset[1] || top
-						style.top = uni.$u.addUnit(top)
-						style.right = uni.$u.addUnit(right)
-					}
-				}
-				return style
-			},
-			showValue() {
-				switch (this.numberType) {
-					case "overflow":
-						return Number(this.value) > Number(this.max) ? this.max + "+" : this.value
-						break;
-					case "ellipsis":
-						return Number(this.value) > Number(this.max) ? "..." : this.value
-						break;
-					case "limit":
-						return Number(this.value) > 999 ? Number(this.value) >= 9999 ?
-							Math.floor(this.value / 1e4 * 100) / 100 + "w" : Math.floor(this.value /
-								1e3 * 100) / 100 + "k" : this.value
-						break;
-					default:
-						return Number(this.value)
+			// isDot类型时，不显示文字
+			showText() {
+				if(this.isDot) return '';
+				else {
+					if(this.count > this.overflowCount) return `${this.overflowCount}+`;
+					else return this.count;
 				}
 			},
+			// 是否显示组件
+			show() {
+				// 如果count的值为0，并且showZero设置为false，不显示组件
+				if(this.count == 0 && this.showZero == false) return false;
+				else return true;
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
-
-	$u-badge-primary: $u-primary !default;
-	$u-badge-error: $u-error !default;
-	$u-badge-success: $u-success !default;
-	$u-badge-info: $u-info !default;
-	$u-badge-warning: $u-warning !default;
-	$u-badge-dot-radius: 100px !default;
-	$u-badge-dot-size: 8px !default;
-	$u-badge-dot-right: 4px !default;
-	$u-badge-dot-top: 0 !default;
-	$u-badge-text-font-size: 11px !default;
-	$u-badge-text-right: 10px !default;
-	$u-badge-text-padding: 2px 5px !default;
-	$u-badge-text-align: center !default;
-	$u-badge-text-color: #FFFFFF !default;
-
+	@import "../../libs/css/style.components.scss";
+	
 	.u-badge {
-		border-top-right-radius: $u-badge-dot-radius;
-		border-top-left-radius: $u-badge-dot-radius;
-		border-bottom-left-radius: $u-badge-dot-radius;
-		border-bottom-right-radius: $u-badge-dot-radius;
-		@include flex;
-		line-height: $u-badge-text-font-size;
-		text-align: $u-badge-text-align;
-		font-size: $u-badge-text-font-size;
-		color: $u-badge-text-color;
-
-		&--dot {
-			height: $u-badge-dot-size;
-			width: $u-badge-dot-size;
+		/* #ifndef APP-NVUE */
+		display: inline-flex;
+		/* #endif */
+		justify-content: center;
+		align-items: center;
+		line-height: 24rpx;
+		padding: 4rpx 8rpx;
+		border-radius: 100rpx;
+		z-index: 9;
+		
+		&--bg--primary {
+			background-color: $u-type-primary;
 		}
 		
-		&--inverted {
-			font-size: 13px;
+		&--bg--error {
+			background-color: $u-type-error;
 		}
 		
-		&--not-dot {
-			padding: $u-badge-text-padding;
-		}
-
-		&--horn {
-			border-bottom-left-radius: 0;
-		}
-
-		&--primary {
-			background-color: $u-badge-primary;
+		&--bg--success {
+			background-color: $u-type-success;
 		}
 		
-		&--primary--inverted {
-			color: $u-badge-primary;
-		}
-
-		&--error {
-			background-color: $u-badge-error;
+		&--bg--info {
+			background-color: $u-type-info;
 		}
 		
-		&--error--inverted {
-			color: $u-badge-error;
+		&--bg--warning {
+			background-color: $u-type-warning;
 		}
-
-		&--success {
-			background-color: $u-badge-success;
-		}
-		
-		&--success--inverted {
-			color: $u-badge-success;
-		}
-
-		&--info {
-			background-color: $u-badge-info;
-		}
-		
-		&--info--inverted {
-			color: $u-badge-info;
-		}
-
-		&--warning {
-			background-color: $u-badge-warning;
-		}
-		
-		&--warning--inverted {
-			color: $u-badge-warning;
-		}
+	}
+	
+	.u-badge-dot {
+		height: 16rpx;
+		width: 16rpx;
+		border-radius: 100rpx;
+		line-height: 1;
+	}
+	
+	.u-badge-mini {
+		transform: scale(0.8);
+		transform-origin: center center;
+	}
+	
+	// .u-primary {
+	// 	background: $u-type-primary;
+	// 	color: #fff;
+	// }
+	
+	// .u-error {
+	// 	background: $u-type-error;
+	// 	color: #fff;
+	// }
+	
+	// .u-warning {
+	// 	background: $u-type-warning;
+	// 	color: #fff;
+	// }
+	
+	// .u-success {
+	// 	background: $u-type-success;
+	// 	color: #fff;
+	// }
+	
+	// .u-black {
+	// 	background: #585858;
+	// 	color: #fff;
+	// }
+	
+	.u-info {
+		background-color: $u-type-info;
+		color: #fff;
 	}
 </style>

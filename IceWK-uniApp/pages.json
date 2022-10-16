@@ -9,17 +9,17 @@
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/appdown/appdown",
+			"path": "pages/home/home",
 			"style": {
-				"navigationBarTitleText": "软件",
+				"navigationBarTitleText": "首页",
 				"navigationStyle": "custom", 
 				"navigationBarTextStyle": "black",
 				"enablePullDownRefresh": true
 			}
 		},{
-			"path": "pages/appsort/appsort",
+			"path": "pages/more/more",
 			"style": {
-				"navigationBarTitleText": "分类",
+				"navigationBarTitleText": "发现",
 				"navigationStyle": "custom", 
 				"navigationBarTextStyle": "black"
 			}
@@ -31,8 +31,183 @@
 				"navigationBarTextStyle": "black",
 				"enablePullDownRefresh": true
 			}
-		},   {
-			"path": "pages/appsort/appsortlist",
+		}, {
+			"path": "pages/my/vip",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/setting",
+			"style": {
+				"navigationBarTitleText": "设置",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/agr",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/chat/chat",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/my/discuss",
+			"style": {
+				"navigationBarTitleText": "我的话题"
+			}
+		}, {
+			"path": "pages/my/topic",
+			"style": {
+				"navigationBarTitleText": "我的圈子"
+			}
+		}, {
+			"path": "pages/my/thumb",
+			"style": {
+				"navigationBarTitleText": "点赞记录"
+			}
+		}, {
+			"path": "pages/shop/index",
+			"style": {
+				"navigationBarTitleText": "商城",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"scrollIndicator": "none" //关闭滚动条效果
+				}
+			}
+
+		}, {
+			"path": "pages/shop/address/list",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/shop/order/create",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/shop/order/detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/shop/order/list",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"scrollIndicator": "none" //关闭滚动条效果
+				}
+			}
+
+		}, {
+			"path": "pages/shop/car",
+			"style": {
+				"navigationBarTitleText": "购物车",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/shop/car-total",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/shop/product/list",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/shop/product/detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/fans",
+			"style": {
+				"navigationBarTitleText": "我的粉丝"
+			}
+		}, {
+			"path": "pages/my/follow",
+			"style": {
+				"navigationBarTitleText": "我的关注"
+			}
+		}, {
+			"path": "pages/my/chong",
+			"style": {
+				"navigationBarTitleText": "充值提现",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/tx",
+			"style": {
+				"navigationBarTitleText": "提现",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/numdown",
+			"style": {
+				"navigationBarTitleText": "下载记录",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/message/list",
+			"style": {
+				"navigationBarTitleText": "系统消息"
+			}
+		}, {
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/post",
+			"style": {
+				"navigationBarTitleText": "作品管理"
+			}
+		}, {
+			"path": "pages/my/about",
+			"style": {
+				"navigationBarTitleText": "关于社区项目",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/mess",
+			"style": {
+				"navigationBarTitleText": "消息提醒",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/more/morelist",
 			"style": {
 				"navigationBarTitleText": "分类列表",
 				"navigationStyle": "custom", 
@@ -40,104 +215,135 @@
 				"enablePullDownRefresh": true
 			}
 		},{
-			"path": "pages/circle/index",
+			"path": "pages/circle/circle",
 			"style": {
-				"navigationBarTitleText": "圈子",
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"enablePullDownRefresh": true
 			}
 		}, {
-			"path": "pages/find/find",
+			"path": "pages/message/message",
 			"style": {
-				"navigationBarTitleText": "发现",
+				"navigationBarTitleText": "消息",
 				"enablePullDownRefresh": true
 			}
-		}
-		// {
-		// 	"path": "pages/my/vip/vip",
-		// 	"style": {
-		// 		"navigationBarTitleText": "会员兑换"
-		// 	}
-		// },  {
-		// 	"path": "pages/my/account/changeword",
-		// 	"style": {
-		// 		"navigationBarTitleText": "修改密码"
-		// 	}
-		// }, {
-		// 	"path": "pages/my/account/email",
-		// 	"style": {
-		// 		"navigationBarTitleText": "绑定邮箱"
-		// 	}
-		// }, {
-		// 	"path": "pages/my/account/name",
-		// 	"style": {
-		// 		"navigationBarTitleText": "修改昵称"
-		// 	}
-		// }, {
-		// 	"path": "pages/my/account/forget",
-		// 	"style": {
-		// 		"navigationBarTitleText": "忘记密码"
-		// 	}
-		// }, {
-		// 	"path": "pages/my/account/login",
-		// 	"style": {
-		// 		"navigationBarTitleText": "登录注册",
-		// 		"navigationStyle": "custom", 
-		// 		"navigationBarTextStyle": "black"
-		// 	}
-		// }, 
+		},{
+			"path": "pages/post/detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "black"
+			}
+		},{
+			"path": "pages/post/circle-detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "black"
+			}
+		}, {
+			"path": "pages/post/add",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "black"
+				
+			}
+		},{
+			"path": "pages/post/video-detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+				}
 
-		// {
-		// 	"path": "pages/my/vip/shoplist",
-		// 	"style": {
-		// 		"navigationBarTitleText": "我的订单"
-		// 	}
-		// }{
-		// 	"path": "pages/commen/appdetails",
-		// 	"style": {
-		// 		"navigationBarTitleText": "软件详情",
-		// 		"navigationStyle": "custom", 
-		// 		"navigationBarTextStyle": "black",
-		// 		"enablePullDownRefresh": true
-		// 	}
-		// },
-		// {
-		// 	"path": "pages/commen/appsearchlist",
-		// 	"style": {
-		// 		"navigationBarTitleText": "搜索列表",
-		// 		"navigationStyle": "custom", 
-		// 		"navigationBarTextStyle": "black",
-		// 		"enablePullDownRefresh": true
-		// 	}
-		// },
-		// {
-		// 	"path": "pages/commen/apprank",
-		// 	"style": {
-		// 		"navigationBarTitleText": "排行榜",
-		// 		"navigationBarTextStyle": "white",
-		// 		"navigationBarBackgroundColor":"#50A1FF"
-		// 	}
-		// },
-		// {
-		// 	"path": "pages/commen/apptaglist",
-		// 	"style": {
-		// 		"navigationBarTitleText": "标签",
-		// 		"enablePullDownRefresh": true
-		// 	}
-		// },
-		// {
-		// 	"path": "pages/commen/commenlist",
-		// 	"style": {
-		// 		"navigationBarTitleText": "软件列表",
-		// 		"navigationStyle": "custom", 
-		// 		"navigationBarTextStyle": "black"
-		// 	}
-		// },
-		// ,	{
-		// 	"path": "pages/commen/post",
-		// 	"style": {
-		// 		"navigationBarTitleText": "软件投稿"
-		// 	}
-		//  }
+		},{
+			"path": "pages/post/vote",
+			"style": {
+				"navigationBarTitleText": "发布投票",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/post/comment",
+			"style": {
+				"navigationBarTitleText": "评论",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/post/edit",
+			"style": {
+				"navigationBarTitleText": "修改信息",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/home",
+			"style": {
+				"navigationBarTitleText": "个人主页",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"scrollIndicator": "none" //关闭滚动条效果
+				}
+			}
+		}, {
+			"path": "pages/user/edit-info/edit",
+			"style": {
+				"navigationBarTitleText": "个人资料"
+			}
+		}, {
+			"path": "pages/user/edit-info/submit",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		},{
+            "path" : "pages/user/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "登录",
+                "enablePullDownRefresh": false,
+				"navigationStyle":"custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/forget",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "找回密码",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/reg",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "注册",
+                "enablePullDownRefresh": false
+            }
+            
+        }, {
+			"path": "pages/post/choose-topiclass/choose-topiclass",
+			"style": {
+				"navigationBarTitleText": "选择分类",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/post/choose-topic/choose-topic",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/post/choose-discuss/choose-discuss",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
 	],
 	"subPackages":[
 	//分包模块
@@ -243,24 +449,24 @@
 		"height": "55px",
 		"fontSize": "10px",
 		"list": [{
-			"pagePath": "pages/appdown/appdown",
-			"text": "资源",
+			"pagePath": "pages/home/home",
+			"text": "首页",
 			"iconPath": "static/tabicon/app.png",
 			"selectedIconPath": "static/tabicon/apped.png"
 		}, {
-			"pagePath": "pages/appsort/appsort",
-			"text": "分类",
+			"pagePath": "pages/more/more",
+			"text": "发现",
 			"iconPath": "static/tabicon/forum.png",
 			"selectedIconPath": "static/tabicon/forumed.png"
 		},
 		{
-			"pagePath": "pages/circle/index",
+			"pagePath": "pages/circle/circle",
 			"text": "圈子",
 			"iconPath": "static/tabicon/query.png",
 			"selectedIconPath": "static/tabicon/queryed.png"
 		},{
-			"pagePath": "pages/find/find",
-			"text": "发现",
+			"pagePath": "pages/message/message",
+			"text": "消息",
 			"iconPath": "static/tabicon/find.png",
 			"selectedIconPath": "static/tabicon/finded.png"
 		}, {
@@ -272,7 +478,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uView",
+		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF"
 	}

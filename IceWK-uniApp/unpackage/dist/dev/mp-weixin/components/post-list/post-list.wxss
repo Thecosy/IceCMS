@@ -424,4 +424,13 @@
 .vote-box .vote-item.data-v-10cfc7dc:last-child {
   margin-bottom: 0;
 }
+.u-reset-button.data-v-10cfc7dc {
+  display: flex;
+  padding: 0;
+  background-color: transparent;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  justify-content: center;
+}
 

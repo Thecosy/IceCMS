@@ -1,6 +1,8 @@
 <!-- 软件详情 -->
 <template>
 	<view class="top">
+		<u-navbar title="文章" :border-bottom="false" title-color="#000">
+		</u-navbar>
 		<view :class="'menu_scroll_top_' + [topBar]">
 			<view class="menu-scroll">
 				<view class="menu-scroll-leat">
@@ -10,23 +12,43 @@
 				</view>
 			</view>
 		</view>
-		<image class="headimg" :src="postlunbo" mode="widthFix"></image>
+		<!-- <image class="headimg" :src="postlunbo" mode="widthFix"></image>
 		<view class="app" style="display: flex;">
 			<image class="appimg" :src="thumb"></image>
 			<view class="others">
 				<view class="title">{{ title }}</view>
 				<view class="author"><text class="zuoz">软件作者</text> ： <text class="zzname">{{ name }}</text></view>
 			</view>
-		</view>
-		<view class="tims" style="display: flex;">
+		</view> -->
+		<!-- 	<view class="tims" style="display: flex;">
 			<view class="time">{{ time }}</view>
 			<view class="views">
 				<u-icon name="download" :label="down"></u-icon>
 			</view>
+		</view> -->
+		<view class="post-top">
+			<view class="content-title">{{ title }}</view>
+			<view class="post-meta">
+				<view class="post-meta-left">
+
+					<image class="avatar b2img" :src="thumb"></image>
+
+					<view class="post-meta-user">
+						<view>77740658</view>
+						<view class="post-meta-meta">
+							<view class="post-meta-meta-item">0个喜欢</view>
+							<view class="post-meta-meta-item">1个评论</view>
+							<view class="post-meta-meta-item">2022-08-17</view>
+						</view>
+					</view>
+				</view>
+				<view class="post-meta-right">67浏览</view>
+			</view>
+			<!---->
 		</view>
 		<view class="mg20">
 			<u-cell-group>
-				<u-cell title="应用介绍"></u-cell>
+				<u-cell title="详情"></u-cell>
 			</u-cell-group>
 			<u-scroll-list indicator style="margin-top: 10rpx;">
 				<view class="u-demo-block__content">
@@ -40,16 +62,16 @@
 			<!-- <u-parse :content="content"></u-parse> -->
 			<MDParserHighlight :resource="content"></MDParserHighlight>
 		</view>
-		<view class="mg20">
+		<view style="margin-bottom: 38rpx;" class="mg20">
 			<u-cell-group>
 				<u-cell title="推荐内容"></u-cell>
 			</u-cell-group>
-			
 		</view>
 		<!-- v-if="showshare == '1'" -->
-		<view >
+		<view>
 			<view class="comments">
-				<view class="comments_title">评论列表</view>
+				<view class="comment-title bold">评论<text class="fs14 gray"><span>1</span></text></view>
+
 				<u-empty v-if="!showlist" mode="comment" icon="http://cdn.uviewui.com/uview/empty/comment.png">
 				</u-empty>
 				<view v-else class="comments_des" v-for="(item, index) in comments" :key="index">
@@ -67,17 +89,35 @@
 				</view>
 			</view>
 		</view>
+
 		<view class="btm">
+			<!-- <view   class="comment-bar-left">
+				<view data-v-4ee8d618=""   class="b2font b2edit-2-line" style="font-size: 18px;">
+				</view>
+				<view   class="comment-input fs14">请输入评论</view>
+			</view> -->
+				<view class="comment-tool">
+			<textarea :placeholder="placeholder"  fixed="true" cursor-spacing="10"
+				 auto-height="true" placeholder-class="txt-placeholder">
+				 </textarea>
+				 </view>
+			<view   class="comment-bar-right buy-bar-left">
+				<view   class="comment-count bar-row">
+					<u-icon name="chat" class="icon" :size="35"></u-icon>
+					<uni-button   class="mini-btn text empty">评论</uni-button>
+				
+				</view>
+			</view>
 			<!-- <button class="downbtn">积分下载</button> -->
 			<!-- <progress border-radius="50rpx" stroke-width="550rpx" active-color="#50A1FF" backgroundColor="#28ffd1" percent="60"
 			></progress> -->
-			<button v-if="!showdown" class="downbtn" @click="downss">开始下载</button>
+			<!-- 	<button v-if="!showdown" class="downbtn" @click="downss">开始下载</button>
 			<view v-else-if="showdown" class="downbtns">
 				<!-- <progress stroke-width="40" active-color="#50A1FF" backgroundColor="rgba(33, 211, 173, 0.1)"
-					percent="60"></progress> -->
+					percent="60"></progress>
 				<u-line-progress :percentage="sleep" activeColor="#50A1FF" inactiveColor="rgba(33, 211, 173, 0.1)"
 					showText height="40"></u-line-progress>
-			</view>
+			</view> -->
 			<!-- <button class="likes" @click="fabulous" v-if="freedownurl != ''">
 				<image class="btmimg" src="/static/details/down.png" mode="widthFix"></image>
 				<view class="btmview">免费下载</view>
@@ -94,7 +134,7 @@
 				<image class="btmimg" src="/static/details/no.png" mode="widthFix"></image>
 				<view class="btmview">暂无资源</view>
 			</button> -->
-			<button @click="showInp">
+			<!-- <button @click="showInp">
 				<image class="btmimg" src="/static/details/pinglun.png" mode="widthFix" v-if="!showCmt"></image>
 				<image class="btmimg" src="/static/details/pinglun_c.png" mode="widthFix" v-else></image>
 			</button>
@@ -105,12 +145,12 @@
 				</view>
 				<input v-model="qqnumber" placeholder="请输入QQ号码" placeholder-class="placeholder" />
 				<input v-model="commentText" placeholder="请输入评论内容" placeholder-class="placeholder" />
-			</view>
+			</view> -->
 		</view>
 		<appUpdate v-if="show" :upTit="title" :infosrc="thumb" :downUrl="downUrls" @close="close"
 			@updateSucc="updateSucc" @updateErro="updateErro" @downOver="downOver" @maskClick="maskClick"></appUpdate>
 		<u-no-network></u-no-network>
-		
+
 	</view>
 </template>
 <script>
@@ -119,6 +159,7 @@
 	export default {
 		data() {
 			return {
+				placeholder: '请输入评论',
 				showdown: false,
 				sleep: 0,
 				downloadTask: null,
@@ -181,7 +222,7 @@
 			this.getCategoriesList();
 			this.getComments();
 		},
-		
+
 		onPullDownRefresh() {
 			//下拉刷新
 			this.getCategoriesList();
@@ -213,8 +254,8 @@
 						data: {},
 						success: res => {
 							console.log(res.data.msg.vip)
-							var date = new Date()							
-							if (res.data.msg.vip-date>0) {
+							var date = new Date()
+							if (res.data.msg.vip - date > 0) {
 								this.showdown = true
 								var downurls = this.downurl;
 								// console.log(this.downurl)
@@ -239,7 +280,7 @@
 										title: '不支持此链接下载方式！！'
 									})
 								}
-							}else if (res.data.msg.vip=='999999999') {
+							} else if (res.data.msg.vip == '999999999') {
 								this.showdown = true
 								var downurls = this.downurl;
 								// console.log(this.downurl)
@@ -266,27 +307,30 @@
 								}
 							} else {
 								uni.request({
-									url: 'http://易如意后台域名/api.php?act=get_fen&app=10000&token=' + token +'&fid=4',
+									url: 'http://易如意后台域名/api.php?act=get_fen&app=10000&token=' +
+										token + '&fid=4',
 									method: 'GET',
 									data: {},
 									success: (res) => {
 										// this.downUrls = res.data.download
 										console.log(res.data)
-										if(res.data.code=='200'){
+										if (res.data.code == '200') {
 											uni.showToast({
-												title:'扣除10积分，开始下载！',
-												icon:'none'
+												title: '扣除10积分，开始下载！',
+												icon: 'none'
 											})
 											this.showdown = true
 											var downurls = this.downurl;
 											// console.log(this.downurl)
 											if (downurls.indexOf('lanzou') != -1) {
 												uni.request({
-													url: 'http://蓝奏云解析域名/lanzou.php?url=' + this
+													url: 'http://蓝奏云解析域名/lanzou.php?url=' +
+														this
 														.downurl,
 													method: 'GET',
 													success: (res) => {
-														this.downUrls = res.data.download
+														this.downUrls = res.data
+															.download
 														console.log(this.downUrls)
 														this.downapk()
 													}
@@ -301,10 +345,10 @@
 													title: '不支持此链接下载方式！！'
 												})
 											}
-										}else{
+										} else {
 											uni.showToast({
-												title:'积分不足',
-												icon:'error'
+												title: '积分不足',
+												icon: 'error'
 											})
 											uni.showModal({
 												title: '友情提示',
@@ -313,7 +357,7 @@
 													if (res.confirm) {
 														console.log('用户点击确定');
 														uni.switchTab({
-															url:'../my/vip/shop'
+															url: '../my/vip/shop'
 														})
 													} else if (res.cancel) {
 														console.log('用户点击取消');
@@ -387,13 +431,10 @@
 					}
 				});
 			},
-			//加载软件内容
+			//加载内容
 			getCategoriesList: function() {
 				var that = this;
 				var id = this.id;
-				// console.log(id)
-				console.log(API.GetPostsbyID(id))
-				
 				uni.request({
 					url: API.GetPostsbyID(id),
 					success: function(res) {
@@ -798,7 +839,7 @@
 		background-color: #ffffff;
 		width: 750rpx;
 		bottom: 0;
-		height: 100rpx;
+		height: 128rpx;
 		display: flex;
 		justify-content: space-around;
 		/* margin-top: 20rpx; */
@@ -882,7 +923,7 @@
 	}
 
 	.comments {
-		margin: 30rpx 20rpx 100rpx 20rpx;
+		margin: 64rpx 20rpx 100rpx 39rpx;
 	}
 
 	.u-demo-block__content {
@@ -913,7 +954,7 @@
 	.menu-scroll {
 		display: flex;
 		justify-content: space-between;
-		padding: 0upx 30upx 10upx 30upx;
+		padding: 14upx 30upx 10upx 30upx;
 		justify-content: flex-start;
 	}
 
@@ -1008,4 +1049,169 @@
 		padding-top: 60upx;
 		border-radius: 0upx 0upx 30upx 30upx;
 	}
+
+	.content-title {
+		margin: 16px 0;
+	}
+
+	.content-title {
+		font-size: 20px;
+		font-weight: 700;
+		margin-bottom: 5px;
+	}
+
+	.post-meta {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.post-meta-left {
+		display: flex;
+		font-size: 13px;
+		align-items: center;
+	}
+
+	.post-meta-right {
+		padding: 0 10px;
+		height: 24px;
+		line-height: 24px;
+		background: linear-gradient(176deg, #ff647b, #ff3a55);
+		border-radius: 50px;
+		color: #fff;
+		text-align: center;
+		font-size: 12px;
+	}
+
+	.post-meta-left .avatar {
+		border-radius: 3px;
+		width: 33px;
+		height: 33px;
+		margin-right: 8px;
+	}
+
+	.b2img {
+		object-fit: cover;
+	}
+
+	.post-meta-meta {
+		display: flex;
+		align-items: center;
+		color: #999;
+		font-size: 12px;
+	}
+
+	.post-meta-meta-item[data-v-675ca77e] {
+		margin-right: 8px;
+	}
+
+	.post-top {
+		margin-left: 33rpx;
+		margin-right: 33rpx;
+	}
+
+	.comment-title {
+
+		font-size: 16px;
+		margin-bottom: 16px;
+	}
+
+	.bold {
+		font-weight: 700;
+	}
+
+	.comment-title .fs14 {
+		margin-left: 8px;
+		font-weight: 400;
+	}
+
+	.gray {
+		color: #999;
+	}
+
+	.fs14 {
+		font-size: 14px;
+	}
+	/* 评论tool */
+	.comment-tool {
+		bottom: 0;
+		width: 100%;
+		background-color: #fff;
+		padding: 23rpx;
+		display: flex;
+		z-index: 999;
+	}
+	
+	.comment-tool textarea {
+		    width: 93%;
+		min-height: 30rpx;
+		
+		    background-color: #f5f5f5;
+		    padding: 7px;
+		    border-radius: 16px;
+	}
+	
+	.comment-tool .u-btn {
+		margin-left: 10rpx;
+	}
+	.buy-bar-left {
+	flex: 1;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	line-height: 1;
+	}
+	.comment-bar-right {
+		margin-right: 5rpx;
+	display: flex;
+	align-items: center;
+	}
+	.bar-row {
+	text-align: center;
+	position: relative;
+	width: 50px;
+	}
+	.b2font {
+	display: inline-block;
+	}
+	.b2font {
+	font-family: b2font!important;
+	font-size: 16px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	}
+	.buy-bar-left .mini-btn {
+	height: auto;
+	line-height: 1;
+	text-align: center;
+	padding: 0;
+	border-radius: 0;
+	color: inherit!important;
+	font-size: 10px;
+	}
+	button.empty {
+	background: none!important;
+	border-color: #1985ff!important;
+	color: #1985ff!important;
+	}
+	.mini-btn {
+	height: 32px;
+	line-height: 32px;
+	font-size: 12px;
+	}
+	.buy-bar-left .mini-btn {
+	height: auto;
+	line-height: 1;
+	text-align: center;
+	padding: 0;
+	border-radius: 0;
+	color: inherit!important;
+	font-size: 10px;
+	}
+	
 </style>

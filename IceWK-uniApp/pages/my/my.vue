@@ -1,44 +1,196 @@
 <template>
-	<view>
-		<view style="height: 40px;background-color: #50A1FF;display: fixed;"></view>
-		<view v-if="!isLogin" @click="logins" class="flex alcenter space">
-	<view class="header" v-bind:class="{'status':isH5Plus}">
-			<view class="userinfo">
-				<view class="face"><image src="/static/logo/yclogo.png"></image></view>
-				<view class="info">
-					<view class="username">暂未登录</view>
-					<view class="mt12 ft12 cl-notice">点击登录 享受更多会员功能</view>
+	<view style="background-color: #F6F7F9;">
+		<view>
+		<!-- 	<u-navbar :is-back="false" title="我的" :border-bottom="false" title-color="#000">
+				<view class="slot-wrap" slot="right">
+					<u-icon name="setting" size="42" @click="toSet"></u-icon>
 				</view>
-			</view>
-			<view class="setting"><image src="../../static/HM-PersonalCenter/setting.png"></image></view>
-		</view>
- </view>
-		<view v-else class="header" v-bind:class="{'status':isH5Plus}">
-			<view class="userinfo">
-				<view class="face"><image :src="user.profile"></image></view>
-				<view class="info">
-					<view class="username">{{user.name}}</view>
-					<view class="integral">积分:{{user.integral}}</view>
-				</view>
-			</view>
-			<view class="setting"><image src="../../static/HM-PersonalCenter/setting.png"></image></view>
-		</view>
-		
-		<view class="orders">
-			<view class="box">
-				<view class="label" v-for="(row,index) in orderTypeLise" :key="row.name" hover-class="hover"  @tap="toOrderType(index)">
-					<view class="icon"><view class="badge" v-if="row.badge>0">{{row.badge}}</view><image :src="'../../static/HM-PersonalCenter/'+row.icon"></image></view>
-					{{row.name}}
-				</view>
+			</u-navbar> -->
+			<view class="head">
+				<view style="width: 100%;" class="setting-view">	
 				
+					<u-icon style="" name="setting" size="42" @click="toSet"></u-icon>
+					<u-icon style="margin-right: 12rpx;" name="bell" size="42" @click="toSet"></u-icon>
+					
+				</view>
+				<block v-if="hasLogin">
+					<view class="userinfo" @click="toUcenter">
+						<u-avatar :src="userInfos.avatar"></u-avatar>
+						<view class="username">
+							<text>{{ userInfos.username }}</text>
+							<view class="sub-txt">
+								<text>等级：平民{{ userInfos.level }}</text>
+								<view @click.stop="jumpVip" v-if="userInfos.is_vip" url="vip" class="vip-tips">vip会员</view>
+							</view>
+						</view>
+						<u-icon class="arrow-right" name="arrow-right"></u-icon>
+					</view>
+				</block>
+				<block v-else>
+					<view class="btn-login">
+						<q-button @click="jumpLogin" plain>登录</q-button>
+						
+					</view>
+				</block>
+				<u-grid v-if="!hasLogin" :col="5" :border="false" style="margin: 20rpx 0;background:none;" @click="toNav">
+					<u-grid-item  index="/pages/my/fans">
+						<text>0</text>
+						<view class="grid-text">粉丝</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/my/follow">
+						<text>0</text>
+						<view class="grid-text">关注</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/my/post">
+						<text>0</text>
+						<view class="grid-text">发布</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/my/chong">
+						<text>0</text>
+						<view class="grid-text">积分</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/my/numdown">
+						<text>0</text>
+						<view class="grid-text">下载</view>
+					</u-grid-item>
+				</u-grid>
+				<u-grid v-else :col="5" :border="false" style="margin: 20rpx 0;background:none;" @click="toNav">
+					<u-grid-item  index="/pages/my/fans">
+						<text>{{ userInfos.fans }}</text>
+						<view class="grid-text">粉丝</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/my/follow">
+						<text>{{ userInfos.follow }}</text>
+						<view class="grid-text">关注</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/my/post">
+						<text>{{ userInfos.post_num }}</text>
+						<view class="grid-text">发布</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/my/chong">
+						<text>{{ userInfos.integral }}</text>
+						<view class="grid-text">积分</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/my/numdown">
+						<text>{{ userInfos.downs }}</text>
+						<view class="grid-text">下载</view>
+					</u-grid-item>
+				</u-grid>
 			</view>
-		</view> 
-		<view class="list" v-for="(list,list_i) in severList" :key="list_i">
-			<view class="li" v-for="(li,li_i) in list" @tap="toPage(list_i,li_i)" v-bind:class="{'noborder':li_i==list.length-1}"  hover-class="hover" :key="li.name" >
-				<view class="icon"><image :src="'../../static/HM-PersonalCenter/sever/'+li.icon"></image></view>
-				<view class="text">{{li.name}}</view>
-				<image class="to" src="../../static/HM-PersonalCenter/to.png"></image>
+			<!-- VIP会员 -->
+			<block v-if="platform != 'ios'&& userInfos.is_vip == false">
+				<navigator v-if="hasLogin" url="vip" hover-class="none" class="vip-wrap">
+					<view class="left">
+						<view class="title">社区项目项目会员</view>
+						<view class="sub">开通社区项目项目会员，尽享权益</view>
+					</view>
+					<view class="right">
+						<view class="kt-btn">开通会员</view>
+					</view>
+				</navigator>
+			</block>
+			<block v-else>
+				<navigator v-if="hasLogin" url="vip" hover-class="none" class="vip-wrap">
+					<view class="left" style="margin-left: 50rpx;">
+						<view style="margin-left: 20rpx;" class="title">{{userInfos.vipname}}</view>
+						<view class="sub">会员优享精品服务{{userInfos.down}}{{userInfos.downz}}</view>
+					</view>
+					<view class="right">
+						<view class="kt-btn">立即开通</view>
+					</view>
+				</navigator>
+			</block>
+			<!-- 社区服务 -->
+			<view class="block-wrap">
+				<view class="block-title">社区服务</view>
+				<u-grid :col="4" :border="false" style="margin: 20rpx 0;" @click="toNav">
+					<u-grid-item index="/pages/my/discuss">
+						<image class="gn-icon" src="/static/m_1.png"></image>
+						<view class="grid-text">我的话题</view>
+					</u-grid-item>
+		
+					<u-grid-item index="/pages/my/topic">
+						<image class="gn-icon" src="/static/m_2.png"></image>
+						<view class="grid-text">我的圈子</view>
+					</u-grid-item>
+		
+					<u-grid-item index="/pages/my/post">
+						<image class="gn-icon" src="/static/m_3.png"></image>
+						<view class="grid-text">我的发布</view>
+					</u-grid-item>
+		
+					<u-grid-item index="/pages/my/thumb">
+						<image class="gn-icon" src="/static/m_4.png"></image>
+						<view class="grid-text">点赞记录</view>
+					</u-grid-item>
+				</u-grid>
 			</view>
+			<!-- 市集服务 -->
+			<view class="block-wrap">
+				<view class="block-title">商城服务</view>
+				<u-grid :col="4" :border="false" style="margin: 20rpx 0;" @click="toNav">
+					<u-grid-item index="/pages/shop/index">
+						<image class="gn-icon" src="/static/m_5.png"></image>
+						<view class="grid-text">商城</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/shop/order/list">
+						<image class="gn-icon" src="/static/m_6.png"></image>
+						<view class="grid-text">我的订单</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/shop/car">
+						<image class="gn-icon" src="/static/m_9.png"></image>
+						<view class="grid-text">购物车</view>
+					</u-grid-item>
+					<u-grid-item index="/pages/shop/address/list">
+						<image class="gn-icon" src="/static/m_7.png"></image>
+						<view class="grid-text">收货地址</view>
+					</u-grid-item>
+				</u-grid>
+			</view>
+			<!-- 帮助 -->
+			<view class="block-wrap">
+				<view class="block-title">帮助</view>
+				<u-grid :col="4" :border="false" style="margin: 20rpx 0;" @click="toNav">
+					<u-grid-item>
+						<button open-type="contact" class="u-reset-button">
+							<image class="gn-icon" style="margin-bottom: unset;width: 55rpx; height: 55rpx;" src="/static/m_8.png"></image>
+							<view class="grid-text">帮助与反馈</view>
+						</button>
+					</u-grid-item>
+					<u-grid-item>
+						<button open-type="contact" @click="clearCache" class="u-reset-button">
+							<image class="gn-icon" style="margin-bottom: unset;width: 60rpx; height: 60rpx;" src="/static/clear.png"></image>
+							<view class="grid-text">清除缓存</view>
+						</button>
+					</u-grid-item>
+					<u-grid-item>
+						<button open-type="contact" @click="showShare = true" class="u-reset-button">
+							<image class="gn-icon" style="margin-bottom: unset;width: 70rpx; height: 70rpx;"  src="/static/bbh.png"></image>
+							<view class="grid-text">版本</view>
+						</button>
+					</u-grid-item>
+					<u-grid-item>
+						<button open-type="contact" @click="showShare1 = true"  class="u-reset-button">
+							<image class="gn-icon" style="margin-bottom: unset;width: 75rpx; height: 75rpx;" src="/static/gy.png"></image>
+							<view class="grid-text">关于我们</view>
+						</button>
+					</u-grid-item>
+				</u-grid>
+			</view>
+			
+			<view style="height: 120rpx;"></view>
+			<u-popup v-model="showShare" mode="center" border-radius="20">
+				<view style="margin: 30px; padding: 30px;">
+					v1.0.0
+				</view>
+			</u-popup>
+			<u-popup v-model="showShare1" mode="center" border-radius="20">
+				<view style="margin: 30px; padding: 30px;">
+					IceCMS
+				</view>
+			</u-popup>
+			<!-- tabbar -->
+			<!-- <q-tabbar :active="4" :count="msgCount"></q-tabbar> -->
 		</view>
 		<u-button v-show="isLogin" class="mt60" shape="circle" size="large" text="退出登录" @click="tuichu()"></u-button>
 	</view>
@@ -47,41 +199,20 @@
 	export default {
 		data() {
 			return {
+				userInfos:{},
+				mAd: '',
+				showShare: false,
+				showShare1: false,
+				cacheSize: 0,
 					//#ifdef APP-PLUS
 								isH5Plus:true,
 								//#endif
 								//#ifndef APP-PLUS
 								isH5Plus:false,
 								//#endif
-								userinfo:{},
-								orderTypeLise:[
-									//name-标题 icon-图标 badge-角标
-									{name:'订单查询',icon:'l1.png',badge:1},
-									{name:'软件投稿',icon:'l2.png',badge:2},
-									{name:'待收货',icon:'l3.png',badge:6},
-									{name:'待评价',icon:'l4.png',badge:9},
-									{name:'加官方群',icon:'l5.png',badge:0}
-								],
-								severList:[
-									[
-										{name:'兑换会员',icon:'point.png'},
-										{name:'修改密码',icon:'quan.png'},
-										{name:'绑定邮箱',icon:'momey.png'},
-										{name:'修改昵称',icon:'renw.png'},
-									],
-									[
-										{name:'积分明细',icon:'mingxi.png'},
-										{name:'清除缓存',icon:'choujiang.png'},
-										// {name:'收货地址',icon:'addr.png'},
-										// {name:'银行卡',icon:'bank.png'},
-										// {name:'安全中心',icon:'security.png'},
-										{name:'在线客服',icon:'kefu.png'}
-									]
-								],
-							
+								userinfo:{},				
 				vipicon:'/static/vip/novip.png',
 				isVip: false,
-			
 				isLogin: false,
 				user: {
 					name: '',
@@ -93,6 +224,21 @@
 			}
 		},
 		computed: {
+			hasLogin() {
+				return this.$store.state.hasLogin;
+			},
+			timestamp() {
+				return Date.parse(new Date()) / 1000;
+			},
+			platform() {
+				return this.$u.os();
+			},
+			userInfo() {
+				return this.$store.state.userInfo;
+			},
+			msgCount() {
+				return this.$store.state.messegeNum;
+			},
 			getMenus() {
 				let arr = new Array;
 				for (var a in this.memberMenus) {
@@ -105,25 +251,126 @@
 		},
 		onLoad() {
 			this.getIsLogin();
-			this.getInfo();
-			this.getgg()
+			
 		},
 		onShow() {
 			this.getIsLogin();
-			this.getInfo()
-			this.getgg()
+			if (this.$store.state.userInfo) {
+				
+				this.getMsgNum();
+				this.getUserInfo();
+			} else {
+				this.jumpLogin();
+			}
 		},
 		onShareAppMessage(e) {},
 		onShareTimeline(e) {},
 		onPullDownRefresh() {
 			this.getIsLogin();
-			this.getInfo();
-			this.getgg()
+			if (this.$store.state.userInfo) {
+				this.getUserInfo();
+			}
+			uni.stopPullDownRefresh();
+			
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
 		},
 		methods: {
+			getMsgNum() {
+				this.$H.post('message/num').then(res => {
+					this.$store.state.messegeNum = [0, 0, 0, res.result.all_count, 0];
+				});
+			},
+			jumpVip() {
+				uni.navigateTo({
+					url: 'vip'
+				});
+			},
+			getUserInfo() {
+				// this.$H.get('user/userInfo').then(res => {
+				// 	this.userInfos = res.result;
+				// });
+				let userInfo= this.$store.state.userInfo
+					this.userInfos.email = userInfo.email
+					this.userInfos.username = userInfo.name
+					this.userInfos.id = userInfo.userid
+					this.userInfos.avatar = userInfo.profile
+			},
+			jumpLogin() {
+				let that = this;
+				uni.navigateTo({
+					url: "/pages/user/login"
+				})
+			},
+			// 微信登录
+			wechatLogin() {
+				let that = this;
+				uni.login({
+					provider: 'weixin',
+					success: function(loginRes) {
+						// 获取用户信息
+						uni.getUserInfo({
+							provider: 'weixin',
+							success: function(res) {
+								console.log(res);
+								that.$H.post('user/appWxLogin', {
+									openid: res.userInfo.openId,
+									username: res.userInfo.nickName,
+									avatar: res.userInfo.avatarUrl,
+									province: res.userInfo.province,
+									city: res.userInfo.city,
+									gender: res.userInfo.gender,
+									unionid: res.userInfo.unionId
+								}).then(res2 => {
+									console.log(res2);
+									if (res2.code === 200) {
+										that.$store.commit('login', res2.result);
+										that.getUserInfo();
+										uni.closeAuthView();
+									} else {
+										uni.navigateBack();
+									}
+								})
+							}
+						});
+					},
+					fail(err) {
+						console.error('授权登录失败:' + JSON.stringify(err));
+					}
+				});
+			},
+			jumpLogin() {
+				let that = this;
+				uni.navigateTo({
+					url: "/pages/user/login"
+				})
+			},
+			toUcenter() {
+				uni.navigateTo({
+					url: '/pages/user/edit-info/edit'
+				});
+			},
+			toChong() {
+				uni.navigateTo({
+					url: '/pages/my/chong'
+				});
+			},
+			toSet() {
+				uni.navigateTo({
+					url: '/pages/my/setting'
+				});
+			},
+			toAgr(i) {
+				uni.navigateTo({
+					url: '/pages/my/agr?type=' + i
+				});
+			},
+			toNav(url) {
+				uni.navigateTo({
+					url: url
+				});
+			},
 				//用户点击订单类型
 						toOrderType(index){
 							uni.showToast({title: this.orderTypeLise[index].name});
@@ -138,16 +385,6 @@
 				if (!this.IsLoginJudje) {
 				this.isLogin = IsLogin
 				}
-			},
-			getgg:function(){
-				uni.request({
-					url: '',
-					success: (res) => {
-						if (res.data.msg != '') {
-							this.notice = res.data.msg[0].content;
-						}
-					}
-				});
 			},
 			memberLinkTo(e) {
 				let index = parseInt(e.currentTarget.dataset.index);
@@ -179,20 +416,15 @@
 					})
 				}
 			},
-			getInfo() {
-				let userInfo= JSON.parse(uni.getStorageSync('access-admin'));
-				this.user.email = userInfo.email
-				this.user.name = userInfo.name
-				this.user.id = userInfo.userid
-				this.user.profile = userInfo.profile
-				console.log(this.user)
-			},
-			logins() {
-				uni.navigateTo({
-					url: '/subPage/my/account/login'
-				})
-			},
-			loginYes() {},
+			// getInfo() {
+			// 	let userInfo= JSON.parse(uni.getStorageSync('access-admin'));
+			// 	this.user.email = userInfo.email
+			// 	this.user.name = userInfo.name
+			// 	this.user.id = userInfo.userid
+			// 	this.user.profile = userInfo.profile
+			// 	console.log(userInfo)
+			// },
+			
 			upimg() {
 				var t = this;
 				let token = uni.getStorageSync('Token');
@@ -263,11 +495,165 @@
 		},
 	}
 </script>
+<style lang="scss" scoped>
+	.slot-wrap {
+		display: flex;
+		align-items: center;
+		/* 如果您想让slot内容占满整个导航栏的宽度 */
+		/* flex: 1; */
+		/* 如果您想让slot内容与导航栏左右有空隙 */
+		padding: 0 38rpx;
+	}
+
+	.head {
+		padding: 20rpx;
+		background-image: url(/static/my/bg_member.png);
+		   background-position: 10% 40%;
+		            /*这个是按从左往右，从上往下的百分比位置进行调整*/
+		            background-size: 100% 100%;
+		            /*按比例缩放*/
+		            /*background-size: 100px 100px;!*这个是按数值缩放*!*/
+		            background-repeat: no-repeat;
+		
+		.sub-txt {
+			font-size: 24rpx;
+			color: #616161;
+
+			.vip-tips {
+				display: inline-block;
+				background-image: linear-gradient(to right, #f4e4cb, #e9caad, #dfb492);
+				color: #fff;
+				padding: 0rpx 10rpx;
+				border-radius: 100rpx;
+				margin-left: 10rpx;
+			}
+		}
+
+		margin-bottom: 20rpx;
+	}
+
+	.userinfo {
+		display: flex;
+		align-items: center;
+		padding: 20rpx;
+	}
+
+	.userinfo .username {
+		display: flex;
+		flex-direction: column;
+		margin-left: 15px;
+	}
+
+	.grid-text {
+		color: #999;
+		font-size: 12px;
+		margin-bottom: 20rpx;
+	}
+
+	.userinfo u-avatar {
+		margin-right: 20rpx;
+	}
+
+	.userinfo .arrow-right {
+		margin-left: auto;
+	}
+
+	.btn-login {
+		margin: 40rpx 0;
+	}
+
+	.gn-icon {
+		width: 60rpx;
+		height: 60rpx;
+		margin-bottom: 20rpx;
+	}
+
+	/*服务按钮*/
+	.btn-wrap {
+		display: flex;
+		margin-top: 30rpx;
+	}
+
+	.btn-wrap .btn-contact {
+		background-color: #fff;
+		margin-left: 15rpx;
+		margin-right: 15rpx;
+		padding: 20rpx;
+		line-height: unset;
+		font-size: 12px;
+		color: #999;
+	}
+
+	.btn-wrap .btn-contact:active {
+		background-color: #f5f5f5;
+	}
+
+	.btn-wrap .btn-contact .txt {
+		margin-top: 20rpx;
+	}
+
+	.btn-wrap .btn-contact::after {
+		border: unset;
+		position: unset;
+	}
+
+	.icon-size {
+		font-size: 50rpx;
+	}
+
+	.block-wrap {
+		background-color: #fff;
+		border-radius: 20rpx;
+		margin: 20rpx;
+		overflow: hidden;
+
+		.block-title {
+			background-color: #fff;
+			padding: 20rpx;
+		}
+	}
+
+	// 开通会员
+	.vip-wrap {
+		display: flex;
+		align-items: center;
+		margin: 30rpx;
+		background-image: linear-gradient(to right, #f6f2e7, #f5ecdd, #f3e4d1);
+		border: 1px solid #d6c6b5;
+		padding: 20rpx;
+		border-radius: 20rpx;
+		color: #8a5d39;
+
+		.left {
+			.title {
+				font-weight: bold;
+			}
+
+			.sub {
+				font-size: 24rpx;
+			}
+		}
+
+		.right {
+			margin-left: auto;
+
+			.kt-btn {
+				color: #F1CFA1;
+				background-color: #384048;
+				border-radius: 100rpx;
+				padding: 10rpx 30rpx;
+				font-size: 28rpx;
+			}
+		}
+	}
+</style>
 
 <style lang="scss">
 page{background-color:#fff}
 .header{
 	&.status{padding-top:var(--status-bar-height);}
+	
+	
 	background-color:#50A1FF;width:92%;height:30vw;padding:0 4%;display:flex;align-items:center;
 	.userinfo{
 		width:90%;display:flex;
@@ -326,6 +712,18 @@ page{background-color:#fff}
 	
 	.ft12 {
 		font-size: 24rpx;
+	}
+	.setting-view {
+		display: flex;
+		
+		    flex-wrap: nowrap;
+		    align-content: center;
+		    align-items: center;
+		flex-direction: row-reverse;
+		padding: 13rpx;
+		    // width:110px;
+		    // height:90px;
+		    // margin:5px;
 	}
 </style>
 

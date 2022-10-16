@@ -2,7 +2,6 @@
   "navigationBarTitleText": "发现",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "u-cell-group": "/uni_modules/uview-ui/components/u-cell-group/u-cell-group",
-    "u-cell": "/uni_modules/uview-ui/components/u-cell/u-cell"
+    "n-navbar": "/nPro/navbar/navbar"
   }
 }

@@ -1,329 +1,369 @@
 <template>
-	<view class="u-tabs">
-		<view class="u-tabs__wrapper">
-			<slot name="left" />
-			<view class="u-tabs__wrapper__scroll-view-wrapper">
-				<scroll-view :scroll-x="scrollable" :scroll-left="scrollLeft" scroll-with-animation
-					class="u-tabs__wrapper__scroll-view" :show-scrollbar="false" ref="u-tabs__wrapper__scroll-view">
-					<view class="u-tabs__wrapper__nav" ref="u-tabs__wrapper__nav" :style="[{
-							flex: scrollable ? 0 : 1
-						}]">
-						<view class="u-tabs__wrapper__nav__item" v-for="(item, index) in list" :key="index"
-							@tap="clickHandler(item, index)" :ref="`u-tabs__wrapper__nav__item-${index}`"
-							:style="[$u.addStyle(itemStyle)]"
-							:class="[`u-tabs__wrapper__nav__item-${index}`, item.disabled && 'u-tabs__wrapper__nav__item--disabled']">
-							<text
-								:class="['ellipsis' && 'u-line-1', item.disabled && 'u-tabs__wrapper__nav__item__text--disabled']"
-								class="u-tabs__wrapper__nav__item__text"
-								:style="[textStyle(index)]">{{ item[keyName] }}</text>
-							<u-badge :show="!!(item.badge && (item.badge.show || item.badge.isDot || item.badge.value))"
-								:isDot="item.badge && item.badge.isDot || $u.props.badge.isDot"
-								:value="item.badge && item.badge.value || $u.props.badge.value"
-								:max="item.badge && item.badge.max || $u.props.badge.max"
-								:type="item.badge && item.badge.type || $u.props.badge.type"
-								:showZero="item.badge && item.badge.showZero || $u.props.badge.showZero"
-								:bgColor="item.badge && item.badge.bgColor || $u.props.badge.bgColor"
-								:color="item.badge && item.badge.color || $u.props.badge.color"
-								:shape="item.badge && item.badge.shape || $u.props.badge.shape"
-								:numberType="item.badge && item.badge.numberType || $u.props.badge.numberType"
-								:inverted="item.badge && item.badge.inverted || $u.props.badge.inverted"
-								customStyle="margin-left: 4px;"></u-badge>
-						</view>
-						<!-- #ifdef APP-NVUE -->
-						<view class="u-tabs__wrapper__nav__line" ref="u-tabs__wrapper__nav__line" :style="[{
-									width: $u.addUnit(lineWidth),
-									height: $u.addUnit(lineHeight),
-									backgroundColor: lineColor
-								}]">
-							<!-- #endif -->
-							<!-- #ifndef APP-NVUE -->
-							<view class="u-tabs__wrapper__nav__line" ref="u-tabs__wrapper__nav__line" :style="[{
-										width: $u.addUnit(lineWidth),
-										transform: `translate(${lineOffsetLeft}px)`,
-										transitionDuration: `${firstTime ? 0 : duration}ms`,
-										height: $u.addUnit(lineHeight),
-										backgroundColor: lineColor
-									}]">
-								<!-- #endif -->
-							</view>
-						</view>
-				</scroll-view>
-			</view>
-			<slot name="right" />
+	<view class="u-tabs" :style="{
+		background: bgColor
+	}">
+		<!-- $u.getRect()对组件根节点无效，因为写了.in(this)，故这里获取内层接点尺寸 -->
+		<view :id="id">
+			<scroll-view scroll-x class="u-scroll-view" :scroll-left="scrollLeft" scroll-with-animation>
+				<view class="u-scroll-box" :class="{'u-tabs-scorll-flex': !isScroll}">
+					<view class="u-tab-item u-line-1" :id="'u-tab-item-' + index" v-for="(item, index) in list" :key="index" @tap="clickTab(index)"
+					 :style="[tabItemStyle(index)]">
+						<u-badge :count="item[count] || item['count'] || 0" :offset="offset" size="mini"></u-badge>
+						{{ item[name] || item['name']}}
+					</view>
+					<view v-if="showBar" class="u-tab-bar" :style="[tabBarStyle]"></view>
+				</view>
+			</scroll-view>
 		</view>
 	</view>
 </template>
+
 <script>
-	// #ifdef APP-NVUE
-	const animation = uni.requireNativePlugin('animation')
-	const dom = uni.requireNativePlugin('dom')
-	// #endif
-	import props from './props.js';
 	/**
-	 * Tabs 标签
-	 * @description tabs标签组件，在标签多的时候，可以配置为左右滑动，标签少的时候，可以禁止滑动。 该组件的一个特点是配置为滚动模式时，激活的tab会自动移动到组件的中间位置。
+	 * tabs 标签
+	 * @description 该组件，是一个tabs标签组件，在标签多的时候，可以配置为左右滑动，标签少的时候，可以禁止滑动。 该组件的一个特点是配置为滚动模式时，激活的tab会自动移动到组件的中间位置。
 	 * @tutorial https://www.uviewui.com/components/tabs.html
-	 * @property {String | Number}	duration			滑块移动一次所需的时间，单位秒（默认 200 ）
-	 * @property {String | Number}	swierWidth			swiper的宽度（默认 '750rpx' ）
-	 * @property {String}	keyName	 从`list`元素对象中读取的键名（默认 'name' ）
-	 * @event {Function(index)} change 标签改变时触发 index: 点击了第几个tab，索引从0开始
-	 * @event {Function(index)} click 点击标签时触发 index: 点击了第几个tab，索引从0开始
-	 * @example <u-tabs :list="list" :is-scroll="false" :current="current" @change="change"></u-tabs>
+	 * @property {Boolean} is-scroll tabs是否可以左右拖动（默认true）
+	 * @property {Array} list 标签数组，元素为对象，如[{name: '推荐'}]
+	 * @property {String Number} current 指定哪个tab为激活状态（默认0）
+	 * @property {String Number} height 导航栏的高度，单位rpx（默认80）
+	 * @property {String Number} font-size tab文字大小，单位rpx（默认30）
+	 * @property {String Number} duration 滑块移动一次所需的时间，单位秒（默认0.5）
+	 * @property {String} active-color 滑块和激活tab文字的颜色（默认#2979ff）
+	 * @property {String} inactive-color tabs文字颜色（默认#303133）
+	 * @property {String Number} bar-width 滑块宽度，单位rpx（默认40）
+	 * @property {Object} active-item-style 活动tabs item的样式，对象形式
+	 * @property {Object} bar-style 底部滑块的样式，对象形式
+	 * @property {Boolean} show-bar 是否显示底部的滑块（默认true）
+	 * @property {String Number} bar-height 滑块高度，单位rpx（默认6）
+	 * @property {String Number} item-width 标签的宽度（默认auto）
+	 * @property {String Number} gutter 单个tab标签的左右内边距之和，单位rpx（默认40）
+	 * @property {String} bg-color tabs导航栏的背景颜色（默认#ffffff）
+	 * @property {String} name 组件内部读取的list参数中的属性名（tab名称），见官网说明（默认name）
+	 * @property {String} count 组件内部读取的list参数中的属性名（badge徽标数），同name属性的使用，见官网说明（默认count）
+	 * @property {Array} offset 设置badge徽标数的位置偏移，格式为 [x, y]，也即设置的为top和right的值，单位rpx（默认[5, 20]）
+	 * @property {Boolean} bold 激活选项的字体是否加粗（默认true）
+	 * @event {Function} change 点击标签时触发
+	 * @example <u-tabs ref="tabs" :list="list" :is-scroll="false"></u-tabs>
 	 */
 	export default {
-		name: 'u-tabs',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
+		name: "u-tabs",
+		props: {
+			// 导航菜单是否需要滚动，如只有2或者3个的时候，就不需要滚动了，此时使用flex平分tab的宽度
+			isScroll: {
+				type: Boolean,
+				default: true
+			},
+			//需循环的标签列表
+			list: {
+				type: Array,
+				default () {
+					return [];
+				}
+			},
+			// 当前活动tab的索引
+			current: {
+				type: [Number, String],
+				default: 0
+			},
+			// 导航栏的高度和行高
+			height: {
+				type: [String, Number],
+				default: 80
+			},
+			// 字体大小
+			fontSize: {
+				type: [String, Number],
+				default: 30
+			},
+			// 过渡动画时长, 单位ms
+			duration: {
+				type: [String, Number],
+				default: 0.5
+			},
+			// 选中项的主题颜色
+			activeColor: {
+				type: String,
+				default: '#000'
+			},
+			// 未选中项的颜色
+			inactiveColor: {
+				type: String,
+				default: '#303133'
+			},
+			// 菜单底部移动的bar的宽度，单位rpx
+			barWidth: {
+				type: [String, Number],
+				default: 40
+			},
+			// 移动bar的高度
+			barHeight: {
+				type: [String, Number],
+				default: 6
+			},
+			// 单个tab的左或有内边距（左右相同）
+			gutter: {
+				type: [String, Number],
+				default: 30
+			},
+			// 导航栏的背景颜色
+			bgColor: {
+				type: String,
+				default: '#ffffff'
+			},
+			// 读取传入的数组对象的属性(tab名称)
+			name: {
+				type: String,
+				default: 'name'
+			},
+			// 读取传入的数组对象的属性(徽标数)
+			count: {
+				type: String,
+				default: 'count'
+			},
+			// 徽标数位置偏移
+			offset: {
+				type: Array,
+				default: () => {
+					return [5, 20]
+				}
+			},
+			// 活动tab字体是否加粗
+			bold: {
+				type: Boolean,
+				default: true
+			},
+			// 当前活动tab item的样式
+			activeItemStyle: {
+				type: Object,
+				default() {
+					return {}
+				}
+			},
+			// 是否显示底部的滑块
+			showBar: {
+				type: Boolean,
+				default: true
+			},
+			// 底部滑块的自定义样式
+			barStyle: {
+				type: Object,
+				default() {
+					return {}
+				}
+			},
+			// 标签的宽度
+			itemWidth: {
+				type: [Number, String],
+				default: 'auto'
+			}
+		},
 		data() {
 			return {
-				firstTime: true,
-				scrollLeft: 0,
-				scrollViewWidth: 0,
-				lineOffsetLeft: 0,
-				tabsRect: {
-					left: 0
-				},
-				innerCurrent: 0,
-				moving: false,
-			}
+				scrollLeft: 0, // 滚动scroll-view的左边滚动距离
+				tabQueryInfo: [], // 存放对tab菜单查询后的节点信息
+				componentWidth: 0, // 屏幕宽度，单位为px
+				scrollBarLeft: 0, // 移动bar需要通过translateX()移动的距离
+				parentLeft: 0, // 父元素(tabs组件)到屏幕左边的距离
+				id: this.$u.guid(), // id值
+				currentIndex: this.current,
+				barFirstTimeMove: true, // 滑块第一次移动时(页面刚生成时)，无需动画，否则给人怪异的感觉
+			};
 		},
 		watch: {
+			// 监听tab的变化，重新计算tab菜单的布局信息，因为实际使用中菜单可能是通过
+			// 后台获取的（如新闻app顶部的菜单），获取返回需要一定时间，所以list变化时，重新获取布局信息
+			list(n, o) {
+				// list变动时，重制内部索引，否则可能导致超出数组边界的情况
+				if(n.length !== o.length) this.currentIndex = 0;
+				// 用$nextTick等待视图更新完毕后再计算tab的局部信息，否则可能因为tab还没生成就获取，就会有问题
+				this.$nextTick(() => {
+					this.init();
+				});
+			},
 			current: {
 				immediate: true,
-				handler(newValue, oldValue) {
-					// 内外部值不相等时，才尝试移动滑块
-					if (newValue !== this.innerCurrent) {
-						this.innerCurrent = newValue
-						this.$nextTick(() => {
-							this.resize()
-						})
-					}
+				handler(nVal, oVal) {
+					// 视图更新后再执行移动操作
+					this.$nextTick(() => {
+						this.currentIndex = nVal;
+						this.scrollByIndex();
+					});
 				}
 			},
-			// list变化时，重新渲染list各项信息
-			list() {
-				this.$nextTick(() => {
-					this.resize()
-				})
-			}
 		},
 		computed: {
-			textStyle() {
-				return index => {
-					const style = {}
-					// 取当期是否激活的样式
-					const customeStyle = index === this.innerCurrent ? uni.$u.addStyle(this.activeStyle) : uni.$u
-						.addStyle(this.inactiveStyle)
-					// 如果当前菜单被禁用，则加上对应颜色，需要在此做处理，是因为nvue下，无法在style样式中通过!import覆盖标签的内联样式
-					if (this.list[index].disabled) {
-						style.color = '#c8c9cc'
+			// 移动bar的样式
+			tabBarStyle() {
+				let style = {
+					width: this.barWidth + 'rpx',
+					transform: `translate(${this.scrollBarLeft}px, -100%)`,
+					// 滑块在页面渲染后第一次滑动时，无需动画效果
+					'transition-duration': `${this.barFirstTimeMove ? 0 : this.duration }s`,
+					'background-color': this.activeColor,
+					height: this.barHeight + 'rpx',
+					opacity: this.barFirstTimeMove ? 0 : 1,
+					// 设置一个很大的值，它会自动取能用的最大值，不用高度的一半，是因为高度可能是单数，会有小数出现
+					'border-radius': `${this.barHeight / 2}px`
+				};
+				Object.assign(style, this.barStyle);
+				return style;
+			},
+			// tab的样式
+			tabItemStyle() {
+				return (index) => {
+					let style = {
+						height: this.height + 'rpx',
+						'line-height': this.height + 'rpx',
+						'font-size': this.fontSize + 'rpx',
+						'transition-duration': `${this.duration}s`,
+						padding: this.isScroll ? `0 ${this.gutter}rpx` : '',
+						flex: this.isScroll ? 'auto' : '1',
+						width: this.$u.addUnit(this.itemWidth)
+					};
+					// 字体加粗
+					if (index == this.currentIndex && this.bold) style.fontWeight = 'bold';
+					if (index == this.currentIndex) {
+						style.color = this.activeColor;
+						// 给选中的tab item添加外部自定义的样式
+						style = Object.assign(style, this.activeItemStyle);
+					} else {
+						style.color = this.inactiveColor;
 					}
-					return uni.$u.deepMerge(customeStyle, style)
+					return style;
 				}
 			}
-		},
-		async mounted() {
-			this.init()
 		},
 		methods: {
-			setLineLeft() {
-				const tabItem = this.list[this.innerCurrent];
-				if (!tabItem) {
-					return;
+			// 设置一个init方法，方便多处调用
+			async init() {
+				// 获取tabs组件的尺寸信息
+				let tabRect = await this.$uGetRect('#' + this.id);
+				// tabs组件距离屏幕左边的宽度
+				this.parentLeft = tabRect.left;
+				// tabs组件的宽度
+				this.componentWidth = tabRect.width;
+				this.getTabRect();
+			},
+			// 点击某一个tab菜单
+			clickTab(index) {
+				// 点击当前活动tab，不触发事件
+				if(index == this.currentIndex) return ;
+				// 发送事件给父组件
+				this.$emit('change', index);
+			},
+			// 查询tab的布局信息
+			getTabRect() {
+				// 创建节点查询
+				let query = uni.createSelectorQuery().in(this);
+				// 历遍所有tab，这里是执行了查询，最终使用exec()会一次性返回查询的数组结果
+				for (let i = 0; i < this.list.length; i++) {
+					// 只要size和rect两个参数
+					query.select(`#u-tab-item-${i}`).fields({
+						size: true,
+						rect: true
+					});
 				}
-				// 获取滑块该移动的位置
-				let lineOffsetLeft = this.list.slice(0, this.innerCurrent).reduce((total, curr) => total + curr.rect.width,
-					0);
-				let lineWidth = this.lineWidth; // 拷贝副本，防止间接修改props中的值
-				// 如果lineWidth不是数字类型的话
-				if (typeof lineWidth !== 'number') {
-					// 判断后缀是否为rpx
-					if (lineWidth.indexOf('rpx') > -1) {
-						lineWidth = uni.upx2px(parseFloat(lineWidth)); // rpx -> px
-					} else {
-						lineWidth = parseFloat(lineWidth);
-					}
-				}
-				this.lineOffsetLeft = lineOffsetLeft + (tabItem.rect.width - lineWidth) / 2
-				// #ifdef APP-NVUE
-				// 第一次移动滑块，无需过渡时间
-				this.animation(this.lineOffsetLeft, this.firstTime ? 0 : parseInt(this.duration))
-				// #endif
-				// 如果是第一次执行此方法，让滑块在初始化时，瞬间滑动到第一个tab item的中间
-				// 这里需要一个定时器，因为在非nvue下，是直接通过style绑定过渡时间，需要等其过渡完成后，再设置为false(非第一次移动滑块)
-				if (this.firstTime) {
-					setTimeout(() => {
-						this.firstTime = false
-					}, 10);
-				}
+				// 执行查询，一次性获取多个结果
+				query.exec(
+					function(res) {
+						this.tabQueryInfo = res;
+						// 初始化滚动条和移动bar的位置
+						this.scrollByIndex();
+					}.bind(this)
+				);
 			},
-			// nvue下设置滑块的位置
-			animation(x, duration = 0) {
-				// #ifdef APP-NVUE
-				const ref = this.$refs['u-tabs__wrapper__nav__line']
-				animation.transition(ref, {
-					styles: {
-						transform: `translateX(${x}px)`
-					},
-					duration
-				})
-				// #endif
-			},
-			// 点击某一个标签
-			clickHandler(item, index) {
-				// 因为标签可能为disabled状态，所以click是一定会发出的，但是change事件是需要可用的状态才发出
-				this.$emit('click', {
-					...item,
-					index
-				})
-				// 如果disabled状态，返回
-				if (item.disabled) return
-				this.innerCurrent = index
-				this.resize()
-				this.$emit('change', {
-					...item,
-					index
-				})
-			},
-			init() {
-				uni.$u.sleep().then(() => {
-					this.resize()
-				})
-			},
-			setScrollLeft() {
+			// 滚动scroll-view，让活动的tab处于屏幕的中间位置
+			scrollByIndex() {
 				// 当前活动tab的布局信息，有tab菜单的width和left(为元素左边界到父元素左边界的距离)等信息
-				const tabRect = this.list[this.innerCurrent]
-				// 累加得到当前item到左边的距离
-				const offsetLeft = this.list.slice(0, this.innerCurrent).reduce((total, curr) => {
-					return total + curr.rect.width
-				}, 0)
-				// 此处为屏幕宽度
-				const windowWidth = uni.$u.sys().windowWidth
+				let tabInfo = this.tabQueryInfo[this.currentIndex];
+				if (!tabInfo) return;
+				// 活动tab的宽度
+				let tabWidth = tabInfo.width;
+				// 活动item的左边到tabs组件左边的距离，用item的left减去tabs的left
+				let offsetLeft = tabInfo.left - this.parentLeft;
 				// 将活动的tabs-item移动到屏幕正中间，实际上是对scroll-view的移动
-				let scrollLeft = offsetLeft - (this.tabsRect.width - tabRect.rect.width) / 2 - (windowWidth - this.tabsRect
-					.right) / 2 + this.tabsRect.left / 2
-				// 这里做一个限制，限制scrollLeft的最大值为整个scroll-view宽度减去tabs组件的宽度
-				scrollLeft = Math.min(scrollLeft, this.scrollViewWidth - this.tabsRect.width)
-				this.scrollLeft = Math.max(0, scrollLeft)
-			},
-			// 获取所有标签的尺寸
-			resize() {
-				// 如果不存在list，则不处理
-				if (this.list.length === 0) {
-					return
+				let scrollLeft = offsetLeft - (this.componentWidth - tabWidth) / 2;
+				this.scrollLeft = scrollLeft < 0 ? 0 : scrollLeft;
+				// 当前活动item的中点点到左边的距离减去滑块宽度的一半，即可得到滑块所需的移动距离
+				let left = tabInfo.left + tabInfo.width / 2 - this.parentLeft;
+				// 计算当前活跃item到组件左边的距离
+				this.scrollBarLeft = left - uni.upx2px(this.barWidth) / 2;
+				// 第一次移动滑块的时候，barFirstTimeMove为true，放到延时中将其设置false
+				// 延时是因为scrollBarLeft作用于computed计算时，需要一个过程需，否则导致出错
+				if(this.barFirstTimeMove == true) {
+					setTimeout(() => {
+						this.barFirstTimeMove = false;
+					}, 100)
 				}
-				Promise.all([this.getTabsRect(), this.getAllItemRect()]).then(([tabsRect, itemRect = []]) => {
-					this.tabsRect = tabsRect
-					this.scrollViewWidth = 0
-					itemRect.map((item, index) => {
-						// 计算scroll-view的宽度，这里
-						this.scrollViewWidth += item.width
-						// 另外计算每一个item的中心点X轴坐标
-						this.list[index].rect = item
-					})
-					// 获取了tabs的尺寸之后，设置滑块的位置
-					this.setLineLeft()
-					this.setScrollLeft()
-				})
-			},
-			// 获取导航菜单的尺寸
-			getTabsRect() {
-				return new Promise(resolve => {
-					this.queryRect('u-tabs__wrapper__scroll-view').then(size => resolve(size))
-				})
-			},
-			// 获取所有标签的尺寸
-			getAllItemRect() {
-				return new Promise(resolve => {
-					const promiseAllArr = this.list.map((item, index) => this.queryRect(
-						`u-tabs__wrapper__nav__item-${index}`, true))
-					Promise.all(promiseAllArr).then(sizes => resolve(sizes))
-				})
-			},
-			// 获取各个标签的尺寸
-			queryRect(el, item) {
-				// #ifndef APP-NVUE
-				// $uGetRect为uView自带的节点查询简化方法，详见文档介绍：https://www.uviewui.com/js/getRect.html
-				// 组件内部一般用this.$uGetRect，对外的为this.$u.getRect，二者功能一致，名称不同
-				return new Promise(resolve => {
-					this.$uGetRect(`.${el}`).then(size => {
-						resolve(size)
-					})
-				})
-				// #endif
-				// #ifdef APP-NVUE 
-				// nvue下，使用dom模块查询元素高度
-				// 返回一个promise，让调用此方法的主体能使用then回调
-				return new Promise(resolve => {
-					dom.getComponentRect(item ? this.$refs[el][0] : this.$refs[el], res => {
-						resolve(res.size)
-					})
-				})
-				// #endif
-			},
+			}
 		},
-	}
-</script>
-<style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
-
-	.u-tabs {
-		// box-shadow: #57595f 0upx 8upx 10upx;
-		background-color: #50A1FF;
-		box-shadow:0px 4px 3px 0px rgba($color: #000000, $alpha: 0.3);
-		&__wrapper {
-			@include flex;
-			align-items: center;
-
-			&__scroll-view-wrapper {
-				flex: 1;
-				/* #ifndef APP-NVUE */
-				overflow: auto hidden;
-				/* #endif */
-			}
-
-			&__scroll-view {
-				@include flex;
-				flex: 1;
-			}
-
-			&__nav {
-				@include flex;
-				position: relative;
-				
-				&__item {
-					padding: 0 11px;
-					@include flex;
-					align-items: center;
-					justify-content: center;
-					flex: 1;
-					
-					&--disabled {
-						/* #ifndef APP-NVUE */
-						cursor: not-allowed;
-						/* #endif */
-					}
-
-					&__text {
-						font-size: 15px;
-						color: $u-content-color;
-						
-						&--disabled {
-							color: $u-disabled-color !important;
-						}
-					}
-				}
-
-				&__line {
-					height: 3px;
-					background-color: $u-primary;
-					width: 30px;
-					position: absolute;
-					bottom: 0px;
-					// border-radius: 100px;
-					transition-property: transform;
-					transition-duration: 300ms;
-				}
-			}
+		mounted() {
+			this.init();
 		}
+	};
+</script>
+
+<style lang="scss" scoped>
+	@import "../../libs/css/style.components.scss";
+
+	view,
+	scroll-view {
+		box-sizing: border-box;
+	}
+
+	/* #ifndef APP-NVUE */
+	::-webkit-scrollbar,
+	::-webkit-scrollbar,
+	::-webkit-scrollbar {
+		display: none;
+		width: 0 !important;
+		height: 0 !important;
+		-webkit-appearance: none;
+		background: transparent;
+	}
+	/* #endif */
+
+	.u-scroll-box {
+		position: relative;
+		/* #ifdef MP-TOUTIAO */
+		white-space: nowrap;
+		/* #endif */
+	}
+
+	/* #ifdef H5 */
+	// 通过样式穿透，隐藏H5下，scroll-view下的滚动条
+	scroll-view ::v-deep ::-webkit-scrollbar {
+		display: none;
+		width: 0 !important;
+		height: 0 !important;
+		-webkit-appearance: none;
+		background: transparent;
+	}
+	/* #endif */
+
+	.u-scroll-view {
+		width: 100%;
+		white-space: nowrap;
+		position: relative;
+	}
+
+	.u-tab-item {
+		position: relative;
+		/* #ifndef APP-NVUE */
+		display: inline-block;
+		/* #endif */
+		text-align: center;
+		transition-property: background-color, color;
+	}
+
+	.u-tab-bar {
+		position: absolute;
+		bottom: 0;
+	}
+
+	.u-tabs-scorll-flex {
+		@include vue-flex;
+		justify-content: space-between;
 	}
 </style>

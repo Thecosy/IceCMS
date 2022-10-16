@@ -40,8 +40,9 @@
 	</view>
 </template>
 <script>
+	
 	import API from '../../utils/api.js';
-	import bgyxedit from '@/components/bgyxedit/bgyxedit.vue';
+	// import bgyxedit from '@/components/bgyxedit/bgyxedit.vue';
 	export default {
 		data() {
 			return {

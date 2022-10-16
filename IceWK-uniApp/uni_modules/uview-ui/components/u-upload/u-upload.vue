@@ -1,547 +1,702 @@
 <template>
-	<view class="u-upload" :style="[$u.addStyle(customStyle)]">
-		<view class="u-upload__wrap" v-if="previewImage">
+	<view class="u-upload" v-if="!disabled">
+		<view
+			v-if="showUploadList"
+			class="u-list-item u-preview-wrap"
+			v-for="(item, index) in lists"
+			:key="index"
+			:style="{
+				width: $u.addUnit(width),
+				height: $u.addUnit(height)
+			}"
+		>
 			<view
-			    class="u-upload__wrap__preview"
-			    v-for="(item, index) in lists"
-			    :key="index"
+				v-if="deletable"
+				class="u-delete-icon"
+				@tap.stop="deleteItem(index)"
+				:style="{
+					background: delBgColor
+				}"
 			>
-				<image
-				    v-if="item.isImage || (item.type && item.type === 'image')"
-				    :src="item.thumb || item.url"
-				    :mode="imageMode"
-				    class="u-upload__wrap__preview__image"
-				    @tap="onPreviewImage(item)"
-					:style="[{
-						width: $u.addUnit(width),
-						height: $u.addUnit(height)
-					}]"
-				/>
-				<view
-				    v-else
-				    class="u-upload__wrap__preview__other"
-				>
-					<u-icon
-					    color="#80CBF9"
-					    size="26"
-					    :name="item.isVideo || (item.type && item.type === 'video') ? 'movie' : 'folder'"
-					></u-icon>
-					<text class="u-upload__wrap__preview__other__text">{{item.isVideo || (item.type && item.type === 'video') ? '视频' : '文件'}}</text>
-				</view>
-				<view
-				    class="u-upload__status"
-				    v-if="item.status === 'uploading' || item.status === 'failed'"
-				>
-					<view class="u-upload__status__icon">
-						<u-icon
-						    v-if="item.status === 'failed'"
-						    name="close-circle"
-						    color="#ffffff"
-						    size="25"
-						/>
-						<u-loading-icon
-						    size="22"
-						    mode="circle"
-						    color="#ffffff"
-						    v-else
-						/>
-					</view>
-					<text
-					    v-if="item.message"
-					    class="u-upload__status__message"
-					>{{ item.message }}</text>
-				</view>
-				<view
-				    class="u-upload__deletable"
-				    v-if="item.status !== 'uploading' && (deletable || item.deletable)"
-				    @tap.stop="deleteItem(index)"
-				>
-					<view class="u-upload__deletable__icon">
-						<u-icon
-						    name="close"
-						    color="#ffffff"
-						    size="10"
-						></u-icon>
-					</view>
-				</view>
-				<view
-				    class="u-upload__success"
-				    v-if="item.status === 'success'"
-				>
-					<!-- #ifdef APP-NVUE -->
-					<image
-					    :src="successIcon"
-					    class="u-upload__success__icon"
-					></image>
-					<!-- #endif -->
-					<!-- #ifndef APP-NVUE -->
-					<view class="u-upload__success__icon">
-						<u-icon
-						    name="checkmark"
-						    color="#ffffff"
-						    size="12"
-						></u-icon>
-					</view>
-					<!-- #endif -->
-				</view>
+				<u-icon class="u-icon" :name="delIcon" size="20" :color="delColor"></u-icon>
 			</view>
-			<template v-if="isInCount">
-				<view
-				    v-if="$slots.default || $slots.$default"
-				    @tap="chooseFile"
-				>
-					<slot />
-				</view>
-				<view
-				    v-else
-				    class="u-upload__button"
-				    :hover-class="!disabled && 'u-upload__button--hover'"
-				    hover-stay-time="150"
-				    @tap="chooseFile"
-				    :class="[disabled && 'u-upload__button--disabled']"
-					:style="[{
-						width: $u.addUnit(width),
-						height: $u.addUnit(height)
-					}]"
-				>
-					<u-icon
-					    :name="uploadIcon"
-					    size="26"
-					    :color="uploadIconColor"
-					></u-icon>
-					<text
-					    v-if="uploadText"
-					    class="u-upload__button__text"
-					>{{ uploadText }}</text>
-				</view>
-			</template>
+			<u-line-progress
+				v-if="showProgress && item.progress > 0 && !item.error && item.progress != 100"
+				:show-percent="false"
+				height="16"
+				class="u-progress"
+				:percent="item.progress"
+			></u-line-progress>
+			<view class="success-tips" v-if="item.progress == 100">已完成</view>
+			<view @tap.stop="retry(index)" v-if="item.error" class="u-error-btn">点击重试</view>
+			<image @tap.stop="doPreviewImage(item.url || item.path, index)" class="u-preview-image" v-if="!item.isImage" :src="item.url || item.path" :mode="imageMode"></image>
 		</view>
-
+		<slot name="file" :file="lists"></slot>
+		<view style="display: inline-block;" @tap="selectFile" v-if="maxCount > lists.length">
+			<slot name="addBtn"></slot>
+			<view
+				v-if="!customBtn"
+				class="u-list-item u-add-wrap"
+				hover-class="u-add-wrap__hover"
+				hover-stay-time="150"
+				:style="{
+					width: $u.addUnit(width),
+					height: $u.addUnit(height)
+				}"
+			>
+				<u-icon name="plus" class="u-add-btn" size="52"></u-icon>
+				<!-- <view class="u-add-tips">{{ uploadText }}</view> -->
+			</view>
+		</view>
+		<helang-compress ref="helangCompress"></helang-compress>
 	</view>
 </template>
 
 <script>
-	import {
-		chooseFile
-	} from './utils';
-	import mixin from './mixin.js';
-	import props from './props.js';
-
-	/**
-	 * upload 上传
-	 * @description 该组件用于上传图片场景
-	 * @tutorial https://uviewui.com/components/upload.html
-	 * @property {String}			accept				接受的文件类型, 可选值为all media image file video （默认 'image' ）
-	 * @property {String | Array}	capture				图片或视频拾取模式，当accept为image类型时设置capture可选额外camera可以直接调起摄像头（默认 ['album', 'camera'] ）
-	 * @property {Boolean}			compressed			当accept为video时生效，是否压缩视频，默认为true（默认 true ）
-	 * @property {String}			camera				当accept为video时生效，可选值为back或front（默认 'back' ）
-	 * @property {Number}			maxDuration			当accept为video时生效，拍摄视频最长拍摄时间，单位秒（默认 60 ）
-	 * @property {String}			uploadIcon			上传区域的图标，只能内置图标（默认 'camera-fill' ）
-	 * @property {String}			uploadIconColor		上传区域的图标的字体颜色，只能内置图标（默认 #D3D4D6 ）
-	 * @property {Boolean}			useBeforeRead		是否开启文件读取前事件（默认 false ）
-	 * @property {Boolean}			previewFullImage	是否显示组件自带的图片预览功能（默认 true ）
-	 * @property {String | Number}	maxCount			最大上传数量（默认 52 ）
-	 * @property {Boolean}			disabled			是否启用（默认 false ）
-	 * @property {String}			imageMode			预览上传的图片时的裁剪模式，和image组件mode属性一致（默认 'aspectFill' ）
-	 * @property {String}			name				标识符，可以在回调函数的第二项参数中获取
-	 * @property {Array}			sizeType			所选的图片的尺寸, 可选值为original compressed（默认 ['original', 'compressed'] ）
-	 * @property {Boolean}			multiple			是否开启图片多选，部分安卓机型不支持 （默认 false ）
-	 * @property {Boolean}			deletable			是否展示删除按钮（默认 true ）
-	 * @property {String | Number}	maxSize				文件大小限制，单位为byte （默认 Number.MAX_VALUE ）
-	 * @property {Array}			fileList			显示已上传的文件列表
-	 * @property {String}			uploadText			上传区域的提示文字
-	 * @property {String | Number}	width				内部预览图片区域和选择图片按钮的区域宽度（默认 80 ）
-	 * @property {String | Number}	height				内部预览图片区域和选择图片按钮的区域高度（默认 80 ）
-	 * @property {Object}			customStyle			组件的样式，对象形式
-	 * @event {Function} afterRead		读取后的处理函数
-	 * @event {Function} beforeRead		读取前的处理函数
-	 * @event {Function} oversize		文件超出大小限制
-	 * @event {Function} clickPreview	点击预览图片
-	 * @event {Function} delete 		删除图片
-	 * @example <u-upload :action="action" :fileList="fileList" ></u-upload>
-	 */
-	export default {
-		name: "u-upload",
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, mixin,props],
-		data() {
-			return {
-				// #ifdef APP-NVUE
-				successIcon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKKADAAQAAAABAAAAKAAAAAB65masAAACP0lEQVRYCc3YXygsURwH8K/dpcWyG3LF5u/6/+dKVylSypuUl6uUPMifKMWL8oKEB1EUT1KeUPdR3uTNUsSLxb2udG/cbvInNuvf2rVnazZ/ZndmZ87snjM1Z+Z3zpzfp9+Z5mEAhlvjRtZgCKs+gnPAOcAkkMOR4jEHfItjDvgRxxSQD8cM0BuOCaAvXNCBQrigAsXgggYUiwsK0B9cwIH+4gIKlIILGFAqLiBAOTjFgXJxigJp4BQD0sIpAqSJow6kjSNAFTnRaHJwLenD6Mud52VQAcrBfTd2oyq+HtGaGGWAcnAVcXWoM3bCZrdi+ncPfaAcXE5UKVpdW/vitGPqqAtn98d0gXJwX7Qp6MmegUYVhvmTIezdmHlxJCjpHRTCFerLkRRu4k0aqdajN3sWOo0BK//msHa+xDuPC/oNFMKRhTtM4xjIX0SCNpXL4+7VIaHuyiWEp2L7ahWLf8fejfPdqPmC3mJicORZUp1CQzm+GiphvljGk+PBvWRbxii+xVTj5M6CiZ/tsDufvaXyxEUDxeLIyvu3m0iOyEFWVAkydcVYdyFrE9tQk9iMq6f/GNlvwt3LjQfh60LUrw9/cFyyMJUW/XkLSNMV4Mi6C5ML+ui4x5ClAX9sB9w0wV6wglJwJCv5fOxcr6EstgbGiEw4XcfUry4cWrcEUW8n+ARKxXEJHhw2WG43UKSvwI/TSZgvl7kh0b3XLZaLEy0QmMgLZAVH7J+ALOE+AVnDvQOyiPMAWcW5gSzjCPAV+78S5WE0GrQAAAAASUVORK5CYII=',
-				// #endif
-				lists: [],
-				isInCount: true,
+/**
+ * upload 图片上传
+ * @description 该组件用于上传图片场景
+ * @tutorial https://www.uviewui.com/components/upload.html
+ * @property {String} action 服务器上传地址
+ * @property {String Number} max-count 最大选择图片的数量（默认99）
+ * @property {Boolean} custom-btn 如果需要自定义选择图片的按钮，设置为true（默认false）
+ * @property {Boolean} show-progress 是否显示进度条（默认true）
+ * @property {Boolean} disabled 是否启用(显示/移仓)组件（默认false）
+ * @property {String} image-mode 预览图片等显示模式，可选值为uni的image的mode属性值（默认aspectFill）
+ * @property {String} del-icon 右上角删除图标名称，只能为uView内置图标
+ * @property {String} del-bg-color 右上角关闭按钮的背景颜色
+ * @property {String | Number} index 在各个回调事件中的最后一个参数返回，用于区别是哪一个组件的事件
+ * @property {String} del-color 右上角关闭按钮图标的颜色
+ * @property {Object} header 上传携带的头信息，对象形式
+ * @property {Object} form-data 上传额外携带的参数
+ * @property {String} name 上传文件的字段名，供后端获取使用（默认file）
+ * @property {Array<String>} size-type original 原图，compressed 压缩图，默认二者都有（默认['original', 'compressed']）
+ * @property {Array<String>} source-type 选择图片的来源，album-从相册选图，camera-使用相机，默认二者都有（默认['album', 'camera']）
+ * @property {Boolean} preview-full-image	是否可以通过uni.previewImage预览已选择的图片（默认true）
+ * @property {Boolean} multiple	是否开启图片多选，部分安卓机型不支持（默认true）
+ * @property {Boolean} deletable 是否显示删除图片的按钮（默认true）
+ * @property {String Number} max-size 选择单个文件的最大大小，单位B(byte)，默认不限制（默认Number.MAX_VALUE）
+ * @property {Array<Object>} file-list 默认显示的图片列表，数组元素为对象，必须提供url属性
+ * @property {Boolean} upload-text 选择图片按钮的提示文字（默认“选择图片”）
+ * @property {Boolean} auto-upload 选择完图片是否自动上传，见上方说明（默认true）
+ * @property {Boolean} show-tips 特殊情况下是否自动提示toast，见上方说明（默认true）
+ * @property {Boolean} show-upload-list 是否显示组件内部的图片预览（默认true）
+ * @event {Function} on-oversize 图片大小超出最大允许大小
+ * @event {Function} on-preview 全屏预览图片时触发
+ * @event {Function} on-remove 移除图片时触发
+ * @event {Function} on-success 图片上传成功时触发
+ * @event {Function} on-change 图片上传后，无论成功或者失败都会触发
+ * @event {Function} on-error 图片上传失败时触发
+ * @event {Function} on-progress 图片上传过程中的进度变化过程触发
+ * @event {Function} on-uploaded 所有图片上传完毕触发
+ * @event {Function} on-choose-complete 每次选择图片后触发，只是让外部可以得知每次选择后，内部的文件列表
+ * @example <u-upload :action="action" :file-list="fileList" ></u-upload>
+ */
+import helangCompress from '@/components/helang-compress/helang-compress';
+export default {
+	name: 'u-upload',
+	components: {
+		helangCompress
+	},
+	props: {
+		//是否显示组件自带的图片预览功能
+		showUploadList: {
+			type: Boolean,
+			default: true
+		},
+		// 后端地址
+		action: {
+			type: String,
+			default: ''
+		},
+		// 最大上传数量
+		maxCount: {
+			type: [String, Number],
+			default: 52
+		},
+		//  是否显示进度条
+		showProgress: {
+			type: Boolean,
+			default: true
+		},
+		// 是否启用
+		disabled: {
+			type: Boolean,
+			default: false
+		},
+		// 预览上传的图片时的裁剪模式，和image组件mode属性一致
+		imageMode: {
+			type: String,
+			default: 'aspectFill'
+		},
+		// 头部信息
+		header: {
+			type: Object,
+			default() {
+				return {};
 			}
 		},
-		watch: {
-			// 监听文件列表的变化，重新整理内部数据
-			fileList: {
-				immediate: true,
-				handler() {
-					this.formatFileList()
-				}
-			},
+		// 额外携带的参数
+		formData: {
+			type: Object,
+			default() {
+				return {};
+			}
 		},
-		methods: {
-			formatFileList() {
-				const {
-					fileList = [], maxCount
-				} = this;
-				const lists = fileList.map((item) =>
-					Object.assign(Object.assign({}, item), {
-						isImage: uni.$u.test.image(item.url),
-						isVideo: uni.$u.test.video(item.url),
-						deletable: typeof(item.deletable) === 'boolean' ? item.deletable : this.deletable,
-					})
-				);
-				this.lists = lists
-				this.isInCount = lists.length < maxCount
-			},
-			chooseFile() {
-				const {
-					maxCount,
-					multiple,
-					lists,
-					disabled
-				} = this;
-				if (disabled) return;
-				chooseFile(
-						Object.assign({
-							accept: this.accept,
-							multiple: this.multiple,
-							capture: this.capture,
-							compressed: this.compressed,
-							maxDuration: this.maxDuration,
-							sizeType: this.sizeType,
-							camera: this.camera,
-						}, {
-							maxCount: maxCount - lists.length,
-						})
-					)
-					.then((res) => {
-						this.onBeforeRead(multiple ? res : res[0]);
-					})
-					.catch((error) => {
-						this.$emit('error', error);
+		// 上传的文件字段名
+		name: {
+			type: String,
+			default: 'file'
+		},
+		// 所选的图片的尺寸, 可选值为original compressed
+		sizeType: {
+			type: Array,
+			default() {
+				return ['original', 'compressed'];
+			}
+		},
+		sourceType: {
+			type: Array,
+			default() {
+				return ['album', 'camera'];
+			}
+		},
+		// 是否在点击预览图后展示全屏图片预览
+		previewFullImage: {
+			type: Boolean,
+			default: true
+		},
+		// 是否开启图片多选，部分安卓机型不支持
+		multiple: {
+			type: Boolean,
+			default: true
+		},
+		// 是否展示删除按钮
+		deletable: {
+			type: Boolean,
+			default: true
+		},
+		// 文件大小限制，单位为byte
+		maxSize: {
+			type: [String, Number],
+			default: Number.MAX_VALUE
+		},
+		// 显示已上传的文件列表
+		fileList: {
+			type: Array,
+			default() {
+				return [];
+			}
+		},
+		// 上传区域的提示文字
+		uploadText: {
+			type: String,
+			default: '选择图片'
+		},
+		// 是否自动上传
+		autoUpload: {
+			type: Boolean,
+			default: true
+		},
+		// 是否显示toast消息提示
+		showTips: {
+			type: Boolean,
+			default: true
+		},
+		// 是否通过slot自定义传入选择图标的按钮
+		customBtn: {
+			type: Boolean,
+			default: false
+		},
+		// 内部预览图片区域和选择图片按钮的区域宽度
+		width: {
+			type: [String, Number],
+			default: 200
+		},
+		// 内部预览图片区域和选择图片按钮的区域高度
+		height: {
+			type: [String, Number],
+			default: 200
+		},
+		// 右上角关闭按钮的背景颜色
+		delBgColor: {
+			type: String,
+			default: '#999'
+		},
+		// 右上角关闭按钮的叉号图标的颜色
+		delColor: {
+			type: String,
+			default: '#ffffff'
+		},
+		// 右上角删除图标名称，只能为uView内置图标
+		delIcon: {
+			type: String,
+			default: 'close'
+		},
+		// 如果上传后的返回值为json字符串，是否自动转json
+		toJson: {
+			type: Boolean,
+			default: true
+		},
+		// 上传前的钩子，每个文件上传前都会执行
+		beforeUpload: {
+			type: Function,
+			default: null
+		},
+		// 移除文件前的钩子
+		beforeRemove: {
+			type: Function,
+			default: null
+		},
+		// 允许上传的图片后缀
+		limitType: {
+			type: Array,
+			default() {
+				return ['png', 'jpg', 'jpeg', 'webp', 'gif'];
+			}
+		},
+		// 在各个回调事件中的最后一个参数返回，用于区别是哪一个组件的事件
+		index: {
+			type: [Number, String],
+			default: ''
+		}
+	},
+	mounted() {},
+	data() {
+		return {
+			lists: [],
+			isInCount: true,
+			uploading: false
+		};
+	},
+	watch: {
+		fileList: {
+			immediate: true,
+			handler(val) {
+				val.map(value => {
+					// 首先检查内部是否已经添加过这张图片，因为外部绑定了一个对象给fileList的话(对象引用)，进行修改外部fileList
+					// 时，会触发watch，导致重新把原来的图片再次添加到this.lists
+					// 数组的some方法意思是，只要数组元素有任意一个元素条件符合，就返回true，而另一个数组的every方法的意思是数组所有元素都符合条件才返回true
+					let tmp = this.lists.some(val => {
+						return val.url == value.url;
 					});
-			},
-			// 文件读取之前
-			onBeforeRead(file) {
-				const {
-					beforeRead,
-					useBeforeRead,
-				} = this;
-				let res = true
-				// beforeRead是否为一个方法
-				if (uni.$u.test.func(beforeRead)) {
-					// 如果用户定义了此方法，则去执行此方法，并传入读取的文件回调
-					res = beforeRead(file, this.getDetail());
-				}
-				if (useBeforeRead) {
-					res = new Promise((resolve, reject) => {
-						this.$emit(
-							'beforeRead',
-							Object.assign(Object.assign({
-								file
-							}, this.getDetail()), {
-								callback: (ok) => {
-									ok ? resolve() : reject();
-								},
-							})
-						);
-					});
-				}
-				if (!res) {
-					return;
-				}
-				if (uni.$u.test.promise(res)) {
-					res.then((data) => this.onAfterRead(data || file));
-				} else {
-					this.onAfterRead(file);
-				}
-			},
-			getDetail(index) {
-				return {
-					name: this.name,
-					index: index == null ? this.fileList.length : index,
-				};
-			},
-			onAfterRead(file) {
-				const {
-					maxSize,
-					afterRead
-				} = this;
-				const oversize = Array.isArray(file) ?
-					file.some((item) => item.size > maxSize) :
-					file.size > maxSize;
-				if (oversize) {
-					this.$emit('oversize', Object.assign({
-						file
-					}, this.getDetail()));
-					return;
-				}
-				if (typeof afterRead === 'function') {
-					afterRead(file, this.getDetail());
-				}
-				this.$emit('afterRead', Object.assign({
-					file
-				}, this.getDetail()));
-			},
-			deleteItem(index) {
-				this.$emit(
-					'delete',
-					Object.assign(Object.assign({}, this.getDetail(index)), {
-						file: this.fileList[index],
-					})
-				);
-			},
-			// 预览图片
-			onPreviewImage(item) {
-				if (!item.isImage || !this.previewFullImage) return
-				uni.previewImage({
-					// 先filter找出为图片的item，再返回filter结果中的图片url
-					urls: this.lists.filter((item) => uni.$u.test.image(item.url)).map((item) => item.url),
-					current: item.url,
-					fail() {
-						uni.$u.toast('预览图片失败')
-					},
-				});
-			},
-			onPreviewVideo(event) {
-				if (!this.data.previewFullImage) return;
-				const {
-					index
-				} = event.currentTarget.dataset;
-				const {
-					lists
-				} = this.data;
-				wx.previewMedia({
-					sources: lists
-						.filter((item) => isVideoFile(item))
-						.map((item) =>
-							Object.assign(Object.assign({}, item), {
-								type: 'video'
-							})
-						),
-					current: index,
-					fail() {
-						wx.showToast({
-							title: '预览视频失败',
-							icon: 'none'
+					// 如果内部没有这个图片(tmp为false)，则添加到内部
+					!tmp &&
+						this.lists.push({
+							url: value.url,
+							error: false,
+							progress: 100
 						});
-					},
 				});
-			},
-			onClickPreview(event) {
-				const {
-					index
-				} = event.currentTarget.dataset;
-				const item = this.data.lists[index];
-				this.$emit(
-					'clickPreview',
-					Object.assign(Object.assign({}, item), this.getDetail(index))
-				);
 			}
+		},
+		// 监听lists的变化，发出事件
+		lists(n) {
+			this.$emit('on-list-change', n, this.index);
+		}
+	},
+	methods: {
+		// 清除列表
+		clear() {
+			this.lists = [];
+		},
+		// 重新上传队列中上传失败的所有文件
+		reUpload() {
+			this.uploadFile();
+		},
+		// 选择图片
+		selectFile() {
+			if (this.disabled) return;
+			const { name = '', maxCount, multiple, maxSize, sizeType, lists, camera, compressed, maxDuration, sourceType } = this;
+			let chooseFile = null;
+			const newMaxCount = maxCount - lists.length;
+			// 设置为只选择图片的时候使用 chooseImage 来实现
+			chooseFile = new Promise((resolve, reject) => {
+				uni.chooseImage({
+					count: multiple ? (newMaxCount > 9 ? 9 : newMaxCount) : 1,
+					sourceType: sourceType,
+					sizeType,
+					success: resolve,
+					fail: reject
+				});
+			});
+			chooseFile
+				.then(res => {
+					let file = null;
+					let listOldLength = this.lists.length;
+					res.tempFiles.map((val, index) => {
+						// 检查文件后缀是否允许，如果不在this.limitType内，就会返回false
+						if (!this.checkFileExt(val)) return;
+
+						// 如果是非多选，index大于等于1或者超出最大限制数量时，不处理
+						if (!multiple && index >= 1) return;
+						if (val.size > maxSize) {
+							this.$emit('on-oversize', val, this.lists, this.index);
+							this.showToast('超出允许的文件大小');
+						} else {
+							if (maxCount <= lists.length) {
+								this.$emit('on-exceed', val, this.lists, this.index);
+								this.showToast('超出最大允许的文件个数');
+								return;
+							}
+							lists.push({
+								url: val.path,
+								progress: 0,
+								error: false,
+								file: val
+							});
+						}
+					});
+					// 每次图片选择完，抛出一个事件，并将当前内部选择的图片数组抛出去
+					this.$emit('on-choose-complete', this.lists, this.index);
+					if (this.autoUpload) this.uploadFile(listOldLength);
+				})
+				.catch(error => {
+					this.$emit('on-choose-fail', error);
+				});
+		},
+		// 提示用户消息
+		showToast(message, force = false) {
+			if (this.showTips || force) {
+				uni.showToast({
+					title: message,
+					icon: 'none'
+				});
+			}
+		},
+		// 该方法供用户通过ref调用，手动上传
+		upload() {
+			this.uploadFile();
+		},
+		// 对失败的图片重新上传
+		retry(index) {
+			this.lists[index].progress = 0;
+			this.lists[index].error = false;
+			this.lists[index].response = null;
+			uni.showLoading({
+				title: '重新上传'
+			});
+			this.uploadFile(index);
+		},
+		// 上传图片
+		async uploadFile(index = 0) {
+			if (this.disabled) return;
+			if (this.uploading) return;
+			// 全部上传完成
+			if (index >= this.lists.length) {
+				this.$emit('on-uploaded', this.lists, this.index);
+				return;
+			}
+			// 检查是否是已上传或者正在上传中
+			if (this.lists[index].progress == 100) {
+				if (this.autoUpload == false) this.uploadFile(index + 1);
+				return;
+			}
+			// 执行before-upload钩子
+			if (this.beforeUpload && typeof this.beforeUpload === 'function') {
+				// 执行回调，同时传入索引和文件列表当作参数
+				// 在微信，支付宝等环境(H5正常)，会导致父组件定义的customBack()函数体中的this变成子组件的this
+				// 通过bind()方法，绑定父组件的this，让this.customBack()的this为父组件的上下文
+				// 因为upload组件可能会被嵌套在其他组件内，比如u-form，这时this.$parent其实为u-form的this，
+				// 非页面的this，所以这里需要往上历遍，一直寻找到最顶端的$parent，这里用了this.$u.$parent.call(this)
+				// 明白意思即可，无需纠结this.$u.$parent.call(this)的细节
+				let beforeResponse = this.beforeUpload.bind(this.$u.$parent.call(this))(index, this.lists);
+				// 判断是否返回了promise
+				if (!!beforeResponse && typeof beforeResponse.then === 'function') {
+					await beforeResponse
+						.then(res => {
+							// promise返回成功，不进行动作，继续上传
+						})
+						.catch(err => {
+							// 进入catch回调的话，继续下一张
+							return this.uploadFile(index + 1);
+						});
+				} else if (beforeResponse === false) {
+					// 如果返回false，继续下一张图片的上传
+					return this.uploadFile(index + 1);
+				} else {
+					// 此处为返回"true"的情形，这里不写代码，就跳过此处，继续执行当前的上传逻辑
+				}
+			}
+			// 检查上传地址
+			if (!this.action) {
+				this.showToast('请配置上传地址', true);
+				return;
+			}
+			this.lists[index].error = false;
+			this.uploading = true;
+			// 创建上传对象
+			let imgUrl = await this.compressImg(this.lists[index].url);
+			const task = uni.uploadFile({
+				url: this.action,
+				filePath: imgUrl,
+				name: this.name,
+				formData: this.formData,
+				header: this.header,
+				success: res => {
+					// 判断是否json字符串，将其转为json格式
+					let data = this.toJson && this.$u.test.jsonString(res.data) ? JSON.parse(res.data) : res.data;
+					if (![200, 201, 204].includes(res.statusCode)) {
+						this.uploadError(index, data);
+					} else {
+						// 上传成功
+						this.lists[index].response = data;
+						this.lists[index].progress = 100;
+						this.lists[index].error = false;
+						this.$emit('on-success', data, index, this.lists, this.index);
+					}
+				},
+				fail: e => {
+					this.uploadError(index, e);
+				},
+				complete: res => {
+					this.uploading = false;
+					this.uploadFile(index + 1);
+					this.$emit('on-change', res, index, this.lists, this.index);
+				}
+			});
+			task.onProgressUpdate(res => {
+				if (res.progress > 0) {
+					this.lists[index].progress = res.progress;
+					this.$emit('on-progress', res, index, this.lists, this.index);
+				}
+			});
+		},
+		// 上传失败
+		uploadError(index, err) {
+			this.lists[index].progress = 0;
+			this.lists[index].error = true;
+			this.lists[index].response = null;
+			this.$emit('on-error', err, index, this.lists, this.index);
+			this.showToast('上传失败，请重试');
+		},
+		// 压缩图片
+		compressImg(url) {
+			let that = this;
+			return new Promise((resolve, reject) => {
+				// 压缩图片
+				that.$refs.helangCompress
+					.compress({
+						src: url,
+						maxSize: 800,
+						minSize: 500 //最小压缩尺寸，图片尺寸小于该时值不压缩，非H5平台有效。若需要忽略该设置，可设置为一个极小的值，比如负数。
+					})
+					.then(compressRes => {
+						// 压缩成功回调
+						resolve(compressRes);
+					})
+					.catch(err => {
+						// 压缩失败回调
+					});
+			});
+		},
+		// 删除一个图片
+		deleteItem(index) {
+			uni.showModal({
+				title: '提示',
+				content: '您确定要删除此项吗？',
+				success: async res => {
+					if (res.confirm) {
+						// 先检查是否有定义before-remove移除前钩子
+						// 执行before-remove钩子
+						if (this.beforeRemove && typeof this.beforeRemove === 'function') {
+							// 此处钩子执行 原理同before-remove参数，见上方注释
+							let beforeResponse = this.beforeRemove.bind(this.$u.$parent.call(this))(index, this.lists);
+							// 判断是否返回了promise
+							if (!!beforeResponse && typeof beforeResponse.then === 'function') {
+								await beforeResponse
+									.then(res => {
+										// promise返回成功，不进行动作，继续上传
+										this.handlerDeleteItem(index);
+									})
+									.catch(err => {
+										// 如果进入promise的reject，终止删除操作
+										this.showToast('已终止移除');
+									});
+							} else if (beforeResponse === false) {
+								// 返回false，终止删除
+								this.showToast('已终止移除');
+							} else {
+								// 如果返回true，执行删除操作
+								this.handlerDeleteItem(index);
+							}
+						} else {
+							// 如果不存在before-remove钩子，
+							this.handlerDeleteItem(index);
+						}
+					}
+				}
+			});
+		},
+		// 执行移除图片的动作，上方代码只是判断是否可以移除
+		handlerDeleteItem(index) {
+			// 如果文件正在上传中，终止上传任务，进度在0 < progress < 100则意味着正在上传
+			if (this.lists[index].process < 100 && this.lists[index].process > 0) {
+				typeof this.lists[index].uploadTask != 'undefined' && this.lists[index].uploadTask.abort();
+			}
+			this.lists.splice(index, 1);
+			this.$forceUpdate();
+			this.$emit('on-remove', index, this.lists, this.index);
+			this.showToast('移除成功');
+		},
+		// 用户通过ref手动的形式，移除一张图片
+		remove(index) {
+			// 判断索引的合法范围
+			if (index >= 0 && index < this.lists.length) {
+				this.lists.splice(index, 1);
+				this.$emit('on-list-change', this.lists, this.index);
+			}
+		},
+		// 预览图片
+		doPreviewImage(url, index) {
+			if (!this.previewFullImage) return;
+			const images = this.lists.map(item => item.url || item.path);
+			uni.previewImage({
+				urls: images,
+				current: url,
+				success: () => {
+					this.$emit('on-preview', url, this.lists, this.index);
+				},
+				fail: () => {
+					uni.showToast({
+						title: '预览图片失败',
+						icon: 'none'
+					});
+				}
+			});
+		},
+		// 判断文件后缀是否允许
+		checkFileExt(file) {
+			// 检查是否在允许的后缀中
+			let noArrowExt = false;
+			// 获取后缀名
+			let fileExt = '';
+			const reg = /.+\./;
+			// 如果是H5，需要从name中判断
+			// #ifdef H5
+			fileExt = file.name.replace(reg, '').toLowerCase();
+			// #endif
+			// 非H5，需要从path中读取后缀
+			// #ifndef H5
+			fileExt = file.path.replace(reg, '').toLowerCase();
+			// #endif
+			// 使用数组的some方法，只要符合limitType中的一个，就返回true
+			noArrowExt = this.limitType.some(ext => {
+				// 转为小写
+				return ext.toLowerCase() === fileExt;
+			});
+			if (!noArrowExt) this.showToast(`不允许选择${fileExt}格式的文件`);
+			return noArrowExt;
 		}
 	}
+};
 </script>
 
 <style lang="scss" scoped>
-	@import '../../libs/css/components.scss';
-	$u-upload-preview-border-radius: 2px !default;
-	$u-upload-preview-margin: 0 8px 8px 0 !default;
-	$u-upload-image-width:80px !default;
-	$u-upload-image-height:$u-upload-image-width;
-	$u-upload-other-bgColor: rgb(242, 242, 242) !default;
-	$u-upload-other-flex:1 !default;
-	$u-upload-text-font-size:11px !default;
-	$u-upload-text-color:$u-tips-color !default;
-	$u-upload-text-margin-top:2px !default;
-	$u-upload-deletable-right:0 !default;
-	$u-upload-deletable-top:0 !default;
-	$u-upload-deletable-bgColor:rgb(55, 55, 55) !default;
-	$u-upload-deletable-height:14px !default;
-	$u-upload-deletable-width:$u-upload-deletable-height;
-	$u-upload-deletable-boder-bottom-left-radius:100px !default;
-	$u-upload-deletable-zIndex:3 !default;
-	$u-upload-success-bottom:0 !default;
-	$u-upload-success-right:0 !default;
-	$u-upload-success-border-top-color:transparent !default;
-	$u-upload-success-border-left-color:transparent !default;
-	$u-upload-success-border-bottom-color: $u-success !default;
-	$u-upload-success-border-right-color:$u-upload-success-border-bottom-color;
-	$u-upload-success-border-width:9px !default;
-	$u-upload-icon-top:0px !default;
-	$u-upload-icon-right:0px !default;
-	$u-upload-icon-h5-top:1px !default;
-	$u-upload-icon-h5-right:0 !default;
-	$u-upload-icon-width:16px !default;
-	$u-upload-icon-height:$u-upload-icon-width;
-	$u-upload-success-icon-bottom:-10px !default;
-	$u-upload-success-icon-right:-10px !default;
-	$u-upload-status-right:0 !default;
-	$u-upload-status-left:0 !default;
-	$u-upload-status-bottom:0 !default;
-	$u-upload-status-top:0 !default;
-	$u-upload-status-bgColor:rgba(0, 0, 0, 0.5) !default;
-	$u-upload-status-icon-Zindex:1 !default;
-	$u-upload-message-font-size:12px !default;
-	$u-upload-message-color:#FFFFFF !default;
-	$u-upload-message-margin-top:5px !default;
-	$u-upload-button-width:80px !default;
-	$u-upload-button-height:$u-upload-button-width;
-	$u-upload-button-bgColor:rgb(244, 245, 247) !default;
-	$u-upload-button-border-radius:2px !default;
-	$u-upload-botton-margin: 0 8px 8px 0 !default;
-	$u-upload-text-font-size:11px !default;
-	$u-upload-text-color:$u-tips-color !default;
-	$u-upload-text-margin-top: 2px !default;
-	$u-upload-hover-bgColor:rgb(230, 231, 233) !default;
-	$u-upload-disabled-opacity:.5 !default;
+@import '../../libs/css/style.components.scss';
 
-	.u-upload {
-		@include flex(column);
-		flex: 1;
+.u-upload {
+	@include vue-flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
 
-		&__wrap {
-			@include flex;
-			flex-wrap: wrap;
-			flex: 1;
+.u-list-item {
+	width: 180rpx;
+	height: 180rpx;
+	overflow: hidden;
+	margin: 10rpx;
+	border-radius: 5px;
+	border: 1px solid #999;
+	position: relative;
+	border-radius: 10rpx;
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	align-items: center;
+	justify-content: center;
+}
 
-			&__preview {
-				border-radius: $u-upload-preview-border-radius;
-				margin: $u-upload-preview-margin;
-				position: relative;
-				overflow: hidden;
-				@include flex;
+.u-preview-wrap {
+	border: 1px solid rgb(235, 236, 238);
+}
 
-				&__image {
-					width: $u-upload-image-width;
-					height: $u-upload-image-height;
-				}
+.u-add-wrap {
+	flex-direction: column;
+	color: $u-content-color;
+	font-size: 26rpx;
+}
 
-				&__other {
-					width: $u-upload-image-width;
-					height: $u-upload-image-height;
-					background-color: $u-upload-other-bgColor;
-					flex: $u-upload-other-flex;
-					@include flex(column);
-					justify-content: center;
-					align-items: center;
+.u-add-tips {
+	margin-top: 20rpx;
+	line-height: 40rpx;
+}
 
-					&__text {
-						font-size: $u-upload-text-font-size;
-						color: $u-upload-text-color;
-						margin-top: $u-upload-text-margin-top;
-					}
-				}
-			}
-		}
+.u-add-wrap__hover {
+	background-color: rgb(235, 236, 238);
+}
 
-		&__deletable {
-			position: absolute;
-			top: $u-upload-deletable-top;
-			right: $u-upload-deletable-right;
-			background-color: $u-upload-deletable-bgColor;
-			height: $u-upload-deletable-height;
-			width: $u-upload-deletable-width;
-			@include flex;
-			border-bottom-left-radius: $u-upload-deletable-boder-bottom-left-radius;
-			align-items: center;
-			justify-content: center;
-			z-index: $u-upload-deletable-zIndex;
+.u-preview-image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 10rpx;
+}
 
-			&__icon {
-				position: absolute;
-				transform: scale(0.7);
-				top: $u-upload-icon-top;
-				right: $u-upload-icon-right;
-				/* #ifdef H5 */
-				top: $u-upload-icon-h5-top;
-				right: $u-upload-icon-h5-right;
-				/* #endif */
-			}
-		}
+.u-delete-icon {
+	position: absolute;
+	top: 10rpx;
+	right: 10rpx;
+	z-index: 10;
+	background-color: $u-type-error;
+	border-radius: 100rpx;
+	width: 44rpx;
+	height: 44rpx;
+	@include vue-flex;
+	align-items: center;
+	justify-content: center;
+}
 
-		&__success {
-			position: absolute;
-			bottom: $u-upload-success-bottom;
-			right: $u-upload-success-right;
-			@include flex;
-			// 由于weex(nvue)为阿里巴巴的KPI(部门业绩考核)的laji产物，不支持css绘制三角形
-			// 所以在nvue下使用图片，非nvue下使用css实现
-			/* #ifndef APP-NVUE */
-			border-top-color: $u-upload-success-border-top-color;
-			border-left-color: $u-upload-success-border-left-color;
-			border-bottom-color: $u-upload-success-border-bottom-color;
-			border-right-color: $u-upload-success-border-right-color;
-			border-width: $u-upload-success-border-width;
-			align-items: center;
-			justify-content: center;
-			/* #endif */
+.u-icon {
+	@include vue-flex;
+	align-items: center;
+	justify-content: center;
+	color: #00ae67;
+}
 
-			&__icon {
-				/* #ifndef APP-NVUE */
-				position: absolute;
-				transform: scale(0.7);
-				bottom: $u-upload-success-icon-bottom;
-				right: $u-upload-success-icon-right;
-				/* #endif */
-				/* #ifdef APP-NVUE */
-				width: $u-upload-icon-width;
-				height: $u-upload-icon-height;
-				/* #endif */
-			}
-		}
+.u-progress {
+	position: absolute;
+	bottom: 10rpx;
+	left: 8rpx;
+	right: 8rpx;
+	z-index: 9;
+	width: auto;
+}
 
-		&__status {
-			position: absolute;
-			top: $u-upload-status-top;
-			bottom: $u-upload-status-bottom;
-			left: $u-upload-status-left;
-			right: $u-upload-status-right;
-			background-color: $u-upload-status-bgColor;
-			@include flex(column);
-			align-items: center;
-			justify-content: center;
+.u-error-btn {
+	color: #ffffff;
+	background-color: $u-type-error;
+	font-size: 20rpx;
+	padding: 4px 0;
+	text-align: center;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 9;
+	line-height: 1;
+}
 
-			&__icon {
-				position: relative;
-				z-index: $u-upload-status-icon-Zindex;
-			}
-
-			&__message {
-				font-size: $u-upload-message-font-size;
-				color: $u-upload-message-color;
-				margin-top: $u-upload-message-margin-top;
-			}
-		}
-
-		&__button {
-			@include flex(column);
-			align-items: center;
-			justify-content: center;
-			width: $u-upload-button-width;
-			height: $u-upload-button-height;
-			background-color: $u-upload-button-bgColor;
-			border-radius: $u-upload-button-border-radius;
-			margin: $u-upload-botton-margin;
-			/* #ifndef APP-NVUE */
-			box-sizing: border-box;
-			/* #endif */
-
-			&__text {
-				font-size: $u-upload-text-font-size;
-				color: $u-upload-text-color;
-				margin-top: $u-upload-text-margin-top;
-			}
-
-			&--hover {
-				background-color: $u-upload-hover-bgColor;
-			}
-
-			&--disabled {
-				opacity: $u-upload-disabled-opacity;
-			}
-		}
-	}
+.success-tips {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	color: #fff;
+	background-color: #00ae67;
+	font-size: 20rpx;
+	line-height: 1;
+	padding: 10rpx;
+	/* border-radius: 10rpx; */
+	border-top-left-radius: 10rpx;
+}
 </style>

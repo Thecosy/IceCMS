@@ -1,0 +1,85 @@
+.page-body{
+	padding: 0 20rpx;
+	font-size: 28rpx;
+}
+// 顶部
+.navbar-center{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	.status{
+		font-size: 20rpx;
+		color: #999;
+	}
+}
+// 消息
+.chat-item{
+	margin: 15rpx 0;
+}
+// 左边消息
+.chat-item-left{
+	display: flex;
+	.avatar{
+		margin-right: 20rpx;
+	}
+	.conent{
+		margin-right: 110rpx;
+		&:before{
+			left: -10rpx;
+		}
+	}
+}
+
+// 右边消息
+.chat-item-right{
+	display: flex;
+	flex-direction: row-reverse;
+	.avatar{
+		margin-left: 20rpx;
+	}
+	.conent{
+		margin-left: 110rpx;
+		&:before{
+		right: -10rpx;
+	}
+	}
+}
+// 消息框
+.conent{
+	padding: 20rpx;
+	border-radius: 10rpx;
+	background-color: #fff;
+	position: relative;
+	&:before{
+		content: "";
+		width: 20rpx;
+		height: 20rpx;
+		background-color: #fff;
+		display: inline-block;
+		position: absolute;
+		top: 30rpx;
+		transform: rotate(45deg);
+	}
+}
+
+// 发送消息框
+.msg-fad{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #fff;
+	padding: 20rpx;
+	display: flex;
+	
+	input{
+		flex: 1;
+		height: 80rpx;
+		background-color: #F5F5F5;
+		padding: 0 20rpx;
+		font-size: 24rpx;
+		margin-right: 20rpx;
+		border-radius: 10rpx;
+	}
+}

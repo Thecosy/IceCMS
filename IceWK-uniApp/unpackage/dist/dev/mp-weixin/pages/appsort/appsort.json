@@ -3,12 +3,14 @@
   "navigationStyle": "custom",
   "navigationBarTextStyle": "black",
   "usingComponents": {
-    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
-    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
-    "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
-    "u-empty": "/uni_modules/uview-ui/components/u-empty/u-empty",
-    "u-grid": "/uni_modules/uview-ui/components/u-grid/u-grid",
-    "u-grid-item": "/uni_modules/uview-ui/components/u-grid-item/u-grid-item",
-    "u-no-network": "/uni_modules/uview-ui/components/u-no-network/u-no-network"
+    "appsort-n-waterfall-view-left": "/pages/appsort/appsort-n-waterfall-view-left",
+    "appsort-n-waterfall-view-right": "/pages/appsort/appsort-n-waterfall-view-right",
+    "n-navbar": "/nPro/navbar/navbar",
+    "n-waterfall": "/nPro/waterfall/waterfall",
+    "n-waterfall-view": "/nPro/waterfall-view/waterfall-view",
+    "goods-topic-cell": "/components/goods/goodsTopicCell",
+    "goods-cell": "/components/goods/goodsCell",
+    "goods-flash-cell": "/components/goods/goodsFlashCell",
+    "goods-club-cell": "/components/goods/goodsClubCell"
   }
 }

@@ -1,108 +1,107 @@
 <template>
-	<view
-	    class="u-col"
-		ref="u-col"
-	    :class="[
-			'u-col-' + span
-		]"
-	    :style="[colStyle]"
-	    @tap="clickHandler"
-	>
+	<view class="u-col" :class="[
+		'u-col-' + span
+	]" :style="{
+		padding: `0 ${Number(gutter)/2 + 'rpx'}`,
+		marginLeft: 100 / 12 * offset + '%',
+		flex: `0 0 ${100 / 12 * span}%`,
+		alignItems: uAlignItem,
+		justifyContent: uJustify,
+		textAlign: textAlign
+	}"
+	 @tap="click">
 		<slot></slot>
 	</view>
 </template>
 
 <script>
-	import props from './props.js';
 	/**
-	 * CodeInput 栅格系统的列 
-	 * @description 该组件一般用于Layout 布局 通过基础的 12 分栏，迅速简便地创建布局
-	 * @tutorial https://www.uviewui.com/components/Layout.html
-	 * @property {String | Number}	span		栅格占据的列数，总12等份 (默认 12 ) 
-	 * @property {String | Number}	offset		分栏左边偏移，计算方式与span相同 (默认 0 ) 
-	 * @property {String}			justify		水平排列方式，可选值为`start`(或`flex-start`)、`end`(或`flex-end`)、`center`、`around`(或`space-around`)、`between`(或`space-between`)  (默认 'start' ) 
-	 * @property {String}			align		垂直对齐方式，可选值为top、center、bottom、stretch (默认 'stretch' ) 
-	 * @property {String}			textAlign	文字水平对齐方式 (默认 'left' ) 
-	 * @property {Object}			customStyle	定义需要用到的外部样式
-	 * @event {Function}	click	col被点击，会阻止事件冒泡到row
-	 * @example	 <u-col  span="3" offset="3" > <view class="demo-layout bg-purple"></view> </u-col>
+	 * col 布局单元格
+	 * @description 通过基础的 12 分栏，迅速简便地创建布局（搭配<u-row>使用）
+	 * @tutorial https://www.uviewui.com/components/layout.html
+	 * @property {String Number} span 栅格占据的列数，总12等分（默认0）
+	 * @property {String} text-align 文字水平对齐方式（默认left）
+	 * @property {String Number} offset 分栏左边偏移，计算方式与span相同（默认0）
+	 * @example <u-col span="3"><view class="demo-layout bg-purple"></view></u-col>
 	 */
 	export default {
-		name: 'u-col',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
+		name: "u-col",
+		props: {
+			// 占父容器宽度的多少等分，总分为12份
+			span: {
+				type: [Number, String],
+				default: 12
+			},
+			// 指定栅格左侧的间隔数(总12栏)
+			offset: {
+				type: [Number, String],
+				default: 0
+			},
+			// 水平排列方式，可选值为`start`(或`flex-start`)、`end`(或`flex-end`)、`center`、`around`(或`space-around`)、`between`(或`space-between`)
+			justify: {
+				type: String,
+				default: 'start'
+			},
+			// 垂直对齐方式，可选值为top、center、bottom
+			align: {
+				type: String,
+				default: 'center'
+			},
+			// 文字对齐方式
+			textAlign: {
+				type: String,
+				default: 'left'
+			},
+			// 是否阻止事件传播
+			stop: {
+				type: Boolean,
+				default: true
+			}
+		},
 		data() {
 			return {
-				width: 0,
-				parentData: {
-					gutter: 0
-				},
-				gridNum: 12
+				gutter: 20, // 给col添加间距，左右边距各占一半，从父组件u-row获取
+			}
+		},
+		created() {
+			this.parent = false;
+		},
+		mounted() {
+			// 获取父组件实例，并赋值给对应的参数
+			this.parent = this.$u.$parent.call(this, 'u-row');
+			if (this.parent) {
+				this.gutter = this.parent.gutter;
 			}
 		},
 		computed: {
 			uJustify() {
-				if (this.justify == 'end' || this.justify == 'start') return 'flex-' + this.justify
-				else if (this.justify == 'around' || this.justify == 'between') return 'space-' + this.justify
-				else return this.justify
+				if (this.justify == 'end' || this.justify == 'start') return 'flex-' + this.justify;
+				else if (this.justify == 'around' || this.justify == 'between') return 'space-' + this.justify;
+				else return this.justify;
 			},
 			uAlignItem() {
-				if (this.align == 'top') return 'flex-start'
-				if (this.align == 'bottom') return 'flex-end'
-				else return this.align
-			},
-			colStyle() {
-				const style = {
-					// 这里写成"padding: 0 10px"的形式是因为nvue的需要
-					paddingLeft: uni.$u.addUnit(Number(this.parentData.gutter)/2),
-					paddingRight: uni.$u.addUnit(Number(this.parentData.gutter)/2),
-					alignItems: this.uAlignItem,
-					justifyContent: this.uJustify,
-					textAlign: this.textAlign,
-					// #ifndef APP-NVUE
-					// 在非nvue上，使用百分比形式
-					flex: `0 0 ${100 / this.gridNum * this.span}%`,
-					marginLeft: 100 / 12 * this.offset + '%',
-					// #endif
-					// #ifdef APP-NVUE
-					// 在nvue上，由于无法使用百分比单位，这里需要获取父组件的宽度，再计算得出该有对应的百分比尺寸
-					width: uni.$u.addUnit(Math.floor(this.width / this.gridNum * Number(this.span))),
-					marginLeft: uni.$u.addUnit(Math.floor(this.width / this.gridNum * Number(this.offset))),
-					// #endif
-				}
-				return uni.$u.deepMerge(style, uni.$u.addStyle(this.customStyle))
+				if (this.align == 'top') return 'flex-start';
+				if (this.align == 'bottom') return 'flex-end';
+				else return this.align;
 			}
-		},
-		mounted() {
-			this.init()
 		},
 		methods: {
-			async init() {
-				// 支付宝小程序不支持provide/inject，所以使用这个方法获取整个父组件，在created定义，避免循环引用
-				this.updateParentData()
-				this.width = await this.parent.getComponentWidth()
-			},
-			updateParentData() {
-				this.getParentData('u-row')
-			},
-			clickHandler(e) {
+			click(e) {
 				this.$emit('click');
 			}
-		},
+		}
 	}
 </script>
 
-<style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
+<style lang="scss">
+	@import "../../libs/css/style.components.scss";
 
 	.u-col {
-		padding: 0;
-		/* #ifdef MP */
-		display: block;
+		/* #ifdef MP-WEIXIN || MP-QQ || MP-TOUTIAO */
+		float: left;
 		/* #endif */
 	}
 
-	// nvue下百分比无效
-	/* #ifndef APP-NVUE */
 	.u-col-0 {
 		width: 0;
 	}
@@ -154,6 +153,4 @@
 	.u-col-12 {
 		width: calc(100%/12 * 12);
 	}
-
-	/* #endif */
 </style>

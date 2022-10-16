@@ -1,286 +1,294 @@
 <template>
-	<u-transition mode="fade" :show="show">
-		<view class="u-tag-wrapper">
-			<view class="u-tag"
-				:class="[`u-tag--${shape}`, !plain && `u-tag--${type}`, plain && `u-tag--${type}--plain`, `u-tag--${size}`, plain && plainFill && `u-tag--${type}--plain--fill`]"
-				@tap.stop="clickHandler" :style="[{
-					marginRight: closable ? '10px' : 0,
-					marginTop: closable ? '10px' : 0,
-				}, style]">
-				<slot name="icon">
-					<view class="u-tag__icon" v-if="icon">
-						<image v-if="$u.test.image(icon)" :src="icon" :style="[imgStyle]"></image>
-						<u-icon v-else :color="elIconColor" :name="icon" :size="iconSize"></u-icon>
-					</view>
-				</slot>
-				<text class="u-tag__text" :style="[textColor]"
-					:class="[`u-tag__text--${type}`, plain && `u-tag__text--${type}--plain`, `u-tag__text--${size}`]">{{ text }}</text>
-			</view>
-			<view class="u-tag__close" :class="[`u-tag__close--${size}`]" v-if="closable" @tap.stop="closeHandler"
-				:style="{backgroundColor: closeColor}">
-				<u-icon name="close" :size="closeSize" color="#ffffff"></u-icon>
-			</view>
+	<view v-if="show" :class="[
+		disabled ? 'u-disabled' : '',
+		'u-size-' + size,
+		'u-shape-' + shape,
+		'u-mode-' + mode + '-' + type
+	]"
+	 class="u-tag" :style="[customStyle]" @tap="clickTag">
+		{{text}}
+		<view class="u-icon-wrap" @tap.stop>
+			<u-icon @click="close" size="22" v-if="closeable" :color="closeIconColor" 
+			name="close" class="u-close-icon" :style="[iconStyle]"></u-icon>
 		</view>
-	</u-transition>
+	</view>
 </template>
+
 <script>
-	import props from './props.js';
 	/**
-	 * Tag 标签
-	 * @description tag组件一般用于标记和选择，我们提供了更加丰富的表现形式，能够较全面的涵盖您的使用场景
+	 * tag 提示
+	 * @description 该组件一般用于标记和选择
 	 * @tutorial https://www.uviewui.com/components/tag.html
-	 * @property {String}			type		标签类型info、primary、success、warning、error （默认 'primary' ）
-	 * @property {Boolean | String}	disabled	不可用（默认 false ）
-	 * @property {String}			size		标签的大小，large，medium，mini （默认 'medium' ）
-	 * @property {String}			shape		tag的形状，circle（两边半圆形）, square（方形，带圆角）（默认 'square' ）
-	 * @property {String | Number}	text		标签的文字内容 
-	 * @property {String}			bgColor		背景颜色，默认为空字符串，即不处理
-	 * @property {String}			color		标签字体颜色，默认为空字符串，即不处理
-	 * @property {String}			borderColor	镂空形式标签的边框颜色
-	 * @property {String}			closeColor	关闭按钮图标的颜色（默认 #C6C7CB）
-	 * @property {String | Number}	name		点击时返回的索引值，用于区分例遍的数组哪个元素被点击了
-	 * @property {Boolean}			plainFill	镂空时是否填充背景色（默认 false ）
-	 * @property {Boolean}			plain		是否镂空（默认 false ）
-	 * @property {Boolean}			closable	是否可关闭，设置为true，文字右边会出现一个关闭图标（默认 false ）
-	 * @property {Boolean}			show		标签显示与否（默认 true ）
-	 * @property {String}			icon		内置图标，或绝对路径的图片
-	 * @event {Function(index)} click 点击标签时触发 index: 传递的index参数值
-	 * @event {Function(index)} close closable为true时，点击标签关闭按钮触发 index: 传递的index参数值	
-	 * @example <u-tag text="标签" type="error" plain plainFill></u-tag>
+	 * @property {String} type 主题类型（默认primary）
+	 * @property {String} size 标签大小（默认default）
+	 * @property {String} shape 标签形状（默认square）
+	 * @property {String} text 标签的文字内容
+	 * @property {String} bg-color 自定义标签的背景颜色
+	 * @property {String} border-color 标签的边框颜色
+	 * @property {String} close-color 关闭按钮的颜色
+	 * @property {String Number} index 点击标签时，会通过click事件返回该值
+	 * @property {String} mode 模式选择，见官网说明（默认light）
+	 * @property {Boolean} closeable 是否可关闭，设置为true，文字右边会出现一个关闭图标（默认false）
+	 * @property {Boolean} show 标签显示与否（默认true）
+	 * @event {Function} click 点击标签触发
+	 * @event {Function} close closeable为true时，点击标签关闭按钮触发
+	 * @example <u-tag text="雪月夜" type="success" />
 	 */
 	export default {
 		name: 'u-tag',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
+		// 是否禁用这个标签，禁用的话，会屏蔽点击事件
+		props: {
+			// 标签类型info、primary、success、warning、error
+			type: {
+				type: String,
+				default: 'primary'
+			},
+			disabled: {
+				type: [Boolean, String],
+				default: false
+			},
+			// 标签的大小，分为default（默认），mini（较小）
+			size: {
+				type: String,
+				default: 'default'
+			},
+			// tag的形状，circle（两边半圆形）, square（方形，带圆角），circleLeft（左边是半圆），circleRight（右边是半圆）
+			shape: {
+				type: String,
+				default: 'square'
+			},
+			// 标签文字
+			text: {
+				type: [String, Number],
+				default: ''
+			},
+			// 背景颜色，默认为空字符串，即不处理
+			bgColor: {
+				type: String,
+				default: ''
+			},
+			// 标签字体颜色，默认为空字符串，即不处理
+			color: {
+				type: String,
+				default: ''
+			},
+			// 镂空形式标签的边框颜色
+			borderColor: {
+				type: String,
+				default: ''
+			},
+			// 关闭按钮图标的颜色
+			closeColor: {
+				type: String,
+				default: ''
+			},
+			// 点击时返回的索引值，用于区分例遍的数组哪个元素被点击了
+			index: {
+				type: [Number, String],
+				default: ''
+			},
+			// 模式选择，dark|light|plain
+			mode: {
+				type: String,
+				default: 'light'
+			},
+			// 是否可关闭
+			closeable: {
+				type: Boolean,
+				default: false
+			},
+			// 是否显示
+			show: {
+				type: Boolean,
+				default: true
+			}
+		},
 		data() {
-			return {}
+			return {
+				
+			}
 		},
 		computed: {
-			style() {
-				const style = {}
-				if (this.bgColor) {
-					style.backgroundColor = this.bgColor
-				}
-				if (this.color) {
-					style.color = this.color
-				}				
-				return style
+			customStyle() {
+				let style = {};
+				// 文字颜色（如果有此值，会覆盖type值的颜色）
+				if(this.color) style.color = this.color;
+				// tag的背景颜色（如果有此值，会覆盖type值的颜色）
+				if(this.bgColor) style.backgroundColor = this.bgColor;
+				// 如果是镂空型tag，没有传递边框颜色（borderColor）的话，使用文字的颜色（color属性）
+				if(this.mode == 'plain' && this.color && !this.borderColor) style.borderColor = this.color;
+				else style.borderColor = this.borderColor;
+				return style;
 			},
-			// nvue下，文本颜色无法继承父元素
-			textColor() {
-				const style = {}
-				if (this.color) {
-					style.color = this.color
-				}
-				return style
+			iconStyle() {
+				if(!this.closeable) return ;
+				let style = {};
+				if(this.size == 'mini') style.fontSize = '20rpx';
+				else style.fontSize = '22rpx';
+				if(this.mode == 'plain' || this.mode == 'light') style.color = this.type;
+				else if(this.mode == 'dark')  style.color = "#ffffff";
+				if(this.closeColor) style.color = this.closeColor;
+				return style;
 			},
-			imgStyle() {
-				const width = this.size === 'large' ? '17px' : this.size === 'medium' ? '15px' : '13px'
-				return {
-					width,
-					height: width
-				}
-			},
-			// 文本的样式
-			closeSize() {
-				const size = this.size === 'large' ? 15 : this.size === 'medium' ? 13 : 12
-				return size
-			},
-			// 图标大小
-			iconSize() {
-				const size = this.size === 'large' ? 21 : this.size === 'medium' ? 19 : 16
-				return size
-			},
-			// 图标颜色
-			elIconColor() {
-				return this.iconColor ? this.iconColor : this.plain ? this.type : '#ffffff'
+			// 关闭图标的颜色
+			closeIconColor() {
+				// 如果定义了关闭图标的颜色，就用此值，否则用字体颜色的值
+				// 如果上面的二者都没有，如果是dark深色模式，图标就为白色
+				// 最后如果上面的三者都不合适，就返回type值给图标获取颜色
+				let color = '';
+				if(this.closeColor) return this.closeColor;
+				else if(this.color) return this.color;
+				else if(this.mode == 'dark') return '#ffffff';
+				else return this.type;
 			}
 		},
 		methods: {
-			// 点击关闭按钮
-			closeHandler() {
-				this.$emit('close', this.name)
+			// 标签被点击
+			clickTag() {
+				// 如果是disabled状态，不发送点击事件
+				if(this.disabled) return ;
+				this.$emit('click', this.index);
 			},
-			// 点击标签
-			clickHandler() {
-				this.$emit('click', this.name)
+			// 点击标签关闭按钮
+			close() {
+				this.$emit('close', this.index);
 			}
 		}
 	}
 </script>
-<style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
 
-	.u-tag-wrapper {
-		position: relative;
+<style lang="scss" scoped>
+	@import "../../libs/css/style.components.scss";
+	
+	.u-tag {
+		box-sizing: border-box;
+		align-items: center;
+		border-radius: 6rpx;
+		/* #ifndef APP-NVUE */
+		display: inline-block;
+		/* #endif */
+		line-height: 1;
+	}
+	
+	.u-size-default {
+		font-size: 22rpx;
+		padding: 12rpx 22rpx;
+	}
+	
+	.u-size-mini {
+		font-size: 20rpx;
+		padding: 6rpx 12rpx;
 	}
 
-	.u-tag {
-		@include flex;
-		align-items: center;
+	.u-mode-light-primary {
+		background-color: $u-type-primary-light;
+		color: $u-type-primary;
+		border: 1px solid $u-type-primary-disabled;
+	}
+	
+	.u-mode-light-success {
+		background-color: $u-type-success-light;
+		color: $u-type-success;
+		border: 1px solid $u-type-success-disabled;
+	}
+	
+	.u-mode-light-error {
+		background-color: $u-type-error-light;
+		color: $u-type-error;
+		border: 1px solid $u-type-error-disabled;
+	}
+	
+	.u-mode-light-warning {
+		background-color: $u-type-warning-light;
+		color: $u-type-warning;
+		border: 1px solid $u-type-warning-disabled;
+	}
+	
+	.u-mode-light-info {
+		background-color: $u-type-info-light;
+		color: $u-type-info;
+		border: 1px solid $u-type-info-disabled;
+	}
+	
+	.u-mode-dark-primary {
+		background-color: $u-type-primary;
+		color: #FFFFFF;
+	}
+	
+	.u-mode-dark-success {
+		background-color: $u-type-success;
+		color: #FFFFFF;
+	}
+	
+	.u-mode-dark-error {
+		background-color: $u-type-error;
+		color: #FFFFFF;
+	}
+	
+	.u-mode-dark-warning {
+		background-color: $u-type-warning;
+		color: #FFFFFF;
+	}
+	
+	.u-mode-dark-info {
+		background-color: $u-type-info;
+		color: #FFFFFF;
+	}
+	
+	.u-mode-plain-primary {
+		background-color: #FFFFFF;
+		color: $u-type-primary;
+		border: 1px solid $u-type-primary;
+	}
+	
+	.u-mode-plain-success {
+		background-color: #FFFFFF;
+		color: $u-type-success;
+		border: 1px solid $u-type-success;
+	}
+	
+	.u-mode-plain-error {
+		background-color: #FFFFFF;
+		color: $u-type-error;
+		border: 1px solid $u-type-error;
+	}
+	
+	.u-mode-plain-warning {
+		background-color: #FFFFFF;
+		color: $u-type-warning;
+		border: 1px solid $u-type-warning;
+	}
+	
+	.u-mode-plain-info {
+		background-color: #FFFFFF;
+		color: $u-type-info;
+		border: 1px solid $u-type-info;
+	}
+	
+	.u-disabled {
+		opacity: 0.55;
+	}
 
-		&--circle {
-			border-radius: 100px;
-		}
+	.u-shape-circle {
+		border-radius: 100rpx;
+	}
+	
+	.u-shape-circleRight {
+		border-radius:  0 100rpx 100rpx 0;
+	}
 
-		&--square {
-			border-radius: 3px;
-		}
-
-		&__icon {
-			margin-right: 4px;
-		}
-
-		&__text {
-			&--mini {
-				font-size: 12px;
-				line-height: 12px;
-			}
-
-			&--medium {
-				font-size: 13px;
-				line-height: 13px;
-			}
-
-			&--large {
-				font-size: 15px;
-				line-height: 15px;
-			}
-		}
-
-		&--mini {
-			height: 22px;
-			line-height: 22px;
-			padding: 0 5px;
-		}
-
-		&--medium {
-			height: 33px;
-			line-height: 33px;
-			padding: 0 10px;
-		}
-
-		&--large {
-			height: 60px;
-			line-height: 60px;
-			padding: 0 15px;
-		}
-
-		&--primary {
-			background-color: #50A1FF;
-		}
-
-
-		&--primary--plain--fill {
-			background-color: rgba($color: #50A1FF, $alpha: 0.1);
-		}
-
-		&__text--primary {
-			color: #FFFFFF;
-		}
-
-		&__text--primary--plain {
-			color: #50A1FF;
-		}
-
-		&--error {
-			background-color: #50A1FF;
-		}
-
-		&--error--plain--fill {
-			background-color: #fef0f0;
-		}
-
-		&__text--error {
-			color: #FFFFFF;
-		}
-
-		&__text--error--plain {
-			color: $u-error;
-		}
-
-		&--warning {
-			background-color: $u-warning;
-		}
-
-
-
-		&--warning--plain--fill {
-			background-color: #fdf6ec;
-		}
-
-		&__text--warning {
-			color: #FFFFFF;
-		}
-
-		&__text--warning--plain {
-			color: $u-warning;
-		}
-
-		&--success {
-			background-color: $u-success;
-		}
-
-
-		&--success--plain--fill {
-			background-color: #f5fff0;
-		}
-
-		&__text--success {
-			color: #FFFFFF;
-		}
-
-		&__text--success--plain {
-			color: $u-success;
-		}
-
-		&--info {
-			background-color: $u-info;
-		}
-
-
-		&--info--plain--fill {
-			background-color: #f4f4f5;
-		}
-
-		&__text--info {
-			color: #FFFFFF;
-		}
-
-		&__text--info--plain {
-			color: $u-info;
-		}
-
-		&__close {
-			position: absolute;
-			z-index: 999;
-			top: 10px;
-			right: 10px;
-			border-radius: 100px;
-			background-color: #C6C7CB;
-			@include flex(row);
-			align-items: center;
-			justify-content: center;
-			/* #ifndef APP-NVUE */
-			transform: scale(0.6) translate(80%, -80%);
-			/* #endif */
-			/* #ifdef APP-NVUE */
-			transform: scale(0.6) translate(50%, -50%);
-
-			/* #endif */
-			&--mini {
-				width: 18px;
-				height: 18px;
-			}
-
-			&--medium {
-				width: 22px;
-				height: 22px;
-			}
-
-			&--large {
-				width: 25px;
-				height: 25px;
-			}
-		}
+	.u-shape-circleLeft {
+		border-radius: 100rpx 0 0 100rpx;
+	}
+	
+	.u-close-icon {
+		margin-left: 14rpx;
+		font-size: 22rpx;
+		color: $u-type-success;
+	}
+	
+	.u-icon-wrap {
+		display: inline-flex;
+		transform: scale(0.86);
 	}
 </style>

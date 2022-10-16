@@ -1,309 +1,387 @@
 <template>
-	<view class="u-input" :class="inputClass" :style="[wrapperStyle]">
-		<view class="u-input__content">
-			<view class="u-input__content__prefix-icon" v-if="prefixIcon || $slots.prefix">
-				<slot name="prefix">
-					<u-icon :name="prefixIcon" size="25" :customStyle="prefixIconStyle"></u-icon>
-				</slot>
+	<view
+		class="u-input"
+		:class="{
+			'u-input--border': border,
+			'u-input--error': validateState
+		}"
+		:style="{
+			padding: `0 ${border ? 20 : 0}rpx`,
+			borderColor: borderColor,
+			textAlign: inputAlign
+		}"
+		@tap.stop="inputClick"
+	>
+		<textarea
+			v-if="type == 'textarea'"
+			class="u-input__input u-input__textarea"
+			:style="[getStyle]"
+			:value="defaultValue"
+			:placeholder="placeholder"
+			:placeholderStyle="placeholderStyle"
+			:disabled="disabled"
+			:maxlength="inputMaxlength"
+			:fixed="fixed"
+			:focus="focus"
+			:autoHeight="autoHeight"
+			:selection-end="uSelectionEnd"
+			:selection-start="uSelectionStart"
+			:cursor-spacing="getCursorSpacing"
+			:show-confirm-bar="showConfirmbar"
+			@input="handleInput"
+			@blur="handleBlur"
+			@focus="onFocus"
+			@confirm="onConfirm"
+		/>
+		<input
+			v-else
+			class="u-input__input"
+			:type="type == 'password' ? 'text' : type"
+			:style="[getStyle]"
+			:value="defaultValue"
+			:password="type == 'password' && !showPassword"
+			:placeholder="placeholder"
+			:placeholderStyle="placeholderStyle"
+			:disabled="disabled || type === 'select'"
+			:maxlength="inputMaxlength"
+			:focus="focus"
+			:confirmType="confirmType"
+			:cursor-spacing="getCursorSpacing"
+			:selection-end="uSelectionEnd"
+			:selection-start="uSelectionStart"
+			:show-confirm-bar="showConfirmbar"
+			@focus="onFocus"
+			@blur="handleBlur"
+			@input="handleInput"
+			@confirm="onConfirm"
+		/>
+		<view class="u-input__right-icon u-flex">
+			<view class="u-input__right-icon__clear u-input__right-icon__item" @tap="onClear" v-if="clearable && value != '' && focused">
+				<u-icon size="32" name="close-circle-fill" color="#c0c4cc"/>
 			</view>
-			<view class="u-input__content__field-wrapper" @tap="clickHandler">
-				<input class="u-input__content__field-wrapper__field" :style="[inputStyle]" :type="type" :focus="focus"
-					:cursor="cursor" :value="innerValue" :auto-blur="autoBlur" :disabled="disabled || readonly"
-					:maxlength="maxlength" :placeholder="placeholder" :placeholder-style="placeholderStyle"
-					:placeholder-class="placeholderClass" :confirm-type="confirmType" :confirm-hold="confirmHold"
-					:hold-keyboard="holdKeyboard" :cursor-spacing="cursorSpacing" :adjust-position="adjustPosition"
-					:selection-end="selectionEnd" :selection-start="selectionStart"
-					:password="password || type === 'password'" @input="onInput" @blur="onBlur" @focus="onFocus"
-					@confirm="onConfirm" @keyboardheightchange="onkeyboardheightchange" />
+			<view class="u-input__right-icon__clear u-input__right-icon__item" v-if="passwordIcon && type == 'password'">
+				<u-icon size="32" :name="!showPassword ? 'eye' : 'eye-fill'" color="#c0c4cc" @click="showPassword = !showPassword"/>
 			</view>
-			<view class="u-input__content__clear" v-if="isShowClear" @tap="onClear">
-				<u-icon name="close" size="11" color="#ffffff" customStyle="line-height: 12px"></u-icon>
-			</view>
-			<view class="u-input__content__subfix-icon" v-if="suffixIcon || $slots.suffix">
-				<slot name="suffix">
-					<u-icon :name="suffixIcon" size="18" :customStyle="suffixIconStyle"></u-icon>
-				</slot>
+			<view class="u-input__right-icon--select u-input__right-icon__item" v-if="type == 'select'" :class="{
+				'u-input__right-icon--select--reverse': selectOpen
+			}">
+				<u-icon name="arrow-down-fill" size="26" color="#c0c4cc"></u-icon>
 			</view>
 		</view>
 	</view>
 </template>
+
 <script>
-	import props from "./props.js";
-	/**
-	 * Input 输入框
-	 * @description  此组件为一个输入框，默认没有边框和样式，是专门为配合表单组件u-form而设计的，利用它可以快速实现表单验证，输入内容，下拉选择等功能。
-	 * @tutorial https://uviewui.com/components/input.html
-	 * @property {String | Number}	value					输入的值
-	 * @property {String}			type					输入框类型，见上方说明 （ 默认 'text' ）
-	 * @property {Boolean}			fixed					如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true，兼容性：微信小程序、百度小程序、字节跳动小程序、QQ小程序 （ 默认 false ）
-	 * @property {Boolean}			disabled				是否禁用输入框 （ 默认 false ）
-	 * @property {String}			disabledColor			禁用状态时的背景色（ 默认 '#f5f7fa' ）
-	 * @property {Boolean}			clearable				是否显示清除控件 （ 默认 false ）
-	 * @property {Boolean}			password				是否密码类型 （ 默认 false ）
-	 * @property {String | Number}	maxlength				最大输入长度，设置为 -1 的时候不限制最大长度 （ 默认 -1 ）
-	 * @property {String}			placeholder				输入框为空时的占位符
-	 * @property {String}			placeholderClass		指定placeholder的样式类，注意页面或组件的style中写了scoped时，需要在类名前写/deep/ （ 默认 'input-placeholder' ）
-	 * @property {String | Object}	placeholderStyle		指定placeholder的样式，字符串/对象形式，如"color: red;"
-	 * @property {Boolean}			showWordLimit			是否显示输入字数统计，只在 type ="text"或type ="textarea"时有效 （ 默认 false ）
-	 * @property {String}			confirmType				设置右下角按钮的文字，兼容性详见uni-app文档 （ 默认 'done' ）
-	 * @property {Boolean}			confirmHold				点击键盘右下角按钮时是否保持键盘不收起，H5无效 （ 默认 false ）
-	 * @property {Boolean}			holdKeyboard			focus时，点击页面的时候不收起键盘，微信小程序有效 （ 默认 false ）
-	 * @property {Boolean}			focus					自动获取焦点，在 H5 平台能否聚焦以及软键盘是否跟随弹出，取决于当前浏览器本身的实现。nvue 页面不支持，需使用组件的 focus()、blur() 方法控制焦点 （ 默认 false ）
-	 * @property {Boolean}			autoBlur				键盘收起时，是否自动失去焦点，目前仅App3.0.0+有效 （ 默认 false ）
-	 * @property {Boolean}			disableDefaultPadding	是否去掉 iOS 下的默认内边距，仅微信小程序，且type=textarea时有效 （ 默认 false ）
-	 * @property {String ｜ Number}	cursor					指定focus时光标的位置（ 默认 -1 ）
-	 * @property {String ｜ Number}	cursorSpacing			输入框聚焦时底部与键盘的距离 （ 默认 30 ）
-	 * @property {String ｜ Number}	selectionStart			光标起始位置，自动聚集时有效，需与selection-end搭配使用 （ 默认 -1 ）
-	 * @property {String ｜ Number}	selectionEnd			光标结束位置，自动聚集时有效，需与selection-start搭配使用 （ 默认 -1 ）
-	 * @property {Boolean}			adjustPosition			键盘弹起时，是否自动上推页面 （ 默认 true ）
-	 * @property {String}			inputAlign				输入框内容对齐方式（ 默认 'left' ）
-	 * @property {String | Number}	fontSize				输入框字体的大小 （ 默认 '15px' ）
-	 * @property {String}			color					输入框字体颜色	（ 默认 '#303133' ）
-	 * @property {Function}			formatter			    内容式化函数
-	 * @property {String}			prefixIcon				输入框前置图标
-	 * @property {String | Object}	prefixIconStyle			前置图标样式，对象或字符串
-	 * @property {String}			suffixIcon				输入框后置图标
-	 * @property {String | Object}	suffixIconStyle			后置图标样式，对象或字符串
-	 * @property {String}			border					边框类型，surround-四周边框，bottom-底部边框，none-无边框 （ 默认 'surround' ）
-	 * @property {Boolean}			readonly				是否只读，与disabled不同之处在于disabled会置灰组件，而readonly则不会 （ 默认 false ）
-	 * @property {String}			shape					输入框形状，circle-圆形，square-方形 （ 默认 'square' ）
-	 * @property {Object}			customStyle				定义需要用到的外部样式
-	 *
-	 * @example <u-input v-model="value" :password="true" suffix-icon="lock-fill" />
-	 */
-	export default {
-		name: "u-input",
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
-		data() {
-			return {
-				// 输入框的值
-				innerValue: "",
-				// 是否处于获得焦点状态
-				focused: false,
-				// value是否第一次变化，在watch中，由于加入immediate属性，会在第一次触发，此时不应该认为value发生了变化
-				firstChange: true,
-				// value绑定值的变化是由内部还是外部引起的
-				changeFromInner: false,
-				// 过滤处理方法
-				innerFormatter: value => value
-			};
+import Emitter from '../../libs/util/emitter.js';
+
+/**
+ * input 输入框
+ * @description 此组件为一个输入框，默认没有边框和样式，是专门为配合表单组件u-form而设计的，利用它可以快速实现表单验证，输入内容，下拉选择等功能。
+ * @tutorial http://uviewui.com/components/input.html
+ * @property {String} type 模式选择，见官网说明
+ * @property {Boolean} clearable 是否显示右侧的清除图标(默认true)
+ * @property {} v-model 用于双向绑定输入框的值
+ * @property {String} input-align 输入框文字的对齐方式(默认left)
+ * @property {String} placeholder placeholder显示值(默认 '请输入内容')
+ * @property {Boolean} disabled 是否禁用输入框(默认false)
+ * @property {String Number} maxlength 输入框的最大可输入长度(默认140)
+ * @property {String Number} selection-start 光标起始位置，自动聚焦时有效，需与selection-end搭配使用（默认-1）
+ * @property {String Number} maxlength 光标结束位置，自动聚焦时有效，需与selection-start搭配使用（默认-1）
+ * @property {String Number} cursor-spacing 指定光标与键盘的距离，单位px(默认0)
+ * @property {String} placeholderStyle placeholder的样式，字符串形式，如"color: red;"(默认 "color: #c0c4cc;")
+ * @property {String} confirm-type 设置键盘右下角按钮的文字，仅在type为text时生效(默认done)
+ * @property {Object} custom-style 自定义输入框的样式，对象形式
+ * @property {Boolean} focus 是否自动获得焦点(默认false)
+ * @property {Boolean} fixed 如果type为textarea，且在一个"position:fixed"的区域，需要指明为true(默认false)
+ * @property {Boolean} password-icon type为password时，是否显示右侧的密码查看图标(默认true)
+ * @property {Boolean} border 是否显示边框(默认false)
+ * @property {String} border-color 输入框的边框颜色(默认#dcdfe6)
+ * @property {Boolean} auto-height 是否自动增高输入区域，type为textarea时有效(默认true)
+ * @property {String Number} height 高度，单位rpx(text类型时为70，textarea时为100)
+ * @example <u-input v-model="value" :type="type" :border="border" />
+ */
+export default {
+	name: 'u-input',
+	mixins: [Emitter],
+	props: {
+		value: {
+			type: [String, Number],
+			default: ''
 		},
-		watch: {
-			value: {
-				immediate: true,
-				handler(newVal, oldVal) {
-					this.innerValue = newVal;
-					/* #ifdef H5 */
-					// 在H5中，外部value变化后，修改input中的值，不会触发@input事件，此时手动调用值变化方法
-					if (this.firstChange === false && this.changeFromInner === false) {
-						this.valueChange();
-					}
-					/* #endif */
-					this.firstChange = false;
-					// 重置changeFromInner的值为false，标识下一次引起默认为外部引起的
-					this.changeFromInner = false;
-				},
-			},
+		// 输入框的类型，textarea，text，number
+		type: {
+			type: String,
+			default: 'text'
 		},
-		computed: {
-			// 是否显示清除控件
-			isShowClear() {
-				const {
-					clearable,
-					readonly,
-					focused,
-					innerValue
-				} = this;
-				return !!clearable && !readonly && !!focused && innerValue !== "";
-			},
-			// 组件的类名
-			inputClass() {
-				let classes = [],
-					{
-						border,
-						disabled,
-						shape
-					} = this;
-				border === "surround" && (classes = classes.concat(["u-border", "u-input--radius"]));
-				classes.push(`u-input--${shape}`);
-				border === "bottom" && (classes = classes.concat(["u-border-bottom", "u-input--no-radius", ]));
-				return classes.join(" ");
-			},
-			// 组件的样式
-			wrapperStyle() {
-				const style = {};
-				// 禁用状态下，被背景色加上对应的样式
-				if (this.disabled) {
-					style.backgroundColor = this.disabledColor;
-				}
-				// 无边框时，去除内边距
-				if (this.border === "none") {
-					style.padding = "0";
-				} else {
-					// 由于uni-app的iOS开发者能力有限，导致需要分开写才有效
-					style.paddingTop = "6px";
-					style.paddingBottom = "6px";
-					style.paddingLeft = "9px";
-					style.paddingRight = "9px";
-				}
-				return uni.$u.deepMerge(style, this.$u.addStyle(this.customStyle));
-			},
-			// 输入框的样式
-			inputStyle() {
-				const style = {
-					color: this.color,
-					fontSize: uni.$u.addUnit(this.fontSize),
-					textAlign: this.inputAlign
-				};
-				return style;
-			},
+		inputAlign: {
+			type: String,
+			default: 'left'
 		},
-		methods: {
-			// 在微信小程序中，不支持将函数当做props参数，故只能通过ref形式调用
-			setFormatter(e) {
-				this.innerFormatter = e
-			},
-			// 当键盘输入时，触发input事件
-			onInput(e) {
-				let {
-					value = ""
-				} = e.detail || {};
-				// 格式化过滤方法
-				const formatter = this.formatter || this.innerFormatter
-				const formatValue = formatter(value)
-				// 为了避免props的单向数据流特性，需要先将innerValue值设置为当前值，再在$nextTick中重新赋予设置后的值才有效
-				this.innerValue = value
-				this.$nextTick(() => {
-					this.innerValue = formatValue;
-					this.valueChange();
-				})
-			},
-			// 输入框失去焦点时触发
-			onBlur(event) {
-				this.$emit("blur", event.detail.value);
-				// H5端的blur会先于点击清除控件的点击click事件触发，导致focused
-				// 瞬间为false，从而隐藏了清除控件而无法被点击到
-				uni.$u.sleep(50).then(() => {
-					this.focused = false;
-				});
-				// 尝试调用u-form的验证方法
-				uni.$u.formValidate(this, "blur");
-			},
-			// 输入框聚焦时触发
-			onFocus(event) {
-				this.focused = true;
-				this.$emit("focus");
-			},
-			// 点击完成按钮时触发
-			onConfirm(event) {
-				this.$emit("confirm", this.innerValue);
-			},
-			// 键盘高度发生变化的时候触发此事件
-			// 兼容性：微信小程序2.7.0+、App 3.1.0+
-			onkeyboardheightchange() {
-				this.$emit("keyboardheightchange");
-			},
-			// 内容发生变化，进行处理
-			valueChange() {
-				const value = this.innerValue;
-				this.$nextTick(() => {
-					this.$emit("input", value);
-					// 标识value值的变化是由内部引起的
-					this.changeFromInner = true;
-					this.$emit("change", value);
-					// 尝试调用u-form的验证方法
-					uni.$u.formValidate(this, "change");
-				});
-			},
-			// 点击清除控件
-			onClear() {
-				this.innerValue = "";
-				this.$nextTick(() => {
-					this.valueChange();
-					this.$emit("clear");
-				});
-			},
-			/**
-			 * 在安卓nvue上，事件无法冒泡
-			 * 在某些时间，我们希望监听u-from-item的点击事件，此时会导致点击u-form-item内的u-input后
-			 * 无法触发u-form-item的点击事件，这里通过手动调用u-form-item的方法进行触发
-			 */
-			clickHandler() {
-				// #ifdef APP-NVUE
-				if (uni.$u.os() === "android") {
-					const formItem = uni.$u.$parent.call(this, "u-form-item");
-					if (formItem) {
-						formItem.clickHandler();
-					}
+		placeholder: {
+			type: String,
+			default: '请输入内容'
+		},
+		disabled: {
+			type: Boolean,
+			default: false
+		},
+		maxlength: {
+			type: [Number, String],
+			default: 140
+		},
+		placeholderStyle: {
+			type: String,
+			default: 'color: #c0c4cc;'
+		},
+		confirmType: {
+			type: String,
+			default: 'done'
+		},
+		// 输入框的自定义样式
+		customStyle: {
+			type: Object,
+			default() {
+				return {};
+			}
+		},
+		// 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true
+		fixed: {
+			type: Boolean,
+			default: false
+		},
+		// 是否自动获得焦点
+		focus: {
+			type: Boolean,
+			default: false
+		},
+		// 密码类型时，是否显示右侧的密码图标
+		passwordIcon: {
+			type: Boolean,
+			default: true
+		},
+		// input|textarea是否显示边框
+		border: {
+			type: Boolean,
+			default: false
+		},
+		// 输入框的边框颜色
+		borderColor: {
+			type: String,
+			default: '#dcdfe6'
+		},
+		autoHeight: {
+			type: Boolean,
+			default: true
+		},
+		// type=select时，旋转右侧的图标，标识当前处于打开还是关闭select的状态
+		// open-打开，close-关闭
+		selectOpen: {
+			type: Boolean,
+			default: false
+		},
+		// 高度，单位rpx
+		height: {
+			type: [Number, String],
+			default: ''
+		},
+		// 是否可清空
+		clearable: {
+			type: Boolean,
+			default: true
+		},
+		// 指定光标与键盘的距离，单位 px
+		cursorSpacing: {
+			type: [Number, String],
+			default: 0
+		},
+		// 光标起始位置，自动聚焦时有效，需与selection-end搭配使用
+		selectionStart: {
+			type: [Number, String],
+			default: -1
+		},
+		// 光标结束位置，自动聚焦时有效，需与selection-start搭配使用
+		selectionEnd: {
+			type: [Number, String],
+			default: -1
+		},
+		// 是否自动去除两端的空格
+		trim: {
+			type: Boolean,
+			default: true
+		},
+		// 是否显示键盘上方带有”完成“按钮那一栏
+		showConfirmbar:{
+			type:Boolean,
+			default:true
+		}
+	},
+	data() {
+		return {
+			defaultValue: this.value,
+			inputHeight: 70, // input的高度
+			textareaHeight: 100, // textarea的高度
+			validateState: false, // 当前input的验证状态，用于错误时，边框是否改为红色
+			focused: false, // 当前是否处于获得焦点的状态
+			showPassword: false, // 是否预览密码
+			lastValue: '', // 用于头条小程序，判断@input中，前后的值是否发生了变化，因为头条中文下，按下键没有输入内容，也会触发@input时间
+		};
+	},
+	watch: {
+		value(nVal, oVal) {
+			this.defaultValue = nVal;
+			// 当值发生变化，且为select类型时(此时input被设置为disabled，不会触发@input事件)，模拟触发@input事件
+			if(nVal != oVal && this.type == 'select') this.handleInput({
+				detail: {
+					value: nVal
 				}
+			})
+		},
+	},
+	computed: {
+		// 因为uniapp的input组件的maxlength组件必须要数值，这里转为数值，给用户可以传入字符串数值
+		inputMaxlength() {
+			return Number(this.maxlength);
+		},
+		getStyle() {
+			let style = {};
+			// 如果没有自定义高度，就根据type为input还是textare来分配一个默认的高度
+			style.minHeight = this.height ? this.height + 'rpx' : this.type == 'textarea' ?
+				this.textareaHeight + 'rpx' : this.inputHeight + 'rpx';
+			style = Object.assign(style, this.customStyle);
+			return style;
+		},
+		//
+		getCursorSpacing() {
+			return Number(this.cursorSpacing);
+		},
+		// 光标起始位置
+		uSelectionStart() {
+			return String(this.selectionStart);
+		},
+		// 光标结束位置
+		uSelectionEnd() {
+			return String(this.selectionEnd);
+		}
+	},
+	created() {
+		// 监听u-form-item发出的错误事件，将输入框边框变红色
+		this.$on('on-form-item-error', this.onFormItemError);
+	},
+	methods: {
+		/**
+		 * change 事件
+		 * @param event
+		 */
+		handleInput(event) {
+			let value = event.detail.value;
+			// 判断是否去除空格
+			if(this.trim) value = this.$u.trim(value);
+			// vue 原生的方法 return 出去
+			this.$emit('input', value);
+			// 当前model 赋值
+			this.defaultValue = value;
+			// 过一个生命周期再发送事件给u-form-item，否则this.$emit('input')更新了父组件的值，但是微信小程序上
+			// 尚未更新到u-form-item，导致获取的值为空，从而校验混论
+			// 这里不能延时时间太短，或者使用this.$nextTick，否则在头条上，会造成混乱
+			setTimeout(() => {
+				// 头条小程序由于自身bug，导致中文下，每按下一个键(尚未完成输入)，都会触发一次@input，导致错误，这里进行判断处理
+				// #ifdef MP-TOUTIAO
+				if(this.$u.trim(value) == this.lastValue) return ;
+				this.lastValue = value;
 				// #endif
-			},
+				// 将当前的值发送到 u-form-item 进行校验
+				this.dispatch('u-form-item', 'on-form-change', value);
+			}, 40)
 		},
-	};
+		/**
+		 * blur 事件
+		 * @param event
+		 */
+		handleBlur(event) {
+			// 最开始使用的是监听图标@touchstart事件，自从hx2.8.4后，此方法在微信小程序出错
+			// 这里改为监听点击事件，手点击清除图标时，同时也发生了@blur事件，导致图标消失而无法点击，这里做一个延时
+			setTimeout(() => {
+				this.focused = false;
+			}, 100)
+			// vue 原生的方法 return 出去
+			this.$emit('blur', event.detail.value);
+			setTimeout(() => {
+				// 头条小程序由于自身bug，导致中文下，每按下一个键(尚未完成输入)，都会触发一次@input，导致错误，这里进行判断处理
+				// #ifdef MP-TOUTIAO
+				if(this.$u.trim(value) == this.lastValue) return ;
+				this.lastValue = value;
+				// #endif
+				// 将当前的值发送到 u-form-item 进行校验
+				this.dispatch('u-form-item', 'on-form-blur', event.detail.value);
+			}, 40)
+		},
+		onFormItemError(status) {
+			this.validateState = status;
+		},
+		onFocus(event) {
+			this.focused = true;
+			this.$emit('focus');
+		},
+		onConfirm(e) {
+			this.$emit('confirm', e.detail.value);
+		},
+		onClear(event) {
+			this.$emit('input', '');
+		},
+		inputClick() {
+			this.$emit('click');
+		}
+	}
+};
 </script>
+
 <style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
+@import "../../libs/css/style.components.scss";
 
-	.u-input {
-		@include flex(row);
-		align-items: center;
-		justify-content: space-between;
+.u-input {
+	position: relative;
+	flex: 1;
+	@include vue-flex;
+
+	&__input {
+		//height: $u-form-item-height;
+		font-size: 28rpx;
+		color: $u-main-color;
 		flex: 1;
+	}
 
-		&--radius,
-		&--square {
-			border-radius: 4px;
+	&__textarea {
+		width: auto;
+		font-size: 28rpx;
+		color: $u-main-color;
+		padding: 10rpx 0;
+		line-height: normal;
+		flex: 1;
+	}
+
+	&--border {
+		border-radius: 6rpx;
+		border-radius: 4px;
+		border: 1px solid $u-form-item-border-color;
+	}
+
+	&--error {
+		border-color: $u-type-error!important;
+	}
+
+	&__right-icon {
+
+		&__item {
+			margin-left: 10rpx;
 		}
 
-		&--no-radius {
-			border-radius: 0;
-		}
+		&--select {
+			transition: transform .4s;
 
-		&--circle {
-			border-radius: 100px;
-		}
-
-		&__content {
-			flex: 1;
-			@include flex(row);
-			align-items: center;
-			justify-content: space-between;
-
-			&__field-wrapper {
-				position: relative;
-				@include flex(row);
-				margin: 0;
-				flex: 1;
-
-				&__field {
-					line-height: 26px;
-					text-align: left;
-					color: $u-main-color;
-					height: 24px;
-					font-size: 15px;
-					flex: 1;
-				}
-			}
-
-			&__clear {
-				width: 20px;
-				height: 20px;
-				border-radius: 100px;
-				background-color: #c6c7cb;
-				@include flex(row);
-				align-items: center;
-				justify-content: center;
-				transform: scale(0.82);
-				margin-left: 4px;
-			}
-
-			&__subfix-icon {
-				margin-left: 4px;
-			}
-
-			&__prefix-icon {
-				margin-right: 4px;
+			&--reverse {
+				transform: rotate(-180deg);
 			}
 		}
 	}
+}
 </style>

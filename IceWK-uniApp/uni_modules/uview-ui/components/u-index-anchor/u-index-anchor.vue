@@ -1,91 +1,89 @@
 <template>
-	<!-- #ifdef APP-NVUE -->
-	<header>
-	<!-- #endif -->
-	<view
-	    class="u-index-anchor u-border-bottom"
-		:ref="`u-index-anchor-${text}`"
-	    :style="{
-			height: $u.addUnit(height),
-			backgroundColor: bgColor
-		}"
-	>
-		<text
-		    class="u-index-anchor__text"
-		    :style="{
-				fontSize: $u.addUnit(size),
-				color: color
-			}"
-		>{{ text }}</text>
+	<!-- 支付宝小程序使用$u.getRect()获取组件的根元素尺寸，所以在外面套一个"壳" -->
+	<view>
+		<view class="u-index-anchor-wrapper" :id="$u.guid()" :style="[wrapperStyle]">
+			<view class="u-index-anchor " :class="[active ? 'u-index-anchor--active' : '']" :style="[customAnchorStyle]">
+				<slot v-if="useSlot" />
+				<block v-else>
+					<text>{{ index }}</text>
+				</block>
+			</view>
+		</view>
 	</view>
-	<!-- #ifdef APP-NVUE -->
-	</header>
-	<!-- #endif -->
 </template>
 
 <script>
-	import props from './props.js';
-	// #ifdef APP-NVUE
-	const dom = uni.requireNativePlugin('dom')
-	// #endif
 	/**
-	 * IndexAnchor 列表锚点
-	 * @description 
-	 * @tutorial https://uviewui.com/components/indexList.html
-	 * @property {String | Number}	text	列表锚点文本内容
-	 * @property {String}			color	列表锚点文字颜色 ( 默认 '#606266' )
-	 * @property {String | Number}	size	列表锚点文字大小，单位默认px ( 默认 14 )
-	 * @property {String}			bgColor	列表锚点背景颜色 ( 默认 '#dedede' )
-	 * @property {String | Number}	height	列表锚点高度，单位默认px ( 默认 32 )
-	 * @example <u-index-anchor :text="indexList[index]"></u-index-anchor>
+	 * indexAnchor 索引列表锚点
+	 * @description 通过折叠面板收纳内容区域,搭配<u-index-anchor>使用
+	 * @tutorial https://www.uviewui.com/components/indexList.html#indexanchor-props
+	 * @property {Boolean} use-slot 是否使用自定义内容的插槽（默认false）
+	 * @property {String Number} index 索引字符，如果定义了use-slot，此参数自动失效
+	 * @property {Object} custStyle 自定义样式，对象形式，如"{color: 'red'}"
+	 * @event {Function} default 锚点位置显示内容，默认为索引字符
+	 * @example <u-index-anchor :index="item" />
 	 */
 	export default {
-		name: 'u-index-anchor',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin,props],
+		name: "u-index-anchor",
+		props: {
+			useSlot: {
+				type: Boolean,
+				default: false
+			},
+			index: {
+				type: String,
+				default: ''
+			},
+			customStyle: {
+				type: Object,
+				default () {
+					return {}
+				}
+			}
+		},
 		data() {
 			return {
+				active: false,
+				wrapperStyle: {},
+				anchorStyle: {}
 			}
+		},
+		created() {
+			this.parent = false;
 		},
 		mounted() {
-			this.init()
-		},
-		methods: {
-			init() {
-				// 此处会活动父组件实例，并赋值给实例的parent属性
-				const indexList = uni.$u.$parent.call(this, 'u-index-list')
-				if (!indexList) { 
-					return uni.$u.error('u-index-anchor必须要搭配u-index-list组件使用')
-				}
-				// 将当前实例放入到u-index-list中
-				indexList.anchors.push(this)
-				const indexListItem = uni.$u.$parent.call(this, 'u-index-item')
-				// #ifndef APP-NVUE
-				// 只有在非nvue下，u-index-anchor才是嵌套在u-index-item中的
-				if (!indexListItem) {
-					return uni.$u.error('u-index-anchor必须要搭配u-index-item组件使用')
-				}
-				// 设置u-index-item的id为anchor的text标识符，因为非nvue下滚动列表需要依赖scroll-view滚动到元素的特性
-				indexListItem.id = this.text.charCodeAt(0)
-				// #endif
+			this.parent = this.$u.$parent.call(this, 'u-index-list');
+			if(this.parent) {
+				this.parent.children.push(this);
+				this.parent.updateData();
 			}
 		},
+		computed: {
+			customAnchorStyle() {
+				return Object.assign(this.anchorStyle, this.customStyle);
+			}
+		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
-
+	@import "../../libs/css/style.components.scss";
+	
 	.u-index-anchor {
-		position: sticky;
-		top: 0;
-		@include flex;
-		align-items: center;
-		padding-left: 15px;
-		z-index: 1;
+		box-sizing: border-box;
+		padding: 14rpx 24rpx;
+		color: #606266;
+		width: 100%;
+		font-weight: 500;
+		font-size: 28rpx;
+		line-height: 1.2;
+		background-color: rgb(245, 245, 245);
+	}
 
-		&__text {
-			@include flex;
-			align-items: center;
-		}
+	.u-index-anchor--active {
+		right: 0;
+		left: 0;
+		color: #2979ff;
+		background-color: #fff;
 	}
 </style>

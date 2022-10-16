@@ -81,7 +81,7 @@
 					<view class="p-footer">
 						<view class="p-item ">
 							<button @click.stop="showShares(index)" class="u-reset-button" open-type="share">
-								<u-icon name="share-square"></u-icon>
+								<u-icon name="zhuanfa"></u-icon>
 								<text class="count">分享</text>
 							</button>
 						</view>

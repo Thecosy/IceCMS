@@ -1,143 +1,147 @@
 <template>
-	<view class="u-line-progress" :style="[$u.addStyle(customStyle)]">
-		<view class="u-line-progress__background" ref="u-line-progress__background" :style="[{
-				backgroundColor: inactiveColor,
-				height: $u.addUnit(height),
-			}]">
+	<view class="u-progress" :style="{
+		borderRadius: round ? '100rpx' : 0,
+		height: height + 'rpx',
+		backgroundColor: inactiveColor
+	}">
+		<view :class="[
+			type ? `u-type-${type}-bg` : '',
+			striped ? 'u-striped' : '',
+			striped && stripedActive ? 'u-striped-active' : ''
+		]" class="u-active" :style="[progressStyle]">
+			<slot v-if="$slots.default || $slots.$default" />
+			<block v-else-if="showPercent">
+				{{percent + '%'}}
+			</block>
 		</view>
-		
-		<view class="u-line-progress__line" :style="[progressStyle]">
-		</view>
-		<text v-if="showText" class="text">下载中....{{innserPercentage + '%'}}</text>
 	</view>
 </template>
+
 <script>
-	import props from './props.js';
-	// #ifdef APP-NVUE
-	const dom = uni.requireNativePlugin('dom')
-	// #endif
 	/**
 	 * lineProgress 线型进度条
 	 * @description 展示操作或任务的当前进度，比如上传文件，是一个线形的进度条。
 	 * @tutorial https://www.uviewui.com/components/lineProgress.html
-	 * @property {String}			activeColor		激活部分的颜色 ( 默认 '#19be6b' )
-	 * @property {String}			inactiveColor	背景色 ( 默认 '#ececec' )
-	 * @property {String | Number}	percentage		进度百分比，数值 ( 默认 0 )
-	 * @property {Boolean}			showText		是否在进度条内部显示百分比的值 ( 默认 true )
-	 * @property {String | Number}	height			进度条的高度，单位px ( 默认 12 )
-	 * 
+	 * @property {String Number} percent 进度条百分比值，为数值类型，0-100
+	 * @property {Boolean} round 进度条两端是否为半圆（默认true）
+	 * @property {String} type 如设置，active-color值将会失效
+	 * @property {String} active-color 进度条激活部分的颜色（默认#19be6b）
+	 * @property {String} inactive-color 进度条的底色（默认#ececec）
+	 * @property {Boolean} show-percent 是否在进度条内部显示当前的百分比值数值（默认true）
+	 * @property {String Number} height 进度条的高度，单位rpx（默认28）
+	 * @property {Boolean} striped 是否显示进度条激活部分的条纹（默认false）
+	 * @property {Boolean} striped-active 条纹是否具有动态效果（默认false）
 	 * @example <u-line-progress :percent="70" :show-percent="true"></u-line-progress>
 	 */
 	export default {
 		name: "u-line-progress",
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
-		data() {
-			return {
-				lineWidth: 0,
+		props: {
+			// 两端是否显示半圆形
+			round: {
+				type: Boolean,
+				default: true
+			},
+			// 主题颜色
+			type: {
+				type: String,
+				default: ''
+			},
+			// 激活部分的颜色
+			activeColor: {
+				type: String,
+				default: '#19be6b'
+			},
+			inactiveColor: {
+				type: String,
+				default: '#ececec'
+			},
+			// 进度百分比，数值
+			percent: {
+				type: Number,
+				default: 0
+			},
+			// 是否在进度条内部显示百分比的值
+			showPercent: {
+				type: Boolean,
+				default: true
+			},
+			// 进度条的高度，单位rpx
+			height: {
+				type: [Number, String],
+				default: 28
+			},
+			// 是否显示条纹
+			striped: {
+				type: Boolean,
+				default: false
+			},
+			// 条纹是否显示活动状态
+			stripedActive: {
+				type: Boolean,
+				default: false
 			}
 		},
-		watch: {
-			percentage(n) {
-				this.resizeProgressWidth()
+		data() {
+			return {
+
 			}
 		},
 		computed: {
 			progressStyle() {
-				let style = {}
-				style.width = this.lineWidth
-				style.backgroundColor = this.activeColor
-				style.height = uni.$u.addUnit(this.height)
-				return style
-			},
-			innserPercentage() {
-				// 控制范围在0-100之间
-				return uni.$u.range(0, 100, this.percentage)
+				let style = {};
+				style.width = this.percent + '%';
+				if(this.activeColor) style.backgroundColor = this.activeColor;
+				return style;
 			}
-		},
-		mounted() {
-			this.init()
 		},
 		methods: {
-			init() {
-				uni.$u.sleep(20).then(() => {
-					this.resizeProgressWidth()
-				})
-			},
-			getProgressWidth() {
-				// #ifndef APP-NVUE
-				return this.$uGetRect('.u-line-progress__background')
-				// #endif
-				// #ifdef APP-NVUE
-				// 返回一个promise
-				return new Promise(resolve => {
-					dom.getComponentRect(this.$refs['u-line-progress__background'], (res) => {
-						resolve(res.size)
-					})
-				})
-				// #endif
-			},
-			resizeProgressWidth() {
-				this.getProgressWidth().then(size => {
-					const {
-						width
-					} = size
-					// 通过设置的percentage值，计算其所占总长度的百分比
-					this.lineWidth = width * this.innserPercentage / 100 + 'px'
-				})
-			}
+
 		}
 	}
 </script>
-<style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
 
-	.text {
-		// align-items: center;
-		position: absolute;
-		justify-content: flex-start;
-		line-height: 80rpx;
-		text-align: center;
-		left: 180rpx;
-		width: 550rpx;
-		color: #5e5e5e;
-		@include flex(center);
-		transition: width 1s ease;
+<style lang="scss" scoped>
+	@import "../../libs/css/style.components.scss";
+	
+	.u-progress {
+		overflow: hidden;
+		height: 15px;
+		/* #ifndef APP-NVUE */
+		display: inline-flex;
+		/* #endif */
+		align-items: center;
+		width: 100%;
+		border-radius: 100rpx;
 	}
 
-	.u-line-progress {
-		align-items: stretch;
-		position: relative;
-		@include flex(row);
-		flex: 1;
-		overflow: hidden;
-		border-radius: 100px;
+	.u-active {
+		width: 0;
+		height: 100%;
+		align-items: center;
+		@include vue-flex;
+		justify-items: flex-end;
+		justify-content: space-around;
+		font-size: 20rpx;
+		color: #ffffff;
+		transition: all 0.4s ease;
+	}
 
-		&__background {
-			background-color: #ececec;
-			border-radius: 100px;
-			flex: 1;
+	.u-striped {
+		background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+		background-size: 39px 39px;
+	}
+
+	.u-striped-active {
+		animation: progress-stripes 2s linear infinite;
+	}
+
+	@keyframes progress-stripes {
+		0% {
+			background-position: 0 0;
 		}
 
-		&__line {
-			position: absolute;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			align-items: center;
-			@include flex(row);
-			color: #ffffff;
-			border-radius: 100px;
-			transition: width 0.5s ease;
-			justify-content: flex-end;
-		}
-
-		&__text {
-			font-size: 10px;
-			align-items: center;
-			text-align: right;
-			color: #FFFFFF;
-			margin-right: 5px;
-			transform: scale(0.9);
+		100% {
+			background-position: 39px 0;
 		}
 	}
 </style>

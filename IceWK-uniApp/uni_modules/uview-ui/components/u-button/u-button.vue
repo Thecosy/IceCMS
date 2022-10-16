@@ -1,495 +1,596 @@
 <template>
-    <!-- #ifndef APP-NVUE -->
-    <button
-        :hover-start-time="Number(hoverStartTime)"
-        :hover-stay-time="Number(hoverStayTime)"
-        :form-type="formType"
-        :open-type="openType"
-        :app-parameter="appParameter"
-        :hover-stop-propagation="hoverStopPropagation"
-        :send-message-title="sendMessageTitle"
-        :send-message-path="sendMessagePath"
-        :lang="lang"
-        :data-name="dataName"
-        :session-from="sessionFrom"
-        :send-message-img="sendMessageImg"
-        :show-message-card="showMessageCard"
-        @getphonenumber="getphonenumber"
-        @getuserinfo="getuserinfo"
-        @error="error"
-        @opensetting="opensetting"
-        @launchapp="launchapp"
-        :hover-class="!disabled && !loading ? 'u-button--active' : ''"
-        class="u-button u-reset-button"
-        :style="[baseColor, $u.addStyle(customStyle)]"
-        @tap="clickHandler"
-        :class="bemClass"
-    >
-        <template v-if="loading">
-            <u-loading-icon
-                :mode="loadingMode"
-                :size="textSize * 1.15"
-                :color="loadingColor"
-            ></u-loading-icon>
-            <text
-                class="u-button__loading-text"
-                :style="[{ fontSize: textSize + 'px' }]"
-                >{{ loadingText || text }}</text
-            >
-        </template>
-        <template v-else>
-            <u-icon
-                v-if="icon"
-                :name="icon"
-                :color="iconColorCom"
-                :size="textSize * 1.35"
-                :customStyle="{ marginRight: '2px' }"
-            ></u-icon>
-            <slot>
-                <text
-                    class="u-button__text"
-                    :style="[{ fontSize: textSize + 'px' }]"
-                    >{{ text }}</text
-                >
-            </slot>
-        </template>
-    </button>
-    <!-- #endif -->
-
-    <!-- #ifdef APP-NVUE -->
-    <view
-        :hover-start-time="Number(hoverStartTime)"
-        :hover-stay-time="Number(hoverStayTime)"
-        class="u-button"
-        :hover-class="
-            !disabled && !loading && !color && (plain || type === 'info')
-                ? 'u-button--active--plain'
-                : !disabled && !loading && !plain
-                ? 'u-button--active'
-                : ''
-        "
-        @tap="clickHandler"
-        :class="bemClass"
-        :style="[baseColor, $u.addStyle(customStyle)]"
-    >
-        <template v-if="loading">
-            <u-loading-icon
-                :mode="loadingMode"
-                :size="textSize * 1.15"
-                :color="loadingColor"
-            ></u-loading-icon>
-            <text
-                class="u-button__loading-text"
-                :style="[nvueTextStyle]"
-                :class="[plain && `u-button__text--plain--${type}`]"
-                >{{ loadingText || text }}</text
-            >
-        </template>
-        <template v-else>
-            <u-icon
-                v-if="icon"
-                :name="icon"
-                :color="iconColorCom"
-                :size="textSize * 1.35"
-            ></u-icon>
-            <text
-                class="u-button__text"
-                :style="[
-                    {
-                        marginLeft: icon ? '2px' : 0,
-                    },
-                    nvueTextStyle,
-                ]"
-                :class="[plain && `u-button__text--plain--${type}`]"
-                >{{ text }}</text
-            >
-        </template>
-    </view>
-    <!-- #endif -->
+	<button
+		id="u-wave-btn"
+		class="u-btn u-line-1 u-fix-ios-appearance"
+		:class="[
+			'u-size-' + size,
+			plain ? 'u-btn--' + type + '--plain' : '',
+			loading ? 'u-loading' : '',
+			shape == 'circle' ? 'u-round-circle' : '',
+			hairLine ? showHairLineBorder : 'u-btn--bold-border',
+			'u-btn--' + type,
+			disabled ? `u-btn--${type}--disabled` : '',
+		]"
+		:hover-start-time="Number(hoverStartTime)"
+		:hover-stay-time="Number(hoverStayTime)"
+		:disabled="disabled"
+		:form-type="formType"
+		:open-type="openType"
+		:app-parameter="appParameter"
+		:hover-stop-propagation="hoverStopPropagation"
+		:send-message-title="sendMessageTitle"
+		send-message-path="sendMessagePath"
+		:lang="lang"
+		:data-name="dataName"
+		:session-from="sessionFrom"
+		:send-message-img="sendMessageImg"
+		:show-message-card="showMessageCard"
+		@getphonenumber="getphonenumber"
+		@getuserinfo="getuserinfo"
+		@error="error"
+		@opensetting="opensetting"
+		@launchapp="launchapp"
+		:style="[customStyle, {
+			overflow: ripple ? 'hidden' : 'visible'
+		}]"
+		@tap.stop="click($event)"
+		:hover-class="getHoverClass"
+		:loading="loading"
+	>
+		<slot></slot>
+		<view
+			v-if="ripple"
+			class="u-wave-ripple"
+			:class="[waveActive ? 'u-wave-active' : '']"
+			:style="{
+				top: rippleTop + 'px',
+				left: rippleLeft + 'px',
+				width: fields.targetWidth + 'px',
+				height: fields.targetWidth + 'px',
+				'background-color': rippleBgColor || 'rgba(0, 0, 0, 0.15)'
+			}"
+		></view>
+	</button>
 </template>
 
 <script>
-import button from "../../libs/mixin/button.js";
-import openType from "../../libs/mixin/openType.js";
-import props from "./props.js";
 /**
  * button 按钮
  * @description Button 按钮
  * @tutorial https://www.uviewui.com/components/button.html
- *
- * @property {Boolean}			hairline				是否显示按钮的细边框 (默认 true )
- * @property {String}			type					按钮的预置样式，info，primary，error，warning，success (默认 'info' )
- * @property {String}			size					按钮尺寸，large，normal，mini （默认 normal）
- * @property {String}			shape					按钮形状，circle（两边为半圆），square（带圆角） （默认 'square' ）
- * @property {Boolean}			plain					按钮是否镂空，背景色透明 （默认 false）
- * @property {Boolean}			disabled				是否禁用 （默认 false）
- * @property {Boolean}			loading					按钮名称前是否带 loading 图标(App-nvue 平台，在 ios 上为雪花，Android上为圆圈) （默认 false）
- * @property {String | Number}	loadingText				加载中提示文字
- * @property {String}			loadingMode				加载状态图标类型 （默认 'spinner' ）
- * @property {String | Number}	loadingSize				加载图标大小 （默认 15 ）
- * @property {String}			openType				开放能力，具体请看uniapp稳定关于button组件部分说明
- * @property {String}			formType				用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
- * @property {String}			appParameter			打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效 （注：只微信小程序、QQ小程序有效）
- * @property {Boolean}			hoverStopPropagation	指定是否阻止本节点的祖先节点出现点击态，微信小程序有效（默认 true ）
- * @property {String}			lang					指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文（默认 en ）
- * @property {String}			sessionFrom				会话来源，openType="contact"时有效
- * @property {String}			sendMessageTitle		会话内消息卡片标题，openType="contact"时有效
- * @property {String}			sendMessagePath			会话内消息卡片点击跳转小程序路径，openType="contact"时有效
- * @property {String}			sendMessageImg			会话内消息卡片图片，openType="contact"时有效
- * @property {Boolean}			showMessageCard			是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，用户点击后可以快速发送小程序消息，openType="contact"时有效（默认false）
- * @property {String}			dataName				额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
- * @property {String | Number}	throttleTime			节流，一定时间内只能触发一次 （默认 0 )
- * @property {String | Number}	hoverStartTime			按住后多久出现点击态，单位毫秒 （默认 0 )
- * @property {String | Number}	hoverStayTime			手指松开后点击态保留时间，单位毫秒 （默认 200 )
- * @property {String | Number}	text					按钮文字，之所以通过props传入，是因为slot传入的话（注：nvue中无法控制文字的样式）
- * @property {String}			icon					按钮图标
- * @property {String}			iconColor				按钮图标颜色
- * @property {String}			color					按钮颜色，支持传入linear-gradient渐变色
- * @property {Object}			customStyle				定义需要用到的外部样式
- *
- * @event {Function}	click			非禁止并且非加载中，才能点击
- * @event {Function}	getphonenumber	open-type="getPhoneNumber"时有效
- * @event {Function}	getuserinfo		用户点击该按钮时，会返回获取到的用户信息，从返回参数的detail中获取到的值同uni.getUserInfo
- * @event {Function}	error			当使用开放能力时，发生错误的回调
- * @event {Function}	opensetting		在打开授权设置页并关闭后回调
- * @event {Function}	launchapp		打开 APP 成功的回调
+ * @property {String} size 按钮的大小
+ * @property {Boolean} ripple 是否开启点击水波纹效果
+ * @property {String} ripple-bg-color 水波纹的背景色，ripple为true时有效
+ * @property {String} type 按钮的样式类型
+ * @property {Boolean} plain 按钮是否镂空，背景色透明
+ * @property {Boolean} disabled 是否禁用
+ * @property {Boolean} hair-line 是否显示按钮的细边框(默认true)
+ * @property {Boolean} shape 按钮外观形状，见文档说明
+ * @property {Boolean} loading 按钮名称前是否带 loading 图标(App-nvue 平台，在 ios 上为雪花，Android上为圆圈)
+ * @property {String} form-type 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
+ * @property {String} open-type 开放能力
+ * @property {String} data-name 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
+ * @property {String} hover-class 指定按钮按下去的样式类。当 hover-class="none" 时，没有点击态效果(App-nvue 平台暂不支持)
+ * @property {Number} hover-start-time 按住后多久出现点击态，单位毫秒
+ * @property {Number} hover-stay-time 手指松开后点击态保留时间，单位毫秒
+ * @property {Object} custom-style 对按钮的自定义样式，对象形式，见文档说明
+ * @event {Function} click 按钮点击
+ * @event {Function} getphonenumber open-type="getPhoneNumber"时有效
+ * @event {Function} getuserinfo 用户点击该按钮时，会返回获取到的用户信息，从返回参数的detail中获取到的值同uni.getUserInfo
+ * @event {Function} error 当使用开放能力时，发生错误的回调
+ * @event {Function} opensetting 在打开授权设置页并关闭后回调
+ * @event {Function} launchapp 打开 APP 成功的回调
  * @example <u-button>月落</u-button>
  */
 export default {
-    name: "u-button",
-    // #ifdef MP
-    mixins: [uni.$u.mpMixin, uni.$u.mixin, button, openType, props],
-    // #endif
-    // #ifndef MP
-    mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
-    // #endif
-    data() {
-        return {};
-    },
-    computed: {
-        // 生成bem风格的类名
-        bemClass() {
-            // this.bem为一个computed变量，在mixin中
-            if (!this.color) {
-                return this.bem(
-                    "button",
-                    ["type", "shape", "size"],
-                    ["disabled", "plain", "hairline"]
-                );
-            } else {
-                // 由于nvue的原因，在有color参数时，不需要传入type，否则会生成type相关的类型，影响最终的样式
-                return this.bem(
-                    "button",
-                    ["shape", "size"],
-                    ["disabled", "plain", "hairline"]
-                );
-            }
-        },
-        loadingColor() {
-            if (this.plain) {
-                // 如果有设置color值，则用color值，否则使用type主题颜色
-                return this.color
-                    ? this.color
-                    : this.$u.config.color[`u-${this.type}`];
-            }
-            if (this.type === "info") {
-                return "#c9c9c9";
-            }
-            return "rgb(200, 200, 200)";
-        },
-        iconColorCom() {
-            // 如果是镂空状态，设置了color就用color值，否则使用主题颜色，
-            // u-icon的color能接受一个主题颜色的值
-			if (this.iconColor) return this.iconColor;
-			if (this.plain) {
-                return this.color ? this.color : this.type;
-            } else {
-                return this.type === "info" ? "#000000" : "#ffffff";
-            }
-        },
-        baseColor() {
-            let style = {};
-            if (this.color) {
-                // 针对自定义了color颜色的情况，镂空状态下，就是用自定义的颜色
-                style.color = this.plain ? this.color : "white";
-                if (!this.plain) {
-                    // 非镂空，背景色使用自定义的颜色
-                    style["background-color"] = this.color;
-                }
-                if (this.color.indexOf("gradient") !== -1) {
-                    // 如果自定义的颜色为渐变色，不显示边框，以及通过backgroundImage设置渐变色
-                    // weex文档说明可以写borderWidth的形式，为什么这里需要分开写？
-                    // 因为weex是阿里巴巴为了部门业绩考核而做的你懂的东西，所以需要这么写才有效
-                    style.borderTopWidth = 0;
-                    style.borderRightWidth = 0;
-                    style.borderBottomWidth = 0;
-                    style.borderLeftWidth = 0;
-                    if (!this.plain) {
-                        style.backgroundImage = this.color;
-                    }
-                } else {
-                    // 非渐变色，则设置边框相关的属性
-                    style.borderColor = this.color;
-                    style.borderWidth = "1px";
-                    style.borderStyle = "solid";
-                }
-            }
-            return style;
-        },
-        // nvue版本按钮的字体不会继承父组件的颜色，需要对每一个text组件进行单独的设置
-        nvueTextStyle() {
-            let style = {};
-            // 针对自定义了color颜色的情况，镂空状态下，就是用自定义的颜色
-            if (this.type === "info") {
-                style.color = "#323233";
-            }
-            if (this.color) {
-                style.color = this.plain ? this.color : "white";
-            }
-            style.fontSize = this.textSize + "px";
-            return style;
-        },
-        // 字体大小
-        textSize() {
-            let fontSize = 14,
-                { size } = this;
-            if (size === "large") fontSize = 16;
-            if (size === "normal") fontSize = 14;
-            if (size === "small") fontSize = 12;
-            if (size === "mini") fontSize = 10;
-            return fontSize;
-        },
-    },
-    methods: {
-        clickHandler() {
-            // 非禁止并且非加载中，才能点击
-            if (!this.disabled && !this.loading) {
-				// 进行节流控制，每this.throttle毫秒内，只在开始处执行
-				uni.$u.throttle(() => {
-					this.$emit("click");
-				}, this.throttleTime);
-            }
-        },
-        // 下面为对接uniapp官方按钮开放能力事件回调的对接
-        getphonenumber(res) {
-            this.$emit("getphonenumber", res);
-        },
-        getuserinfo(res) {
-            this.$emit("getuserinfo", res);
-        },
-        error(res) {
-            this.$emit("error", res);
-        },
-        opensetting(res) {
-            this.$emit("opensetting", res);
-        },
-        launchapp(res) {
-            this.$emit("launchapp", res);
-        },
-    },
+	name: 'u-button',
+	props: {
+		// 是否细边框
+		hairLine: {
+			type: Boolean,
+			default: true
+		},
+		// 按钮的预置样式，default，primary，error，warning，success
+		type: {
+			type: String,
+			default: 'default'
+		},
+		// 按钮尺寸，default，medium，mini
+		size: {
+			type: String,
+			default: 'default'
+		},
+		// 按钮形状，circle（两边为半圆），square（带圆角）
+		shape: {
+			type: String,
+			default: 'square'
+		},
+		// 按钮是否镂空
+		plain: {
+			type: Boolean,
+			default: false
+		},
+		// 是否禁止状态
+		disabled: {
+			type: Boolean,
+			default: false
+		},
+		// 是否加载中
+		loading: {
+			type: Boolean,
+			default: false
+		},
+		// 开放能力，具体请看uniapp稳定关于button组件部分说明
+		// https://uniapp.dcloud.io/component/button
+		openType: {
+			type: String,
+			default: ''
+		},
+		// 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
+		// 取值为submit（提交表单），reset（重置表单）
+		formType: {
+			type: String,
+			default: ''
+		},
+		// 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效
+		// 只微信小程序、QQ小程序有效
+		appParameter: {
+			type: String,
+			default: ''
+		},
+		// 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效
+		hoverStopPropagation: {
+			type: Boolean,
+			default: false
+		},
+		// 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效
+		lang: {
+			type: String,
+			default: 'en'
+		},
+		// 会话来源，open-type="contact"时有效。只微信小程序有效
+		sessionFrom: {
+			type: String,
+			default: ''
+		},
+		// 会话内消息卡片标题，open-type="contact"时有效
+		// 默认当前标题，只微信小程序有效
+		sendMessageTitle: {
+			type: String,
+			default: ''
+		},
+		// 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效
+		// 默认当前分享路径，只微信小程序有效
+		sendMessagePath: {
+			type: String,
+			default: ''
+		},
+		// 会话内消息卡片图片，open-type="contact"时有效
+		// 默认当前页面截图，只微信小程序有效
+		sendMessageImg: {
+			type: String,
+			default: ''
+		},
+		// 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，
+		// 用户点击后可以快速发送小程序消息，open-type="contact"时有效
+		showMessageCard: {
+			type: Boolean,
+			default: false
+		},
+		// 手指按（触摸）按钮时按钮时的背景颜色
+		hoverBgColor: {
+			type: String,
+			default: ''
+		},
+		// 水波纹的背景颜色
+		rippleBgColor: {
+			type: String,
+			default: ''
+		},
+		// 是否开启水波纹效果
+		ripple: {
+			type: Boolean,
+			default: false
+		},
+		// 按下的类名
+		hoverClass: {
+			type: String,
+			default: ''
+		},
+		// 自定义样式，对象形式
+		customStyle: {
+			type: Object,
+			default() {
+				return {};
+			}
+		},
+		// 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
+		dataName: {
+			type: String,
+			default: ''
+		},
+		// 节流，一定时间内只能触发一次
+		throttleTime: {
+			type: [String, Number],
+			default: 1000
+		},
+		// 按住后多久出现点击态，单位毫秒
+		hoverStartTime: {
+			type: [String, Number],
+			default: 20
+		},
+		// 手指松开后点击态保留时间，单位毫秒
+		hoverStayTime: {
+			type: [String, Number],
+			default: 150
+		},
+	},
+	computed: {
+		// 当没有传bgColor变量时，按钮按下去的颜色类名
+		getHoverClass() {
+			// 如果开启水波纹效果，则不启用hover-class效果
+			if (this.loading || this.disabled || this.ripple || this.hoverClass) return '';
+			let hoverClass = '';
+			hoverClass = this.plain ? 'u-' + this.type + '-plain-hover' : 'u-' + this.type + '-hover';
+			return hoverClass;
+		},
+		// 在'primary', 'success', 'error', 'warning'类型下，不显示边框，否则会造成四角有毛刺现象
+		showHairLineBorder() {
+			if (['primary', 'success', 'error', 'warning'].indexOf(this.type) >= 0 && !this.plain) {
+				return '';
+			} else {
+				return 'u-hairline-border';
+			}
+		}
+	},
+	data() {
+		return {
+			rippleTop: 0, // 水波纹的起点Y坐标到按钮上边界的距离
+			rippleLeft: 0, // 水波纹起点X坐标到按钮左边界的距离
+			fields: {}, // 波纹按钮节点信息
+			waveActive: false // 激活水波纹
+		};
+	},
+	methods: {
+		// 按钮点击
+		click(e) {
+			// 进行节流控制，每this.throttle毫秒内，只在开始处执行
+			this.$u.throttle(() => {
+				// 如果按钮时disabled和loading状态，不触发水波纹效果
+				if (this.loading === true || this.disabled === true) return;
+				// 是否开启水波纹效果
+				if (this.ripple) {
+					// 每次点击时，移除上一次的类，再次添加，才能触发动画效果
+					this.waveActive = false;
+					this.$nextTick(function() {
+						this.getWaveQuery(e);
+					});
+				}
+				this.$emit('click', e);
+			}, this.throttleTime);
+		},
+		// 查询按钮的节点信息
+		getWaveQuery(e) {
+			this.getElQuery().then(res => {
+				// 查询返回的是一个数组节点
+				let data = res[0];
+				// 查询不到节点信息，不操作
+				if (!data.width || !data.width) return;
+				// 水波纹的最终形态是一个正方形(通过border-radius让其变为一个圆形)，这里要保证正方形的边长等于按钮的最长边
+				// 最终的方形（变换后的圆形）才能覆盖整个按钮
+				data.targetWidth = data.height > data.width ? data.height : data.width;
+				if (!data.targetWidth) return;
+				this.fields = data;
+				let touchesX = '',
+					touchesY = '';
+				// #ifdef MP-BAIDU
+				touchesX = e.changedTouches[0].clientX;
+				touchesY = e.changedTouches[0].clientY;
+				// #endif
+				// #ifdef MP-ALIPAY
+				touchesX = e.detail.clientX;
+				touchesY = e.detail.clientY;
+				// #endif
+				// #ifndef MP-BAIDU || MP-ALIPAY
+				touchesX = e.touches[0].clientX;
+				touchesY = e.touches[0].clientY;
+				// #endif
+				// 获取触摸点相对于按钮上边和左边的x和y坐标，原理是通过屏幕的触摸点（touchesY），减去按钮的上边界data.top
+				// 但是由于`transform-origin`默认是center，所以这里再减去半径才是水波纹view应该的位置
+				// 总的来说，就是把水波纹的矩形（变换后的圆形）的中心点，移动到我们的触摸点位置
+				this.rippleTop = touchesY - data.top - data.targetWidth / 2;
+				this.rippleLeft = touchesX - data.left - data.targetWidth / 2;
+				this.$nextTick(() => {
+					this.waveActive = true;
+				});
+			});
+		},
+		// 获取节点信息
+		getElQuery() {
+			return new Promise(resolve => {
+				let queryInfo = '';
+				// 获取元素节点信息，请查看uniapp相关文档
+				// https://uniapp.dcloud.io/api/ui/nodes-info?id=nodesrefboundingclientrect
+				queryInfo = uni.createSelectorQuery().in(this);
+				//#ifdef MP-ALIPAY
+				queryInfo = uni.createSelectorQuery();
+				//#endif
+				queryInfo.select('.u-btn').boundingClientRect();
+				queryInfo.exec(data => {
+					resolve(data);
+				});
+			});
+		},
+		// 下面为对接uniapp官方按钮开放能力事件回调的对接
+		getphonenumber(res) {
+			this.$emit('getphonenumber', res);
+		},
+		getuserinfo(res) {
+			this.$emit('getuserinfo', res);
+		},
+		error(res) {
+			this.$emit('error', res);
+		},
+		opensetting(res) {
+			this.$emit('opensetting', res);
+		},
+		launchapp(res) {
+			this.$emit('launchapp', res);
+		}
+	}
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../../libs/css/components.scss";
+<style scoped lang="scss">
+@import '../../libs/css/style.components.scss';
+.u-btn::after {
+	border: none;
+}
 
-/* #ifndef APP-NVUE */
-@import "./vue.scss";
-/* #endif */
+.u-btn {
+	position: relative;
+	border: 0;
+	//border-radius: 10rpx;
+	/* #ifndef APP-NVUE */
+	display: inline-flex;		
+	/* #endif */
+	// 避免边框某些场景可能被“裁剪”，不能设置为hidden
+	overflow: visible;
+	line-height: 1;
+	@include vue-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	padding: 0 40rpx;
+	z-index: 1;
+	box-sizing: border-box;
+	transition: all 0.15s;
+	
+	&--bold-border {
+		border: 1px solid #ffffff;
+	}
+	
+	&--default {
+		color: $u-content-color;
+		border-color: #c0c4cc;
+		background-color: #ffffff;
+	}
+	
+	&--primary {
+		color: #ffffff;
+		border-color: $u-type-primary;
+		background-color: $u-type-primary;
+	}
+	
+	&--success {
+		color: #ffffff;
+		border-color: $u-type-success;
+		background-color: $u-type-success;
+	}
+	
+	&--error {
+		color: #ffffff;
+		border-color: $u-type-error;
+		background-color: $u-type-error;
+	}
+	
+	&--warning {
+		color: #ffffff;
+		border-color: $u-type-warning;
+		background-color: $u-type-warning;
+	}
+	
+	&--default--disabled {
+		color: #ffffff;
+		border-color: #e4e7ed;
+		background-color: #ffffff;
+	}
+	
+	&--primary--disabled {
+		color: #ffffff!important;
+		border-color: $u-type-primary-disabled!important;
+		background-color: $u-type-primary-disabled!important;
+	}
+	
+	&--success--disabled {
+		color: #ffffff!important;
+		border-color: $u-type-success-disabled!important;
+		background-color: $u-type-success-disabled!important;
+	}
+	
+	&--error--disabled {
+		color: #ffffff!important;
+		border-color: $u-type-error-disabled!important;
+		background-color: $u-type-error-disabled!important;
+	}
+	
+	&--warning--disabled {
+		color: #ffffff!important;
+		border-color: $u-type-warning-disabled!important;
+		background-color: $u-type-warning-disabled!important;
+	}
+	
+	&--primary--plain {
+		color: $u-type-primary!important;
+		border-color: $u-type-primary-disabled!important;
+		background-color: $u-type-primary-light!important;
+	}
+	
+	&--success--plain {
+		color: $u-type-success!important;
+		border-color: $u-type-success-disabled!important;
+		background-color: $u-type-success-light!important;
+	}
+	
+	&--error--plain {
+		color: $u-type-error!important;
+		border-color: $u-type-error-disabled!important;
+		background-color: $u-type-error-light!important;
+	}
+	
+	&--warning--plain {
+		color: $u-type-warning!important;
+		border-color: $u-type-warning-disabled!important;
+		background-color: $u-type-warning-light!important;
+	}
+}
 
-/* #ifdef APP-NVUE */
-@import "./nvue.scss";
-/* #endif */
+.u-hairline-border:after {
+	content: ' ';
+	position: absolute;
+	pointer-events: none;
+	// 设置为border-box，意味着下面的scale缩小为0.5，实际上缩小的是伪元素的内容（border-box意味着内容不含border）
+	box-sizing: border-box;
+	// 中心点作为变形(scale())的原点
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+	left: 0;
+	top: 0;
+	width: 199.8%;
+	height: 199.7%;
+	-webkit-transform: scale(0.5, 0.5);
+	transform: scale(0.5, 0.5);
+	border: 1px solid currentColor;
+	z-index: 1;
+}
 
-$u-button-u-button-height: 40px !default;
-$u-button-text-font-size: 15px !default;
-$u-button-loading-text-font-size: 15px !default;
-$u-button-loading-text-margin-left: 4px !default;
-$u-button-large-width: 100% !default;
-$u-button-large-height: 50px !default;
-$u-button-normal-padding: 0 12px !default;
-$u-button-large-padding: 0 15px !default;
-$u-button-normal-font-size: 14px !default;
-$u-button-small-min-width: 60px !default;
-$u-button-small-height: 30px !default;
-$u-button-small-padding: 0px 8px !default;
-$u-button-mini-padding: 0px 8px !default;
-$u-button-small-font-size: 12px !default;
-$u-button-mini-height: 22px !default;
-$u-button-mini-font-size: 10px !default;
-$u-button-mini-min-width: 50px !default;
-$u-button-disabled-opacity: 0.5 !default;
-$u-button-info-color: #323233 !default;
-$u-button-info-background-color: #fff !default;
-// $u-button-info-border-color: #ebedf0 !default;
-// $u-button-info-border-width: 1px !default;
-$u-button-info-border-style: solid !default;
-$u-button-success-color: #fff !default;
-$u-button-success-background-color: $u-success !default;
-$u-button-success-border-color: $u-button-success-background-color !default;
-$u-button-success-border-width: 1px !default;
-$u-button-success-border-style: solid !default;
-$u-button-primary-color: #fff !default;
-$u-button-primary-background-color: $u-primary !default;
-$u-button-primary-border-color: $u-button-primary-background-color !default;
-$u-button-primary-border-width: 1px !default;
-$u-button-primary-border-style: solid !default;
-$u-button-error-color: #fff !default;
-$u-button-error-background-color: $u-error !default;
-$u-button-error-border-color: $u-button-error-background-color !default;
-$u-button-error-border-width: 1px !default;
-$u-button-error-border-style: solid !default;
-$u-button-warning-color: #fff !default;
-$u-button-warning-background-color: $u-warning !default;
-$u-button-warning-border-color: $u-button-warning-background-color !default;
-$u-button-warning-border-width: 1px !default;
-$u-button-warning-border-style: solid !default;
-$u-button-block-width: 100% !default;
-$u-button-circle-border-top-right-radius: 10px !default;
-$u-button-circle-border-top-left-radius: 10px !default;
-$u-button-circle-border-bottom-left-radius: 10px !default;
-$u-button-circle-border-bottom-right-radius: 10px !default;
-$u-button-square-border-top-right-radius: 3px !default;
-$u-button-square-border-top-left-radius: 3px !default;
-$u-button-square-border-bottom-left-radius: 3px !default;
-$u-button-square-border-bottom-right-radius: 3px !default;
-$u-button-icon-min-width: 1em !default;
-$u-button-plain-background-color: #fff !default;
-$u-button-hairline-border-width: 0.5px !default;
+.u-wave-ripple {
+	z-index: 0;
+	position: absolute;
+	border-radius: 100%;
+	background-clip: padding-box;
+	pointer-events: none;
+	user-select: none;
+	transform: scale(0);
+	opacity: 1;
+	transform-origin: center;
+}
 
-.u-button {
-    height: $u-button-u-button-height;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    @include flex;
-    /* #ifndef APP-NVUE */
-    box-sizing: border-box;
-    /* #endif */
-    flex-direction: row;
+.u-wave-ripple.u-wave-active {
+	opacity: 0;
+	transform: scale(2);
+	transition: opacity 1s linear, transform 0.4s linear;
+}
 
-    &__text {
-        font-size: $u-button-text-font-size;
-    }
+.u-round-circle {
+	border-radius: 100rpx;
+}
 
-    &__loading-text {
-        font-size: $u-button-loading-text-font-size;
-        margin-left: $u-button-loading-text-margin-left;
-    }
+.u-round-circle::after {
+	border-radius: 100rpx;
+}
 
-    &--large {
-        /* #ifndef APP-NVUE */
-        width: $u-button-large-width;
-        /* #endif */
-        height: $u-button-large-height;
-        padding: $u-button-large-padding;
-    }
+.u-loading::after {
+	background-color: hsla(0, 0%, 100%, 0.35);
+}
 
-    &--normal {
-        padding: $u-button-normal-padding;
-        font-size: $u-button-normal-font-size;
-    }
+.u-size-default {
+	font-size: 30rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+}
 
-    &--small {
-        /* #ifndef APP-NVUE */
-        min-width: $u-button-small-min-width;
-        /* #endif */
-        height: $u-button-small-height;
-        padding: $u-button-small-padding;
-        font-size: $u-button-small-font-size;
-    }
+.u-size-medium {
+	/* #ifndef APP-NVUE */
+	display: inline-flex;		
+	/* #endif */
+	width: auto;
+	font-size: 26rpx;
+	height: 70rpx;
+	line-height: 70rpx;
+	padding: 0 80rpx;
+}
 
-    &--mini {
-		 padding: $u-button-normal-padding;
-		 font-size: 160px;
-		 font-weight: 500;
-        // height: $u-button-mini-height;
-        // font-size: $u-button-mini-font-size;
-        // /* #ifndef APP-NVUE */
-        // min-width: $u-button-mini-min-width;
-        // /* #endif */
-        // padding: $u-button-mini-padding;
-    }
+.u-size-mini {
+	/* #ifndef APP-NVUE */
+	display: inline-flex;		
+	/* #endif */
+	width: auto;
+	font-size: 22rpx;
+	padding-top: 1px;
+	height: 50rpx;
+	line-height: 50rpx;
+	padding: 0 20rpx;
+}
 
-    &--disabled {
-        opacity: $u-button-disabled-opacity;
-    }
+.u-primary-plain-hover {
+	color: #ffffff !important;
+	background: $u-type-primary-dark !important;
+}
 
-    &--info {
-        color: $u-button-info-color;
-        background-color: $u-button-info-background-color;
-		
-		// font-size: 100rpx;
-        // border-color: $u-button-info-border-color;
-        // border-width: $u-button-info-border-width;
-        // border-style: $u-button-info-border-style;
-    }
+.u-default-plain-hover {
+	color: $u-type-primary-dark !important;
+	background: $u-type-primary-light !important;
+}
 
-    &--success {
-        color: $u-button-success-color;
-        background-color: $u-button-success-background-color;
-        border-color: $u-button-success-border-color;
-        border-width: $u-button-success-border-width;
-        border-style: $u-button-success-border-style;
-    }
+.u-success-plain-hover {
+	color: #ffffff !important;
+	background: $u-type-success-dark !important;
+}
 
-    &--primary {
-        color: $u-button-primary-color;
-        background-color: $u-button-primary-background-color;
-        border-color: $u-button-primary-border-color;
-        border-width: $u-button-primary-border-width;
-        border-style: $u-button-primary-border-style;
-    }
+.u-warning-plain-hover {
+	color: #ffffff !important;
+	background: $u-type-warning-dark !important;
+}
 
-    &--error {
-        color: $u-button-error-color;
-        background-color: $u-button-error-background-color;
-        border-color: $u-button-error-border-color;
-        border-width: $u-button-error-border-width;
-        border-style: $u-button-error-border-style;
-    }
+.u-error-plain-hover {
+	color: #ffffff !important;
+	background: $u-type-error-dark !important;
+}
 
-    &--warning {
-        color: $u-button-warning-color;
-        background-color: $u-button-warning-background-color;
-        border-color: $u-button-warning-border-color;
-        border-width: $u-button-warning-border-width;
-        border-style: $u-button-warning-border-style;
-    }
+.u-info-plain-hover {
+	color: #ffffff !important;
+	background: $u-type-info-dark !important;
+}
 
-    &--block {
-        @include flex;
-        width: $u-button-block-width;
-    }
+.u-default-hover {
+	color: $u-type-primary-dark !important;
+	border-color: $u-type-primary-dark !important;
+	background-color: $u-type-primary-light !important;
+}
 
-    &--circle {
-        border-top-right-radius: $u-button-circle-border-top-right-radius;
-        border-top-left-radius: $u-button-circle-border-top-left-radius;
-        border-bottom-left-radius: $u-button-circle-border-bottom-left-radius;
-        border-bottom-right-radius: $u-button-circle-border-bottom-right-radius;
-    }
+.u-primary-hover {
+	background: $u-type-primary-dark !important;
+	color: #fff;
+}
 
-    &--square {
-        border-bottom-left-radius: $u-button-square-border-top-right-radius;
-        border-bottom-right-radius: $u-button-square-border-top-left-radius;
-        border-top-left-radius: $u-button-square-border-bottom-left-radius;
-        border-top-right-radius: $u-button-square-border-bottom-right-radius;
-    }
+.u-success-hover {
+	background: $u-type-success-dark !important;
+	color: #fff;
+}
 
-    &__icon {
-        /* #ifndef APP-NVUE */
-        min-width: $u-button-icon-min-width;
-        line-height: inherit !important;
-        vertical-align: top;
-        /* #endif */
-    }
+.u-info-hover {
+	background: $u-type-info-dark !important;
+	color: #fff;
+}
 
-    &--plain {
-        background-color: $u-button-plain-background-color;
-    }
+.u-warning-hover {
+	background: $u-type-warning-dark !important;
+	color: #fff;
+}
 
-    &--hairline {
-        border-width: $u-button-hairline-border-width !important;
-    }
+.u-error-hover {
+	background: $u-type-error-dark !important;
+	color: #fff;
 }
 </style>

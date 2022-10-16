@@ -211,16 +211,11 @@
   width: 100%;
 }
 .parse ._img {
-  /* display: inline-block;
- */
-  /* width: 0;
- */
-  /* height: 0;
- */
-  /* max-width: 100%;
- */
-  /* overflow: hidden;
- */
+  /* display: inline-block; */
+  /* width: 0; */
+  /* height: 0; */
+  /* max-width: 100%; */
+  /* overflow: hidden; */
 	display: inline-block;
 	max-width: 100%;
 	overflow: hidden;

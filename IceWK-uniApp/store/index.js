@@ -1,17 +1,35 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex) // vue的插件机制
+Vue.use(Vuex)
 
-// Vuex.Store 构造器选项
 const store = new Vuex.Store({
-    // 为了不和页面或组件的data中的造成混淆，state中的变量前面建议加上$符号
-    state: {
-        // 用户信息
-        $userInfo: {
-            id: 1
-        }
-    }
+	state: {
+		hasLogin: uni.getStorageSync("hasLogin"),
+		userInfo:uni.getStorageSync("userInfo"),
+		messegeNum:[]
+	},
+	mutations: {
+		login(state, userInfo) {			
+			state.hasLogin = true;
+			uni.setStorageSync("hasLogin",true);
+			
+			state.userInfo = userInfo;
+			uni.setStorageSync("userInfo",userInfo);
+		},
+		logout(state) {
+			state.hasLogin = false;
+			uni.removeStorageSync("hasLogin");
+			
+			state.userInfo = {
+				uid:null,
+				fans:0,
+				down:0
+			};
+			uni.removeStorageSync("userInfo");
+			
+		}
+	}
 })
 
 export default store

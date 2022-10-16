@@ -135,7 +135,7 @@
 	margin-top: 10rpx;
 }
 .navbarheight {
-	height: 44px;
+	height: 14px;
 	padding-top: 25px;
 }
 .mr20 {
@@ -211,12 +211,17 @@
     background-color: #999;
     z-index: 2;
 }
-.u-nav-slots{
+.u-nav-searchs{
 	display: none;
 }
-.u-search {
-     width: 558rpx;
-}
+
+
+
+
+
+
+
+
 
 
 

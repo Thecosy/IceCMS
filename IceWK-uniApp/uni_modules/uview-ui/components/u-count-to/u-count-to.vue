@@ -1,36 +1,94 @@
 <template>
-	<text
+	<view
 		class="u-count-num"
 		:style="{
-			fontSize: $u.addUnit(fontSize),
+			fontSize: fontSize + 'rpx',
 			fontWeight: bold ? 'bold' : 'normal',
 			color: color
 		}"
-	>{{ displayValue }}</text>
+	>
+		{{ displayValue }}
+	</view>
 </template>
 
 <script>
-	import props from './props.js';
 /**
  * countTo 数字滚动
  * @description 该组件一般用于需要滚动数字到某一个值的场景，目标要求是一个递增的值。
  * @tutorial https://www.uviewui.com/components/countTo.html
- * @property {String | Number}	startVal	开始的数值，默认从0增长到某一个数（默认 0 ）
- * @property {String | Number}	endVal		要滚动的目标数值，必须 （默认 0 ）
- * @property {String | Number}	duration	滚动到目标数值的动画持续时间，单位为毫秒（ms） （默认 2000 ）
- * @property {Boolean}			autoplay	设置数值后是否自动开始滚动 （默认 true ）
- * @property {String | Number}	decimals	要显示的小数位数，见官网说明（默认 0 ）
- * @property {Boolean}			useEasing	滚动结束时，是否缓动结尾，见官网说明（默认 true ）
- * @property {String}			decimal		十进制分割 （ 默认 "." ）
- * @property {String}			color		字体颜色（ 默认 '#606266' )
- * @property {String | Number}	fontSize	字体大小，单位px（ 默认 22 ）
- * @property {Boolean}			bold		字体是否加粗（默认 false ）
- * @property {String}			separator	千位分隔符，见官网说明
+ * @property {String Number} start-val 开始值
+ * @property {String Number} end-val 结束值
+ * @property {String Number} duration 滚动过程所需的时间，单位ms（默认2000）
+ * @property {Boolean} autoplay 是否自动开始滚动（默认true）
+ * @property {String Number} decimals 要显示的小数位数，见官网说明（默认0）
+ * @property {Boolean} use-easing 滚动结束时，是否缓动结尾，见官网说明（默认true）
+ * @property {String} separator 千位分隔符，见官网说明
+ * @property {String} color 字体颜色（默认#303133）
+ * @property {String Number} font-size 字体大小，单位rpx（默认50）
+ * @property {Boolean} bold 字体是否加粗（默认false）
  * @event {Function} end 数值滚动到目标值时触发
  * @example <u-count-to ref="uCountTo" :end-val="endVal" :autoplay="autoplay"></u-count-to>
  */
 export default {
 	name: 'u-count-to',
+	props: {
+		// 开始的数值，默认从0增长到某一个数
+		startVal: {
+			type: [Number, String],
+			default: 0
+		},
+		// 要滚动的目标数值，必须
+		endVal: {
+			type: [Number, String],
+			default: 0,
+			required: true
+		},
+		// 滚动到目标数值的动画持续时间，单位为毫秒（ms）
+		duration: {
+			type: [Number, String],
+			default: 2000
+		},
+		// 设置数值后是否自动开始滚动
+		autoplay: {
+			type: Boolean,
+			default: true
+		},
+		// 要显示的小数位数
+		decimals: {
+			type: [Number, String],
+			default: 0
+		},
+		// 是否在即将到达目标数值的时候，使用缓慢滚动的效果
+		useEasing: {
+			type: Boolean,
+			default: true
+		},
+		// 十进制分割
+		decimal: {
+			type: [Number, String],
+			default: '.'
+		},
+		// 字体颜色
+		color: {
+			type: String,
+			default: '#303133'
+		},
+		// 字体大小
+		fontSize: {
+			type: [Number, String],
+			default: 50
+		},
+		// 是否加粗字体
+		bold: {
+			type: Boolean,
+			default: false
+		},
+		// 千位分隔符，类似金额的分割(￥23,321.05中的",")
+		separator: {
+			type: String,
+			default: ''
+		}
+	},
 	data() {
 		return {
 			localStartVal: this.startVal,
@@ -45,7 +103,6 @@ export default {
 			lastTime: 0 // 上一次的时间
 		};
 	},
-	mixins: [uni.$u.mpMixin, uni.$u.mixin,props],
 	computed: {
 		countDown() {
 			return this.startVal > this.endVal;
@@ -76,6 +133,7 @@ export default {
 			this.lastTime = currTime + timeToCall;
 			return id;
 		},
+
 		cancelAnimationFrame(id) {
 			clearTimeout(id);
 		},
@@ -103,8 +161,7 @@ export default {
 		},
 		// 重新开始(暂停的情况下)
 		resume() {
-			if (!this.remaining) return
-			this.startTime = 0;
+			this.startTime = null;
 			this.localDuration = this.remaining;
 			this.localStartVal = this.printVal;
 			this.requestAnimationFrame(this.count);
@@ -138,7 +195,7 @@ export default {
 			} else {
 				this.printVal = this.printVal > this.endVal ? this.endVal : this.printVal;
 			}
-			this.displayValue = this.formatNumber(this.printVal) || 0;
+			this.displayValue = this.formatNumber(this.printVal);
 			if (progress < this.localDuration) {
 				this.rAF = this.requestAnimationFrame(this.count);
 			} else {
@@ -173,11 +230,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../libs/css/components.scss";
+@import "../../libs/css/style.components.scss";
 
 .u-count-num {
 	/* #ifndef APP-NVUE */
-	display: inline-flex;
+	display: inline-flex;		
 	/* #endif */
 	text-align: center;
 }

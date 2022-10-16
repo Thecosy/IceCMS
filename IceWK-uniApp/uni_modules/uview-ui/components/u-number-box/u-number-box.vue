@@ -1,417 +1,363 @@
 <template>
-	<view class="u-number-box">
-		<view
-		    class="u-number-box__slot"
-		    @tap.stop="clickHandler('minus')"
-		    @touchstart="onTouchStart('minus')"
-		    @touchend.stop="clearTimeout"
-		    v-if="showMinus && $slots.minus"
-		>
-			<slot name="minus" />
+	<view class="u-numberbox">
+		<view class="u-icon-minus" @touchstart.stop.prevent="btnTouchStart('minus')" @touchend.stop.prevent="clearTimer" :class="{ 'u-icon-disabled': disabled || inputVal <= min }"
+		    :style="{
+				background: bgColor,
+				height: inputHeight + 'rpx',
+				color: color
+			}">
+			<u-icon name="minus" :size="size"></u-icon>
 		</view>
-		<view
-		    v-else-if="showMinus"
-		    class="u-number-box__minus"
-		    @tap.stop="clickHandler('minus')"
-		    @touchstart="onTouchStart('minus')"
-		    @touchend.stop="clearTimeout"
-		    hover-class="u-number-box__minus--hover"
-		    hover-stay-time="150"
-		    :class="{ 'u-number-box__minus--disabled': isDisabled('minus') }"
-		    :style="[buttonStyle('minus')]"
-		>
-			<u-icon
-			    name="minus"
-			    :color="isDisabled('minus') ? '#c8c9cc' : '#323233'"
-			    size="15"
-			    bold
-				:customStyle="iconStyle"
-			></u-icon>
-		</view>
-
-		<slot name="input">
-			<input
-			    :disabled="disabledInput || disabled"
-			    :cursor-spacing="getCursorSpacing"
-			    :class="{ 'u-number-box__input--disabled': disabled || disabledInput }"
-			    v-model="currentValue"
-			    class="u-number-box__input"
-			    @blur="onBlur"
-			    @focus="onFocus"
-			    @input="onInput"
-			    type="number"
-			    :style="[inputStyle]"
-			/>
-		</slot>
-		<view
-		    class="u-number-box__slot"
-		    @tap.stop="clickHandler('plus')"
-		    @touchstart="onTouchStart('plus')"
-		    @touchend.stop="clearTimeout"
-		    v-if="showPlus && $slots.plus"
-		>
-			<slot name="plus" />
-		</view>
-		<view
-		    v-else-if="showPlus"
-		    class="u-number-box__plus"
-		    @tap.stop="clickHandler('plus')"
-		    @touchstart="onTouchStart('plus')"
-		    @touchend.stop="clearTimeout"
-		    hover-class="u-number-box__plus--hover"
-		    hover-stay-time="150"
-		    :class="{ 'u-number-box__minus--disabled': isDisabled('plus') }"
-		    :style="[buttonStyle('plus')]"
-		>
-			<u-icon
-			    name="plus"
-			    :color="isDisabled('plus') ? '#c8c9cc' : '#323233'"
-			    size="15"
-			    bold
-				:customStyle="iconStyle"
-			></u-icon>
+		<input :disabled="disabledInput || disabled" :cursor-spacing="getCursorSpacing" :class="{ 'u-input-disabled': disabled }"
+		    v-model="inputVal" class="u-number-input" @blur="onBlur" @focus="onFocus"
+		    type="number" :style="{
+				color: color,
+				fontSize: size + 'rpx',
+				background: bgColor,
+				height: inputHeight + 'rpx',
+				width: inputWidth + 'rpx'
+			}" />
+		<view class="u-icon-plus" @touchstart.stop.prevent="btnTouchStart('plus')" @touchend.stop.prevent="clearTimer" :class="{ 'u-icon-disabled': disabled || inputVal >= max }"
+		    :style="{
+				background: bgColor,
+				height: inputHeight + 'rpx',
+				color: color
+			}">
+			<u-icon name="plus" :size="size"></u-icon>
 		</view>
 	</view>
 </template>
 
 <script>
-	import props from './props.js';
 	/**
 	 * numberBox 步进器
-	 * @description 该组件一般用于商城购物选择物品数量的场景。
-	 * @tutorial https://uviewui.com/components/numberBox.html
-	 * @property {String | Number}	name			步进器标识符，在change回调返回
-	 * @property {String | Number}	value			用于双向绑定的值，初始化时设置设为默认min值(最小值)  （默认 0 ）
-	 * @property {String | Number}	min				最小值 （默认 1 ）
-	 * @property {String | Number}	max				最大值 （默认 Number.MAX_SAFE_INTEGER ）
-	 * @property {String | Number}	step			加减的步长，可为小数 （默认 1 ）
-	 * @property {Boolean}			integer			是否只允许输入整数 （默认 false ）
-	 * @property {Boolean}			disabled		是否禁用，包括输入框，加减按钮 （默认 false ）
-	 * @property {Boolean}			disabledInput	是否禁用输入框 （默认 false ）
-	 * @property {Boolean}			asyncChange		是否开启异步变更，开启后需要手动控制输入值 （默认 false ）
-	 * @property {String | Number}	inputWidth		输入框宽度，单位为px （默认 35 ）
-	 * @property {Boolean}			showMinus		是否显示减少按钮 （默认 true ）
-	 * @property {Boolean}			showPlus		是否显示增加按钮 （默认 true ）
-	 * @property {String | Number}	decimalLength	显示的小数位数
-	 * @property {Boolean}			longPress		是否开启长按加减手势 （默认 true ）
-	 * @property {String}			color			输入框文字和加减按钮图标的颜色 （默认 '#323233' ）
-	 * @property {String | Number}	buttonSize		按钮大小，宽高等于此值，单位px，输入框高度和此值保持一致 （默认 30 ）
-	 * @property {String}			bgColor			输入框和按钮的背景颜色 （默认 '#EBECEE' ）
-	 * @property {String | Number}	cursorSpacing	指定光标于键盘的距离，避免键盘遮挡输入框，单位px （默认 100 ）
-	 * @property {Boolean}			disablePlus		是否禁用增加按钮 （默认 false ）
-	 * @property {Boolean}			disableMinus	是否禁用减少按钮 （默认 false ）
-	 * @property {Object ｜ String}	iconStyle		加减按钮图标的样式
-	 *
-	 * @event {Function}	onFocus	输入框活动焦点
-	 * @event {Function}	onBlur	输入框失去焦点
-	 * @event {Function}	onInput	输入框值发生变化
-	 * @event {Function}	onChange
-	 * @example <u-number-box v-model="value" @change="valChange"></u-number-box>
+	 * @description 该组件一般用于商城购物选择物品数量的场景。注意：该输入框只能输入大于或等于0的整数，不支持小数输入
+	 * @tutorial https://www.uviewui.com/components/numberBox.html
+	 * @property {Number} value 输入框初始值（默认1）
+	 * @property {String} bg-color 输入框和按钮的背景颜色（默认#F2F3F5）
+	 * @property {Number} min 用户可输入的最小值（默认0）
+	 * @property {Number} max 用户可输入的最大值（默认99999）
+	 * @property {Number} step 步长，每次加或减的值（默认1）
+	 * @property {Boolean} disabled 是否禁用操作，禁用后无法加减或手动修改输入框的值（默认false）
+	 * @property {Boolean} disabled-input 是否禁止输入框手动输入值（默认false）
+	 * @property {Boolean} positive-integer 是否只能输入正整数（默认true）
+	 * @property {String | Number} size 输入框文字和按钮字体大小，单位rpx（默认26）
+	 * @property {String} color 输入框文字和加减按钮图标的颜色（默认#323233）
+	 * @property {String | Number} input-width 输入框宽度，单位rpx（默认80）
+	 * @property {String | Number} input-height 输入框和按钮的高度，单位rpx（默认50）
+	 * @property {String | Number} index 事件回调时用以区分当前发生变化的是哪个输入框
+	 * @property {Boolean} long-press 是否开启长按连续递增或递减(默认true)
+	 * @property {String | Number} press-time 开启长按触发后，每触发一次需要多久，单位ms(默认250)
+	 * @property {String | Number} cursor-spacing 指定光标于键盘的距离，避免键盘遮挡输入框，单位rpx（默认200）
+	 * @event {Function} change 输入框内容发生变化时触发，对象形式
+	 * @event {Function} blur 输入框失去焦点时触发，对象形式
+	 * @event {Function} minus 点击减少按钮时触发(按钮可点击情况下)，对象形式
+	 * @event {Function} plus 点击增加按钮时触发(按钮可点击情况下)，对象形式
+	 * @example <u-number-box :min="1" :max="100"></u-number-box>
 	 */
 	export default {
-		name: 'u-number-box',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
-		data() {
-			return {
-				// 输入框实际操作的值
-				currentValue: '',
-				// 定时器
-				longPressTimer: null
+		name: "u-number-box",
+		props: {
+			// 预显示的数字
+			value: {
+				type: Number,
+				default: 1
+			},
+			// 背景颜色
+			bgColor: {
+				type: String,
+				default: '#F2F3F5'
+			},
+			// 最小值
+			min: {
+				type: Number,
+				default: 0
+			},
+			// 最大值
+			max: {
+				type: Number,
+				default: 99999
+			},
+			// 步进值，每次加或减的值
+			step: {
+				type: Number,
+				default: 1
+			},
+			// 是否禁用加减操作
+			disabled: {
+				type: Boolean,
+				default: false
+			},
+			// input的字体大小，单位rpx
+			size: {
+				type: [Number, String],
+				default: 26
+			},
+			// 加减图标的颜色
+			color: {
+				type: String,
+				default: '#323233'
+			},
+			// input宽度，单位rpx
+			inputWidth: {
+				type: [Number, String],
+				default: 80
+			},
+			// input高度，单位rpx
+			inputHeight: {
+				type: [Number, String],
+				default: 50
+			},
+			// index索引，用于列表中使用，让用户知道是哪个numberbox发生了变化，一般使用for循环出来的index值即可
+			index: {
+				type: [Number, String],
+				default: ''
+			},
+			// 是否禁用输入框，与disabled作用于输入框时，为OR的关系，即想要禁用输入框，又可以加减的话
+			// 设置disabled为false，disabledInput为true即可
+			disabledInput: {
+				type: Boolean,
+				default: false
+			},
+			// 输入框于键盘之间的距离
+			cursorSpacing: {
+				type: [Number, String],
+				default: 100
+			},
+			// 是否开启长按连续递增或递减
+			longPress: {
+				type: Boolean,
+				default: true
+			},
+			// 开启长按触发后，每触发一次需要多久
+			pressTime: {
+				type: [Number, String],
+				default: 250
+			},
+			// 是否只能输入大于或等于0的整数(正整数)
+			positiveInteger: {
+				type: Boolean,
+				default: true
 			}
 		},
 		watch: {
-			// 多个值之间，只要一个值发生变化，都要重新检查check()函数
-			watchChange(n) {
-				this.check()
-			},
-			// 监听v-mode的变化，重新初始化内部的值
-			value(n) {
-				if (n !== this.currentValue) {
-					this.currentValue = this.format(this.value)
+			value(v1, v2) {
+				// 只有value的改变是来自外部的时候，才去同步inputVal的值，否则会造成循环错误
+				if(!this.changeFromInner) {
+					this.inputVal = v1;
+					// 因为inputVal变化后，会触发this.handleChange()，在其中changeFromInner会再次被设置为true，
+					// 造成外面修改值，也导致被认为是内部修改的混乱，这里进行this.$nextTick延时，保证在运行周期的最后处
+					// 将changeFromInner设置为false
+					this.$nextTick(function(){
+						this.changeFromInner = false;
+					})
 				}
+			},
+			inputVal(v1, v2) {
+				// 为了让用户能够删除所有输入值，重新输入内容，删除所有值后，内容为空字符串
+				if (v1 == '') return;
+				let value = 0;
+				// 首先判断是否数值，并且在min和max之间，如果不是，使用原来值
+				let tmp = this.$u.test.number(v1);
+				if (tmp && v1 >= this.min && v1 <= this.max) value = v1;
+				else value = v2;
+				// 判断是否只能输入大于等于0的整数
+				if(this.positiveInteger) {
+					// 小于0，或者带有小数点，
+					if(v1 < 0 || String(v1).indexOf('.') !== -1) {
+						value = v2;
+						// 双向绑定input的值，必须要使用$nextTick修改显示的值
+						this.$nextTick(() => {
+							this.inputVal = v2;
+						})
+					}
+				}
+				// 发出change事件
+				this.handleChange(value, 'change');
 			}
+		},
+		data() {
+			return {
+				inputVal: 1, // 输入框中的值，不能直接使用props中的value，因为应该改变props的状态
+				timer: null, // 用作长按的定时器
+				changeFromInner: false, // 值发生变化，是来自内部还是外部
+				innerChangeTimer: null, // 内部定时器
+			};
+		},
+		created() {
+			this.inputVal = Number(this.value);
 		},
 		computed: {
 			getCursorSpacing() {
-				// 判断传入的单位，如果为px单位，需要转成px
-				const number = parseInt(this.cursorSpacing)
-				return /rpx$/.test(String(this.cursorSpacing)) ? uni.upx2px(number) : number
-			},
-			// 按钮的样式
-			buttonStyle() {
-				return (type) => {
-					const style = {
-						backgroundColor: this.bgColor,
-						height: this.$u.addUnit(this.buttonSize),
-						color: this.color
-					}
-					if (this.isDisabled(type)) {
-						style.backgroundColor = '#f7f8fa'
-					}
-					return style
-				}
-			},
-			// 输入框的样式
-			inputStyle() {
-				const disabled = this.disabled || this.disabledInput
-				const style = {
-					color: this.color,
-					backgroundColor: this.bgColor,
-					height: this.$u.addUnit(this.buttonSize),
-					width: this.$u.addUnit(this.inputWidth)
-				}
-				return style
-			},
-			// 用于监听多个值发生变化
-			watchChange() {
-				return [this.integer, this.decimalLength, this.min, this.max]
-			},
-			isDisabled() {
-				return (type) => {
-					if (type === 'plus') {
-						// 在点击增加按钮情况下，判断整体的disabled，是否单独禁用增加按钮，以及当前值是否大于最大的允许值
-						return (
-							this.disabled ||
-							this.disablePlus ||
-							this.currentValue >= this.max
-						)
-					}
-					// 点击减少按钮同理
-					return (
-						this.disabled ||
-						this.disableMinus ||
-						this.currentValue <= this.min
-					)
-				}
-			},
-		},
-		mounted() {
-			this.init()
+				// 先将值转为px单位，再转为数值
+				return Number(uni.upx2px(this.cursorSpacing));
+			}
 		},
 		methods: {
-			init() {
-				this.currentValue = this.format(this.value)
+			// 点击退格键
+			btnTouchStart(callback) {
+				// 先执行一遍方法，否则会造成松开手时，就执行了clearTimer，导致无法实现功能
+				this[callback]();
+				// 如果没开启长按功能，直接返回
+				if (!this.longPress) return;
+				clearInterval(this.timer); //再次清空定时器，防止重复注册定时器
+				this.timer = null;
+				this.timer = setInterval(() => {
+					// 执行加或减函数
+					this[callback]();
+				}, this.pressTime);
 			},
-			// 格式化整理数据，限制范围
-			format(value) {
-				value = this.filter(value)
-				// 如果为空字符串，那么设置为0，同时将值转为Number类型
-				value = value === '' ? 0 : +value
-				// 对比最大最小值，取在min和max之间的值
-				value = Math.max(Math.min(this.max, value), this.min)
-				// 如果设定了最大的小数位数，使用toFixed去进行格式化
-				if (this.decimalLength !== null) {
-					value = value.toFixed(this.decimalLength)
-				}
-				return value
-			},
-			// 过滤非法的字符
-			filter(value) {
-				// 只允许0-9之间的数字，"."为小数点，"-"为负数时候使用
-				value = String(value).replace(/[^0-9.-]/g, '')
-				// 如果只允许输入整数，则过滤掉小数点后的部分
-				if (this.integer && value.indexOf('.') !== -1) {
-					value = value.split('.')[0]
-				}
-				return value;
-			},
-			check() {
-				// 格式化了之后，如果前后的值不相等，那么设置为格式化后的值
-				const val = this.format(this.currentValue);
-				if (val !== this.currentValue) {
-					this.currentValue = val
-				}
-			},
-			// 判断是否出于禁止操作状态
-			// isDisabled(type) {
-			// 	if (type === 'plus') {
-			// 		// 在点击增加按钮情况下，判断整体的disabled，是否单独禁用增加按钮，以及当前值是否大于最大的允许值
-			// 		return (
-			// 			this.disabled ||
-			// 			this.disablePlus ||
-			// 			this.currentValue >= this.max
-			// 		)
-			// 	}
-			// 	// 点击减少按钮同理
-			// 	return (
-			// 		this.disabled ||
-			// 		this.disableMinus ||
-			// 		this.currentValue <= this.min
-			// 	)
-			// },
-			// 输入框活动焦点
-			onFocus(event) {
-				this.$emit('focus', {
-					...event.detail,
-					name: this.name,
+			clearTimer() {
+				this.$nextTick(() => {
+					clearInterval(this.timer);
+					this.timer = null;
 				})
 			},
-			// 输入框失去焦点
+			minus() {
+				this.computeVal('minus');
+			},
+			plus() {
+				this.computeVal('plus');
+			},
+			// 为了保证小数相加减出现精度溢出的问题
+			calcPlus(num1, num2) {
+				let baseNum, baseNum1, baseNum2;
+				try {
+					baseNum1 = num1.toString().split('.')[1].length;
+				} catch (e) {
+					baseNum1 = 0;
+				}
+				try {
+					baseNum2 = num2.toString().split('.')[1].length;
+				} catch (e) {
+					baseNum2 = 0;
+				}
+				baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
+				let precision = baseNum1 >= baseNum2 ? baseNum1 : baseNum2; //精度
+				return ((num1 * baseNum + num2 * baseNum) / baseNum).toFixed(precision);
+			},
+			// 为了保证小数相加减出现精度溢出的问题
+			calcMinus(num1, num2) {
+				let baseNum, baseNum1, baseNum2;
+				try {
+					baseNum1 = num1.toString().split('.')[1].length;
+				} catch (e) {
+					baseNum1 = 0;
+				}
+				try {
+					baseNum2 = num2.toString().split('.')[1].length;
+				} catch (e) {
+					baseNum2 = 0;
+				}
+				baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
+				let precision = baseNum1 >= baseNum2 ? baseNum1 : baseNum2;
+				return ((num1 * baseNum - num2 * baseNum) / baseNum).toFixed(precision);
+			},
+			computeVal(type) {
+				uni.hideKeyboard();
+				if (this.disabled) return;
+				let value = 0;
+				// 减
+				if (type === 'minus') {
+					value = this.calcMinus(this.inputVal, this.step);
+				} else if (type === 'plus') {
+					value = this.calcPlus(this.inputVal, this.step);
+				}
+				// 判断是否小于最小值和大于最大值
+				if (value < this.min || value > this.max) {
+					return;
+				}
+				this.inputVal = value;
+				this.handleChange(value, type);
+			},
+			// 处理用户手动输入的情况
 			onBlur(event) {
-				// 对输入值进行格式化
-				const value = this.format(event.detail.value)
-				// 发出blur事件
-				this.$emit(
-					'blur',{
-						...event.detail,
-						name: this.name,
-					}
-				)
-			},
-			// 输入框值发生变化
-			onInput(e) {
-				const {
-					value = ''
-				} = e.detail || {}
-				// 为空返回
-				if (value === '') return
-				let formatted = this.filter(value)
-				// 最大允许的小数长度
-				if (this.decimalLength !== null && formatted.indexOf('.') !== -1) {
-					const pair = formatted.split('.');
-					formatted = `${pair[0]}.${pair[1].slice(0, this.decimalLength)}`
+				let val = 0;
+				let value = event.detail.value;
+				// 如果为非0-9数字组成，或者其第一位数值为0，直接让其等于min值
+				// 这里不直接判断是否正整数，是因为用户传递的props min值可能为0
+				if (!/(^\d+$)/.test(value) || value[0] == 0) val = this.min;
+				val = +value;
+				if (val > this.max) {
+					val = this.max;
+				} else if (val < this.min) {
+					val = this.min;
 				}
-				formatted = this.format(formatted)
-				this.emitChange(formatted);
+				this.$nextTick(() => {
+					this.inputVal = val;
+				})
+				this.handleChange(val, 'blur');
 			},
-			// 发出change事件
-			emitChange(value) {
-				// 如果开启了异步变更值，则不修改内部的值，需要用户手动在外部通过v-model变更
-				if (!this.asyncChange) {
-					this.$nextTick(() => {
-						this.$emit('input', value)
-						this.currentValue = value
-						this.$forceUpdate()
-					})
+			// 输入框获得焦点事件
+			onFocus() {
+				this.$emit('focus');
+			},
+			handleChange(value, type) {
+				if (this.disabled) return;
+				// 清除定时器，避免造成混乱
+				if(this.innerChangeTimer) {
+					clearTimeout(this.innerChangeTimer);
+					this.innerChangeTimer = null;
 				}
-				this.$emit('change', {
-					value,
-					name: this.name,
-				});
-			},
-			onChange() {
-				const {
-					type
-				} = this
-				if (this.isDisabled(type)) {
-					return this.$emit('overlimit', type)
-				}
-				const diff = type === 'minus' ? -this.step : +this.step
-				const value = this.format(this.add(+this.currentValue, diff))
-				this.emitChange(value)
-				this.$emit(type)
-			},
-			// 对值扩大后进行四舍五入，再除以扩大因子，避免出现浮点数操作的精度问题
-			add(num1, num2) {
-				const cardinal = Math.pow(10, 10);
-				return Math.round((num1 + num2) * cardinal) / cardinal
-			},
-			// 点击加减按钮
-			clickHandler(type) {
-				this.type = type
-				this.onChange()
-			},
-			longPressStep() {
-				// 每隔一段时间，重新调用longPressStep方法，实现长按加减
-				this.clearTimeout()
-				this.longPressTimer = setTimeout(() => {
-					this.onChange()
-					this.longPressStep()
-				}, 250);
-			},
-			onTouchStart(type) {
-				if (!this.longPress) return
-				this.clearTimeout()
-				this.type = type
-				// 一定时间后，默认达到长按状态
-				this.longPressTimer = setTimeout(() => {
-					this.onChange()
-					this.longPressStep()
-				}, 600)
-			},
-			// 触摸结束，清除定时器，停止长按加减
-			onTouchEnd() {
-				if (!this.longPress) return
-				this.clearTimeout()
-			},
-			// 清除定时器
-			clearTimeout() {
-				clearTimeout(this.longPressTimer)
-				this.longPressTimer = null
+				// 发出input事件，修改通过v-model绑定的值，达到双向绑定的效果
+				this.changeFromInner = true;
+				// 一定时间内，清除changeFromInner标记，否则内部值改变后
+				// 外部通过程序修改value值，将会无效
+				this.innerChangeTimer = setTimeout(() => {
+					this.changeFromInner = false;
+				}, 150);
+				this.$emit('input', Number(value));
+				this.$emit(type, {
+					// 转为Number类型
+					value: Number(value),
+					index: this.index
+				})
 			}
 		}
-	}
+	};
 </script>
 
 <style lang="scss" scoped>
-	@import '../../libs/css/components.scss';
+	@import "../../libs/css/style.components.scss";
 
-	$u-numberBox-hover-bgColor: #E6E6E6 !default;
-	$u-numberBox-disabled-color: #c8c9cc !default;
-	$u-numberBox-disabled-bgColor: #f7f8fa !default;
-	$u-numberBox-plus-radius: 4px !default;
-	$u-numberBox-minus-radius: 4px !default;
-	$u-numberBox-input-text-align: center !default;
-	$u-numberBox-input-font-size: 15px !default;
-	$u-numberBox-input-padding: 0 !default;
-	$u-numberBox-input-margin: 0 2px !default;
-	$u-numberBox-input-disabled-color: #c8c9cc !default;
-	$u-numberBox-input-disabled-bgColor: #f2f3f5 !default;
-
-	.u-number-box {
-		@include flex(row);
+	.u-numberbox {
+		display: inline-flex;
 		align-items: center;
+	}
 
-		&__slot {
-			/* #ifndef APP-NVUE */
-			touch-action: none;
-			/* #endif */
-		}
+	.u-number-input {
+		position: relative;
+		text-align: center;
+		padding: 0;
+		margin: 0 6rpx;
+		@include vue-flex;
+		align-items: center;
+		justify-content: center;
+	}
 
-		&__plus,
-		&__minus {
-			width: 35px;
-			@include flex;
-			justify-content: center;
-			align-items: center;
-			/* #ifndef APP-NVUE */
-			touch-action: none;
-			/* #endif */
+	.u-icon-plus,
+	.u-icon-minus {
+		width: 60rpx;
+		@include vue-flex;
+		justify-content: center;
+		align-items: center;
+	}
 
-			&--hover {
-				background-color: $u-numberBox-hover-bgColor !important;
-			}
+	.u-icon-plus {
+		border-radius: 0 8rpx 8rpx 0;
+	}
 
-			&--disabled {
-				color: $u-numberBox-disabled-color;
-				background-color: $u-numberBox-disabled-bgColor;
-			}
-		}
+	.u-icon-minus {
+		border-radius: 8rpx 0 0 8rpx;
+	}
 
-		&__plus {
-			border-top-right-radius: $u-numberBox-plus-radius;
-			border-bottom-right-radius: $u-numberBox-plus-radius;
-		}
+	.u-icon-disabled {
+		color: #c8c9cc !important;
+		background: #f7f8fa !important;
+	}
 
-		&__minus {
-			border-top-left-radius: $u-numberBox-minus-radius;
-			border-bottom-left-radius: $u-numberBox-minus-radius;
-		}
-
-		&__input {
-			position: relative;
-			text-align: $u-numberBox-input-text-align;
-			font-size: $u-numberBox-input-font-size;
-			padding: $u-numberBox-input-padding;
-			margin: $u-numberBox-input-margin;
-			@include flex;
-			align-items: center;
-			justify-content: center;
-
-			&--disabled {
-				color: $u-numberBox-input-disabled-color;
-				background-color: $u-numberBox-input-disabled-bgColor;
-			}
-		}
+	.u-input-disabled {
+		color: #c8c9cc !important;
+		background-color: #f2f3f5 !important;
 	}
 </style>

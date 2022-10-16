@@ -1,7 +1,5 @@
-// var domain = "119.45.164.21:7953/";
-
-var http = "localhost:8181/";
-var apisec = "秘钥";
+var http = "175.178.237.96:8181/";
+// var apisec = "秘钥";
 var API_URL = 'http://' + http ;
 
 
@@ -15,81 +13,55 @@ module.exports = {
 	GetDomain: function() {
 		return 'https://' + http + '/';
 	},
-	// GetPosts: function(size) {
-	// 	return API_URL + '/WebResource/getNewResource/' + size;
-	// },
+	
 	GetPosts: function(page,limit) {
-		return API_URL + '/WebResource/getAllResource/' + page + '/' + limit;
-	},
-	GetHot: function() {
-		return this.appendAPISEC(API_URL + 'posts?pageSize=10&idx=0');
-	},
-	GetComment: function() {
-		return this.appendAPISEC(API_URL + 'posts?idx=1&pageSize=10');
-	},
-	GetTag:function() {
-		return this.appendAPISEC(API_URL + 'gettag?');
-	},
-	GetFriend:function() {
-		return this.appendAPISEC(API_URL + 'getfriend?');
-	},
-	GetRankedPosts: function(idx) {
-		return this.appendAPISEC(API_URL + 'posts?&pageSize=30' + '&idx=' + idx);
-	},
-	GetPostsList: function(page) {
-		return this.appendAPISEC(API_URL + 'posts?&pageSize=10' + '&page=' + page);
-	},
-	GetAboutCid: function() {
-		return this.appendAPISEC(API_URL + 'getaboutcid?');
+		return API_URL + '/WebArticle/getAllArticle/' + page + '/' + limit;
 	},
 	GetSwiperPost:function() {
 		return API_URL + '/WebSitting/getCarousel';
 	},
-
 	GetCat: function() {
 		return API_URL + '/WebResourceClass/getResourceClasslist';
 	},	
-	GetRecommend:function() {
-		return this.appendAPISEC(API_URL + 'getrecommend?');
-	},
-	GetAccessCode: function(url) {
-		return this.appendAPISEC(API_URL + 'getaccesscode?path=' + url);
-	},
 	GetPostsbyClassID: function(id) {
 		return API_URL + '/WebResource/getResourceByClassId/' + id;
 	},
-	GetPagebyCID: function(cid) {
-		return this.appendAPISEC(API_URL + 'posts?cid=' + cid + '&getpage=1');
-	},
 	GetPostsbyID: function(id) {
+		return API_URL + '/WebArticle/getArticleById/' + id;
+	},
+	GetAllSquare: function(otherName,page,limit) {
+		return API_URL + '/Websquare/getAllSquare/' + otherName + '/' + page + '/' + limit;
+	},
+	GetSquareById: function(id) {
+		return API_URL + '/Websquare/getSquareById/' + id;
+	},
+	GetPlanetIdComment: function(SortName) {
+		return API_URL + '/WebSquareComment/getPlanetIdComment/' + SortName;
+	},
+	CreateSquare: function(id) {
+		return API_URL + '/Websquare/create/' + id;
+	},
+	AddPlanetComment: function() {
+		return API_URL + '/WebSquareComment/addPlanetComment';
+	},
+	LikeClickComments: function(id) {
+		return API_URL + '/Websquare/likeClickComment/' + id;
+	},
+	LikeClickComment: function(id) {
+		return API_URL + '/WebSquareComment/likeClickComment/' + id;
+	},
+	GetUserInfoByid: function(id) {
+		return API_URL + '/User/GetUserInfoByid/' + id;
+	},
+	GetAllResource: function(page,limit) {
+		return API_URL + '/WebResource/getAllResource/' + page + '/' + limit;
+	},
+	GetResourceById: function(id) {
 		return API_URL + '/WebResource/getResourceById/' + id;
 	},
-	GetPostsbyMIDLimit: function(mid, limit, except) {
-		return this.appendAPISEC(API_URL + 'getpostbymid?mid=' + mid + '&pageSize=' + limit + '&except=' + except);
-	},
-
-	GetPostsCommentbyCID: function(cid) {
-		return this.appendAPISEC(API_URL + 'getcomment?cid=' + cid);
-	},
-	GetPostsReplybyCID: function(cid, parent) {
-		return this.appendAPISEC(API_URL + 'getcomment?cid=' + cid + '&parent=' + parent);
-	},
-	Postcomment: function(cid, author, text, icon) {
-		return this.appendAPISEC(API_URL + 'addcomment?cid=' + cid + '&author=' + author + '&text=' + text +'&icon=' + icon);
-	},
-
-
-	Search: function(key) {
-		return this.appendAPISEC(API_URL + 'search?keyword=' + key);
-	},
-
+	
 	IsNull(obj) {
 		return (obj != null && obj != undefined);
-	},
-
-	appendAPISEC: function(url) {
-		var request = url + "&apisec=" + apisec;
-		return (request);
 	},
 	randomHexColor() { //随机生成十六进制颜色
 		var hex = Math.floor(Math.random() * 16777216).toString(16); //生成ffffff以内16进制数

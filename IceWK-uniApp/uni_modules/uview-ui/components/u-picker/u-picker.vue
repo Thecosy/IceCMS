@@ -1,250 +1,676 @@
 <template>
-	<u-popup :show="show" @close="closeHandler">
-		<view class="u-picker">
-			<u-toolbar v-if="showToolbar" :cancelColor="cancelColor" :confirmColor="confirmColor"
-				:cancelText="cancelText" :confirmText="confirmText" :title="title" @cancel="cancel" @confirm="confirm">
-			</u-toolbar>
-			<picker-view class="u-picker__view" :indicatorStyle="`height: ${itemHeight}px`" :value="innerIndex" :style="{
-					height: `${visibleItemCount * itemHeight}px`
-				}" @change="changeHandler">
-				<picker-view-column v-for="(item, index) in innerColumns" :key="index" class="u-picker__view__column">
-					<text v-if="$u.test.array(item)" class="u-picker__view__column__item u-line-1"
-						v-for="(item1, index1) in item" :key="index1" :style="{
-							height: $u.addUnit(itemHeight),
-							lineHeight: $u.addUnit(itemHeight),
-							fontWeight: index1 === innerIndex[index] ? 'bold' : 'normal'
-						}">{{ item1.name }}</text>
-				</picker-view-column>
-			</picker-view>
-			<view v-if="loading" class="u-picker--loading">
-				<u-loading-icon mode="circle"></u-loading-icon>
+	<u-popup :maskCloseAble="maskCloseAble" mode="bottom" :popup="false" v-model="value" length="auto" :safeAreaInsetBottom="safeAreaInsetBottom" @close="close" :z-index="uZIndex">
+		<view class="u-datetime-picker">
+			<view class="u-picker-header" @touchmove.stop.prevent="">
+				<view class="u-btn-picker u-btn-picker--tips" 
+					:style="{ color: cancelColor }" 
+					hover-class="u-opacity" 
+					:hover-stay-time="150" 
+					@tap="getResult('cancel')"
+				>{{cancelText}}</view>
+				<view class="u-picker__title">{{ title }}</view>
+				<view
+					class="u-btn-picker u-btn-picker--primary"
+					:style="{ color: moving ? cancelColor : confirmColor }"
+					hover-class="u-opacity"
+					:hover-stay-time="150"
+					@touchmove.stop=""
+					@tap.stop="getResult('confirm')"
+				>
+					{{confirmText}}
+				</view>
+			</view>
+			<view class="u-picker-body">
+				<picker-view v-if="mode == 'region'" :value="valueArr" @change="change" class="u-picker-view" @pickstart="pickstart" @pickend="pickend">
+					<picker-view-column v-if="!reset && params.province">
+						<view class="u-column-item" v-for="(item, index) in provinces" :key="index">
+							<view class="u-line-1">{{ item.label }}</view>
+						</view>
+					</picker-view-column>
+					<picker-view-column v-if="!reset && params.city">
+						<view class="u-column-item" v-for="(item, index) in citys" :key="index">
+							<view class="u-line-1">{{ item.label }}</view>
+						</view>
+					</picker-view-column>
+					<picker-view-column v-if="!reset && params.area">
+						<view class="u-column-item" v-for="(item, index) in areas" :key="index">
+							<view class="u-line-1">{{ item.label }}</view>
+						</view>
+					</picker-view-column>
+				</picker-view>
+				<picker-view v-else-if="mode == 'time'" :value="valueArr" @change="change" class="u-picker-view" @pickstart="pickstart" @pickend="pickend">
+					<picker-view-column v-if="!reset && params.year">
+						<view class="u-column-item" v-for="(item, index) in years" :key="index">
+							{{ item }}
+							<text class="u-text" v-if="showTimeTag">年</text>
+						</view>
+					</picker-view-column>
+					<picker-view-column v-if="!reset && params.month">
+						<view class="u-column-item" v-for="(item, index) in months" :key="index">
+							{{ formatNumber(item) }}
+							<text class="u-text" v-if="showTimeTag">月</text>
+						</view>
+					</picker-view-column>
+					<picker-view-column v-if="!reset && params.day">
+						<view class="u-column-item" v-for="(item, index) in days" :key="index">
+							{{ formatNumber(item) }}
+							<text class="u-text" v-if="showTimeTag">日</text>
+						</view>
+					</picker-view-column>
+					<picker-view-column v-if="!reset && params.hour">
+						<view class="u-column-item" v-for="(item, index) in hours" :key="index">
+							{{ formatNumber(item) }}
+							<text class="u-text" v-if="showTimeTag">时</text>
+						</view>
+					</picker-view-column>
+					<picker-view-column v-if="!reset && params.minute">
+						<view class="u-column-item" v-for="(item, index) in minutes" :key="index">
+							{{ formatNumber(item) }}
+							<text class="u-text" v-if="showTimeTag">分</text>
+						</view>
+					</picker-view-column>
+					<picker-view-column v-if="!reset && params.second">
+						<view class="u-column-item" v-for="(item, index) in seconds" :key="index">
+							{{ formatNumber(item) }}
+							<text class="u-text" v-if="showTimeTag">秒</text>
+						</view>
+					</picker-view-column>
+				</picker-view>
+				<picker-view v-else-if="mode == 'selector'" :value="valueArr" @change="change" class="u-picker-view" @pickstart="pickstart" @pickend="pickend">
+					<picker-view-column v-if="!reset">
+						<view class="u-column-item" v-for="(item, index) in range" :key="index">
+							<view class="u-line-1">{{ getItemValue(item, 'selector') }}</view>
+						</view>
+					</picker-view-column>
+				</picker-view>
+				<picker-view v-else-if="mode == 'multiSelector'" :value="valueArr" @change="change" class="u-picker-view" @pickstart="pickstart" @pickend="pickend">
+					<picker-view-column v-if="!reset" v-for="(item, index) in range" :key="index">
+						<view class="u-column-item" v-for="(item1, index1) in item" :key="index1">
+							<view class="u-line-1">{{ getItemValue(item1, 'multiSelector') }}</view>
+						</view>
+					</picker-view-column>
+				</picker-view>
 			</view>
 		</view>
 	</u-popup>
 </template>
+
 <script>
-	/**
-	 * u-picker
-	 * @description 选择器
-	 * @property {Boolean}			show				是否显示picker弹窗（默认 false ）
-	 * @property {Boolean}			showToolbar			是否显示顶部的操作栏（默认 true ）
-	 * @property {String}			title				顶部标题
-	 * @property {Array}			columns				对象数组，设置每一列的数据
-	 * @property {Boolean}			loading				是否显示加载中状态（默认 false ）
-	 * @property {String | Number}	itemHeight			各列中，单个选项的高度（默认 44 ）
-	 * @property {String}			cancelText			取消按钮的文字（默认 '取消' ）
-	 * @property {String}			confirmText			确认按钮的文字（默认 '确定' ）
-	 * @property {String}			cancelColor			取消按钮的颜色（默认 '#909193' ）
-	 * @property {String}			confirmColor		确认按钮的颜色（默认 '#3c9cff' ）
-	 * @property {Array}			singleIndex			选择器只有一列时，默认选中项的索引，从0开始（默认 0 ）
-	 * @property {String | Number}	visibleItemCount	每列中可见选项的数量（默认 5 ）
-	 * @property {String}			keyName				选项对象中，需要展示的属性键名（默认 'text' ）
-	 * @property {Boolean}			closeOnClickOverlay	是否允许点击遮罩关闭选择器（默认 false ）
-	 * @property {Array}			defaultIndex		各列的默认索引
-	 * @event {Function} close		关闭选择器时触发
-	 * @event {Function} cancel		点击取消按钮触发
-	 * @event {Function} change		当选择值变化时触发
-	 * @event {Function} confirm	点击确定按钮，返回当前选择的值
-	 */
-	import props from './props.js';
-	export default {
-		name: 'u-picker',
-		mixins: [uni.$u.mpMixin, uni.$u.mixin, props],
-		data() {
-			return {
-				// 上一次选择的列索引
-				lastIndex: [],
-				// 索引值 ，对应picker-view的value
-				innerIndex: [],
-				// 各列的值
-				innerColumns: [],
-				// 上一次的变化列索引
-				columnIndex: 0,
+import provinces from '../../libs/util/province.js';
+import citys from '../../libs/util/city.js';
+import areas from '../../libs/util/area.js';
+
+/**
+ * picker picker弹出选择器
+ * @description 此选择器有两种弹出模式：一是时间模式，可以配置年，日，月，时，分，秒参数 二是地区模式，可以配置省，市，区参数
+ * @tutorial https://www.uviewui.com/components/picker.html
+ * @property {Object} params 需要显示的参数，见官网说明
+ * @property {String} mode 模式选择，region-地区类型，time-时间类型（默认time）
+ * @property {String Number} start-year 可选的开始年份，mode=time时有效（默认1950）
+ * @property {String Number} end-year 可选的结束年份，mode=time时有效（默认2050）
+ * @property {Boolean} safe-area-inset-bottom 是否开启底部安全区适配（默认false）
+ * @property {Boolean} show-time-tag 时间模式时，是否显示后面的年月日中文提示
+ * @property {String} cancel-color 取消按钮的颜色（默认#606266）
+ * @property {String} confirm-color 确认按钮的颜色（默认#2979ff）
+ * @property {String} default-time 默认选中的时间，mode=time时有效
+ * @property {String} confirm-text 确认按钮的文字
+ * @property {String} cancel-text 取消按钮的文字
+ * @property {String} default-region 默认选中的地区，中文形式，mode=region时有效
+ * @property {String} default-code 默认选中的地区，编号形式，mode=region时有效
+ * @property {Boolean} mask-close-able 是否允许通过点击遮罩关闭Picker（默认true）
+ * @property {String Number} z-index 弹出时的z-index值（默认1075）
+ * @property {Array} default-selector 数组形式，其中每一项表示选择了range对应项中的第几个
+ * @property {Array} range 自定义选择的数据，mode=selector或mode=multiSelector时有效
+ * @property {String} range-key 当range参数的元素为对象时，指定Object中的哪个key的值作为选择器显示内容
+ * @event {Function} confirm 点击确定按钮，返回当前选择的值
+ * @event {Function} cancel 点击取消按钮，返回当前选择的值
+ * @example <u-picker v-model="show" mode="time"></u-picker>
+ */
+export default {
+	name: 'u-picker',
+	props: {
+		// picker中需要显示的参数
+		params: {
+			type: Object,
+			default() {
+				return {
+					year: true,
+					month: true,
+					day: true,
+					hour: false,
+					minute: false,
+					second: false,
+					province: true,
+					city: true,
+					area: true,
+					timestamp: true,
+				};
 			}
 		},
-		watch: {
-			// 监听默认索引的变化，重新设置对应的值
-			defaultIndex: {
-				immediate: true,
-				handler(n) {
-					this.setIndexs(n, true)
-				}
-			},
-			// 监听columns参数的变化
-			columns: {
-				immediate: true,
-				handler(n) {
-					this.setColumns(n)
-				}
-			},
-		},
-		methods: {
-			// 获取item需要显示的文字，判别为对象还是文本
-			getItemText(item) {
-				if (uni.$u.test.object(item)) {
-					return item[this.keyName]
-					
-				} else {
-					return item
-				}
-			},
-			// 关闭选择器
-			closeHandler() {
-				if (this.closeOnClickOverlay) {
-					this.$emit('close')
-				}
-			},
-			// 点击工具栏的取消按钮
-			cancel() {
-				this.$emit('cancel')
-			},
-			// 点击工具栏的确定按钮
-			confirm() {
-				this.$emit('confirm', {
-					indexs: this.innerIndex,
-					value: this.innerColumns.map((item, index) => item[this.innerIndex[index]]),
-					values: this.innerColumns
-				})
-			},
-			// 选择器某一列的数据发生变化时触发
-			changeHandler(e) {
-				const {
-					value
-				} = e.detail
-				let index = 0,
-					columnIndex = 0
-				// 通过对比前后两次的列索引，得出当前变化的是哪一列
-				for (let i = 0; i < value.length; i++) {
-					let item = value[i]
-					if (item !== (this.lastIndex[i] || 0)) { // 把undefined转为合法假值0
-						// 设置columnIndex为当前变化列的索引
-						columnIndex = i
-						// index则为变化列中的变化项的索引
-						index = item
-						break // 终止循环，即使少一次循环，也是性能的提升
-					}
-				}
-				this.columnIndex = columnIndex
-				const values = this.innerColumns
-				// 将当前的各项变化索引，设置为"上一次"的索引变化值
-				this.setLastIndex(value)
-				this.setIndexs(value)
-				this.$emit('change', {
-					// #ifndef MP-WEIXIN
-					// 微信小程序不能传递this，会因为循环引用而报错
-					picker: this,
-					// #endif
-					value: this.innerColumns.map((item, index) => item[value[index]]),
-					index,
-					indexs: value,
-					// values为当前变化列的数组内容
-					values,
-					columnIndex
-				})
-			},
-			// 设置index索引，此方法可被外部调用设置
-			setIndexs(index, setLastIndex) {
-				this.innerIndex = uni.$u.deepClone(index)
-				if (setLastIndex) {
-					this.setLastIndex(index)
-				}
-			},
-			// 记录上一次的各列索引位置
-			setLastIndex(index) {
-				// 当能进入此方法，意味着当前设置的各列默认索引，即为“上一次”的选中值，需要记录，是因为changeHandler中
-				// 需要拿前后的变化值进行对比，得出当前发生改变的是哪一列
-				this.lastIndex = uni.$u.deepClone(index)
-			},
-			// 设置对应列选项的所有值
-			setColumnValues(columnIndex, values) {
-				// 替换innerColumns数组中columnIndex索引的值为values，使用的是数组的splice方法
-				this.innerColumns.splice(columnIndex, 1, values)
-				// 拷贝一份原有的innerIndex做临时变量，将大于当前变化列的所有的列的默认索引设置为0
-				let tmpIndex = uni.$u.deepClone(this.innerIndex)
-				for (let i = 0; i < this.innerColumns.length; i++) {
-					if (i > this.columnIndex) {
-						tmpIndex[i] = 0
-					}
-				}
-				// 一次性赋值，不能单个修改，否则无效
-				this.setIndexs(tmpIndex)
-			},
-			// 获取对应列的所有选项
-			getColumnValues(columnIndex) {
-				// 进行同步阻塞，因为外部得到change事件之后，可能需要执行setColumnValues更新列的值
-				// 索引如果在外部change的回调中调用getColumnValues的话，可能无法得到变更后的列值，这里进行一定延时，保证值的准确性
-				(async () => {
-					await uni.$u.sleep()
-				})()
-				return this.innerColumns[columnIndex]
-			},
-			// 设置整体各列的columns的值
-			setColumns(columns) {
-				this.innerColumns = uni.$u.deepClone(columns)
-				// 如果在设置各列数据时，没有被设置默认的各列索引defaultIndex，那么用0去填充它，数组长度为列的数量
-				if (this.innerIndex.length === 0) {
-					this.innerIndex = new Array(columns.length).fill(0)
-				}
-			},
-			// 获取各列选中值对应的索引
-			getIndexs() {
-				return this.innerIndex
-			},
-			// 获取各列选中的值
-			getValues() {
-				// 进行同步阻塞，因为外部得到change事件之后，可能需要执行setColumnValues更新列的值
-				// 索引如果在外部change的回调中调用getValues的话，可能无法得到变更后的列值，这里进行一定延时，保证值的准确性
-				(async () => {
-					await uni.$u.sleep()
-				})()
-				return this.innerColumns.map((item, index) => item[this.innerIndex[index]])
+		// 当mode=selector或者mode=multiSelector时，提供的数组
+		range: {
+			type: Array,
+			default() {
+				return [];
 			}
 		},
+		// 当mode=selector或者mode=multiSelector时，提供的默认选中的下标
+		defaultSelector: {
+			type: Array,
+			default() {
+				return [0];
+			}
+		},
+		// 当 range 是一个 Array＜Object＞ 时，通过 range-key 来指定 Object 中 key 的值作为选择器显示内容
+		rangeKey: {
+			type: String,
+			default: ''
+		},
+		// 模式选择，region-地区类型，time-时间类型，selector-单列模式，multiSelector-多列模式
+		mode: {
+			type: String,
+			default: 'time'
+		},
+		// 年份开始时间
+		startYear: {
+			type: [String, Number],
+			default: 1950
+		},
+		// 年份结束时间
+		endYear: {
+			type: [String, Number],
+			default: 2050
+		},
+		// "取消"按钮的颜色
+		cancelColor: {
+			type: String,
+			default: '#606266'
+		},
+		// "确定"按钮的颜色
+		confirmColor: {
+			type: String,
+			default: '#2979ff'
+		},
+		// 默认显示的时间，2025-07-02 || 2025-07-02 13:01:00 || 2025/07/02
+		defaultTime: {
+			type: String,
+			default: ''
+		},
+		// 默认显示的地区，可传类似["河北省", "秦皇岛市", "北戴河区"]
+		defaultRegion: {
+			type: Array,
+			default() {
+				return [];
+			}
+		},
+		// 时间模式时，是否显示后面的年月日中文提示
+		showTimeTag: {
+			type: Boolean,
+			default: true
+		},
+		// 默认显示地区的编码，defaultRegion和areaCode同时存在，areaCode优先，可传类似["13", "1303", "130304"]
+		areaCode: {
+			type: Array,
+			default() {
+				return [];
+			}
+		},
+		safeAreaInsetBottom: {
+			type: Boolean,
+			default: false
+		},
+		// 是否允许通过点击遮罩关闭Picker
+		maskCloseAble: {
+			type: Boolean,
+			default: true
+		},
+		// 通过双向绑定控制组件的弹出与收起
+		value: {
+			type: Boolean,
+			default: false
+		},
+		// 弹出的z-index值
+		zIndex: {
+			type: [String, Number],
+			default: 0
+		},
+		// 顶部标题
+		title: {
+			type: String,
+			default: ''
+		},
+		// 取消按钮的文字
+		cancelText: {
+			type: String,
+			default: '取消'
+		},
+		// 确认按钮的文字
+		confirmText: {
+			type: String,
+			default: '确认'
+		}
+	},
+	data() {
+		return {
+			years: [],
+			months: [],
+			days: [],
+			hours: [],
+			minutes: [],
+			seconds: [],
+			year: 0,
+			month: 0,
+			day: 0,
+			hour: 0,
+			minute: 0,
+			second: 0,
+			reset: false,
+			startDate: '',
+			endDate: '',
+			valueArr: [],
+			provinces: provinces,
+			citys: citys[0],
+			areas: areas[0][0],
+			province: 0,
+			city: 0,
+			area: 0,
+			moving: false // 列是否还在滑动中，微信小程序如果在滑动中就点确定，结果可能不准确
+		};
+	},
+	mounted() {
+		this.init();
+	},
+	computed: {
+		propsChange() {
+			// 引用这几个变量，是为了监听其变化
+			return `${this.mode}-${this.defaultTime}-${this.startYear}-${this.endYear}-${this.defaultRegion}-${this.areaCode}`;
+		},
+		regionChange() {
+			// 引用这几个变量，是为了监听其变化
+			return `${this.province}-${this.city}`;
+		},
+		yearAndMonth() {
+			return `${this.year}-${this.month}`;
+		},
+		uZIndex() {
+			// 如果用户有传递z-index值，优先使用
+			return this.zIndex ? this.zIndex : this.$u.zIndex.popup;
+		}
+	},
+	watch: {
+		propsChange() {
+			this.reset = true;
+			setTimeout(() => this.init(), 10);
+		},
+		// 如果地区发生变化，为了让picker联动起来，必须重置this.citys和this.areas
+		regionChange(val) {
+			this.citys = citys[this.province];
+			this.areas = areas[this.province][this.city];
+		},
+		// watch监听月份的变化，实时变更日的天数，因为不同月份，天数不一样
+		// 一个月可能有30，31天，甚至闰年2月的29天，平年2月28天
+		yearAndMonth(val) {
+			if (this.params.year) this.setDays();
+		},
+		// 微信和QQ小程序由于一些奇怪的原因(故同时对所有平台均初始化一遍)，需要重新初始化才能显示正确的值
+		value(n) {
+			if (n) {
+				this.reset = true;
+				setTimeout(() => this.init(), 10);
+			}
+		}
+	},
+	methods: {
+		// 标识滑动开始，只有微信小程序才有这样的事件
+		pickstart() {
+			// #ifdef MP-WEIXIN
+			this.moving = true;
+			// #endif
+		},
+		// 标识滑动结束
+		pickend() {
+			// #ifdef MP-WEIXIN
+			this.moving = false;
+			// #endif
+		},
+		// 对单列和多列形式的判断是否有传入变量的情况
+		getItemValue(item, mode) {
+			// 目前(2020-05-25)uni-app对微信小程序编译有错误，导致v-if为false中的内容也执行，错误导致
+			// 单列模式或者多列模式中的getItemValue同时被执行，故在这里再加一层判断
+			if (this.mode == mode) {
+				return typeof item == 'object' ? item[this.rangeKey] : item;
+			}
+		},
+		// 小于10前面补0，用于月份，日期，时分秒等
+		formatNumber(num) {
+			return +num < 10 ? '0' + num : String(num);
+		},
+		// 生成递进的数组
+		generateArray: function(start, end) {
+			// 转为数值格式，否则用户给end-year等传递字符串值时，下面的end+1会导致字符串拼接，而不是相加
+			start = Number(start);
+			end = Number(end);
+			end = end > start ? end : start;
+			// 生成数组，获取其中的索引，并剪出来
+			return [...Array(end + 1).keys()].slice(start);
+		},
+		getIndex: function(arr, val) {
+			let index = arr.indexOf(val);
+			// 如果index为-1(即找不到index值)，~(-1)=-(-1)-1=0，导致条件不成立
+			return ~index ? index : 0;
+		},
+		//日期时间处理
+		initTimeValue() {
+			// 格式化时间，在IE浏览器(uni不存在此情况)，无法识别日期间的"-"间隔符号
+			let fdate = this.defaultTime.replace(/\-/g, '/');
+			fdate = fdate && fdate.indexOf('/') == -1 ? `2020/01/01 ${fdate}` : fdate;
+			let time = null;
+			if (fdate) time = new Date(fdate);
+			else time = new Date();
+			// 获取年日月时分秒
+			this.year = time.getFullYear();
+			this.month = Number(time.getMonth()) + 1;
+			this.day = time.getDate();
+			this.hour = time.getHours();
+			this.minute = time.getMinutes();
+			this.second = time.getSeconds();
+		},
+		init() {
+			this.valueArr = [];
+			this.reset = false;
+			if (this.mode == 'time') {
+				this.initTimeValue();
+				if (this.params.year) {
+					this.valueArr.push(0);
+					this.setYears();
+				}
+				if (this.params.month) {
+					this.valueArr.push(0);
+					this.setMonths();
+				}
+				if (this.params.day) {
+					this.valueArr.push(0);
+					this.setDays();
+				}
+				if (this.params.hour) {
+					this.valueArr.push(0);
+					this.setHours();
+				}
+				if (this.params.minute) {
+					this.valueArr.push(0);
+					this.setMinutes();
+				}
+				if (this.params.second) {
+					this.valueArr.push(0);
+					this.setSeconds();
+				}
+			} else if (this.mode == 'region') {
+				if (this.params.province) {
+					this.valueArr.push(0);
+					this.setProvinces();
+				}
+				if (this.params.city) {
+					this.valueArr.push(0);
+					this.setCitys();
+				}
+				if (this.params.area) {
+					this.valueArr.push(0);
+					this.setAreas();
+				}
+			} else if (this.mode == 'selector') {
+				this.valueArr = this.defaultSelector;
+			} else if (this.mode == 'multiSelector') {
+				this.valueArr = this.defaultSelector;
+				this.multiSelectorValue = this.defaultSelector;
+			}
+			this.$forceUpdate();
+		},
+		// 设置picker的某一列值
+		setYears() {
+			// 获取年份集合
+			this.years = this.generateArray(this.startYear, this.endYear);
+			// 设置this.valueArr某一项的值，是为了让picker预选中某一个值
+			this.valueArr.splice(this.valueArr.length - 1, 1, this.getIndex(this.years, this.year));
+		},
+		setMonths() {
+			this.months = this.generateArray(1, 12);
+			this.valueArr.splice(this.valueArr.length - 1, 1, this.getIndex(this.months, this.month));
+		},
+		setDays() {
+			let totalDays = new Date(this.year, this.month, 0).getDate();
+			this.days = this.generateArray(1, totalDays);
+			let index = 0;
+			// 这里不能使用类似setMonths()中的this.valueArr.splice(this.valueArr.length - 1, xxx)做法
+			// 因为this.month和this.year变化时，会触发watch中的this.setDays()，导致this.valueArr.length计算有误
+			if (this.params.year && this.params.month) index = 2;
+			else if (this.params.month) index = 1;
+			else if (this.params.year) index = 1;
+			else index = 0;
+			// 当月份变化时，会导致日期的天数也会变化，如果原来选的天数大于变化后的天数，则重置为变化后的最大值
+			// 比如原来选中3月31日，调整为2月后，日期变为最大29，这时如果day值继续为31显然不合理，于是将其置为29(picker-column从1开始)
+			if(this.day > this.days.length) this.day = this.days.length;
+			this.valueArr.splice(index, 1, this.getIndex(this.days, this.day));
+		},
+		setHours() {
+			this.hours = this.generateArray(0, 23);
+			this.valueArr.splice(this.valueArr.length - 1, 1, this.getIndex(this.hours, this.hour));
+		},
+		setMinutes() {
+			this.minutes = this.generateArray(0, 59);
+			this.valueArr.splice(this.valueArr.length - 1, 1, this.getIndex(this.minutes, this.minute));
+		},
+		setSeconds() {
+			this.seconds = this.generateArray(0, 59);
+			this.valueArr.splice(this.valueArr.length - 1, 1, this.getIndex(this.seconds, this.second));
+		},
+		setProvinces() {
+			// 判断是否需要province参数
+			if (!this.params.province) return;
+			let tmp = '';
+			let useCode = false;
+			// 如果同时配置了defaultRegion和areaCode，优先使用areaCode参数
+			if (this.areaCode.length) {
+				tmp = this.areaCode[0];
+				useCode = true;
+			} else if (this.defaultRegion.length) tmp = this.defaultRegion[0];
+			else tmp = 0;
+			// 历遍省份数组匹配
+			provinces.map((v, k) => {
+				if (useCode ? v.value == tmp : v.label == tmp) {
+					tmp = k;
+				}
+			});
+			this.province = tmp;
+			this.provinces = provinces;
+			// 设置默认省份的值
+			this.valueArr.splice(0, 1, this.province);
+		},
+		setCitys() {
+			if (!this.params.city) return;
+			let tmp = '';
+			let useCode = false;
+			if (this.areaCode.length) {
+				tmp = this.areaCode[1];
+				useCode = true;
+			} else if (this.defaultRegion.length) tmp = this.defaultRegion[1];
+			else tmp = 0;
+			citys[this.province].map((v, k) => {
+				if (useCode ? v.value == tmp : v.label == tmp) {
+					tmp = k;
+				}
+			});
+			this.city = tmp;
+			this.citys = citys[this.province];
+			this.valueArr.splice(1, 1, this.city);
+		},
+		setAreas() {
+			if (!this.params.area) return;
+			let tmp = '';
+			let useCode = false;
+			if (this.areaCode.length) {
+				tmp = this.areaCode[2];
+				useCode = true;
+			} else if (this.defaultRegion.length) tmp = this.defaultRegion[2];
+			else tmp = 0;
+			areas[this.province][this.city].map((v, k) => {
+				if (useCode ? v.value == tmp : v.label == tmp) {
+					tmp = k;
+				}
+			});
+			this.area = tmp;
+			this.areas = areas[this.province][this.city];
+			this.valueArr.splice(2, 1, this.area);
+		},
+		close() {
+			this.$emit('input', false);
+		},
+		// 用户更改picker的列选项
+		change(e) {
+			this.valueArr = e.detail.value;
+			let i = 0;
+			if (this.mode == 'time') {
+				// 这里使用i++，是因为this.valueArr数组的长度是不确定长度的，它根据this.params的值来配置长度
+				// 进入if规则，i会加1，保证了能获取准确的值
+				if (this.params.year) this.year = this.years[this.valueArr[i++]];
+				if (this.params.month) this.month = this.months[this.valueArr[i++]];
+				if (this.params.day) this.day = this.days[this.valueArr[i++]];
+				if (this.params.hour) this.hour = this.hours[this.valueArr[i++]];
+				if (this.params.minute) this.minute = this.minutes[this.valueArr[i++]];
+				if (this.params.second) this.second = this.seconds[this.valueArr[i++]];
+			} else if (this.mode == 'region') {
+				if (this.params.province) this.province = this.valueArr[i++];
+				if (this.params.city) this.city = this.valueArr[i++];
+				if (this.params.area) this.area = this.valueArr[i++];
+			} else if (this.mode == 'multiSelector') {
+				let index = null;
+				// 对比前后两个数组，寻找变更的是哪一列，如果某一个元素不同，即可判定该列发生了变化
+				this.defaultSelector.map((val, idx) => {
+					if (val != e.detail.value[idx]) index = idx;
+				});
+				// 为了让用户对多列变化时，对动态设置其他列的变更
+				if (index != null) {
+					this.$emit('columnchange', {
+						column: index,
+						index: e.detail.value[index]
+					});
+				}
+			}
+		},
+		// 用户点击确定按钮
+		getResult(event = null) {
+			// #ifdef MP-WEIXIN
+			if (this.moving) return;
+			// #endif
+			let result = {};
+			// 只返回用户在this.params中配置了为true的字段
+			if (this.mode == 'time') {
+				if (this.params.year) result.year = this.formatNumber(this.year || 0);
+				if (this.params.month) result.month = this.formatNumber(this.month || 0);
+				if (this.params.day) result.day = this.formatNumber(this.day || 0);
+				if (this.params.hour) result.hour = this.formatNumber(this.hour || 0);
+				if (this.params.minute) result.minute = this.formatNumber(this.minute || 0);
+				if (this.params.second) result.second = this.formatNumber(this.second || 0);
+				if (this.params.timestamp) result.timestamp = this.getTimestamp();
+			} else if (this.mode == 'region') {
+				if (this.params.province) result.province = provinces[this.province];
+				if (this.params.city) result.city = citys[this.province][this.city];
+				if (this.params.area) result.area = areas[this.province][this.city][this.area];
+			} else if (this.mode == 'selector') {
+				result = this.valueArr;
+			} else if (this.mode == 'multiSelector') {
+				result = this.valueArr;
+			}
+			if (event) this.$emit(event, result);
+			this.close();
+		},
+		// 获取时间戳
+		getTimestamp() {
+			// yyyy-mm-dd为安卓写法，不支持iOS，需要使用"/"分隔，才能二者兼容
+			let time = this.year + '/' + this.month + '/' + this.day + ' ' + this.hour + ':' + this.minute + ':' + this.second;
+			return new Date(time).getTime() / 1000;
+		}
 	}
+};
 </script>
+
 <style lang="scss" scoped>
-	@import "../../libs/css/components.scss";
+@import '../../libs/css/style.components.scss';
 
-	.u-picker {
-		position: relative;
+.u-datetime-picker {
+	position: relative;
+	z-index: 999;
+}
 
-		&__view {
-			&__column {
-				@include flex;
-				flex: 1;
-				justify-content: center;
+.u-picker-view {
+	height: 100%;
+	box-sizing: border-box;
+}
 
-				&__item {
-					@include flex;
-					justify-content: center;
-					align-items: center;
-					font-size: 16px;
-					text-align: center;
-					/* #ifndef APP-NVUE */
-					display: block;
+.u-picker-header {
+	width: 100%;
+	height: 90rpx;
+	padding: 0 40rpx;
+	@include vue-flex;
+	justify-content: space-between;
+	align-items: center;
+	box-sizing: border-box;
+	font-size: 30rpx;
+	background: #fff;
+	position: relative;
+}
 
-					/* #endif */
-					&--disabled {
-						/* #ifndef APP-NVUE */
-						cursor: not-allowed;
-						/* #endif */
-						opacity: 0.35;
-					}
-				}
-			}
-		}
+.u-picker-header::after {
+	content: '';
+	position: absolute;
+	border-bottom: 1rpx solid #eaeef1;
+	-webkit-transform: scaleY(0.5);
+	transform: scaleY(0.5);
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
 
-		&--loading {
-			position: absolute;
-			top: 0;
-			right: 0;
-			left: 0;
-			bottom: 0;
-			@include flex;
-			justify-content: center;
-			align-items: center;
-			background-color: rgba(255, 255, 255, 0.87);
-			z-index: 1000;
-		}
-	}
+.u-picker__title {
+	color: $u-content-color;
+}
+
+.u-picker-body {
+	width: 100%;
+	height: 500rpx;
+	overflow: hidden;
+	background-color: #fff;
+}
+
+.u-column-item {
+	@include vue-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 32rpx;
+	color: $u-main-color;
+	padding: 0 8rpx;
+}
+
+.u-text {
+	font-size: 24rpx;
+	padding-left: 8rpx;
+}
+
+.u-btn-picker {
+	padding: 16rpx;
+	box-sizing: border-box;
+	text-align: center;
+	text-decoration: none;
+}
+
+.u-opacity {
+	opacity: 0.5;
+}
+
+.u-btn-picker--primary {
+	color: $u-type-primary;
+}
+
+.u-btn-picker--tips {
+	color: $u-tips-color;
+}
 </style>

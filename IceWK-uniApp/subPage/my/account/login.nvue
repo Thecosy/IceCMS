@@ -105,7 +105,6 @@
 						data: this.loginForm,
 						 method: 'get',
 						success: res => {
-							
 							if (res.data.code == 200) {
 								//拿到token 把token存起来
 								uni.setStorageSync('access-admin',JSON.stringify(res.data.data));
