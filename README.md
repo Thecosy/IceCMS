@@ -19,6 +19,8 @@
 
 基于 Spring Boot + Vue 前后端分离的内容管理系统
 
+官网: （[http://blog.snym.cn/](http://blog.snym.cn/)）
+
 ## QQ交流群
 
 为方便相互学习和交流，建了个QQ群，加群请备注来自IceCMS
@@ -27,7 +29,7 @@ QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC5
 
 该群是一个学习交流群，如果是程序相关问题，请直接提交issues
 
-IceCMS 安装使用手册：https://www.bookstack.cn/books/help
+IceCMS 安装使用手册：http://blog.snym.cn/read/icecms/date-2022.10.30.22.29.12
 
 ## 预览地址：
 
