@@ -17,7 +17,17 @@
 
 ## 简介
 
-本着『前后端分离，人不分离』的要领，开发了此基于 Spring Boot + Vue 前后端分离的内容管理系统
+基于 Spring Boot + Vue 前后端分离的内容管理系统
+
+## QQ交流群
+
+为方便相互学习和交流，建了个QQ群，加群请备注来自IceCMS
+
+QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC53r-Pc7Lrubwcm4q&authKey=AaNuGPfAWTSyaN6MR5yGYFQ0+4AKsZQq7kI0uRASo+v5ttyrc6xvh7gfNEMQ7UDR&noverify=0)）
+
+该群是一个学习交流群，如果是程序相关问题，请直接提交issues
+
+IceCMS 安装使用手册：https://www.bookstack.cn/books/help
 
 ## 预览地址：
 
@@ -104,7 +114,7 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 Docker部署方式(推荐,可用于快速上线或测试)
 
     # 未安装docker的请先安装docker，已经安装的跳过此步
-    yum -y install docker
+    yum install docker-ce -y
     #启动docker
     systemctl start docker
     # 配置国内源
