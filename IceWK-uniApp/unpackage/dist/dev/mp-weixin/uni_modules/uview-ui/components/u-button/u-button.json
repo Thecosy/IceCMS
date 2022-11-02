@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "u-loading-icon": "/uni_modules/uview-ui/components/u-loading-icon/u-loading-icon",
-    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon"
-  }
-}

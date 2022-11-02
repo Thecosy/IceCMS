@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "登录注册",
-  "navigationStyle": "custom",
-  "navigationBarTextStyle": "black",
-  "usingComponents": {
-    "u--input": "/uni_modules/uview-ui/components/u--input/u--input"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "u-status-bar": "/uni_modules/uview-ui/components/u-status-bar/u-status-bar",
-    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon"
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "我的",
-  "navigationStyle": "custom",
-  "navigationBarTextStyle": "black",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "u-button": "/uni_modules/uview-ui/components/u-button/u-button"
-  }
-}

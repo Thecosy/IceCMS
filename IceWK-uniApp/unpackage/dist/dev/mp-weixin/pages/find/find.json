@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "发现",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "n-navbar": "/nPro/navbar/navbar"
-  }
-}

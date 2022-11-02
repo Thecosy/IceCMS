@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "n-icon": "/nPro/icon/icon",
-    "n-badge": "/nPro/badge/badge"
-  }
-}

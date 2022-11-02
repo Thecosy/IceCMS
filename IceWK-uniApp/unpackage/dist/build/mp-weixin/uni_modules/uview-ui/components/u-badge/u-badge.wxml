@@ -1,1 +1,0 @@
-<block wx:if="{{show&&$root.m0}}"><text class="{{['u-badge','data-v-361197e0',isDot?'u-badge--dot':'u-badge--not-dot',inverted&&'u-badge--inverted',shape==='horn'&&'u-badge--horn','u-badge--'+type+(inverted?'--inverted':'')]}}" style="{{$root.s0}}">{{isDot?'':showValue}}</text></block>

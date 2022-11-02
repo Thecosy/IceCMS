@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "n-refresher": "/nPro/refresher/refresher",
-    "n-loader": "/nPro/loader/loader"
-  }
-}
