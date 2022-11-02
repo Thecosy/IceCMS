@@ -58,12 +58,9 @@ uniapp移动端：[http://m.snym.cn](http://m.snym.cn)
 
 
 ## uniapp移动端
-<div class = "half">
-<img src = "https://i0.hdslb.com/bfs/album/354a1caa29bfd8bc9571be67b18db13227bea80f.png"  width = “50%” align = left><img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934220-截屏2022-08-30-17.05.29.png"  width = “50%” align = right>
-</div>
-<div class = "half">
-<img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934226-截屏2022-08-30-17.05.45.png"  width = “50%” align = left><img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934233-截屏2022-08-30-17.06.42.png"  width = “50%” align = right>
-</div>
+<img src="https://i0.hdslb.com/bfs/album/354a1caa29bfd8bc9571be67b18db13227bea80f.png" width="280" height="405"><img src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934220-截屏2022-08-30-17.05.29.png" width="280" height="405">
+
+<img src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934226-截屏2022-08-30-17.05.45.png" width="280" height="405"><img src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934233-截屏2022-08-30-17.06.42.png" width="280" height="405">
 
 
 ## 
