@@ -176,12 +176,36 @@ Nodejs
 4.启动后台前端（后台地址http://localhost:9528/admin）
 
 打开命令行，输入以下命令
-在`IceWK-vue`目录下执行`npm install`安装依赖,执行`npm run serve`启动前后台页面
-此时，浏览器打开，输入网址http://localhost:9528/admin, 此时进入管理后台登录页面。
+
+```bash
+# 克隆项目
+git clone https://github.com/PanJiaChen/vue-admin-template.git
+
+# 进入项目目录
+cd IceWk-VUE
+
+# 安装依赖
+npm install
+
+# 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
+npm install --legacy-peer-deps --registry=https://registry.npm.taobao.org
+# 启动服务
+npm run dev
+```
+### 发布
+
+```bash
+# 构建测试环境
+npm run build:stage
+
+# 构建生产环境
+npm run build:prod
+```
 
 5.启动前端
 
-浏览器打开，输入网址http://localhost:9528, 此时进入前端页面。
+浏览器打开，访问 [http://localhost:9528](http://localhost:9528)
+, 此时进入前端页面。
 
 6.启动uniapp移动端
 
