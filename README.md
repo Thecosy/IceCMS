@@ -29,7 +29,7 @@ QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC5
 
 该群是一个学习交流群，如果是程序相关问题，请直接提交issues
 
-IceCMS 安装使用手册：http://blog.snym.cn/read/icecms/date-2022.10.30.22.29.12
+IceCMS 安装使用手册： （[http://blog.snym.cn/explore](http://blog.snym.cn/read/icecms/date-2022.10.30.22.29.12)）
 
 ## 预览地址：
 
@@ -50,7 +50,7 @@ uniapp移动端：[http://m.snym.cn](http://m.snym.cn)
 </div>
 
 
-## 
+
 ## 后台
 <div class = "half">
 <img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934180-截屏2022-08-30-18.49.21.png"  width = “50%” align = left><img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934191-截屏2022-08-30-18.54.51.png"  width = “50%” align = right>
@@ -148,7 +148,7 @@ Docker部署方式(推荐,可用于快速上线或测试)
     --link MySQL:db \
     thecosy/icecms:latest
 
-<strong>配置最小开发环境</strong>
+<strong>配置最小开发环境(开发而非部署)</strong>
 
 MySQL
 JDK1.8或以上
@@ -171,7 +171,9 @@ Nodejs
     mvn clean package
     java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
 
-4.启动后台前端
+### <strong>前端部署</strong>
+
+4.启动后台前端（后台地址http://localhost:9528/admin）
 
 打开命令行，输入以下命令
 在`IceWK-vue`目录下执行`npm install`安装依赖,执行`npm run serve`启动前后台页面
@@ -181,9 +183,13 @@ Nodejs
 
 浏览器打开，输入网址http://localhost:9528, 此时进入前端页面。
 
-6.启动uniapp
+6.启动uniapp移动端
 
-下载HBuilderX打开`IceWK-uniApp`目录,进行编译打包
+下载HBuilderX
+
+进入（[https://ext.dcloud.net.cn/plugin?id=9261](https://ext.dcloud.net.cn/plugin?id=9261)）uniapp移动端插件目录，点击导入，然后即可导入到本地。
+
+打开`IceWK-uniApp`目录,进行编译打包
 
 ## 注意事项
 
