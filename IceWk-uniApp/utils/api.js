@@ -1,4 +1,4 @@
-var http = "175.178.237.96:8181/";
+var http = "157.245.86.35:8181/";
 // var apisec = "秘钥";
 var API_URL = 'http://' + http ;
 
