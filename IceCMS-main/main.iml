@@ -120,7 +120,6 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.maven.shared:maven-common-artifact-filters:3.0.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.maven.shared:maven-artifact-transfer:0.10.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.maven.wagon:wagon-provider-api:2.4" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.commons:commons-lang3:3.10" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-io:commons-io:2.5" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.thoughtworks.qdox:qdox:2.0-M10" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.codehaus.plexus:plexus-java:1.0.5" level="project" />
@@ -154,16 +153,21 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.tencentcloudapi:tencentcloud-sdk-java-kms:3.1.213" level="project" />
     <orderEntry type="library" name="Maven: com.tencentcloudapi:tencentcloud-sdk-java-common:3.1.213" level="project" />
-    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp:logging-interceptor:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp:okhttp:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.12.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.6" level="project" />
     <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.3.1" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:javax.activation-api:1.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.67" level="project" />
     <orderEntry type="library" name="Maven: io.jsonwebtoken:jjwt:0.9.1" level="project" />
-    <orderEntry type="library" name="Maven: com.ttice:IcePay-ment:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="IcePay-ment" />
+    <orderEntry type="library" name="Maven: com.alipay.sdk:alipay-sdk-java:3.3.4.ALL" level="project" />
+    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.10" level="project" />
+    <orderEntry type="library" name="Maven: com.github.wechatpay-apiv3:wechatpay-apache-httpclient:0.3.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.httpcomponents:httpmime:4.5.13" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.6" level="project" />
+    <orderEntry type="library" name="Maven: com.github.wxpay:wxpay-sdk:0.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-json:2.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.3" level="project" />

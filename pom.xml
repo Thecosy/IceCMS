@@ -22,10 +22,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
-    <!--声明你有四个儿子 -->
+    <!--声明你儿子 -->
     <modules>
         <module>IceWk-ment</module>
         <module>IceCMS-main</module>
+        <module>IcePay-ment</module>
     </modules>
     <dependencies>
         <dependency>
