@@ -29,7 +29,7 @@ QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC5
 
 该群是一个学习交流群，如果是程序相关问题，请直接提交issues
 
-IceCMS 安装使用手册： （[http://blog.snym.cn/explore](http://blog.snym.cn/read/icecms/date-2022.10.30.22.29.12)）
+IceCMS 文档： （[http://blog.snym.cn/books/icecms](http://blog.snym.cn/books/icecms)）
 
 ## 预览地址：
 
