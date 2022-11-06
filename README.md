@@ -246,6 +246,7 @@ npm run build:prod
 感谢上面提到的每个开源项目
 
 
+
 ## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/FlechazoPh/QLDependency.svg)](https://starchart.cc/FlechazoPh/QLDependency)
+[![Stargazers over time](https://starchart.cc/Thecosy/IceCMS.svg)](https://starchart.cc/Thecosy/IceCMS)
