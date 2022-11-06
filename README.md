@@ -140,11 +140,13 @@ Docker部署方式(推荐,可用于快速上线或测试)
     1.运行Mysql容器
     docker run -d -p 0:3389 \
     --name MySQL \
+    --restart always \
     thecosy/icemysql:latest
 
     2.运行Spring容器
     docker run -d -p 8181:8181 \
     --name springboot-admin \
+    --restart always \
     --link MySQL:db \
     thecosy/icecms:latest
 
@@ -242,3 +244,8 @@ npm run build:prod
 感谢 [JetBrains](https://www.jetbrains.com/) 提供的非商业开源软件 License
 
 感谢上面提到的每个开源项目
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/FlechazoPh/QLDependency.svg)](https://starchart.cc/FlechazoPh/QLDependency)
