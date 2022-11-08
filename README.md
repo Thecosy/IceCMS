@@ -19,6 +19,8 @@
 
 基于 Spring Boot + Vue 前后端分离的内容管理系统
 
+本站UI来源于macwk但由于前者资金匮乏而倒闭。所以本项目想自建一个像macwk一样的内容管理站，供大家使用。
+
 官网: （[http://blog.snym.cn/](http://blog.snym.cn/)）
 
 ## QQ交流群
