@@ -346,6 +346,7 @@
 }
 
 .widget-search-box input {
+    border-color: rgb(6, 6, 6);
     outline: 0!important;
     width: 100%;
     padding: 15px 20px;

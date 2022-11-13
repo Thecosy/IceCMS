@@ -270,8 +270,8 @@ export default {
   margin-top: 20px;
 }
 .widget-search-box input {
-      outline: 0!important;
-
+  border-color: rgb(6, 6, 6);
+  outline: 0!important;
   width: 100%;
   padding: 15px 20px;
   border-radius: 10px;
