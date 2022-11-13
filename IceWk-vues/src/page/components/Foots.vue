@@ -391,4 +391,10 @@ font-weight: 900;
 .col-lg-2 ul {
     padding: 0;
 }
+@media screen and (max-width:991px){
+  .col-lg-1{display:none; }
+  .col-lg-2{display:none; }
+
+}
+
 </style>

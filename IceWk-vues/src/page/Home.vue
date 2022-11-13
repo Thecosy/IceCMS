@@ -8,7 +8,7 @@
           <div>
             <section class="layout-index pc-model">
               <!-- class="banner-index mb-6" -->
-               <div class="search-header bg-fixed text-center text-light backimg">
+               <!-- <div class="search-header bg-fixed text-center text-light backimg">
                           <div class="containers">
                             <div class="row">
                               <div class="col-md-8 col-md-offset-2">
@@ -38,12 +38,12 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
 
               <div class="outsection">
          
                  <!-- 首页轮播图 -->
-                 <!-- 
+                 
                 <el-carousel
                   indicator-position="outside"
                   class="index1 banner-index mb-6 Thecarousel"
@@ -191,11 +191,11 @@
                       </div>
                     </div>
                   </el-carousel-item>
-                </el-carousel>-->
+                </el-carousel>
               </div>
               <!-- class="container" -->
               <div class="container">
-                <div data-v-0a1f67c4="" class="index-special row mb-6">
+                <!-- <div data-v-0a1f67c4="" class="index-special row mb-6">
                   <div data-v-0a1f67c4="" class="col-3">
                     <a data-v-0a1f67c4="" class="">
                     <img style="border-radius: 8px;" src="../static/image/home/query.jpeg"></img>
@@ -217,8 +217,8 @@
                     </a>
                   </div>
                  
-                </div>
-                <!-- <div data-v-0a1f67c4="" class="index-special row mb-6">
+                </div> -->
+                <div data-v-0a1f67c4="" class="index-special row mb-6">
                   <div data-v-0a1f67c4="" class="col-3">
                     <a data-v-0a1f67c4="" class="">
                       <div
@@ -358,7 +358,7 @@
                       </div>
                     </a>
                   </div>
-                </div> -->
+                </div>
               </div>
               <div class="container mb-5">
                 <div class="d-flex app-content-header mb-6">

@@ -288,18 +288,18 @@
           <router-link
             target="_self"
             class="nav-link"
-            :class="message4"
-            data-v-1f33282a=""
-            to="/class"
-            >分类</router-link
-          >
-          <router-link
-            target="_self"
-            class="nav-link"
             :class="message5"
             data-v-1f33282a=""
             to="/planet"
             >星球</router-link
+          >
+          <router-link
+            target="_self"
+            class="nav-link"
+            :class="message4"
+            data-v-1f33282a=""
+            to="/class"
+            >分类</router-link
           >
         </div>
         <div

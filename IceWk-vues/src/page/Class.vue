@@ -107,7 +107,6 @@ export default ({
       getResourceClasslist().then(resp => {
         //获取分类
         this.classlist = resp.data
-
       })
     },
    },

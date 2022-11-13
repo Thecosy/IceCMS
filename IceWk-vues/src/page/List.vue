@@ -602,7 +602,7 @@ export default ({
 }
 .delayImg {
   height: 155px;
-  width: 260.5px;
+  width: 100%;
   border-radius: 8px 8px 0px 0px;
 }
 .app-content-main .app-content-bottom {
