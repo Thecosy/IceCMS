@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -161,7 +161,7 @@ import lombok.EqualsAndHashCode;
       @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
       // @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
       // 返回前端自动把Data类型转换为json类型
-      private LocalDateTime addTime;
+      private Date addTime;
 
       /**
      * 更新时间
@@ -169,21 +169,21 @@ import lombok.EqualsAndHashCode;
       @ApiModelProperty(value = "更新时间")
       @TableField(fill = FieldFill.INSERT_UPDATE)//更新注解::自动填充
       @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")//返回前端自动把Data类型转换为json类型
-      private LocalDateTime updateTime;
+      private Date updateTime;
 
       /**
      * 生成时间
      */
       @ApiModelProperty(value = "生成时间")
       @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-      private LocalDateTime createTime;
+      private Date createTime;
 
       /**
      * 最后评论时间
      */
       @ApiModelProperty(value = "最后评论时间")
       @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-      private LocalDateTime lastPost;
+      private Date lastPost;
 
       /**
      * 重要性
