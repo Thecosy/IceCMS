@@ -48,7 +48,7 @@ uniapp移动端：[http://m.snym.cn](http://m.snym.cn)
 <img src = "https://www.hualigs.cn/image/000720ae16c95.jpg"  width = “50%” align = left><img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934169-截屏2022-08-30-18.03.38.png"  width = “50%” align = right>
 </div>
 <div class = "half">
-<img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934140-截屏2022-08-30-18.03.15.png"  width = “50%” align = left><img src = "https://i0.hdslb.com/bfs/album/b5911d383a1d28048bbb9f64fc7027247d82fed0.png"  width = “50%” align = right>
+<img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934140-截屏2022-08-30-18.03.15.png"  width = “50%” align = left><img src = "https://i.imgtg.com/2022/11/18/tSJbi.png"  width = “50%” align = right>
 </div>
 
 
