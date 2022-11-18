@@ -26,7 +26,6 @@
     <modules>
         <module>IceWk-ment</module>
         <module>IceCMS-main</module>
-        <module>IcePay-ment</module>
     </modules>
     <dependencies>
         <dependency>
@@ -89,6 +88,7 @@
 
         <dependency>
             <groupId>org.projectlombok</groupId>
+            <version>1.18.24</version>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
