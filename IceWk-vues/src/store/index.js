@@ -20,6 +20,7 @@ const store = new Vuex.Store({
     glableCommentShow:"",
     glableSitTitle:"",
     glableSieLogo:"",
+    glableImageFormat:"",
     count:0,
     },
   },
@@ -40,6 +41,8 @@ const store = new Vuex.Store({
       state.glabledata.glableCommentShow = index.comment_show
       state.glabledata.glableSitTitle = index.sitTitle
       state.glabledata.glableSieLogo = index.sitLogo
+      state.glabledata.glableImageFormat = index.imageFormat
+
     }
     },
     // 定义了一个action，用于查询接口数据

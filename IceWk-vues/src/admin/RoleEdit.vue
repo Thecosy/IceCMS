@@ -262,6 +262,7 @@ export default {
 
 <style lang="scss" scoped>
 .app-container {
+  width: 100%;
   .roles-table {
     margin-top: 30px;
   }

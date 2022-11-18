@@ -1,11 +1,9 @@
 package com.ttice.icewkment.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
-import java.util.Date;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -32,5 +30,7 @@ public class Setting implements Serializable {
     private String sitTitle;
 
     private String sitLogo;
+
+    private boolean imageFormat;
 
 }

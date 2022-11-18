@@ -66,6 +66,21 @@ public class WebResourceController {
         return this.resourceService.VoList(page, limit);
     }
 
+    @ApiOperation(value = "根据分类ID获取全部资源列表(分页)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数",required = true),
+            @ApiImplicitParam(name = "limit",value = "总量",required = true),
+            @ApiImplicitParam(name = "class",value = "类别",required = true)
+    })
+    @GetMapping("/getResourceByClass/{page}/{limit}/{rclass}")
+    public ResourcePageVO getResourceByClass(
+            @PathVariable("page") Integer page,
+            @PathVariable("limit") Integer limit,
+            @PathVariable("rclass") Integer rclass
+    ) {
+        return this.resourceService.VoListByClass(page, limit, rclass);
+    }
+
     @ApiOperation(value = "获取所有资源数量")
     @GetMapping("/getAllResourceNumber")
     public Integer getAllResourceNumber() {

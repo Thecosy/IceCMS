@@ -100,6 +100,7 @@ export default {
 }
 .dashboard {
   &-container {
+    width: 100%;
     margin: 30px;
   }
   &-text {

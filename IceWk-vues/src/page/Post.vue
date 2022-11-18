@@ -81,7 +81,7 @@
                                                   src="../static/img/quote-icon.png" alt="">
                                           </div>
                                             <div class="article-content ">
-                                          <div id="sidelist" v-html="this.content"></div>
+                                          <div class="post-txt" id="sidelist" v-html="this.content"></div>
                                           </div>
                                     </div>
                                 </div>
@@ -204,6 +204,7 @@
                           </div>
                         <h3 class="heading-tertiary">推荐文章</h3>
                         <div v-for="item in newArticle" :key="item.id" class="recent-post-card">
+                          <a href="">
                             <div>
                             <img class="card-thumb bg-cover" :src="item.thumb"  />
                             </div>
@@ -213,11 +214,10 @@
                                 <span  v-if="item.createTime != null"  class="meta-item"> {{formatDate(item.createTime)}} </span>
                                   <span  v-else  class="meta-item"> {{formatDate(item.addTime)}} </span>
                                 <span class="meta-item"><i class="el-icon-chat-line-square"></i>{{item.hits}} </span>
-                                </div><a href="">
-                                    <h3 class="heading-secondary">{{item.title}}</h3>
-                                 
-                                </a>
+                                </div>
+                                    <h3 class="heading-secondary">{{item.title}}</h3>                      
                             </div>
+                          </a>
                         </div>
                        <!-- Widget category -->
                         <div class="widget-categories">
@@ -675,7 +675,7 @@ export default {
         }
         this.$notify({
           title: "点赞成功👍",
-          message: "您的赞我们已经收到🫡",
+          message: "您的赞我们已经收到",
           type: "success",
           offset: 50,
         });
@@ -684,7 +684,7 @@ export default {
       } else {
         this.$notify({
           title: "取消点赞",
-          message: "是什么让您不喜欢了吗，我道歉",
+          message: "已取消点赞",
           type: "success",
           offset: 50,
         });
@@ -788,6 +788,13 @@ export default {
   </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.post-txt {
+    font-size: 19px;
+    font-weight: 440;
+    color: #27222b;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
 .chat-container {
   z-index: 20 !important;
   border-radius: 10px !important;
@@ -890,7 +897,7 @@ export default {
     justify-content: center;
     align-items: center;}
 #sidelist {
-  width: 700px;
+  width: 739px;
   overflow: auto;
   padding: 20px;
   line-height: 1.5;
@@ -1378,6 +1385,10 @@ p {
   background-image: url("../static/img/sidebar-add-banner.png");
 }
 .mar-top{
-margin-top:8px;
+margin-top:20px;
+}
+@media screen and (max-width:991px){
+  .col-lg-3{display:none; }
+ .catalogleft{display:none; }
 }
 </style>

@@ -275,7 +275,7 @@
             :class="message2"
             data-v-1f33282a=""
             to="/list"
-            >商品</router-link
+            >资源</router-link
           >
           <router-link
             target="_self"

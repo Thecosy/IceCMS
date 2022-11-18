@@ -338,6 +338,8 @@ export default {
 
     async fetchData(id) {
       getArticleById(id).then(response => {
+        console.log(response)
+
         this.postForm = response.data
         //根据classId查询对应的名称
         getClassNameById(response.data.sortClass).then(response => {

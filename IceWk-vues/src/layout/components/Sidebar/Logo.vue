@@ -30,7 +30,7 @@ export default {
   data () {
     return {
       title: '冰激凌CMS',
-      logo: 'https://self-1305088812.cos.ap-nanjing.myqcloud.com/2021/logo.svg'
+      logo: 'https://i.imgtg.com/2022/11/16/tpaRa.png'
     }
   }
 }

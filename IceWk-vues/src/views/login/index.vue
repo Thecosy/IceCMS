@@ -57,7 +57,7 @@
           leave-active-class="animate__zoomOut" appear>
           <!-- 登录注册按钮 -->
           <div v-show="isShow" class="btnArea">
-            <el-button type="success" round style="background-color: #257B5E;letter-spacing: 5px" @click="UserLogin">登录
+            <el-button type="primary" round style="background-color: rgb(52 143 210);letter-spacing: 5px" @click="UserLogin">登录
             </el-button>
           </div>
         </transition>
@@ -127,7 +127,7 @@
           leave-active-class="animate__zoomOut" appear>
           <!--            注册按钮-->
           <div v-show="!isShow" class="registBtn">
-            <el-button type="success" round style="background-color: #257B5E;letter-spacing: 5px" @click="userRegister">
+            <el-button type="primary" round style="background-color: rgb(52 143 210);letter-spacing: 5px" @click="userRegister">
               注册</el-button>
           </div>
         </transition>
@@ -152,7 +152,7 @@
             </div>
             <!-- 欢迎图片 -->
             <div style="flex: 2">
-              <el-button type="success" style="background-color:#257B5E;border: 1px solid #ffffff;" round
+              <el-button type="success" style="background-color: rgb(52 143 210);border: 1px solid #ffffff;" round
                 @click="changeToRegiest">还没有账户？点击注册</el-button>
             </div>
           </div>
@@ -172,7 +172,7 @@
             </div>
             <!-- 欢迎图片 -->
             <div style="flex: 2">
-              <el-button type="success" style="background-color:#257B5E;border: 1px solid #ffffff;" round
+              <el-button type="success" style="background-color: rgb(52 143 210);border: 1px solid #ffffff;" round
                 @click="changeToLogin">已有账户？点击登录</el-button>
             </div>
           </div>

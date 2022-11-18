@@ -25,7 +25,7 @@
 }
 
 .heading-secondary {
-    font-size: 30px;
+    font-size: 20px;
     line-height: 39px;
     font-family: "Advent Pro", sans-serif;
     color: #222
@@ -171,6 +171,7 @@
 }
 
 .widget-category .cat-title {
+    width: 149px;
     font-size: 20px;
     font-weight: 600;
     color: #222;
@@ -295,7 +296,7 @@
 }
 
 .meta-item {
-    margin-right: 25px;
+    margin-right: 18px;
     position: relative;
     font-size: 14px
 }
@@ -329,7 +330,7 @@
 }
 
 .recent-post-card .card-content {
-    margin-top: 20px
+    margin-top: 0px
 }
 
 .recent-post-card .card-content h3 {
@@ -408,6 +409,7 @@
 }
 
 .post-quote {
+    margin-top: 42px;
     padding: 60px;
     background-color: white;
     -webkit-box-shadow: 0 10px 30px rgba(61, 91, 125, 0.15);
@@ -542,7 +544,7 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 4px;
 }
 .nav-button-right {
     font-size: 24px;
@@ -559,7 +561,7 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 4px;
 }
 
 .nav-button-left span {
@@ -601,7 +603,7 @@
 }
 
 .heading-secondary {
-    font-size: 30px;
+    font-size: 20px;
     line-height: 39px;
     font-family: "Advent Pro", sans-serif;
     color: #222
@@ -666,7 +668,7 @@
 }
 
 .heading-secondary {
-    font-size: 30px;
+    font-size: 20px;
     line-height: 39px;
     font-family: "Advent Pro", sans-serif;
     color: #222;

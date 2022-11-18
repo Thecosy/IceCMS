@@ -392,10 +392,11 @@
                     >
                       <div class="mw-row">
                         <div
-                          v-for="item in rlist"
+                          v-for="item,index in rlist"
                           :key="item.id"
                           class="mw-col list-animation-leftIn delay-3"
                         >
+                        <div v-if="!glabledata.glableImageFormat">
                           <div v-if="item.status.includes('published')">
                             <router-link
                            
@@ -465,6 +466,53 @@
                                </a>
                             </router-link>
                           </div>
+                        </div>
+                          <div v-else>
+                             <div  @mouseover="dowmloadover(index)" 
+                   @mouseleave="downloadleave(index)" v-if="item.status.includes('published')">
+                            <router-link
+                              :target="istarget"
+                              :to="'/list/' + item.id"
+                            >
+                              <a class="macwk-app border white cursor-pointer padding-xl">
+                              
+  <div data-v-2661c954="" class="soft-card" >
+   <div data-v-2661c954="" class="li-card-img-div">
+    <img data-v-2661c954="" :src="item.thumb" class="budongImg img72 dingweiImg" /> 
+    <transition name="fade">
+      <img data-v-2661c954="" v-if="isAcitive === index" :src="item.thumb" class="gaosiImg img72 dingweiImg" v-on:mouseenter="dataDetails($parent.$index)" v-on:mouseleave="hiddenDetail($parent.$index)" />
+  </transition>
+   </div> 
+   <div data-v-2661c954="" class="size-12 text-B6BABF margin-top-90" style="min-height: 20px;">
+    <span data-v-2661c954="">{{item.subhead}}</span>
+   </div> 
+   <div data-v-2661c954="" class="margin-top size-18 text-bold  text-block card-hover-red">
+    <span data-v-2661c954="">{{item.title}} </span>
+   </div> 
+   <div data-v-2661c954="" class="margin-top1 size-14 text-B6BABF limitText">
+    <span data-v-2661c954="">{{item.intro}}</span>
+   </div> 
+   <div data-v-2661c954="" class="margin-top2 text-B6BABF flex-row size-12" style=" bottom: 20px; width: 100%;">
+    <div data-v-2661c954="">
+     <i data-v-2661c954="" class="el-icon-view"></i> 
+     <span data-v-2661c954="" >34.5k</span>
+    </div> 
+    <div data-v-2661c954="" style="margin-left: 6px;" class="margin-left">
+     <i data-v-2661c954="" class="el-icon-download"></i> 
+     <span data-v-2661c954="" >1500</span>
+    </div> 
+    <div data-v-2661c954="" style="position: absolute; right: 35px;">
+      <span v-if="item.createTime != null"  > {{formatDate(item.createTime)}}</span>
+                                        <span v-else  > {{formatDate(item.addTime)}}</span>
+    </div>
+   </div>
+  </div> 
+
+                            </a>
+                              
+                            </router-link>
+                          </div>
+                        </div>
                         </div>
                       </div>
                     </div>
@@ -732,9 +780,13 @@ import { getCarousel } from "@/api/websetting";
 import top from "./components/Top.vue";
 import foot from "./components/Foots.vue";
 
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: "Home",
   components: { top, foot },
+  computed: {
+    ...mapState(['playlist', 'glabledata', 'count'])
+  },
   data() {
     return {
       rlist: "",
@@ -807,7 +859,7 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      getNewResource(6).then((resp) => {
+      getNewResource(10).then((resp) => {
         this.rlist = resp.data;
       });
       getNewArticle(6).then((resp) => {
@@ -832,7 +884,7 @@ export default {
 }
 .delayImgss {
   height: 128px;
-  width: 216px;
+  width: 100%;
   border-radius: 8px;
 }
 </style>
@@ -1106,7 +1158,7 @@ font-size: 15px;
     align-items: center;
 }
 .meta-item {
-    margin-right: 25px;
+    margin-right: 18px;
     position: relative;
     font-size: 14px;
 }
@@ -1159,5 +1211,60 @@ color: #222;
 }
 .macwk-app__body {
   padding: 13px 9px 5px;
+}
+</style>
+<style  scoped>
+.gaosiImg{filter:blur(20px) opacity(70%) brightness(110%);  transition:.3s;
+;z-index:8}
+.dingweiImg,.recommendDingweiImg{position:absolute;top:15px!important;left:20px!important}  
+.img72, .imgQueXing3 {
+    width: 72px;
+    height: 72px;
+}
+.margin-top-90 {
+    margin-top: 90px;
+}
+.text-block {
+    color: #3c4248;
+}
+.text-bold {
+    font-weight: 700;
+}
+.size-18 {
+    font-size: 18px;
+}
+.margin-top {
+    margin-top: 10px;
+}
+
+.cursor {
+    cursor: pointer;
+}
+.padding-xl {
+    padding: 20px;
+}
+.text-B6BABF {
+    color: #b6babf;
+}
+.size-14 {
+    font-size: 14px;
+}
+.margin-top {
+    margin-top: 10px;
+}
+.limitText {
+    max-width: 180px;
+    height: 20px;
+    overflow: hidden;
+}
+.flex-row {
+    display: flex;
+    flex-direction: row!important;
+}
+.size-12 {
+    font-size: 12px;
+}
+.margin-top2{
+    margin-top: 20px;
 }
 </style>

@@ -7,6 +7,13 @@ export function getAllResource(query) {
   })
 }
 
+export function PageGetResourceByClass(query) {
+  return request({
+    url: 'WebResource/getResourceByClass/' + query.page + '/' + query.limit+ '/' + query.class,
+    method: 'get'
+  })
+}
+
 export function getAllResourceNumber() {
   return request({
     url: 'WebResource/getAllResourceNumber',

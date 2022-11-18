@@ -326,11 +326,25 @@
                           <h3 class="fs-24 fw-600 mb-0">热门文章</h3>
                         </div><!-- Cat item -->
                              <div  v-for="item in newArticle" :key="item.id" class="widget-category">
-                                
-                                    <img class="cat-thumb bg-cover" :src="item.thumb" />
-                                <div class="cat-content"><a href="#">
+                                    <img  v-if="item.thumb != null" class="cat-thumb bg-cover" :src="item.thumb" />
+                                    <div
+                                  v-else
+                                  class="cat-thumb bg-cover"
+                                  :style="getStyles()"
+                                >
+                                  <h3
+                                    class="
+                                      flex
+                                      text-center text-white
+                                      opacity-50
+                                    "
+                                  >
+                                    NOPIC
+                                  </h3>
+                                </div>
+                                <div class="cat-content">
                                         <h4 class="cat-title">{{item.title}}</h4>
-                                    </a>
+                                   
                                     <div class="cat-meta">
                                              <span  v-if="item.createTime != null"  class="post-date meta-item"> {{formatDate(item.createTime)}} </span>
                                   <span  v-else  class="post-date meta-item"> {{formatDate(item.addTime)}} </span>

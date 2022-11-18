@@ -4,7 +4,6 @@ package com.ttice.icewkment.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ttice.icewkment.Util.MathUtils;
 import com.ttice.icewkment.commin.vo.ResourcePageVO;
-import com.ttice.icewkment.entity.ArticleComment;
 import com.ttice.icewkment.entity.Resource;
 import com.ttice.icewkment.entity.ResourceClass;
 import com.ttice.icewkment.entity.ResourceComment;

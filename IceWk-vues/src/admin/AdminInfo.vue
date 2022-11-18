@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div style="width: 100%; margin-top: 30px" class="body">
+    <div style="width: 100%;" class="body">
       <div class="actionintext"><h4>站内通知</h4></div>
 
       <el-empty description="描述文字"></el-empty>

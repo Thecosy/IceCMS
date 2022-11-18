@@ -22,23 +22,43 @@
           <el-input v-model="postList.banquan" placeholder="请输入内容"></el-input>
           <h4>备案号</h4>
           <el-input v-model="postList.beian" placeholder="请输入内容"></el-input>
-          <h4>禁用评论</h4>
+         
+         
+        </div>
+       
+      </el-tab-pane>
+
+      <el-tab-pane label="文章设置">
+        <h4>禁用评论</h4>
           <el-switch
             v-model="postList.comment_show"
             active-color="#13ce66"
             inactive-color="#ff4949"
           >
           </el-switch>
-        </div>
-        <el-row class="sitpagesitmap">
+      </el-tab-pane>
+      <el-tab-pane label="资源设置">
+        <h4>禁用评论</h4>
+          <el-switch
+            v-model="postList.comment_show"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+          >
+          </el-switch>
+        <h4>图片预览格式</h4>
+          <el-switch
+            v-model="postList.imageFormat"
+            active-color="#13ce66"
+            inactive-color="#FFEB9C"
+            active-text="资源模式"
+            inactive-text="主图模式"
+          >
+          </el-switch>
+      </el-tab-pane>
+      <el-row class="sitpagesitmap">
           <el-button type="danger" round>取消</el-button>
           <el-button type="primary" @click="sitmap()" round>保存</el-button>
         </el-row>
-      </el-tab-pane>
-
-      <el-tab-pane label="资源配置">配置管理</el-tab-pane>
-      <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-      <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -69,11 +89,13 @@ export default {
     },
     fulldata(){
      getSetting().then(resp => {   
+      console.log(resp.data)
       this.postList.sitTitle = resp.data.sitTitle
       this.postList.sitLogo = resp.data.sitLogo
       this.postList.banquan = resp.data.banquan
       this.postList.beian = resp.data.beian
       this.postList.comment_show = resp.data.comment_show
+      this.postList.imageFormat = resp.data.imageFormat
     })
     
     },
@@ -96,6 +118,7 @@ export default {
         banquan: "",
         beian: "",
         comment_show: true,
+        imageFormat: true,
       }
 
     };

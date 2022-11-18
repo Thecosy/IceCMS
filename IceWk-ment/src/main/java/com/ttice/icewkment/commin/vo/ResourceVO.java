@@ -2,7 +2,6 @@ package com.ttice.icewkment.commin.vo;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -12,8 +11,8 @@ import java.util.Date;
 @Data
 public class ResourceVO {
     private Integer id;
-    private LocalDateTime addTime;
-    private LocalDateTime createTime;
+    private Date addTime;
+    private Date createTime;
     private String author;
     private String authorThumb;
     private String title;
@@ -24,4 +23,6 @@ public class ResourceVO {
     private String thumb;
     private String sortClass;
     private String profile;
+    private Integer hits;
+    private String subhead;
 }

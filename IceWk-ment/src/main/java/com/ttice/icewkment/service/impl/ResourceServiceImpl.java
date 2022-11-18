@@ -2,7 +2,7 @@ package com.ttice.icewkment.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ttice.icewkment.commin.vo.ArticleVO;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ttice.icewkment.commin.vo.ResourcePageVO;
 import com.ttice.icewkment.commin.vo.ResourceVO;
 import com.ttice.icewkment.entity.Resource;
@@ -10,7 +10,6 @@ import com.ttice.icewkment.entity.User;
 import com.ttice.icewkment.mapper.ResourceMapper;
 import com.ttice.icewkment.mapper.UserMapper;
 import com.ttice.icewkment.service.ResourceService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +44,42 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
         QueryWrapper<Resource> wrapper= new QueryWrapper<Resource>();
         wrapper.orderByDesc("id");
+
+        Page<Resource> resultPage = this.resourceMapper.selectPage(resourcePage, wrapper);
+
+        List<Resource> resources = resultPage.getRecords();
+
+        for (Resource resource : resources) {
+            String author = resource.getAuthor();
+            QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+            userQueryWrapper.eq("USERNAME",author);
+            User user = userMapper.selectOne(userQueryWrapper);
+            String profile = user.getProfile();
+            resourceVO = new ResourceVO();
+            resourceVO.setAuthorThumb(profile);
+            BeanUtils.copyProperties(resource,resourceVO);
+            result.add(resourceVO);
+        }
+        ResourcePageVO resourcePageVO = new ResourcePageVO();
+        resourcePageVO.setData(result);
+        resourcePageVO.setTotal(resultPage.getTotal());
+        return resourcePageVO;
+    }
+
+    @Override
+    public ResourcePageVO VoListByClass(Integer page, Integer limit, Integer rclass) {
+        List<ResourceVO> result = new ArrayList<>();
+
+        ResourceVO resourceVO = null;
+
+        Page<Resource> resourcePage = new Page<>(page,limit);
+
+
+        QueryWrapper<Resource> wrapper = new QueryWrapper<Resource>();
+        wrapper.orderByDesc("id");
+        if (rclass != 0) {
+            wrapper.eq("sort_class", rclass);
+        }
 
         Page<Resource> resultPage = this.resourceMapper.selectPage(resourcePage, wrapper);
 

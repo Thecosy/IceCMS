@@ -245,7 +245,8 @@
                         </el-carousel>
                       </div>
                       <div v-else class="device-frame">
-                        <el-carousel height="350px">
+                        <el-carousel style="    border-radius: 21px;
+" height="350px">
                           <el-carousel-item
                             v-for="item in carousel"
                             :key="item"
@@ -310,6 +311,7 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{this.intro}}</p>
                             "
                           >
                             <img
+                          
                               class="dianzan"
                               src="../static/image/dianzan.svg"
                             />
@@ -675,26 +677,25 @@ PageMaker including versions of Lorem Ipsum.</p>
                                
                                 <div class="post-content">
                                     <div>
-                                          <h3 class="heading-secondary">商品简介</h3>
-                                        <div id="sidelist" v-html="this.content"></div>
+                                          <h3 class="heading-secondary mar-left">简介</h3>
+                                        <div class="post-txt mar-left" id="sidelist" v-html="this.content"></div>
                                             
                                     </div>
                                 </div>
                             </div>
                         </div><!-- Tags -->
                         <div class="tags">
-                            <h3 class="heading-secondary">标签</h3>
-                            <div class="categories-tags"><a href="">kitchen </a><a href="">garden </a><a href="">cars
+                            <h3 class="heading-secondary mar-left">标签</h3>
+                            <div class="categories-tags mar-left"><a href="">kitchen </a><a href="">garden </a><a href="">cars
                                 </a></div>
                         </div><!-- Author card -->
                         <div class="author-card">
                             <div >
-                                <img class="card-img bg-cover" src="../static/img/author-card-img.png" />
+                                <img class="card-img bg-cover" src="../static/img/ice-gave.png" />
                                 </div>
                             <div class="card-text">
-                                <h3 class="heading-secondary">Nimra Skinner</h3>
-                                <p class="body-text">Web developer since 2006. Create hundreds of websites,HTML
-                                    and CSS3 expert,who started to learn web design on a world-class level. </p>
+                                <h3 class="heading-secondary">提 示</h3>
+                                <p class="body-text">如有下载链接失效或者资源求档，请发送邮件到：snym@snym.cn，客服QQ：23339097。我们收到消息后会尽快回应消息。使用百度网盘下载，请关闭V*P*N，否则会跳转出错。<a href="https://macoshome.com/course/7692.html">点我查看</a>部分地区蓝奏云下载链接无法访问问题解决。  </p>
                             </div>
                         </div><!-- Post navigation -->
                         <div class="post-navigation">
@@ -801,31 +802,33 @@ PageMaker including versions of Lorem Ipsum.</p>
                         <!-- Widget search box -->
                         <div class="widget-search-box"><input type="text" placeholder="输入内容"><button
                                 class="search-btn"><i class="fas el-icon-search"></i></button></div>
-                        <h3 class="heading-tertiary">最近商品</h3>
+                        <h3 class="heading-tertiary">最新发布</h3>
                         <div class="recent-post-card">
+                          <a href="">
                             <div>
                             <img class="card-thumb bg-cover" src="../static/img/thumb1.png"  />
                             </div>
                             <div class="card-content">
                                 <div class="post-meta"><span class="meta-item">Design </span><span class="meta-item">Feb
                                         06,2022 </span><span class="meta-item"><i class="fal fa-comment"></i>13 </span>
-                                </div><a href="">
+                                </div>
                                     <h3 class="heading-secondary">Animated Cartoon Is The New Future Of Entertainment
                                     </h3>
-                                </a>
                             </div>
+                          </a>
                         </div>
                         <div class="recent-post-card">
+                          <a href="">
                             <div >
                               <img class="card-thumb bg-cover" src="../static/img/thumb2.png"  />
                            </div>
                             <div class="card-content">
                                 <div class="post-meta"><span class="meta-item">Food </span><span class="meta-item">Feb
                                         06,2022 </span><span class="meta-item"><i class="el-icon-chat-line-square"></i>13 </span>
-                                </div><a href="">
+                                </div>
                                     <h3 class="heading-secondary">The Beautiful French Village Of Saint-Emilion</h3>
-                                </a>
                             </div>
+                          </a>
                         </div><!-- Widget category -->
                         <div class="widget-categories">
                             <h3 class="heading-tertiary">标签云</h3>
@@ -1119,7 +1122,7 @@ export default {
         }
         this.$notify({
           title: '点赞成功👍',
-          message: '您的赞我们已经收到🫡',
+          message: '您的赞我们已经收到',
           type: 'success',
           offset: 50
         });
@@ -1129,7 +1132,7 @@ export default {
       else {
         this.$notify({
           title: '取消点赞',
-          message: '是什么让您不喜欢了吗，我道歉',
+          message: '已取消点赞',
           type: 'success',
           offset: 50
         });
@@ -1432,6 +1435,16 @@ export default {
 <style scoped src="../static/mycss/blog.css"></style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.mar-left {
+  margin-left: 15px;
+}
+.post-txt {
+    font-size: 15px;
+    font-weight: 440;
+    color: #27222b;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
 .chat-container {
   z-index: 20 !important;
   border-radius: 10px !important;
@@ -1595,12 +1608,17 @@ export default {
   weight: 25px;
   height: 25px;
 }
+.btn-outline-theme:hover .dianzan{
+  weight: 25px;
+  height: 25px;
+  position: relative;
+    left: -80px;
+    filter: drop-shadow(#fff 80px 0);
+}
 .soft-layouts {
       margin: 0 auto;
     overflow: hidden;
         width: 1170px;
-
-
 }
 .el-carousel__item[data-v-3aa17da5]:nth-child(2n + 1) {
     background-color: #d3dce6;
@@ -1716,6 +1734,23 @@ margin-bottom: 31px;
     line-height: 10px;
     letter-spacing: 0.0015em;
     color: #50A0FF;
+}
+@media screen and (max-width:991px){
+  .col-lg-3{display:none; }
+  .post-content {
+  width: 617px;
+    /* overflow: auto; */
+    /* padding: 20px; */
+    line-height: 1.5;
+    margin-right: 50px;
+}
+}
+.post-content {
+  width: 817px;
+    /* overflow: auto; */
+    /* padding: 20px; */
+    line-height: 1.5;
+    margin-right: 50px;
 }
 </style>
 
