@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/「数据库名称」?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/icecms?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC
     username: root
-    password: 「密码」
+    password: Fuck258!
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis-plus:
   #  mybatis-plus??sql??
