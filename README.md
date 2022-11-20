@@ -45,10 +45,10 @@ uniapp移动端：[http://m.snym.cn](http://m.snym.cn)
 
 ## h5端
 <div class = "half">
-<img src = "https://s1.ax1x.com/2022/11/18/znivp4.png"  width = “50%” align = left><img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934169-截屏2022-08-30-18.03.38.png"  width = “50%” align = right>
+<img src = "https://s1.ax1x.com/2022/11/18/znivp4.png"  width = “50%” align = left><img src = "https://s1.ax1x.com/2022/11/20/zMS7O1.png"  width = “50%” align = right>
 </div>
 <div class = "half">
-<img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934140-截屏2022-08-30-18.03.15.png"  width = “50%” align = left><img src = "https://s1.ax1x.com/2022/11/18/znir6A.png"  width = “50%” align = right>
+<img src = "https://s1.ax1x.com/2022/11/20/zMSqw6.png"  width = “50%” align = left><img src = "https://s1.ax1x.com/2022/11/18/znir6A.png"  width = “50%” align = right>
 </div>
 
 
