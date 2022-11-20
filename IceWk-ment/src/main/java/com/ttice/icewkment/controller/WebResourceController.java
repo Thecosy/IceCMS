@@ -11,7 +11,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -70,15 +73,17 @@ public class WebResourceController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page",value = "页数",required = true),
             @ApiImplicitParam(name = "limit",value = "总量",required = true),
-            @ApiImplicitParam(name = "class",value = "类别",required = true)
+            @ApiImplicitParam(name = "class",value = "类别",required = true),
+            @ApiImplicitParam(name = "filter",value = "条件",required = true)
     })
-    @GetMapping("/getResourceByClass/{page}/{limit}/{rclass}")
-    public ResourcePageVO getResourceByClass(
+    @GetMapping("/getResourceFilter/{page}/{limit}/{rclass}/{filter}")
+    public ResourcePageVO getResourceFilter(
             @PathVariable("page") Integer page,
             @PathVariable("limit") Integer limit,
-            @PathVariable("rclass") Integer rclass
+            @PathVariable("rclass") Integer rclass,
+            @PathVariable("filter") String filter
     ) {
-        return this.resourceService.VoListByClass(page, limit, rclass);
+        return this.resourceService.VoListFilter(page, limit, rclass, filter);
     }
 
     @ApiOperation(value = "获取所有资源数量")
@@ -109,16 +114,17 @@ public class WebResourceController {
 
     @ApiOperation(value = "获取最新资源列表")
     @ApiImplicitParam(name = "articleNum",value = "数量",required = true)
-    @GetMapping("/getNewResource/{resourceNum}")
+    @GetMapping("/getNewResource/{resourceNum}/{filter}")
     public List<ResourceVO> getNewResource(
-            @PathVariable("resourceNum") Integer resourceNum
+            @PathVariable("resourceNum") Integer resourceNum,
+            @PathVariable("filter") String filter
     ) {
 
 //        return resourceVOMapper.selectAll(resourceNum);
-        return resourceService.GetNewResource(resourceNum);
+        return resourceService.GetNewResource(resourceNum,filter);
     }
 
-    @ApiOperation(value = "文章查询(预览)")
+    @ApiOperation(value = "资源查询(预览)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "content",value = "内容",required = true),
             @ApiImplicitParam(name = "num",value = "总量",required = true)
@@ -132,6 +138,21 @@ public class WebResourceController {
         wrapper.like("title",content)
                 .last("limit "+num);
         return resourceMapper.selectList(wrapper);
+    }
+
+    @ApiOperation(value = "查询资源(分页)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "content",value = "内容",required = true),
+            @ApiImplicitParam(name = "page",value = "页数",required = true),
+            @ApiImplicitParam(name = "limit",value = "总量",required = true)
+    })
+    @GetMapping("/FindAllResource/{content}/{page}/{limit}")
+    public ResourcePageVO FindAllResource(
+            @PathVariable("content") String content,
+            @PathVariable("page") Integer page,
+            @PathVariable("limit") Integer limit
+    ) {
+        return this.resourceService.FindVoList(page, limit , content);
     }
 
 }

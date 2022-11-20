@@ -484,7 +484,7 @@
             <!---->
             <button
               class="btn search-to"
-              @click="queryarticle()"
+              @click="queryssubmit()"
               data-v-122eae44=""
             >
               <i class="icon-search" data-v-122eae44=""></i>
@@ -865,8 +865,10 @@ this.$router.go(0)
     search(seachcontents) {
       //限制查询五个数据
       if (!this.judgeNull(this.seachcontent)) {
-        if (this.fundByresource) { this.Findresource(seachcontents, 5) }
-        else { this.Findarticles(seachcontents, 5) }
+        if (this.fundByresource) { 
+          this.Findresource(seachcontents, 5) }
+        else { 
+          this.Findarticles(seachcontents, 5) }
 
       }
     },
@@ -878,7 +880,7 @@ this.$router.go(0)
       return re.test(str);
     },
 
-    queryarticle() {
+    queryssubmit() {
       //提交
       if (this.judgeNull(this.seachcontent)) {
         this.$notify({
@@ -888,9 +890,13 @@ this.$router.go(0)
         });
       } else {
         //   直接调用$router.push 实现携带参数的跳转
-        this.$router.push({
-          path: `/post/${this.seachcontent}/all`,
+        if(this.fundByresource){
+          this.$router.push({
+          path: `/list/${this.seachcontent}/all`,
         })
+        }else{this.$router.push({
+          path: `/post/${this.seachcontent}/all`,
+        })}
       }
     },
     articleshows() {

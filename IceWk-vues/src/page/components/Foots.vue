@@ -48,10 +48,11 @@
                 <h3 class="footer-heading">搜索</h3>
                 <p class="body-text">您想要的这里都有</p>
                 <div class="widget-search-box">
-                  <input type="text" placeholder="输入内容" /><button
-                    class="search-btn"
+                  <input type="text" v-model="seachcontent" placeholder="输入内容" />
+                  <button
+                  @click="queryssubmit()" class="search-btn"
                   >
-                    <i class="fas el-icon-search"></i>
+                    <i  class="fas el-icon-search"></i>
                   </button>
                 </div>
               </div>
@@ -228,6 +229,38 @@ export default {
   computed: {
     ...mapState(["playlist", "glabledata", "count"]),
   },
+  data () {
+    return {
+      seachcontent: "",
+    };
+  },
+  methods: {
+    //判空
+    judgeNull(str) {
+      if (str == "") return true;
+      var regu = "^[ ]+$";
+      var re = new RegExp(regu);
+      return re.test(str);
+    },
+    queryssubmit() {
+      //提交
+      if (this.judgeNull(this.seachcontent)) {
+        this.$notify({
+          title: '提示',
+          message: '输入的数据不能为空',
+          type: 'warning'
+        });
+      } else {
+        console.log(this.fundByresource)
+        //   直接调用$router.push 实现携带参数的跳转
+
+          this.$router.push({
+          path: `/list/${this.seachcontent}/all`,
+        })
+       
+      }
+    },
+  },
 };
 </script>
 
@@ -309,7 +342,7 @@ export default {
 }
 .footer-wrapper .footer-top {
   background-color: #eef5fe;
-  padding: 100px 0;
+  padding: 60px 0;
   margin: 0 130px;
   border-radius: 15px;
 }

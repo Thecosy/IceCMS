@@ -35,6 +35,39 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     private UserMapper userMapper;
 
     @Override
+    public ResourcePageVO FindVoList(Integer page, Integer limit , String content) {
+        List<ResourceVO> result = new ArrayList<>();
+
+        ResourceVO resourceVO = null;
+
+        Page<Resource> resourcePage = new Page<>(page,limit);
+
+        QueryWrapper<Resource> wrapper= new QueryWrapper<Resource>();
+        wrapper.orderByDesc("id") .like("title",content);
+
+        Page<Resource> resultPage = this.resourceMapper.selectPage(resourcePage, wrapper);
+
+        List<Resource> resources = resultPage.getRecords();
+        long total = resultPage.getTotal();
+        for (Resource resource : resources) {
+
+            //根据作者名称查询对应的头像地址
+            String author = resource.getAuthor();
+            User users = userMapper.searchName(author);
+            String profile = users.getProfile();
+            resourceVO = new ResourceVO();
+            resourceVO.setProfile(profile);
+
+            BeanUtils.copyProperties(resource,resourceVO);
+            result.add(resourceVO);
+        }
+        ResourcePageVO resourcePageVO = new ResourcePageVO();
+        resourcePageVO.setData(result);
+        resourcePageVO.setTotal(total);
+        return resourcePageVO;
+    }
+
+    @Override
     public ResourcePageVO VoList(Integer page, Integer limit) {
         List<ResourceVO> result = new ArrayList<>();
 
@@ -67,7 +100,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     }
 
     @Override
-    public ResourcePageVO VoListByClass(Integer page, Integer limit, Integer rclass) {
+    public ResourcePageVO VoListFilter(Integer page, Integer limit, Integer rclass, String filter) {
         List<ResourceVO> result = new ArrayList<>();
 
         ResourceVO resourceVO = null;
@@ -76,7 +109,21 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
 
         QueryWrapper<Resource> wrapper = new QueryWrapper<Resource>();
-        wrapper.orderByDesc("id");
+        if(filter.equals("news")) {
+            wrapper.orderByDesc("id");
+        }
+        if(filter.equals("love")) {
+            wrapper.orderByDesc("love_num");
+        }
+        if(filter.equals("recommend")) {
+            wrapper.orderByDesc("owner_tag");
+        }
+        if(filter.equals("download")) {
+            wrapper.orderByDesc("hits");
+        }
+        if(filter.equals("discuss")) {
+            wrapper.orderByDesc("post_num");
+        }
         if (rclass != 0) {
             wrapper.eq("sort_class", rclass);
         }
@@ -121,7 +168,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
     }
 
     @Override
-    public List<ResourceVO> GetNewResource(Integer num) {
+    public List<ResourceVO> GetNewResource(Integer num,String filter) {
         List<ResourceVO> result = new ArrayList<>();
 
         ResourceVO resourceVO = null;
@@ -129,6 +176,20 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         QueryWrapper<Resource> wrapper = new QueryWrapper<>();
         //wrapper限制查询数量
         wrapper.last("limit "+num);
+
+        if(filter.equals("new")) {
+            wrapper.orderByDesc("id");
+        }
+        if(filter.equals("download")) {
+            wrapper.orderByDesc("hits");
+        }
+        if(filter.equals("recommend")) {
+            wrapper.orderByDesc("owner_tag");
+        }
+        if(filter.equals("discuss")) {
+            wrapper.orderByDesc("post_num");
+        }
+
         List<Resource> resources = resourceMapper.selectList(wrapper);
         for (Resource resource : resources) {
             String author = resource.getAuthor();

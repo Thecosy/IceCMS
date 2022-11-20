@@ -141,15 +141,6 @@
                           </li>
                           <li
                             class="menu__item"
-                            @click="changeDiscuss()"
-                            :class="{
-                              'menu__item--current': discuss === sortOrder,
-                            }"
-                          >
-                            <a class="menu__link"> 评论 </a>
-                          </li>
-                          <li
-                            class="menu__item"
                             @click="changeLove()"
                             :class="{
                               'menu__item--current': love === sortOrder,
@@ -157,6 +148,15 @@
                           >
                             <a class="menu__link"> 喜欢 </a>
                           </li>
+                          <!-- <li
+                            class="menu__item"
+                            @click="changeDiscuss()"
+                            :class="{
+                              'menu__item--current': discuss === sortOrder,
+                            }"
+                          >
+                            <a class="menu__link"> 评论 </a>
+                          </li> -->
                           <li
                             class="menu__item"
                             @click="changeRecommend()"
@@ -455,7 +455,7 @@ import { formatDate, GetWeekdate } from '@/utils/date.js'
 
 import { getResourceClasslist } from '@/api/webresourceclass'
 
-import { getAllResource, getAllResourceNumber, PageGetResourceByClass } from '@/api/webresource'
+import { getAllResource, getAllResourceNumber, getResourceFilter } from '@/api/webresource'
 
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import { mapState, mapMutations } from 'vuex'
@@ -528,18 +528,79 @@ export default ({
     },
     changeNews() {
       this.sortOrder = "news"
+      if(this.allIndex == true)
+      {
+        this.listQueryClass.class = 0
+      }
+      this.listQueryClass.page = this.listQuery.page
+      this.listQueryClass.limit = this.listQuery.limit
+      getResourceFilter(this.listQueryClass,this.sortOrder).then(resp => {
+        //获取文章
+        this.list = resp.data.data
+        this.template = resp.data.data
+        this.total = resp.data.total
+      })
+      
     },
     changeDownload() {
       this.sortOrder = "download"
+      if(this.allIndex == true)
+      {
+        this.listQueryClass.class = 0
+      }
+      this.listQueryClass.page = this.listQuery.page
+      this.listQueryClass.limit = this.listQuery.limit
+      getResourceFilter(this.listQueryClass,this.sortOrder).then(resp => {
+        //获取文章
+        this.list = resp.data.data
+        this.template = resp.data.data
+        this.total = resp.data.total
+      })
     },
     changeDiscuss() {
       this.sortOrder = "discuss"
+      if(this.allIndex == true)
+      {
+        this.listQueryClass.class = 0
+      }
+      this.listQueryClass.page = this.listQuery.page
+      this.listQueryClass.limit = this.listQuery.limit
+      getResourceFilter(this.listQueryClass,this.sortOrder).then(resp => {
+        //获取文章
+        this.list = resp.data.data
+        this.template = resp.data.data
+        this.total = resp.data.total
+      })
     },
     changeLove() {
       this.sortOrder = "love"
+      if(this.allIndex == true)
+      {
+        this.listQueryClass.class = 0
+      }
+      this.listQueryClass.page = this.listQuery.page
+      this.listQueryClass.limit = this.listQuery.limit
+      getResourceFilter(this.listQueryClass,this.sortOrder).then(resp => {
+        //获取文章
+        this.list = resp.data.data
+        this.template = resp.data.data
+        this.total = resp.data.total
+      })
     },
     changeRecommend() {
       this.sortOrder = "recommend"
+      if(this.allIndex == true)
+      {
+        this.listQueryClass.class = 0
+      }
+      this.listQueryClass.page = this.listQuery.page
+      this.listQueryClass.limit = this.listQuery.limit
+      getResourceFilter(this.listQueryClass,this.sortOrder).then(resp => {
+        //获取文章
+        this.list = resp.data.data
+        this.template = resp.data.data
+        this.total = resp.data.total
+      })
     },
     getNewarticleclass(id) {
       console.log("启动")
@@ -556,7 +617,7 @@ export default ({
       this.listQueryClass.page = 1
       this.listQuery.page = 1
       console.log(this.listQueryClass)
-      PageGetResourceByClass(this.listQueryClass).then(resp => {
+      getResourceFilter(this.listQueryClass,this.sortOrder).then(resp => {
         //获取文章
         this.list = resp.data.data
         this.template = resp.data.data
@@ -619,7 +680,7 @@ export default ({
       }
       this.listQueryClass.page = this.listQuery.page
       this.listQueryClass.limit = this.listQuery.limit
-      PageGetResourceByClass(this.listQueryClass).then(resp => {
+      getResourceFilter(this.listQueryClass,this.sortOrder).then(resp => {
         //获取文章
         this.list = resp.data.data
         this.template = resp.data.data

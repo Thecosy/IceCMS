@@ -21,9 +21,12 @@ public interface ResourceService extends IService<Resource> {
 
     ResourcePageVO VoList(Integer page, Integer limit);
 
-    ResourcePageVO VoListByClass(Integer page, Integer limit, Integer rclass);
+    ResourcePageVO VoListFilter(Integer page, Integer limit, Integer rclass, String filter);
 
     List<ResourceVO> ClassVoList(Integer id);
 
-    List<ResourceVO> GetNewResource(Integer num);
+    List<ResourceVO> GetNewResource(Integer num,String filter);
+
+    ResourcePageVO FindVoList(Integer page, Integer limit, String content);
+
 }

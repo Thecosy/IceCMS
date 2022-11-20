@@ -371,10 +371,23 @@
                     </h4>
                   </div>
                   <nav class="nav nav-title flex-grow-1">
-                    <a class="nav-link active">新鲜发布</a>
-                    <a class="nav-link">热门下载</a>
-                    <a class="nav-link">站长推荐</a>
-                    <a class="nav-link">最多评论</a>
+                    <a @click="r_changeNews()"
+                    :class="{
+                              'active': r_news === r_sortOrder,
+                            }"
+                             class="nav-link ">新鲜发布</a>
+                    <a @click="r_changeDownload()"
+                    :class="{
+                              'active': r_download === r_sortOrder,
+                            }" class="nav-link">热门下载</a>
+                    <a @click="r_changeRecommend()"
+                    :class="{
+                              'active': r_recommend === r_sortOrder,
+                            }" class="nav-link">站长推荐</a>
+                    <a @click="r_changeDiscuss()"
+                    :class="{
+                              'active': r_discuss === r_sortOrder,
+                            }" class="nav-link">最多评论</a>
                   </nav>
                   <div class="more-action">
                     <router-link to="/list">
@@ -471,7 +484,7 @@
                              <div  @mouseover="dowmloadover(index)" 
                    @mouseleave="downloadleave(index)" v-if="item.status.includes('published')">
                             <router-link
-                              :target="istarget"
+                             
                               :to="'/list/' + item.id"
                             >
                               <a class="macwk-app border white cursor-pointer padding-xl">
@@ -480,7 +493,7 @@
    <div data-v-2661c954="" class="li-card-img-div">
     <img data-v-2661c954="" :src="item.thumb" class="budongImg img72 dingweiImg" /> 
     <transition name="fade">
-      <img data-v-2661c954="" v-if="isAcitive === index" :src="item.thumb" class="gaosiImg img72 dingweiImg" v-on:mouseenter="dataDetails($parent.$index)" v-on:mouseleave="hiddenDetail($parent.$index)" />
+      <img data-v-2661c954="" v-if="isAcitive === index" :src="item.thumb" class="gaosiImg img72 dingweiImg"  />
   </transition>
    </div> 
    <div data-v-2661c954="" class="size-12 text-B6BABF margin-top-90" style="min-height: 20px;">
@@ -529,9 +542,18 @@
                       </h4>
                     </div>
                     <nav class="nav nav-title flex-grow-1">
-                      <a class="nav-link active">新鲜发布</a>
-                      <a class="nav-link">站长推荐</a>
-                      <a class="nav-link">最多评论</a>
+                      <a @click="a_changeNews()"
+                    :class="{
+                              'active': a_news === a_sortOrder,
+                            }" class="nav-link">新鲜发布</a>
+                      <a @click="a_changeRecommend()"
+                    :class="{
+                              'active': a_recommend === a_sortOrder,
+                            }" class="nav-link">站长推荐</a>
+                      <a @click="a_changeDiscuss()"
+                    :class="{
+                              'active': a_discuss === a_sortOrder,
+                            }" class="nav-link">最多评论</a>
                     </nav>
                     <div class="more-action">
                       <router-link
@@ -789,6 +811,17 @@ export default {
   },
   data() {
     return {
+      isAcitive: false,
+      r_sortOrder: "new",
+      r_news: "new",
+      r_download: "download",
+      r_discuss: "discuss",
+      r_recommend: "recommend",
+      a_sortOrder: "new",
+      a_news: "new",
+      a_download: "download",
+      a_discuss: "discuss",
+      a_recommend: "recommend",
       rlist: "",
       acticve: "nav-link active",
       Carousel: {},
@@ -808,6 +841,88 @@ export default {
     },
   },
   methods: {
+    a_changeDiscuss() {
+      this.a_sortOrder = "discuss"
+      this.listLoading = true;
+      getNewArticle(6,this.a_sortOrder).then((resp) => {
+        this.list = resp.data;
+        this.total = resp.data.total;
+        this.listLoading = false;
+        //将array进行处理,他的index索引余2===0的就放到一个新数组中leftArr
+        this.leftArr = this.list.filter((_item, index) => index % 2 === 0);
+        //将array进行处理,他的index索引余2 ！===0的就放到一个新数组中rightArr
+        this.rightArr = this.list.filter((_item, index) => index % 2 !== 0);
+      });
+      this.listLoading = false;
+    },
+    a_changeRecommend() {
+      this.a_sortOrder = "recommend"
+      this.listLoading = true;
+      getNewArticle(6,this.a_sortOrder).then((resp) => {
+        this.list = resp.data;
+        this.total = resp.data.total;
+        this.listLoading = false;
+        //将array进行处理,他的index索引余2===0的就放到一个新数组中leftArr
+        this.leftArr = this.list.filter((_item, index) => index % 2 === 0);
+        //将array进行处理,他的index索引余2 ！===0的就放到一个新数组中rightArr
+        this.rightArr = this.list.filter((_item, index) => index % 2 !== 0);
+      });
+      this.listLoading = false;
+    },
+    a_changeNews() {
+      this.a_sortOrder = "new"
+      this.listLoading = true;
+      getNewArticle(6,this.a_sortOrder).then((resp) => {
+        this.list = resp.data;
+        this.total = resp.data.total;
+        this.listLoading = false;
+        //将array进行处理,他的index索引余2===0的就放到一个新数组中leftArr
+        this.leftArr = this.list.filter((_item, index) => index % 2 === 0);
+        //将array进行处理,他的index索引余2 ！===0的就放到一个新数组中rightArr
+        this.rightArr = this.list.filter((_item, index) => index % 2 !== 0);
+      });
+      this.listLoading = false;
+    },
+        // 鼠标移入赋值index 
+			dowmloadover (index) {
+		        this.isAcitive = index
+		    },
+		    // 鼠标移出 
+		    downloadleave (index) {
+	           this.isAcitive = false
+	       },
+    r_changeRecommend() {
+      this.r_sortOrder = "recommend"
+      this.listLoading = true;
+      getNewResource(10,this.r_sortOrder).then((resp) => {
+        this.rlist = resp.data;
+      });
+      this.listLoading = false;
+    },
+    r_changeNews() {
+      this.r_sortOrder = "new"
+      this.listLoading = true;
+      getNewResource(10,this.r_sortOrder).then((resp) => {
+        this.rlist = resp.data;
+      });
+      this.listLoading = false;
+    },
+    r_changeDiscuss() {
+      this.r_sortOrder = "discuss"
+      this.listLoading = true;
+      getNewResource(10,this.r_sortOrder).then((resp) => {
+        this.rlist = resp.data;
+      });
+      this.listLoading = false;
+    },
+    r_changeDownload() {
+      this.r_sortOrder = "download"
+      this.listLoading = true;
+      getNewResource(10,this.r_sortOrder).then((resp) => {
+        this.rlist = resp.data;
+      });
+      this.listLoading = false;
+    },
     getStyles() {
       //生成随机颜色
       let max = 8;
@@ -859,10 +974,11 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      getNewResource(10).then((resp) => {
+      getNewResource(10,this.r_sortOrder).then((resp) => {
         this.rlist = resp.data;
       });
-      getNewArticle(6).then((resp) => {
+      console.log(this.a_sortOrder)
+      getNewArticle(6,this.a_sortOrder).then((resp) => {
         this.list = resp.data;
         this.total = resp.data.total;
         this.listLoading = false;
@@ -1118,7 +1234,6 @@ color: #ffffff;
 -webkit-border-radius: 50%;
 -moz-border-radius: 50%;
 border-radius: 50%;
--webkit-transition: all 0.35s ease-in-out;
 font-family: inherit;
 font-size: inherit;
 line-height: inherit;

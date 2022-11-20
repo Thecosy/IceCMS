@@ -7,9 +7,9 @@ export function getAllResource(query) {
   })
 }
 
-export function PageGetResourceByClass(query) {
+export function getResourceFilter(query,filter) {
   return request({
-    url: 'WebResource/getResourceByClass/' + query.page + '/' + query.limit+ '/' + query.class,
+    url: 'WebResource/getResourceFilter/' + query.page + '/' + query.limit + '/' + query.class + '/' + filter,
     method: 'get'
   })
 }
@@ -28,9 +28,9 @@ export function getResourceById(id) {
   })
 }
 
-export function getNewResource(num) {
+export function getNewResource(num,filter) {
   return request({
-    url: 'WebResource/getNewResource/' + num,
+    url: 'WebResource/getNewResource/' + num + '/' + filter,
     method: 'get'
   })
 }
@@ -53,5 +53,12 @@ export function getResourceByClass(id) {
   return request({
     url: '/WebResource/getResourceByClassId/'+ id ,
     method: 'get',
+  })
+}
+
+export function FindAllResource(query) {
+  return request({
+    url: 'WebResource/FindAllResource/'+query.content + '/' + query.page + '/' + query.limit,
+    method: 'get'
   })
 }

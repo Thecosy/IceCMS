@@ -666,7 +666,7 @@
             </div>
           </div>
         </div>
-        <foot />
+        <!-- <foot /> -->
         <div infos="0">
           <div class="
               adBanner
@@ -710,7 +710,9 @@ export default {
   watch: {
     // 如果路由有变化，会再次执行该方法
     $route: "fetchData",
+    
     MyEmoge(val) {
+      // this.$router.go(0);
       this.postForm.content += val
     }
   },
@@ -1121,8 +1123,6 @@ export default {
 
 
 <style scoped>
-.container {}
-
 .white1 {
   background-color: rgb(255, 255, 255);
   z-index: -1;

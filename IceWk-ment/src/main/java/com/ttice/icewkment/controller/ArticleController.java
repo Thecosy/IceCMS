@@ -114,7 +114,7 @@ public class ArticleController {
         @PathVariable("page") Integer page,
         @PathVariable("limit") Integer limit
     ) {
-        return this.articleService.VoList(page,limit);
+        return this.articleService.VoList(page,limit,0);
     }
 }
 

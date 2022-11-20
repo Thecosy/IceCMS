@@ -23,4 +23,5 @@ public class ArticleVO {
     private Integer hits;
     private Integer CommentNum;
     private String className;
+    private Integer postNum;
 }

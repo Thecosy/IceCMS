@@ -4,7 +4,7 @@
       <!---->
       <div id="__layout">
         <div data-fetch-key="0" class="app light macwk-animation">
-          <top :message3="acticve" />
+          <top :message2="acticve" />
           <div class="app-main">
             <div class="w-full bg grid-list layout-min-full-height d-flex">
               <div class="w-full pc-model">
@@ -17,16 +17,16 @@
                       <div class="app-content-header mb-5">
                         <div class="main-title">
                           <h5 class="fs-24 fw-600 i-con-h-a">
-                            全部文章
+                            全部资源
                             <span class="text-muted fs-13 v-1 ml-1">
-                         {{this.articleNum}}
+                         {{this.resourceCount}}
                             </span>
                           </h5>
                         </div>
                         <nav class="menu menu--macwk——list article-menu flex">
                           <ul class="menu__list">
                             <li class="menu__item menu__item--current">
-                              <a class="menu__link"> 全部文章 </a>
+                              <a class="menu__link"> 全部资源 </a>
                             </li>
                             <!-- <li class="menu__item">
                               <a class="menu__link"> 新手入门 </a>
@@ -69,15 +69,15 @@
                       </div>
                       <div class="pb-5">
                         共为您找到
-                        <span class="text-danger mx-1"> {{this.articleCount}}</span>
+                        <span class="text-danger mx-1"> {{this.resourceNum}}</span>
                         条和
                         <span class="mx-2 el-tag el-tag--danger el-tag--small el-tag--light"><span class="text-danger fw-500 fs-18"> {{this.$route.params.content}}</span><i class="el-tag__close el-icon-close"></i></span>
-                        相关的文章
+                        相关的资源
                       </div>
                       <!---->
                       <div v-for="(item, id) in this.list" :key="id">
                         <div v-if="item.status.includes('published')" >
-                        <router-link :target="istarget" :to="'/post/' + item.id">
+                        <router-link :target="istarget" :to="'/list/' + item.id">
                           <!---->
                           <a
                             target="_self"
@@ -269,7 +269,7 @@
 </template>
 
 <script>
-import { FindAllArticle ,getAllArticleNumber} from '@/api/webarticle'
+import { FindAllResource ,getAllResourceNumber} from '@/api/webresource'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import { formatDate } from '@/utils/date.js'
 
@@ -277,7 +277,7 @@ import top from './components/Top.vue'
 import foot from './components/Foots.vue'
 
 export default {
-  name: 'ArticleList',
+  name: 'ResourceList',
   components: { Pagination ,top, foot},
   filters: {
     statusFilter(status) {
@@ -291,9 +291,9 @@ export default {
   },
   data() {
     return {
-      articleNum: 0,
+      resourceNum: 0,
       acticve:'nav-link active',
-      articleCount: "",
+      resourceCount: "",
       istarget:"_self",
       istargetjudje:!true,
       list: null,
@@ -312,7 +312,7 @@ export default {
         if(this.$route.params.content){
           this.getList(this.$route.params.content)
                 // 判断条件1  判断传递值的变化
-                //获取文章数据
+                //获取资源数据
             }
     }
  },
@@ -374,14 +374,15 @@ export default {
     getList(list) {
         this.listLoading = true
         this.listQuery.content = list;
-        FindAllArticle(this.listQuery).then(resp => {
+        this.listQuery.content = this.$route.params.content
+        FindAllResource(this.listQuery).then(resp => {
         this.list = resp.data.data
         this.total = resp.data.total
-        this.articleCount = resp.data.total
+        this.resourceNum = resp.data.total
         this.listLoading = false
       })
-      getAllArticleNumber().then(resp => {
-        this.articleNum = resp.data
+      getAllResourceNumber().then(resp => {
+        this.resourceCount = resp.data
       })
     },
   }

@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getAllArticle(query) {
+export function getAllArticle(query,click) {
   return request({
-    url: 'WebArticle/getAllArticle/' + query.page + '/' + query.limit,
+    url: 'WebArticle/getAllArticle/' + query.page + '/' + query.limit + '/' + click,
     method: 'get'
   })
 }
@@ -14,9 +14,9 @@ export function getArticleById(id) {
   })
 }
 
-export function getNewArticle(num) {
+export function getNewArticle(num,click) {
   return request({
-    url: 'WebArticle/getNewArticle/' + num,
+    url: 'WebArticle/getNewArticle/' + num + '/' + click,
     method: 'get'
   })
 }

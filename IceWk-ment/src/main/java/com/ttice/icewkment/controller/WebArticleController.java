@@ -4,13 +4,11 @@ package com.ttice.icewkment.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ttice.icewkment.commin.vo.ArticlePageVO;
 import com.ttice.icewkment.commin.vo.ArticleVO;
-import com.ttice.icewkment.commin.vo.SquareVO;
 import com.ttice.icewkment.entity.Article;
 import com.ttice.icewkment.entity.ArticleClass;
 import com.ttice.icewkment.entity.User;
 import com.ttice.icewkment.mapper.ArticleClassMapper;
 import com.ttice.icewkment.mapper.ArticleMapper;
-import com.ttice.icewkment.mapper.ArticleVOMapper;
 import com.ttice.icewkment.mapper.UserMapper;
 import com.ttice.icewkment.service.ArticleCommentService;
 import com.ttice.icewkment.service.ArticleService;
@@ -19,7 +17,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +42,6 @@ public class WebArticleController {
     @Autowired
     private ArticleMapper articleMapper;
     @Autowired
-    private ArticleVOMapper articleVOMapper;
-    @Autowired
     private UserMapper userMapper;
     @Autowired
     private ArticleCommentService articleCommentService;
@@ -63,22 +62,54 @@ public class WebArticleController {
             @ApiImplicitParam(name = "page",value = "页数",required = true),
             @ApiImplicitParam(name = "limit",value = "总量",required = true)
     })
-    @GetMapping("/getAllArticle/{page}/{limit}")
+    @GetMapping("/getAllArticle/{page}/{limit}/{click}")
     public ArticlePageVO getAllArticle(
             @PathVariable("page") Integer page,
-            @PathVariable("limit") Integer limit
-    ) {
-        return this.articleService.VoList(page, limit);
+            @PathVariable("limit") Integer limit,
+            @PathVariable("click") Integer click
+            ) {
+        return this.articleService.VoList(page, limit, click);
     }
 
     @ApiOperation(value = "获取最新文章列表")
-    @ApiImplicitParam(name = "articleNum",value = "数量",required = true)
-    @GetMapping("/getNewArticle/{articleNum}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "articleNum",value = "数量",required = true),
+            @ApiImplicitParam(name = "check",value = "条件",required = true)
+    })
+    @GetMapping("/getNewArticle/{articleNum}/{check}")
     public List<ArticleVO> getNewAllArticle(
-            @PathVariable("articleNum") Integer articleNum
+            @PathVariable("articleNum") Integer articleNum,
+            @PathVariable("check") String check
     ) {
+        List<ArticleVO> result = new ArrayList<>();
 
-        return articleVOMapper.selectAll(articleNum);
+        ArticleVO articleVO = null;
+
+        QueryWrapper<Article> wrapper = new QueryWrapper<Article>();
+        //wrapper限制查询数量
+        wrapper.last("limit " + articleNum);
+        if(check.equals("new")) {
+            wrapper.orderByDesc("id");
+        }
+        if(check.equals("love")) {
+            wrapper.orderByDesc("love_num");
+        }
+        if(check.equals("recommend")) {
+            wrapper.orderByDesc("owner_tag");
+        }
+        if(check.equals("download")) {
+            wrapper.orderByDesc("hits");
+        }
+        if(check.equals("discuss")) {
+            wrapper.orderByDesc("post_num");
+        }
+        List<Article> articles = articleMapper.selectList(wrapper);
+        for (Article article : articles) {
+            articleVO = new ArticleVO();
+            BeanUtils.copyProperties(article,articleVO);
+            result.add(articleVO);
+        }
+        return result;
     }
 
     @ApiOperation(value = "获取所有文章数量")
@@ -86,7 +117,7 @@ public class WebArticleController {
     public Integer getAllArticleNumber() {
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
         wrapper.select().eq("status","published");
-        return articleVOMapper.selectCount(wrapper);
+        return articleMapper.selectCount(wrapper);
     }
 
     @ApiOperation(value = "统计文章浏览量+1")

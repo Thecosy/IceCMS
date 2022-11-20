@@ -77,7 +77,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ArticlePageVO VoList(Integer page, Integer limit) {
+    public ArticlePageVO VoList(Integer page, Integer limit, Integer click) {
         List<ArticleVO> result = new ArrayList<>();
 
         ArticleVO articleVO = null;
@@ -85,6 +85,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Page<Article> articlePage = new Page<>(page,limit);
 
         QueryWrapper<Article> wrapper= new QueryWrapper<Article>();
+        if (click != 0) {
+            wrapper.eq("sort_class", click);
+        }
         wrapper.orderByDesc("id");
 
         Page<Article> resultPage = this.articleMapper.selectPage(articlePage, wrapper);

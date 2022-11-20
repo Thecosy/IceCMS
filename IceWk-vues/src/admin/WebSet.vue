@@ -55,6 +55,15 @@
           >
           </el-switch>
       </el-tab-pane>
+      <el-tab-pane label="首页设置">
+        <h4>轮播图设置</h4>
+          <el-switch
+            v-model="postList.comment_show"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+          >
+          </el-switch>
+      </el-tab-pane>
       <el-row class="sitpagesitmap">
           <el-button type="danger" round>取消</el-button>
           <el-button type="primary" @click="sitmap()" round>保存</el-button>

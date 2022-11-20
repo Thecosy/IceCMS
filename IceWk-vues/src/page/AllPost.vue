@@ -314,7 +314,7 @@
                         :total="total"
                         :page.sync="listQuery.page"
                         :limit.sync="listQuery.limit"
-                        @pagination="getList"
+                        @pagination="getListByClass"
                       />
                     </div>
                     <!---->
@@ -326,6 +326,11 @@
                           <h3 class="fs-24 fw-600 mb-0">热门文章</h3>
                         </div><!-- Cat item -->
                              <div  v-for="item in newArticle" :key="item.id" class="widget-category">
+
+                              <router-link
+                              :target="istarget"
+                              :to="'/post/' + item.id"
+                            >
                                     <img  v-if="item.thumb != null" class="cat-thumb bg-cover" :src="item.thumb" />
                                     <div
                                   v-else
@@ -342,6 +347,11 @@
                                     NOPIC
                                   </h3>
                                 </div>
+                              </router-link>
+                              <router-link
+                              :target="istarget"
+                              :to="'/post/' + item.id"
+                            >
                                 <div class="cat-content">
                                         <h4 class="cat-title">{{item.title}}</h4>
                                    
@@ -349,8 +359,9 @@
                                              <span  v-if="item.createTime != null"  class="post-date meta-item"> {{formatDate(item.createTime)}} </span>
                                   <span  v-else  class="post-date meta-item"> {{formatDate(item.addTime)}} </span>
                                   <span
-                                            class="meta-item comment"><i class="el-icon-chat-line-square"></i>{{item.hits}} </span></div>
+                                            class="meta-item comment"><i class="el-icon-chat-line-square"></i>{{item.postNum}} </span></div>
                                 </div>
+                              </router-link>
                             </div><!-- Cat item -->
                             <!-- Cat item -->
                         </div>
@@ -360,11 +371,9 @@
                              <div class="siderbar-apps__header">
                           <h3 class="fs-24 fw-600 mb-0">全部标签</h3>
                         </div>
-                            <div class="categories-tags"><a href="" class="active">travel </a><a href="">kitchen </a><a
-                                    href="">cars </a><a href="">garden </a><a href="">home </a><a href="">holiday </a><a
-                                    href="">software </a><a href="">health </a><a href="">appliences </a><a
-                                    href="">money </a><a href="">pets </a><a href="">office </a><a href="">electronics
-                                </a><a href="">hobby </a><a href="">baby </a><a href="">digital </a></div>
+                            <div class="categories-tags">
+                              <a v-for="item in taglist" :key="item.id" href="" >{{item.tagName}} </a>
+                            </div>
                         </div>
                       <div class="d-block siderbar-apps new-post">
                         <div class="siderbar-apps__header">
@@ -995,6 +1004,8 @@ import { formatDate } from "@/utils/date.js";
 import { getArticleClasslist } from "@/api/webarticleclass";
 import { getNewArticleComment } from "@/api/webarticleComment";
 
+import { getAllTag } from "@/api/weballtag";
+
 import top from "./components/Top.vue";
 import foot from "./components/Foots.vue";
 
@@ -1013,6 +1024,8 @@ export default {
   },
   data() {
     return {
+      taglist: [],
+      clickIndex: 0,
       newArticle: [],
       MatterArticleFirst: "",
       MatterArticles: "",
@@ -1029,7 +1042,12 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
-        limit: 8,
+        limit: 4,
+      },
+      listQueryClass: {
+        page: 1,
+        limit: 4,
+        class: ""
       },
     };
   },
@@ -1040,16 +1058,39 @@ export default {
   computed: {},
 
   methods: {
+    getListByClass() {
+      if(this.allIndex == true)
+      {
+        this.clickIndex = 0
+      }
+      this.listQueryClass.page = this.listQuery.page
+      this.listQueryClass.limit = this.listQuery.limit
+      getAllArticle(this.listQueryClass,this.clickIndex).then((resp) => {
+        //获取文章
+        this.list = resp.data.data;
+        this.template = resp.data.data;
+        this.total = resp.data.total;
+      });
+    },
     getNewarticleclass(id) {
-      console.log("启动");
       this.clickIndex = id;
       this.allIndex = false;
       //重新请求全部列表
-      this.list = this.template;
+      // this.list = this.template;
       //过滤器，过滤sortclass为id的
-      setTimeout(() => {
-        let lists = this.list.filter((item) => item.sortClass == id);
-        this.list = lists;
+      // setTimeout(() => {
+      //   let lists = this.list.filter((item) => item.sortClass == id);
+      //   this.list = lists;
+      // });
+      this.listLoading = true;
+      this.listQueryClass.page = 1
+      this.listQuery.page = 1
+      getAllArticle(this.listQueryClass,this.clickIndex).then((resp) => {
+        //获取文章
+        this.list = resp.data.data;
+        this.template = resp.data.data;
+        this.total = resp.data.total;
+        this.listLoading = false;
       });
     },
     istargetJudje() {
@@ -1108,9 +1149,11 @@ export default {
         this.MatterArticles.shift();
       });
       this.allIndex = true;
-      this.clickIndex = false;
+      this.clickIndex = 0;
       this.listLoading = true;
-      getAllArticle(this.listQuery).then((resp) => {
+
+      
+      getAllArticle(this.listQuery,this.clickIndex).then((resp) => {
         //获取文章
         this.list = resp.data.data;
         this.template = resp.data.data;
@@ -1121,12 +1164,17 @@ export default {
         //获取分类
         this.classlist = resp.data;
       });
+      getAllTag().then((resp) => {
+        //获取标签
+        console.log(resp.data);
+        this.taglist = resp.data;
+      });
       getNewArticleComment(9).then((resp) => {
         //获取最新评论
         console.log(resp);
         this.Newarticlecomment = resp.data;
       });
-        getNewArticle(2).then((resp) => {
+        getNewArticle(2,"download").then((resp) => {
           //获取热门文章
         this.newArticle = resp.data;
       });

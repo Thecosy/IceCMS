@@ -120,6 +120,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/list/:content/all',
+    component: () => import('@/page/SearchResource'),
+    hidden: true
+  },
+  {
     path: '/download/:id',
     component: () => import('@/page/Download'),
     hidden: true

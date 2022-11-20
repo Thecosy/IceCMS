@@ -195,8 +195,9 @@
                 <div class="col-lg-3">
                     <div class="right-content">
                         <!-- Widget search box -->
-                        <div class="widget-search-box"><input type="text" placeholder="输入内容">
+                        <div class="widget-search-box"><input type="text" v-model="seachcontent"  placeholder="输入内容">
                       <button
+                      @click="queryssubmit()"
                     class="search-btn"
                   >
                     <i class="el-icon-search"></i>
@@ -222,11 +223,9 @@
                        <!-- Widget category -->
                         <div class="widget-categories">
                             <h3 class="heading-tertiary">标签云</h3>
-                            <div class="categories-tags"><a href="" class="active">travel </a><a href="">kitchen </a><a
-                                    href="">cars </a><a href="">garden </a><a href="">home </a><a href="">holiday </a><a
-                                    href="">software </a><a href="">health </a><a href="">appliences </a><a
-                                    href="">money </a><a href="">pets </a><a href="">office </a><a href="">electronics
-                                </a><a href="">hobby </a><a href="">baby </a><a href="">digital </a></div>
+                            <div class="categories-tags">
+                              <a v-for="item in taglist" :key="item.id" href="" >{{item.tagName}} </a>
+                            </div>
                         </div><!-- Widget ad banner -->
                         <div class="widget-ad-banner bg-cover"
                             style="">
@@ -252,8 +251,15 @@
                         <div class="widget-popular-post mt-30">
                             <h3 class="heading-tertiary mb-20">热门文章</h3><!-- Cat item -->
                             <div  v-for="item in newArticle" :key="item.id" class="widget-category">
-                                
+                              <router-link
+                              :to="'/post/' + item.id"
+                            >
+
                                     <img class="cat-thumb bg-cover" :src="item.thumb" />
+                                  </router-link>
+                                  <router-link
+                              :to="'/post/' + item.id"
+                            >
                                 <div class="cat-content"><a href="#">
                                         <h4 class="cat-title">{{item.title}}</h4>
                                     </a>
@@ -263,6 +269,7 @@
                                   <span
                                             class="meta-item comment"><i class="el-icon-chat-line-square"></i>{{item.hits}} </span></div>
                                 </div>
+                              </router-link>
                             </div><!-- Cat item -->
                            <!-- Cat item -->
                         </div>
@@ -596,12 +603,12 @@
                 textAd
                 text_ad text_ads text-ads text-ad-links
               "
-            />
+            >
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -621,12 +628,13 @@ import "vue-side-catalog/lib/vue-side-catalog.css";
 import SideCatalog from "vue-side-catalog";
 import Sticky from "@/components/Sticky";
 
+import { getAllTag } from "@/api/weballtag";
+
 import top from "./components/Top.vue";
 import foot from "./components/Foots.vue";
 import comment from "./components/Comment.vue";
 
 import { formatDate } from "@/utils/date.js";
-
 import { mapState, mapMutations } from "vuex";
 
 export default {
@@ -650,6 +658,11 @@ export default {
     getArticleCommentnum(this.$route.params.id).then((resp) => {
       this.commentnum = resp.data;
     });
+    getAllTag().then((resp) => {
+        //获取标签
+        console.log(resp.data);
+        this.taglist = resp.data;
+      });
     //文章浏览量+1，临时
     viewarticle(this.$route.params.id).then((resp) => {});
   },
@@ -662,7 +675,30 @@ export default {
   },
 
   methods: {
-
+        //判空
+        judgeNull(str) {
+      if (str == "") return true;
+      var regu = "^[ ]+$";
+      var re = new RegExp(regu);
+      return re.test(str);
+    },
+    queryssubmit() {
+      //提交
+      if (this.judgeNull(this.seachcontent)) {
+        this.$notify({
+          title: '提示',
+          message: '输入的数据不能为空',
+          type: 'warning'
+        });
+      } else {
+        console.log(this.fundByresource)
+        //   直接调用$router.push 实现携带参数的跳转
+        this.$router.push({
+          path: `/post/${this.seachcontent}/all`,
+        })
+       
+      }
+    },
     formatDate(time) {
       let data = new Date(time);
       return formatDate(data, "yyyy-MM-dd  ");
@@ -715,7 +751,7 @@ export default {
     },
     fetchData(id) {
       getArticleById(id).then((resp) => {
-        console.log(resp.data.intro);
+        // console.log(resp.data.intro);
         this.thumb = resp.data.thumb;
         this.title = resp.data.title;
         this.loveNum = resp.data.loveNum;
@@ -751,6 +787,8 @@ export default {
   },
   data() {
     return {
+      taglist: [],
+      seachcontent: "",
       newArticle: [],
       firstLoveFlag: true,
       lovecheck: false,
@@ -1255,8 +1293,7 @@ p {
   --layout-sidebar-left-row-end: initial;
   --layout-content-width: 7fr;
   --layout: var(--layout-sidebar-left-width) var(--layout-content-width)
-    var(--layout-sidebar-right-width);
-  -webkit-user-select: text !important;
+  var(--layout-sidebar-right-width);
   box-sizing: border-box;
   display: var(--layout-sidebar-left-display);
   grid-row-end: var(--layout-sidebar-left-row-end);

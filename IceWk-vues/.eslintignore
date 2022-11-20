@@ -3,3 +3,4 @@ src/assets
 public
 dist
 *.vue
+*.js

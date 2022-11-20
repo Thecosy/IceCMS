@@ -171,12 +171,12 @@
 }
 
 .widget-category .cat-title {
-    width: 149px;
-    font-size: 20px;
-    font-weight: 600;
+    width: 135px;
+    font-size: 17px;
+    font-weight: 500;
     color: #222;
     font-family: "Advent Pro", sans-serif;
-    line-height: 26px;
+    line-height: 20px;
     text-overflow: -o-ellipsis-lastline;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -325,6 +325,7 @@
 }
 
 .recent-post-card .card-thumb {
+    height: 127px;
     width: 100%;
     border-radius: 10px;
 }
@@ -707,6 +708,6 @@
     position: relative;
     font-size: 1.25rem;
     display: table;
-    margin-top: 0rem;
+    margin-top: 6px;
     /* margin-bottom: 2rem; */
 }
