@@ -132,9 +132,9 @@
                     >
                       <el-option
                         v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+                        :key="item.id"
+                        :label="item.tagName"
+                        :value="item.id"
                       />
                     </el-drag-select>
                   </el-form-item>
@@ -250,6 +250,8 @@ import { getClassNameById } from '@/api/resource'
 import { getAllClassName } from '@/api/resource'
 import { updateImage } from '@/api/updateImage'
 
+import { getAllTag } from "@/api/alltag";
+
 import Tinymce from '@/components/Tinymce'
 import MDinput from '@/components/MDinput'
 
@@ -323,23 +325,8 @@ export default {
       imageList: [],
       newFile:new FormData(), //   1. 定义一个newFile变量（FormData 对象） 
       isfree:true,
-      value: ['Apple', 'Banana', 'Orange'],
-      options: [{
-        value: 'Apple',
-        label: 'Apple'
-      }, {
-        value: 'Banana',
-        label: 'Banana'
-      }, {
-        value: 'Orange',
-        label: 'Orange'
-      }, {
-        value: 'Pear',
-        label: 'Pear'
-      }, {
-        value: 'Strawberry',
-        label: 'Strawberry'
-      }],
+      value: [],
+      options: [],
       articleid: '',
       postForm: Object.assign({}, defaultForm),
       loading: false,
@@ -441,6 +428,7 @@ export default {
       },
     async fetchData(id) {
       getResourceById(id).then(response => {
+        console.log(response)
         this.postForm = response.data
          this.postForm.price = response.data.price/100
         this.postForm.articleStatus = response.data.articleStatus
@@ -454,6 +442,9 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+      getAllTag(id).then(response => { 
+        this.options = response.data
+      })
     },
     setTagsViewTitle() {
       const title = '编辑资源'
@@ -466,7 +457,7 @@ export default {
     },
     submitForm() {
       let that = this
-      console.log(this.postForm)
+      this.postForm.keyword = JSON.stringify(this.value)
       this.$refs.postForm.validate(valid => {
         if (valid) {
           this.loading = true

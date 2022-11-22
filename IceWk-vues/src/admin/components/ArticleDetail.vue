@@ -132,9 +132,9 @@
                     >
                       <el-option
                         v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+                        :key="item.id"
+                        :label="item.tagName"
+                        :value="item.id"
                       />
                     </el-drag-select>
                   </el-form-item>
@@ -197,6 +197,8 @@ import { getAllUserName } from '@/api/user'
 import { createArticle } from '@/api/article'
 import { getAllClassName } from '@/api/article'
 import { getClassNameById } from '@/api/article'
+
+import { getAllTag } from "@/api/alltag";
 
 import Tinymce from '@/components/Tinymce'
 import MDinput from '@/components/MDinput'
@@ -267,23 +269,8 @@ export default {
       }
     }
     return {
-      value: ['Apple', 'Banana', 'Orange'],
-      options: [{
-        value: 'Apple',
-        label: 'Apple'
-      }, {
-        value: 'Banana',
-        label: 'Banana'
-      }, {
-        value: 'Orange',
-        label: 'Orange'
-      }, {
-        value: 'Pear',
-        label: 'Pear'
-      }, {
-        value: 'Strawberry',
-        label: 'Strawberry'
-      }],
+      value: [],
+      options: [],
       articleid: '',
       postForm: Object.assign({}, defaultForm),
       loading: false,
@@ -353,6 +340,9 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+      getAllTag(id).then(response => { 
+        this.options = response.data
+      })
     },
     setTagsViewTitle() {
       const title = '编辑文章'
@@ -365,7 +355,7 @@ export default {
     },
     submitForm() {
       let that = this
-      console.log(this.postForm)
+      this.postForm.keyword = JSON.stringify(this.value)
       this.$refs.postForm.validate(valid => {
         if (valid) {
           this.loading = true

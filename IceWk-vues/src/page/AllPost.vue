@@ -372,8 +372,14 @@
                           <h3 class="fs-24 fw-600 mb-0">全部标签</h3>
                         </div>
                             <div class="categories-tags">
-                              <a v-for="item in taglist" :key="item.id" href="" >{{item.tagName}} </a>
-                            </div>
+
+                              <a  v-for="item in taglist" :key="item.id" :target="istarget"
+                              :href="'/post/' + item.tagName + '/all'" >
+                               
+                                {{item.tagName}} 
+                             
+                              </a>
+                                                       </div>
                         </div>
                       <div class="d-block siderbar-apps new-post">
                         <div class="siderbar-apps__header">
@@ -1166,7 +1172,6 @@ export default {
       });
       getAllTag().then((resp) => {
         //获取标签
-        console.log(resp.data);
         this.taglist = resp.data;
       });
       getNewArticleComment(9).then((resp) => {

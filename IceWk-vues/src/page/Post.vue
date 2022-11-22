@@ -90,8 +90,8 @@
                    <!-- Tags -->
                         <div class="tags">
                             <h3 class="heading-tertiary">文章标签</h3>
-                            <div class="categories-tags"><a href="">编程 </a><a href="">教程 </a><a href="">资源
-                                </a></div>
+                            <div class="categories-tags"><a v-for="item in Mytag" :key="item.id"  :href="'/post/' + item + '/all'">{{item}} </a>
+                             </div>
                         </div><!-- Post navigation -->
                         <div class="post-navigation">
                           <a >
@@ -224,7 +224,8 @@
                         <div class="widget-categories">
                             <h3 class="heading-tertiary">标签云</h3>
                             <div class="categories-tags">
-                              <a v-for="item in taglist" :key="item.id" href="" >{{item.tagName}} </a>
+                              <a v-for="item in taglist" :key="item.id" 
+                              :href="'/post/' + item.tagName + '/all'" >{{item.tagName}} </a>
                             </div>
                         </div><!-- Widget ad banner -->
                         <div class="widget-ad-banner bg-cover"
@@ -567,8 +568,7 @@
                         width: 1.5em;
                         height: 1.5em;
                         font-size: 2rem;
-                        vertical-align: -6px;
-                      "
+                        vertical-align: -6px;"
                     >
                       <path
                         fill="#FFFFFF"
@@ -628,7 +628,7 @@ import "vue-side-catalog/lib/vue-side-catalog.css";
 import SideCatalog from "vue-side-catalog";
 import Sticky from "@/components/Sticky";
 
-import { getAllTag } from "@/api/weballtag";
+import { getAllTag, getTagByList } from "@/api/weballtag";
 
 import top from "./components/Top.vue";
 import foot from "./components/Foots.vue";
@@ -660,7 +660,6 @@ export default {
     });
     getAllTag().then((resp) => {
         //获取标签
-        console.log(resp.data);
         this.taglist = resp.data;
       });
     //文章浏览量+1，临时
@@ -779,6 +778,11 @@ export default {
         }
         this.intro = resp.data.intro;
         this.hits = resp.data.hits;
+        JSON.parse(resp.data.keyword).forEach((item) => {
+          getTagByList(item).then((resp) => {
+            this.Mytag.push(resp.data.tagName);
+        });
+        });
       });
       getNewArticle(2).then((resp) => {
         this.newArticle = resp.data;
@@ -787,6 +791,7 @@ export default {
   },
   data() {
     return {
+      Mytag: [],
       taglist: [],
       seachcontent: "",
       newArticle: [],

@@ -19,7 +19,9 @@
 
 基于 Spring Boot + Vue 前后端分离的内容管理系统
 
-本站UI来源于macwk但由于前者资金匮乏而倒闭。所以本项目想自建一个像macwk一样的内容管理站，供大家使用。
+本站UI来源于macwk但由于前者资金匮乏而倒闭。所以本项目想自建一个像macwk一样的内容管理站，目前已基本还原95%，现在免费供大家使用。
+
+使用: （[http://www.macwk.cc/](http://www.macwk.cc/)）
 
 官网: （[http://blog.snym.cn/](http://blog.snym.cn/)）
 
@@ -98,16 +100,14 @@ JS 依赖及参考的 css：[axios](https://github.com/axios/axios)、[moment](h
 
 ### 后台 UI
 
-后台 CMS 部分基于 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template) 二次修改后的 [my-vue-admin-template](https://github.com/Naccl/my-vue-admin-template) 模板进行开发（[于2021年11月1日重构](https://github.com/Naccl/NBlog/commit/b33641fe34b2bed34e8237bacf67146cd64be4cf)）
+后台 CMS 部分基于 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template) 
 
 UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 
 
 ### 前台 UI
 
-[Semantic UI](https://semantic-ui.com/)：主要使用，页面布局样式，个人感觉挺好看的 UI 框架，比较适合前台界面的开发，语义化的 css，前一版博客系统使用过，可惜该框架 Vue 版的开发完成度不高，见 [Semantic UI Vue](https://semantic-ui-vue.github.io/#/)
-
-[Element UI](https://github.com/ElemeFE/element)：部分使用，一些小组件，弥补了 Semantic UI 的不足，便于快速实现效果
+[Element UI](https://github.com/ElemeFE/element)：部分使用，一些小组件，更改了ui样式，便于快速实现效果
 
 文章排版：基于 [typo.css](https://github.com/sofish/typo.css) 修改
 
@@ -116,6 +116,10 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 ## 最近更新
 
 支持 Telegram Bot 快捷操作
+
+增加标签功能
+
+完善部分ui
 
     
 ## 快速开始
@@ -143,14 +147,14 @@ Docker部署方式(推荐,可用于快速上线或测试)
     docker run -d -p 0:3389 \
     --name MySQL \
     --restart always \
-    thecosy/icemysql:latest
+    thecosy/icemysql:v1.2.0
 
     2.运行Spring容器
     docker run -d -p 8181:8181 \
     --name springboot-admin \
     --restart always \
     --link MySQL:db \
-    thecosy/icecms:latest
+    thecosy/icecms:v1.2.0
 
 <strong>配置最小开发环境(开发而非部署)</strong>
 

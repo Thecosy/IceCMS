@@ -574,8 +574,9 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                     </div><!-- Tags -->
                     <div class="tags">
                       <h3 class="heading-secondary mar-left">标签</h3>
-                      <div class="categories-tags mar-left"><a href="">kitchen </a><a href="">garden </a><a href="">cars
-                        </a></div>
+                     
+                        <div class="categories-tags mar-left"><a v-for="item in Mytag" :key="item.id"  :href="'/post/' + item + '/all'">{{item}} </a>
+                        </div>
                     </div><!-- Author card -->
                     <div class="author-card">
                       <div>
@@ -718,7 +719,8 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                     <div class="widget-categories">
                       <h3 class="heading-tertiary">标签云</h3>
                       <div class="categories-tags">
-                              <a v-for="item in taglist" :key="item.id" href="" >{{item.tagName}} </a>
+                              <a v-for="item in taglist" :key="item.id" 
+                              :href="'/list/' + item.tagName + '/all'" >{{item.tagName}} </a>
                             </div>
                     </div><!-- Widget ad banner -->
                     <div class="widget-ad-banner bg-cover" style="background-image: url(/static/img/sidebar-add-banner.be2d2fc4.png);">
@@ -887,7 +889,7 @@ import { getResourceById, loveresource } from '@/api/webresource'
 import { getResourceClassNameByid } from '@/api/webresourceclass'
 import { getNewArticle } from "@/api/webarticle";
 
-import { getAllTag } from "@/api/weballtag";
+import { getAllTag, getTagByList } from "@/api/weballtag";
 
 import { formatDate, GetWeekdate } from '@/utils/date.js'
 
@@ -913,7 +915,6 @@ export default {
     }
     getAllTag().then((resp) => {
         //获取标签
-        console.log(resp.data);
         this.taglist = resp.data;
       });
     //获取资源评论数量
@@ -1215,13 +1216,19 @@ export default {
           this.Theweeks = this.weeks[tiems]
         }
         this.intro = resp.data.intro
-
+        JSON.parse(resp.data.keyword).forEach((item) => {
+          getTagByList(item).then((resp) => {
+            this.Mytag.push(resp.data.tagName);
+        });
+        });
+        console.log(this.Mytag)
       })
 
     },
   },
   data() {
     return {
+      Mytag: [],
       taglist: [],
       seachcontent: '',
       newArticle: [],

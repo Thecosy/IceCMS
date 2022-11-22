@@ -6,3 +6,10 @@ export function getAllTag() {
     method: 'get'
   })
 }
+
+export function getTagByList(keyword) {
+    return request({
+      url: 'WebTag/getTagByList/' + keyword,
+      method: 'get',
+    })
+  }
