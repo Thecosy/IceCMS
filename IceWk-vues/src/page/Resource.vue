@@ -1141,9 +1141,19 @@ export default {
       }
     },
     NowDownload() {
-      setTimeout(() => {
-        this.$router.push({ path: '/download/' + this.$route.params.id })
-      }, 500)
+      // setTimeout(() => {
+      //   this.$router.push({ path: '/download/' + this.$route.params.id })
+      // }, 500)
+      // window.open(this.resAddress)
+      // 创建a标签
+      const link = document.createElement('a')
+      // download属性
+      link.setAttribute('download', this.resAddress)
+      // href链接
+      link.setAttribute('href', this.resAddress)
+      // 自执行点击事件
+      link.click()
+      document.body.removeChild(link)
 
     },
     Download() {
@@ -1183,6 +1193,7 @@ export default {
         this.author = resp.data.author
         this.content = resp.data.content
         this.intro = resp.data.intro
+        this.resAddress = resp.data.resAddress
 
         var str = JSON.parse(resp.data.carousel)
         // this.carouselNum = str.length
@@ -1228,6 +1239,7 @@ export default {
   },
   data() {
     return {
+      resAddress: '',
       Mytag: [],
       taglist: [],
       seachcontent: '',
@@ -1494,6 +1506,19 @@ export default {
 .el-carousel__item[data-v-3aa17da5]:nth-child(2n + 1) {
   background-color: #d3dce6;
   border-radius: 17px;
+  -webkit-animation:move 4s linear infinite both;
+  -webkit-border-radius: 17px;
+}
+.el-carousel__item[data-v-3aa17da5]:nth-child(2n) {
+  background-color: #d3dce6;
+  border-radius: 17px;
+  -webkit-animation:move 4s linear infinite both;
+  -webkit-border-radius: 17px;
+}
+.is-animating{
+  border-radius: 17px;
+  -webkit-animation:move 4s linear infinite both;
+  -webkit-border-radius: 17px;
 }
 
 .sc-button.style-item-details {
