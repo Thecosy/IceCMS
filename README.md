@@ -21,9 +21,9 @@
 
 本站UI来源于macwk但由于前者资金匮乏而倒闭。所以本项目想自建一个像macwk一样的内容管理站，目前已基本还原95%，现在免费供大家使用。
 
-使用: （[http://www.macwk.cc/](http://www.macwk.cc/)）
+使用: （[www.macwk.cc](http://www.macwk.cc/)）
 
-官网: （[http://blog.snym.cn/](http://blog.snym.cn/)）
+官网: （[doc.snym.cn](http://doc.snym.cn)）
 
 ## QQ交流群
 
@@ -33,15 +33,15 @@ QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC5
 
 该群是一个学习交流群，如果是程序相关问题，请直接提交issues
 
-IceCMS 文档： （[http://blog.snym.cn/books/icecms](http://blog.snym.cn/books/icecms)）
+IceCMS 文档： （[http://doc.snym.cn/books/icecms](http://doc.snym.cn/books/icecms)）
 
 ## 预览地址：
 
-前台：[http://snym.cn](http://snym.cn)
+前台：[www.macwk.cc](http://www.macwk.cc)
 
-uniapp移动端：[http://m.snym.cn](http://m.snym.cn)
+uniapp移动端：[m.www.macwk.cc](http://m.www.macwk.cc)
 
-后台：[http://snym.cn/admin](http://snym.cn/admin) 账号`admin`密码`123123`
+后台：[www.macwk.cc/admin](http://www.macwk.cc/admin) 账号`admin`密码`123123`
 
 
 
