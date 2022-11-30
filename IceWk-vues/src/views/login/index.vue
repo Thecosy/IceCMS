@@ -9,7 +9,7 @@
           <i @click="closeDialog" style="margin-right:14px;margin-top:14px"  class="el-icon-close fs-18"/>
           <div style="z-index: 2147483647;transform: translate(-59px,273px);">{{msg}}</div>
         </div>
-        <slide-verify ref="slideblock" @again="onAgain" @fulfilled="onFulfilled" @success="onSuccess" @fail="onFail"
+        <slide-verify ref="slideblock" :imgs="verifyImgs" @again="onAgain" @fulfilled="onFulfilled" @success="onSuccess" @fail="onFail"
           @refresh="onRefresh" :accuracy="accuracy" :slider-text="text"></slide-verify>
        
       </div>
@@ -186,6 +186,17 @@
 <script>
 import { loginAdmin } from '@/api/login'
 import { register } from '@/api/register'
+
+import img1 from '@/static/image/verify/verify1.jpg'
+import img2 from '@/static/image/verify/verify2.jpg'
+import img3 from '@/static/image/verify/verify3.jpg'
+import img4 from '@/static/image/verify/verify4.jpg'
+import img5 from '@/static/image/verify/verify5.jpg'
+import img6 from '@/static/image/verify/verify6.jpg'
+
+
+
+
 import 'animate.css';
 // eslint-disable-next-line no-unused-vars
 export default {
@@ -193,6 +204,14 @@ export default {
   name: 'Login',
   data() {
     return {
+      verifyImgs: [
+        img1,
+        img2,
+        img3,
+        img4,
+        img5,
+        img6
+      ],
       isShowyan: true,
       showDialog: false,
       msg: '',
