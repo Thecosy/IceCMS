@@ -977,7 +977,6 @@ export default {
       getNewResource(10,this.r_sortOrder).then((resp) => {
         this.rlist = resp.data;
       });
-      console.log(this.a_sortOrder)
       getNewArticle(6,this.a_sortOrder).then((resp) => {
         this.list = resp.data;
         this.total = resp.data.total;

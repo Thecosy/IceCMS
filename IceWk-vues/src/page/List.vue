@@ -603,7 +603,6 @@ export default ({
       })
     },
     getNewarticleclass(id) {
-      console.log("启动")
       this.clickIndex = id
       this.allIndex = false
       // //重新请求全部列表
@@ -616,7 +615,6 @@ export default ({
       this.listQueryClass.class = id
       this.listQueryClass.page = 1
       this.listQuery.page = 1
-      console.log(this.listQueryClass)
       getResourceFilter(this.listQueryClass,this.sortOrder).then(resp => {
         //获取文章
         this.list = resp.data.data
@@ -691,7 +689,6 @@ export default ({
       this.allIndex = true
       this.clickIndex = false
       getAllResource(this.listQuery).then(resp => {
-        console.log(resp)
         //获取文章
         this.list = resp.data.data
         this.template = resp.data.data

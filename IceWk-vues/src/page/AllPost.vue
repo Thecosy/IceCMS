@@ -1176,7 +1176,6 @@ export default {
       });
       getNewArticleComment(9).then((resp) => {
         //获取最新评论
-        console.log(resp);
         this.Newarticlecomment = resp.data;
       });
         getNewArticle(2,"download").then((resp) => {

@@ -160,10 +160,10 @@ export const constantRoutes = [
 
   // admin page （my）
   {
-    path: '/article',
+    path: '/newArticle',
     component: Layout,
     redirect: '/article/AllArticle',
-    name: 'article',
+    name: 'newArticle',
     meta: {
       title: '文章',
       icon: 'article',
@@ -181,13 +181,13 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/article',
+    path: '/newResource',
     component: Layout,
-    redirect: '/article/AllArticle',
-    name: 'article',
+    redirect: '/resource/Allresource',
+    name: 'newresource',
     meta: {
-      title: '文章',
-      icon: 'article',
+      title: '资源',
+      icon: 'resource',
       requireAuth: true
       // 需要登录才能进入的页面可以增加一个requireAuth属性
     },
@@ -337,7 +337,7 @@ export const constantRoutes = [
       {
         path: 'dropzone',
         component: () => import('@/admin/Dropzone'),
-        name: 'DropzoneDemo',
+        name: 'DropzoneDemo2',
         meta: { title: '图片上传', icon: 'el-icon-upload', requireAuth: true }
         // 需要登录才能进入的页面可以增加一个requireAuth属性
       },
@@ -393,7 +393,7 @@ export const constantRoutes = [
     path: '/StoreManage',
     component: Layout,
     redirect: '/Manage/StoreManage',
-    name: 'selfInfo',
+    name: 'StoreManage',
     meta: {
       title: '商城管理',
       icon: 'shopping',

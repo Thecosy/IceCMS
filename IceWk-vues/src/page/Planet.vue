@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="content">
     <div data-server-rendered="true" id="__nuxt">
       <!---->
       <div id="__layout">
@@ -717,55 +717,30 @@ export default {
     }
   },
   mounted() {
-
-    let _this = this;
-
-    window.onscroll = function () {
-
-      //变量scrollTop是滚动条滚动时，距离顶部的距离
-
-      var scrollTop =
-
-        document.documentElement.scrollTop || document.body.scrollTop;
-
-      //变量windowHeight是可视区的高度
-
-      var windowHeight =
-
-        document.documentElement.clientHeight || document.body.clientHeight;
-
-      //变量scrollHeight是滚动条的总高度
-
-      var scrollHeight =
-
-        document.documentElement.scrollHeight || document.body.scrollHeight;
-
-      //滚动条到底部的条件
-
-      if (scrollTop + windowHeight == scrollHeight) {
-        console.log("滚动条到底部的条件");
-
-        // if (_this.total > _this.queryData.size) {
-
-        _this.page++;
-
-        _this.getSquare();
-
-        // } else {
-
-        // _this.noMore = true;
-
-        // alert("这是全部的内容");
-
-        // }
-
-      }
-
-    };
-
+    this.getNextUser();
   },
-
   methods: {
+    getNextUser() {
+      window.onscroll = () => {
+    var scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      //变量windowHeight是可视区的高度
+      var windowHeight =
+        document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight;
+      //变量scrollHeight是滚动条的总高度
+      var scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
+      //滚动条到底部的条件
+        // let bottomOfWindow = (document.documentElement.scrollTop + window.innerHeight) - document.body.scrollHeight;
+       let bottomOfWindow = (scrollTop +windowHeight) - scrollHeight;
+        // console.log(bottomOfWindow)
+        if (bottomOfWindow == 0.5 || bottomOfWindow == 0) {
+          this.page++;
+          this.getSquare();
+          // console.log("滚动条到底部的条件");
+        }
+      }
+    },
     MainLock() {
       this.postForm.isLock = !this.postForm.isLock;
     },
