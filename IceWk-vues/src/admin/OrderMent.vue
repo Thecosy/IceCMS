@@ -9,13 +9,13 @@
       <el-table :data="list" border style="width: 100%">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="orderNo" label="订单编号" width="230" ></el-table-column>
-        <el-table-column prop="title" label="订单标题"></el-table-column>
+        <el-table-column prop="title" label="订单标题" width="230"></el-table-column>
         <el-table-column prop="totalFee" label="订单金额">
           <template slot-scope="scope">
               {{scope.row.totalFee / 100}} 元
           </template>  
         </el-table-column>
-        <el-table-column label="订单状态">
+        <el-table-column width="105" label="订单状态">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.orderStatus === '未支付'">
               {{scope.row.orderStatus}}

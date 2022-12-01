@@ -4,7 +4,7 @@
       <el-col :span="8">
         <div style="transform: translateX(40px)">
           <h2>分类</h2>
-          <h3>添加新分类</h3>
+          <h5>添加新分类</h5>
         </div>
         <el-form ref="form" :model="form" label-width="80px">
           <el-form-item label="名称">
@@ -80,7 +80,7 @@
 
           <el-table-column class-name="status-col" label="文章总数" width="110">
             <template slot-scope="{ row }">
-              <el-tag :type="row.status | statusFilter"> </el-tag>
+              <el-tag style="display: flex;justify-content: center;" >123 </el-tag>
             </template>
           </el-table-column>
 

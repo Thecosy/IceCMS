@@ -34,13 +34,13 @@
                 </el-form-item>
               </el-col>
 
-              <el-col :span="10">
+              <el-col :span="8">
                 <el-form-item label="邮箱：">
-                  <el-input style="width: 220px" v-model="form.name"></el-input>
+                  <el-input style="width: 320px" v-model="form.name"></el-input>
                 </el-form-item>
               </el-col>
 
-              <el-col :span="6">
+              <el-col :span="12">
                  <el-form-item label="积分：">
                   <el-input style="width: 220px" v-model="form.name"></el-input>
                 </el-form-item> </el-col>
@@ -65,7 +65,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="个人简介">
-        <el-input type="textarea" v-model="form.desc"></el-input>
+        <el-input style="width:400px;" type="textarea" v-model="form.desc"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">更新</el-button>
@@ -190,5 +190,9 @@ export default ({
 }
 .fromclass {
   margin-top: 20px;
+}
+.app-container {
+    width: 100%;
+    padding: 20px;
 }
 </style>

@@ -380,12 +380,6 @@ export const constantRoutes = [
         component: () => import('@/admin/RoleEdit'),
         name: '角色管理',
         meta: { title: '角色管理', icon: 'el-icon-s-check' }
-      },
-      {
-        path: 'avatar-upload',
-        component: () => import('@/admin/avatar-upload'),
-        name: 'AvatarUploadDemo',
-        meta: { title: 'Upload' }
       }
     ]
   },

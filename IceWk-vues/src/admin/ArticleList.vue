@@ -1,5 +1,19 @@
 <template>
   <div class="app-container">
+    <div class="topList">
+      <div class="topListLeft" >
+    <el-input style="padding:8px;" maxlength="12" v-model="input" placeholder="请输入内容"></el-input>
+    <el-button style="margin:8px;" icon="el-icon-search" type="success" @click="handleAdd">
+          查询
+        </el-button>
+    <el-button style="margin:8px;" icon="el-icon-plus" type="primary" @click="handleAdd">
+          添加
+        </el-button>
+        <el-button style="margin:8px;" icon="el-icon-delete" type="danger" @click="handleDelete">
+          删除
+        </el-button>
+      </div>
+      </div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -9,7 +23,11 @@
       highlight-current-row
       style="width: 100%"
     >
-      <el-table-column align="center" prop="date" label="封面" width="220">
+    <el-table-column
+      type="selection"
+      width="55">
+    </el-table-column>
+      <el-table-column align="center" prop="date" label="封面" min-width="20%">
         <template slot-scope="scope">
           <img
             v-if="scope.row.thumb != null"
@@ -26,25 +44,25 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="date" label="ID" width="80">
+      <el-table-column align="center" prop="date" label="ID" min-width="10%">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="105px" align="center" label="时间">
+      <el-table-column min-width="10%" align="center" label="时间">
         <template slot-scope="scope">
           <span v-text="formatDate(scope.row.addTime)"></span>
         </template>
       </el-table-column>
 
-      <el-table-column width="80px" align="center" label="作者">
+      <el-table-column min-width="10%" align="center" label="作者">
         <template slot-scope="scope">
           <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="100px" label="重要性">
+      <el-table-column min-width="10%" label="重要性">
         <template slot-scope="scope">
           <svg-icon
             v-for="n in +scope.row.ownerTag"
@@ -55,7 +73,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="状态" width="110">
+      <el-table-column class-name="status-col" label="状态" min-width="10%">
         <template slot-scope="{ row }">
           <el-tag :type="row.status | statusFilter">
             {{ row.status }}
@@ -63,7 +81,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="220px" min-width="140px" label="标题">
+      <el-table-column width="220px" min-width="10%" label="标题">
         <template slot-scope="{ row }">
           <router-link target="_blank"  :to="'/post/' + row.id" class="link-type">
             <span>{{ row.title }}</span>
@@ -71,7 +89,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="200">
+      <el-table-column align="center" label="操作" min-width="20%">
         <template slot-scope="scope">
           <router-link :to="'/article/edit/' + scope.row.id">
             <el-button type="primary" size="mini" icon="el-icon-edit">
@@ -80,7 +98,7 @@
           </router-link>
 
           <el-button
-            style="margin-left: 10px"
+            style="margin: 10px"
             type="danger"
             size="mini"
             icon="el-icon-edit"
@@ -231,7 +249,7 @@ export default {
   top: 10px;
 }
 .post-item__preview {
-  width: 200px;
+  width: 100%;
   height: 120px;
   border-radius: 10px;
   background-size: cover;
@@ -264,5 +282,19 @@ export default {
 }
 .opacity-50 {
   opacity: 0.5 !important;
+}
+.app-container{
+      padding: 20px;
+      width: 100%;
+}
+.topList {
+  display: flex;
+  background-color: #fff !important;
+  border-radius: 8px 8px 0 0;
+}
+
+.topListLeft {
+  display: flex;
+  width: 500px;
 }
 </style>
