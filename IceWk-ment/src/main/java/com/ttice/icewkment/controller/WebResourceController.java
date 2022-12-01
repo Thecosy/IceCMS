@@ -119,8 +119,6 @@ public class WebResourceController {
             @PathVariable("resourceNum") Integer resourceNum,
             @PathVariable("filter") String filter
     ) {
-
-//        return resourceVOMapper.selectAll(resourceNum);
         return resourceService.GetNewResource(resourceNum,filter);
     }
 
@@ -155,5 +153,40 @@ public class WebResourceController {
         return this.resourceService.FindVoList(page, limit , content);
     }
 
+    @ApiOperation(value = "获取文章上一页(标题)")
+    @GetMapping("/getPrenewsResource/{id}")
+    public String getPrenewsResource(
+            @PathVariable("id") String id
+    ){
+        QueryWrapper<Resource> wrapper = new QueryWrapper<>();
+        wrapper.
+                lt("id", id) // 小于
+                .orderByDesc("id")
+                .last("limit 1");
+        Resource resource = resourceMapper.selectOne(wrapper);
+        if (resource == null) {
+            return null;
+        }
+        String title = resource.getTitle();
+        return title;
+    }
+
+    @ApiOperation(value = "获取文章下一页(标题)")
+    @GetMapping("/getLastnewsResource/{id}")
+    public String getLastnewsResource(
+            @PathVariable("id") String id
+    ){
+        QueryWrapper<Resource> wrapper = new QueryWrapper<>();
+        wrapper.
+                gt("id", id) // 大于
+                .orderByAsc("id")
+                .last("limit 1");
+        Resource resource = resourceMapper.selectOne(wrapper);
+        if (resource == null) {
+            return null;
+        }
+        String title = resource.getTitle();
+        return title;
+    }
 }
 

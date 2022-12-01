@@ -223,8 +223,42 @@ public class WebArticleController {
             result.add(articleVOs);
         }
         return result;
+    }
 
+    @ApiOperation(value = "获取文章上一页(标题)")
+    @GetMapping("/getPrenewsArticle/{id}")
+    public String getPrenewsArticle(
+            @PathVariable("id") String id
+    ){
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.
+                lt("id", id) // 小于
+                .orderByDesc("id")
+                .last("limit 1");
+        Article article = articleMapper.selectOne(wrapper);
+        if (article == null) {
+            return null;
+        }
+        String title = article.getTitle();
+        return title;
+    }
 
+    @ApiOperation(value = "获取文章下一页(标题)")
+    @GetMapping("/getLastnewsArticle/{id}")
+    public String getLastnewsArticle(
+            @PathVariable("id") String id
+    ){
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.
+                gt("id", id) // 大于
+                .orderByAsc("id")
+                .last("limit 1");
+        Article article = articleMapper.selectOne(wrapper);
+        if (article == null) {
+            return null;
+        }
+        String title = article.getTitle();
+        return title;
     }
 }
 
