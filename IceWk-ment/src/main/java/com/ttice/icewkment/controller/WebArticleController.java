@@ -22,8 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -227,7 +226,39 @@ public class WebArticleController {
 
     @ApiOperation(value = "获取文章上一页(标题)")
     @GetMapping("/getPrenewsArticle/{id}")
-    public String getPrenewsArticle(
+    public Map<String, Object> getPrenewsArticle(
+            @PathVariable("id") String id
+    ){
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.
+                gt("id", id) // 大于
+                .orderByAsc("id")
+                .last("limit 1");
+        Article article = articleMapper.selectOne(wrapper);
+        if (article == null) {
+            Map<String, Object> list = new HashMap<String, Object>();
+            Date date = new Date();
+            list.put("title", "当前已是最新文章");
+            list.put("addTime", date);
+            list.put("createTime", date);
+            list.put("id", 1);
+            return list;
+        }
+        String title = article.getTitle();
+        Date addTime = article.getAddTime();
+        Date createTime = article.getCreateTime();
+        Integer id1 = article.getId();
+        Map<String, Object> list = new HashMap<String, Object>();
+        list.put("title", title);
+        list.put("addTime", addTime);
+        list.put("createTime", createTime);
+        list.put("id", id1);
+        return list;
+    }
+
+    @ApiOperation(value = "获取文章下一页(标题)")
+    @GetMapping("/getLastnewsArticle/{id}")
+    public Map<String, Object> getLastnewsArticle(
             @PathVariable("id") String id
     ){
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
@@ -240,25 +271,15 @@ public class WebArticleController {
             return null;
         }
         String title = article.getTitle();
-        return title;
-    }
-
-    @ApiOperation(value = "获取文章下一页(标题)")
-    @GetMapping("/getLastnewsArticle/{id}")
-    public String getLastnewsArticle(
-            @PathVariable("id") String id
-    ){
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        wrapper.
-                gt("id", id) // 大于
-                .orderByAsc("id")
-                .last("limit 1");
-        Article article = articleMapper.selectOne(wrapper);
-        if (article == null) {
-            return null;
-        }
-        String title = article.getTitle();
-        return title;
+        Date addTime = article.getAddTime();
+        Date createTime = article.getCreateTime();
+        Integer id1 = article.getId();
+        Map<String, Object> list = new HashMap<String, Object>();
+        list.put("title", title);
+        list.put("addTime", addTime);
+        list.put("createTime", createTime);
+        list.put("id", id1);
+        return list;
     }
 }
 

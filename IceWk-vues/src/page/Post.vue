@@ -94,24 +94,25 @@
                              </div>
                         </div><!-- Post navigation -->
                         <div class="post-navigation">
-                          <a >
+                          <router-link :to="'/post/' + preArticle.id">
                             <div class="nav-prev">
                               <div  class="nav-button-left">
                               <span><img src="../static/img/long-arrow-2.png" alt="arrow"></span>
                                              <span>上一篇 </span> </div>
                                 <div class="nav-post">
-                                        <h3 class="heading-tertiary">Glasses Review:Enterprise Usage</h3>
-                                   <span class="date body-text">Feb 06,2022</span></div>
+                                        <h3 class="heading-tertiary">{{preArticle.title}}</h3>
+                                   <span class="date body-text">{{formatDate(preArticle.addTime)}}</span></div>
                             </div>
-                              </a>
-                              <a>
+                          </router-link>
+                              <router-link :to="'/post/' + nextArticle.id">
+
                             <div class="nav-next"><div class="nav-button-right">下一篇 <span><img
                                             src="../static/img/long-arrow.png" alt="arrow"></span></div>
                                 <div class="nav-post">
-                                        <h3 class="heading-tertiary">Glasses Review:Enterprise Usage</h3>
-                                    <span class="date body-text">Feb 06,2022</span></div>
+                                        <h3 class="heading-tertiary">{{nextArticle.title}}</h3>
+                                    <span class="date body-text">{{formatDate(nextArticle.addTime)}}</span></div>
                             </div>
-                            </a>
+                              </router-link>
                         </div><!-- Comments -->
                         <!-- <div class="post-comments">
                             <h3 class="heading-secondary">Comments(3)</h3>
@@ -621,6 +622,8 @@ import {
   viewarticle,
   lovearticle,
   getNewArticle,
+  getPrenewsArticle,
+  getLastnewsArticle,
 } from "@/api/webarticle";
 import { getArticleCommentnum } from "@/api/webarticleComment";
 
@@ -787,10 +790,38 @@ export default {
       getNewArticle(2).then((resp) => {
         this.newArticle = resp.data;
       });
+      getPrenewsArticle(id).then((resp) => {
+        this.preArticle.title = resp.data.title;
+        this.preArticle.id = resp.data.id;
+        if(resp.data.createTime != null){
+          this.preArticle.addTime = resp.data.createTime;
+        } else {
+          this.preArticle.addTime = resp.data.addTime;
+        }
+      });
+      getLastnewsArticle(id).then((resp) => {
+        this.nextArticle.title = resp.data.title;
+        this.nextArticle.id = resp.data.id;
+        if(resp.data.createTime != null){
+          this.nextArticle.addTime = resp.data.createTime;
+        } else {
+          this.nextArticle.addTime = resp.data.addTime;
+        }
+      });
     },
   },
   data() {
     return {
+      preArticle: {
+        title: "",
+        addTime: "",
+        id: "",
+      },
+      nextArticle: {
+        title: "",
+        addTime: "",
+        id: "",
+      },
       Mytag: [],
       taglist: [],
       seachcontent: "",

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <router-view />
+    <!--$route.fullpath: Vue.js当前页面跳转当前页面 -->
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
@@ -11,7 +12,6 @@ export default {
 </script>
 
 <style>
-	/* @import url("./assets/css/common.css"); */
   @import "./static/mycss/top.css";
   @import "./static/mycss/body.css";
 </style>

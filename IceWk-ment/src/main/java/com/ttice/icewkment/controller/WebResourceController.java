@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -155,7 +155,39 @@ public class WebResourceController {
 
     @ApiOperation(value = "获取文章上一页(标题)")
     @GetMapping("/getPrenewsResource/{id}")
-    public String getPrenewsResource(
+    public Map<String, Object> getPrenewsResource(
+            @PathVariable("id") String id
+    ){
+        QueryWrapper<Resource> wrapper = new QueryWrapper<>();
+        wrapper.
+                gt("id", id) // 大于
+                .orderByAsc("id")
+                .last("limit 1");
+        Resource resource = resourceMapper.selectOne(wrapper);
+        if (resource == null) {
+            Map<String, Object> list = new HashMap<String, Object>();
+            Date date = new Date();
+            list.put("title", "当前已是最新");
+            list.put("addTime", date);
+            list.put("createTime", date);
+            list.put("id", 1);
+            return list;
+        }
+        String title = resource.getTitle();
+        Date addTime = resource.getAddTime();
+        Date createTime = resource.getCreateTime();
+        Integer id1 = resource.getId();
+        Map<String, Object> list = new HashMap<String, Object>();
+        list.put("title", title);
+        list.put("addTime", addTime);
+        list.put("createTime", createTime);
+        list.put("id", id1);
+        return list;
+    }
+
+    @ApiOperation(value = "获取文章下一页(标题)")
+    @GetMapping("/getLastnewsResource/{id}")
+    public Map<String, Object> getLastnewsResource(
             @PathVariable("id") String id
     ){
         QueryWrapper<Resource> wrapper = new QueryWrapper<>();
@@ -168,25 +200,15 @@ public class WebResourceController {
             return null;
         }
         String title = resource.getTitle();
-        return title;
-    }
-
-    @ApiOperation(value = "获取文章下一页(标题)")
-    @GetMapping("/getLastnewsResource/{id}")
-    public String getLastnewsResource(
-            @PathVariable("id") String id
-    ){
-        QueryWrapper<Resource> wrapper = new QueryWrapper<>();
-        wrapper.
-                gt("id", id) // 大于
-                .orderByAsc("id")
-                .last("limit 1");
-        Resource resource = resourceMapper.selectOne(wrapper);
-        if (resource == null) {
-            return null;
-        }
-        String title = resource.getTitle();
-        return title;
+        Date addTime = resource.getAddTime();
+        Date createTime = resource.getCreateTime();
+        Integer id1 = resource.getId();
+        Map<String, Object> list = new HashMap<String, Object>();
+        list.put("title", title);
+        list.put("addTime", addTime);
+        list.put("createTime", createTime);
+        list.put("id", id1);
+        return list;
     }
 }
 

@@ -62,3 +62,17 @@ export function FindAllResource(query) {
     method: 'get'
   })
 }
+
+export function getPrenewsResource(id) {
+  return request({
+    url: '/WebResource/getPrenewsResource/' + id,
+    method: 'get',
+  })
+}
+
+export function getLastnewsResource(id) {
+  return request({
+    url: '/WebResource/getLastnewsResource/' + id,
+    method: 'get',
+  })
+}

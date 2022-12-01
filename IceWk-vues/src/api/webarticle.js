@@ -76,3 +76,17 @@ export function GetArticleBtmatte() {
     method: 'get',
   })
 }
+
+export function getPrenewsArticle(id) {
+  return request({
+    url: '/WebArticle/getPrenewsArticle/' + id,
+    method: 'get',
+  })
+}
+
+export function getLastnewsArticle(id) {
+  return request({
+    url: '/WebArticle/getLastnewsArticle/' + id,
+    method: 'get',
+  })
+}

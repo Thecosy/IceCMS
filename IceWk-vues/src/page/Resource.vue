@@ -590,28 +590,28 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                       </div>
                     </div><!-- Post navigation -->
                     <div class="post-navigation">
-                      <a>
+                      <router-link :to="'/list/' + preResource.id">
                         <div class="nav-prev">
                           <div class="nav-button-left">
                             <span><img src="../static/img/long-arrow-2.png" alt="arrow"></span>
                             <span>上一篇 </span>
                           </div>
                           <div class="nav-post">
-                            <h3 class="heading-tertiary">Glasses Review:Enterprise Usage</h3>
-                            <span class="date body-text">Feb 06,2022</span>
+                            <h3 class="heading-tertiary">{{preResource.title}}</h3>
+                                   <span class="date body-text">{{formatDate(preResource.addTime)}}</span>
                           </div>
                         </div>
-                      </a>
-                      <a>
+                      </router-link>
+                      <router-link :to="'/list/' + nextResource.id">
                         <div class="nav-next">
                           <div class="nav-button-right">下一篇 <span><img src="../static/img/long-arrow.png"
                                 alt="arrow"></span></div>
                           <div class="nav-post">
-                            <h3 class="heading-tertiary">Glasses Review:Enterprise Usage</h3>
-                            <span class="date body-text">Feb 06,2022</span>
+                            <h3 class="heading-tertiary">{{nextResource.title}}</h3>
+                                    <span class="date body-text">{{formatDate(nextResource.addTime)}}</span>
                           </div>
                         </div>
-                      </a>
+                      </router-link>
                     </div><!-- Comments -->
                     <!-- <div class="post-comments">
                             <h3 class="heading-secondary">Comments(3)</h3>
@@ -885,7 +885,7 @@ import foot from './components/Foots.vue'
 import comment from './components/ResComment.vue'
 
 import { getResourceCommentnum } from '@/api/webresourceComment'
-import { getResourceById, loveresource } from '@/api/webresource'
+import { getResourceById, loveresource,getPrenewsResource,getLastnewsResource } from '@/api/webresource'
 import { getResourceClassNameByid } from '@/api/webresourceclass'
 import { getNewArticle } from "@/api/webarticle";
 
@@ -896,13 +896,17 @@ import { formatDate, GetWeekdate } from '@/utils/date.js'
 import wxPayApi from '../api/payment/wxPay'
 import aliPayApi from '../api/payment/aliPay'
 import orderInfoApi from '../api/payment/orderInfo'
+import router from "@/router";
 export default {
 
   name: 'Resource',
   components: {
-    top, foot, comment, VEmojiPicker
-
-  },
+    top,
+    foot,
+    comment,
+    VEmojiPicker,
+    router
+},
   created() {
     //数据回填
     this.fetchData(this.$route.params.id)
@@ -1207,20 +1211,11 @@ export default {
         this.addTime = resp.data.addTime
         this.createTime = resp.data.createTime
         if (resp.data.createTime != null) {
-
-
           let data = new Date(resp.data.createTime)
           var intime = formatDate(data, 'yyyy-MM-dd')
           var tiems = GetWeekdate(intime)
           this.Theweeks = this.weeks[tiems]
-          console.log(resp.data.createTime)
-          console.log(data)
-
-
-
         } else {
-
-
           let data = new Date(resp.data.addTime)
           var intime = formatDate(data, 'yyyy-MM-dd')
           var tiems = GetWeekdate(intime)
@@ -1234,11 +1229,38 @@ export default {
         });
         console.log(this.Mytag)
       })
-
+      getPrenewsResource(id).then((resp) => {
+        this.preResource.title = resp.data.title;
+        this.preResource.id = resp.data.id;
+        if(resp.data.createTime != null){
+          this.preResource.addTime = resp.data.createTime;
+        } else {
+          this.preResource.addTime = resp.data.addTime;
+        }
+      });
+      getLastnewsResource(id).then((resp) => {
+        this.nextResource.title = resp.data.title;
+        this.nextResource.id = resp.data.id;
+        if(resp.data.createTime != null){
+          this.nextResource.addTime = resp.data.createTime;
+        } else {
+          this.nextResource.addTime = resp.data.addTime;
+        }
+      });
     },
   },
   data() {
     return {
+      preResource: {
+        title: "",
+        addTime: "",
+        id: ""
+      },
+      nextResource: {
+        title: "",
+        addTime: "",
+        id: "",
+      },
       resAddress: '',
       Mytag: [],
       taglist: [],
