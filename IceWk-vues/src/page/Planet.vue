@@ -20,7 +20,7 @@
                           b2-radius-aside-left
                         ">
                         <div class="b2-widget-title">
-                          <h2 class="widget-title">找到你自己的星球</h2>
+                          <h2 class="widget-title">找到你自己的圈子</h2>
                         </div>
                         <div class="b2-widget-box">
                           <div class="about-widget">
@@ -30,7 +30,7 @@
                                     planet-aside-li
                                     el-icon-ice-cream-round
                                   ">
-                                  <a href="#">怎么创建星球？</a>
+                                  <a href="#">怎么创建圈子？</a>
                                 </li>
                                 <li class="
                                     planet-aside-li
@@ -42,14 +42,14 @@
                                     planet-aside-li
                                     el-icon-ice-cream-round
                                   ">
-                                  <a href="#">星球条款</a>
+                                  <a href="#">圈子条款</a>
                                 </li>
                               </ul>
                             </div>
                             <div class="circle-widget-button">
                               <button class="text-great"
                                 onclick="postPoBox.go('https://www.zmki.cn/create-circle','create_circle')">
-                                创建星球
+                                创建圈子
                               </button>
                             </div>
                           </div>
@@ -66,7 +66,7 @@
                           b2-radius-aside-left-plant
                         ">
                         <div class="b2-widget-title">
-                          <h2 class="widget-title-plant">推荐星球</h2>
+                          <h2 class="widget-title-plant">推荐圈子</h2>
                         </div>
                         <div class="b2-widget-box">
                           <div class="about-widget">
@@ -91,7 +91,7 @@
                           </div>
                         </div>
                         <div class="widget-mission-footer">
-                          <a class="allad" href="https://7b2.com/announcement" target="_blank">全部星球</a>
+                          <a class="allad" href="https://7b2.com/announcement" target="_blank">全部圈子</a>
                         </div>
                       </section>
                     </div>
@@ -122,7 +122,7 @@
                                   </div>
                                 </div>
                                 <div class="circle-admin-info" style="">
-                                  <div>
+                                  <!-- <div>
                                     <a href="https://www.zmki.cn/circle-users?circle_id=850" target="_blank"
                                       class="link-block"></a>
                                     <b>4987</b> <span>圈友</span>
@@ -131,11 +131,11 @@
                                   <div>
                                     <b>52</b> <span>话题</span>
                                     <i class="b2font b2-chat-smile-3-line"></i>
-                                  </div>
+                                  </div> -->
                                   <div>
-                                    <a target="_blank" class="link-block"></a>
-                                    <b>46</b>
-                                    <span class="b2-color">所有星球</span>
+                                    <div class="top-card">
+                                      
+                                      <span class="">所有圈子(3)</span></div>
                                     <i class="b2font b2-donut-chart-fill"></i>
                                   </div>
                                   <!---->
@@ -173,8 +173,7 @@
                                   <div class="leftMenu">
 
                                     <a class="nav-link p-0 cursor-pointer">
-                                      <i @click="showemoge()"
-                                        class="icon-smile fs-18" />
+                                      <i @click="showemoge()" class="icon-smile fs-18" />
                                       <div class="myVEmojiPicker">
 
                                         <el-popover placement="left" trigger="manual" v-model="showDialog">
@@ -290,7 +289,7 @@
                                         fill-rule="nonzero"></path>
                                     </g>
                                   </svg></b>
-                                <b>{{item.sortName}}</b></a></span>
+                                <b>{{ item.sortName }}</b></a></span>
                           </div>
                         </div>
                         <div class="topic-content">
@@ -299,12 +298,14 @@
                         <div class="topic-footer">
                           <div class="topic-footer-left">
                             <button v-if="!item.isLike" @click="likeClickMains(item)" class="planettext ">
-                              <i class="el-icon-caret-top"></i><span class="el-icon-caret-planettext">{{item.loveNum > 0
-                              ? '\xa0' + item.loveNum + '\xa0\xa0赞' : '赞'}}</span><b></b>
+                              <i class="el-icon-caret-top"></i><span class="el-icon-caret-planettext">{{ item.loveNum > 0
+                                  ? '\xa0' + item.loveNum + '\xa0\xa0赞' : '赞'
+                              }}</span><b></b>
                             </button>
                             <button v-else @click="likeClickMains(item)" class="planettext active">
-                              <i class="el-icon-caret-top"></i><span class="el-icon-caret-planettext">{{item.loveNum > 0
-                              ? item.loveNum + '赞' : '赞'}}</span><b></b>
+                              <i class="el-icon-caret-top"></i><span class="el-icon-caret-planettext">{{ item.loveNum > 0
+                                  ? item.loveNum + '赞' : '赞'
+                              }}</span><b></b>
                             </button>
                             <button v-if="!item.isLose" class="planettext" @click="LoseClickMains(item)">
                               <i class="el-icon-caret-bottom"></i>
@@ -370,7 +371,7 @@
                                             <div>
                                               <div class="topic-name-data" v-once>
                                                 <a target="_blank"><b>{{
-                                                item.reviewers
+                                                    item.reviewers
                                                 }}</b></a>
                                                 <!---->
                                                 <!---->
@@ -435,13 +436,15 @@
                                         <div>
                                           <span @click="likeClick(item)" v-if="!item.isLike" class="like">
                                             <i class="iconfont icon-like"></i>
-                                            <span class="like-num">{{item.loveNum > 0 ? item.loveNum + '人赞' :
-                                            '赞'}}</span>
+                                            <span class="like-num">{{ item.loveNum > 0 ? item.loveNum + '人赞' :
+                                                '赞'
+                                            }}</span>
                                           </span>
                                           <span @click="likeClick(item)" v-else class="like active">
                                             <i class="iconfont icon-like"></i>
-                                            <span class="like-num">{{item.loveNum > 0 ? item.loveNum + '人赞' :
-                                            '赞'}}</span>
+                                            <span class="like-num">{{ item.loveNum > 0 ? item.loveNum + '人赞' :
+                                                '赞'
+                                            }}</span>
                                           </span>
                                         </div>
                                       </div>
@@ -475,13 +478,13 @@
                                                             el-icon-caret-right " style="
                                                             font-size: 12px;
                                                             font-weight: 500;
-                                                          "></i>{{ "\xa0" }}{{ reply.responder}}</b></a>
+                                                          "></i>{{ "\xa0" }}{{ reply.responder }}</b></a>
                                                     <!---->
                                                     <!---->
                                                   </div>
                                                   <div v-else class="topic-name-data">
                                                     <a target="_blank"><b>{{
-                                                    reply.reviewers
+                                                        reply.reviewers
                                                     }}</b></a>
                                                     <!---->
                                                     <!---->
@@ -549,13 +552,15 @@
                                             <div>
                                               <span @click="likeClicks(reply)" v-if="!reply.isLike" class="like">
                                                 <i class="iconfont icon-like"></i>
-                                                <span class="like-num">{{reply.loveNum > 0 ? reply.loveNum + '人赞' :
-                                                '赞'}}</span>
+                                                <span class="like-num">{{ reply.loveNum > 0 ? reply.loveNum + '人赞' :
+                                                    '赞'
+                                                }}</span>
                                               </span>
                                               <span @click="likeClicks(reply)" v-else class="like active">
                                                 <i class="iconfont icon-like"></i>
-                                                <span class="like-num">{{reply.loveNum > 0 ? reply.loveNum + '人赞' :
-                                                '赞'}}</span>
+                                                <span class="like-num">{{ reply.loveNum > 0 ? reply.loveNum + '人赞' :
+                                                    '赞'
+                                                }}</span>
                                               </span>
                                             </div>
                                           </div>
@@ -566,12 +571,12 @@
                                           ">
                                           </el-input>
                                           <el-button size="mini" class="replyBut" type="success" round @click="
-                                            setUpPostReplysTouser(
-                                              reply.responderId,
-                                              item.id,
-                                              reply.postId,
-                                              reply.userId
-                                            )
+  setUpPostReplysTouser(
+    reply.responderId,
+    item.id,
+    reply.postId,
+    reply.userId
+  )
                                           ">发布</el-button>
                                         </div>
                                       </div>
@@ -595,37 +600,32 @@
                         box
                         b2-radius b2-radius-aside-right
                       ">
+
                       <div class="b2-widget-box">
                         <div id="user-widget" class="user-widget">
                           <div class="user-widget-content">
-                            <div class="widget-gujia-user" style="display: none">
-                              <div class="user-widget-info">
-                                <div class="user-w-avatar"></div>
-                                <div class="user-w-name"></div>
-                              </div>
-                              <div class="user-w-tj">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                              </div>
-                              <div class="user-w-rw"></div>
-                              <div class="user-w-announcement">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                              </div>
-                            </div>
                             <div style="">
                               <!---->
                               <div>
+
                                 <div class="user-w-logon">
+                                  <div class="tools">
+                                    <div class="circle">
+                                      <span class="red box1"></span>
+                                    </div>
+                                    <div class="circle">
+                                      <span class="yellow box1"></span>
+                                    </div>
+                                    <div class="circle">
+                                      <span class="green box1"></span>
+                                    </div>
+                                  </div>
                                   <p class="user-w-logon-title b2-color">
-                                    念念不忘，必有回响
+                                    {{sentence}}
                                   </p>
-                                  <p class="user-w-logon-titlep">
+                                  <!-- <p class="user-w-logon-titlep">
                                     尽情畅所欲言吧
-                                  </p>
+                                  </p> -->
                                 </div>
                                 <div>
                                   <div class="oauth-login-button">
@@ -706,11 +706,25 @@ export default {
     this.fetchData();
     //检测token是否有效
     this.getUserInfo();
+    const elements = [
+    "念念不忘，必有回响", 
+    "星光与君皆负我，也无山色也无波。", 
+    "枕头里藏满了发了霉的梦，梦里住满了无法拥有的人。", 
+    "日子紧凑，常驻光明里。",
+    "他从未见过金阁，但此后谈及美好，他总说美如金阁。",
+    "人生而自由，却无往不在枷锁之中。",
+    "愿你熬过万丈孤独，藏下星辰大海。",
+    "别怕美好的一切消失，咱们先来让它存在。",
+    "凡事一知半解，却夸夸其谈、品头论足，必令听者闻之生厌。",
+    "偏见这个东西的真正意思——你好奇和感兴趣，但所知甚少。",
+  ]
+    const random = (arr) => arr[Math.floor(Math.random() * arr.length)]
+    this.sentence  = random(elements)
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
     $route: "fetchData",
-    
+
     MyEmoge(val) {
       // this.$router.go(0);
       this.postForm.content += val
@@ -722,17 +736,17 @@ export default {
   methods: {
     getNextUser() {
       window.onscroll = () => {
-    var scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      //变量windowHeight是可视区的高度
-      var windowHeight =
-        document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight;
-      //变量scrollHeight是滚动条的总高度
-      var scrollHeight =
-        document.documentElement.scrollHeight || document.body.scrollHeight;
-      //滚动条到底部的条件
+        var scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        //变量windowHeight是可视区的高度
+        var windowHeight =
+          document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight;
+        //变量scrollHeight是滚动条的总高度
+        var scrollHeight =
+          document.documentElement.scrollHeight || document.body.scrollHeight;
+        //滚动条到底部的条件
         // let bottomOfWindow = (document.documentElement.scrollTop + window.innerHeight) - document.body.scrollHeight;
-       let bottomOfWindow = (scrollTop +windowHeight) - scrollHeight;
+        let bottomOfWindow = (scrollTop + windowHeight) - scrollHeight;
         // console.log(bottomOfWindow)
         if (bottomOfWindow == 0.5 || bottomOfWindow == 0) {
           this.page++;
@@ -936,7 +950,7 @@ export default {
       this.getSquare();
       //获取当前this.$route.params.square的数据
 
-      //获取星球列表
+      //获取圈子列表
       getSquareClasslist().then((res) => {
         this.classlist = res.data;
       });
@@ -981,37 +995,26 @@ export default {
         return "前天";
       } else if (dayDiff > 2 && dayDiff < 7) {
         return "最近一周";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 7 && dayDiff < 30) {
         return "一个月内";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 30 && dayDiff < 60) {
         return "一个月前";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 60 && dayDiff < 90) {
         return "二个月前";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 90 && dayDiff < 120) {
         return "三个月前";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 120 && dayDiff < 160) {
         return "四个月前";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 160 && dayDiff < 180) {
         return "五个月前";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 180 && dayDiff < 210) {
         return "六个月前";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 240 && dayDiff < 270) {
         return "七个月前";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 300 && dayDiff < 330) {
         return "八个月前";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 330 && dayDiff < 365) {
         return "九个月前";
-        return formatDate(data, "yyyy-MM-dd");
       } else if (dayDiff >= 365) {
         let data = new Date(time);
         return formatDate(data, "yyyy-MM-dd");
@@ -1036,6 +1039,7 @@ export default {
 
   data() {
     return {
+      sentence:"",
       page: 1,
       MyEmoge: "",
       showDialog: false,
@@ -1064,7 +1068,7 @@ export default {
         postId: "",
       },
       squaredata: [],
-      //星球
+      //圈子
       postForm: {
         isLock: false,
         content: "",
@@ -1491,8 +1495,79 @@ body>.el-container {
   flex-wrap: nowrap;
   align-items: center;
 }
-@media screen and (max-width:991px){
-  .el-aside{display:none; }
+
+@media screen and (max-width:991px) {
+  .el-aside {
+    display: none;
+  }
 }
 
+
+.tools {
+  display: flex;
+  align-items: center;
+  padding: 9px;
+}
+
+.circle {
+  padding: 0 4px;
+}
+
+/* .box {
+ display: inline-block;
+ align-items: center;
+ width: 10px;
+ height: 10px;
+ padding: 1px;
+ border-radius: 50%;
+} */
+
+.red {
+  background-color: #ff605c;
+}
+
+.yellow {
+  background-color: #ffbd44;
+}
+
+.green {
+  background-color: #00ca4e;
+}
+
+.box1 {
+  display: inline-block;
+  align-items: center;
+  width: 10px;
+  height: 10px;
+  padding: 1px;
+  border-radius: 50%;
+}
+button:hover {
+  animation: var(--timing) linear dance6123 infinite;
+  transform: scale(1.1) translateY(-1px);
+}
+.top-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  --width: 150px;
+  --timing: 2s;
+  border: 0;
+  width: 80px;
+  height: 40px;
+  padding-block: 1em;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1em;
+  background: rgb(64, 192, 87);
+  transition: all 0.2s;
+  border-radius: 8px;
+  background-image: linear-gradient(to right, rgb(250, 82, 82), rgb(250, 82, 82) 16.65%, rgb(190, 75, 219) 16.65%, rgb(190, 75, 219) 33.3%, rgb(76, 110, 245) 33.3%, rgb(76, 110, 245) 49.95%, rgb(64, 192, 87) 49.95%, rgb(64, 192, 87) 66.6%, rgb(250, 176, 5) 66.6%, rgb(250, 176, 5) 83.25%, rgb(253, 126, 20) 83.25%, rgb(253, 126, 20) 100%, rgb(250, 82, 82) 100%);
+  animation: var(--timing) linear dance6123 infinite;
+}
+@keyframes dance6123 {
+  to {
+    background-position: var(--width);
+  }
+}
 </style>

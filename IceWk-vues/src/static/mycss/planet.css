@@ -990,8 +990,7 @@
 }
 .user-w-logon{
   border-radius: 8px;
-   
-      color: #121212;
+  color: #121212;
   line-height: 1.4;
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
@@ -1007,13 +1006,11 @@
   word-wrap: break-word;
   box-sizing: border-box;
   font-size: 13px;
-  padding: 24px 20px;
+  padding: 5px 10px;
   background-image: linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%);  position: relative;
 }
 .user-w-logon-title{
-    
-   
-      line-height: 1.4;
+  line-height: 1.4;
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -1032,8 +1029,8 @@
   margin-bottom: 10px;
   color: #ffffff!important;
   display: block;
-  overflow: hidden;
-  white-space: nowrap;
+  /* overflow: hidden;
+  white-space: nowrap; */
   text-overflow: ellipsis;
   position: relative;
   z-index: 2;

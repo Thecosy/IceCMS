@@ -291,7 +291,7 @@
             :class="message5"
             data-v-1f33282a=""
             to="/planet"
-            >星球</router-link
+            >圈子</router-link
           >
           <router-link
             target="_self"
