@@ -1,21 +1,11 @@
 <template>
   <div class="createPost-container">
-    <el-form
-      ref="postForm"
-      :model="postForm"
-      :rules="rules"
-      class="form-container"
-    >
+    <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container">
       <sticky :z-index="10" :class-name="'sub-navbar ' + postForm.status">
         <CommentDropdown v-model="postForm.commentDisabled" />
         <PlatformDropdown v-model="postForm.platforms" />
         <SourceUrlDropdown v-model="postForm.source_uri" />
-        <el-button
-          v-loading="loading"
-          style="margin-left: 10px"
-          type="success"
-          @click="submitForm"
-        >
+        <el-button v-loading="loading" style="margin-left: 10px" type="success" @click="submitForm">
           提交
         </el-button>
         <el-button v-loading="loading" type="warning" @click="draftForm">
@@ -29,12 +19,7 @@
 
           <el-col :span="24">
             <el-form-item style="margin-bottom: 40px" prop="title">
-              <MDinput
-                v-model="postForm.title"
-                :maxlength="100"
-                name="name"
-                required
-              >
+              <MDinput v-model="postForm.title" :maxlength="100" name="name" required>
                 标题
               </MDinput>
             </el-form-item>
@@ -42,59 +27,26 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item
-                    label-width="60px"
-                    label="作者:"
-                    class="postInfo-container-item"
-                    prop="author"
-                  >
-                    <el-select
-                      v-model="postForm.author"
-                      :remote-method="getRemoteUserList"
-                      filterable
-                      default-first-option
-                      remote
-                      placeholder="选择作者"
-                    >
-                      <el-option
-                        v-for="(item, index) in userListOptions"
-                        :key="item + index"
-                        :label="item"
-                        :value="item"
-                      />
+                  <el-form-item label-width="60px" label="作者:" class="postInfo-container-item" prop="author">
+                    <el-select v-model="postForm.author" :remote-method="getRemoteUserList" filterable
+                      default-first-option remote placeholder="选择作者">
+                      <el-option v-for="(item, index) in userListOptions" :key="item + index" :label="item"
+                        :value="item" />
                     </el-select>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="10">
-                  <el-form-item
-                    label-width="120px"
-                    label="发布时间:"
-                    class="postInfo-container-item"
-                  >
-                    <el-date-picker
-                      v-model="displayTime"
-                      type="datetime"
-                      format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期和时间"
-                    />
+                  <el-form-item label-width="120px" label="发布时间:" class="postInfo-container-item">
+                    <el-date-picker v-model="displayTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"
+                      placeholder="选择日期和时间" />
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="6">
-                  <el-form-item
-                    label-width="90px"
-                    label="重要性:"
-                    class="postInfo-container-item"
-                  >
-                    <el-rate
-                      v-model="postForm.ownerTag"
-                      :max="3"
-                      :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                      :low-threshold="1"
-                      :high-threshold="3"
-                      style="display: inline-block"
-                    />
+                  <el-form-item label-width="90px" label="重要性:" class="postInfo-container-item">
+                    <el-rate v-model="postForm.ownerTag" :max="3" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                      :low-threshold="1" :high-threshold="3" style="display: inline-block" />
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -108,17 +60,9 @@
               <el-row>
                 <el-col :span="8">
                   <el-form-item label-width="60px" label="简介:">
-                    <el-input
-                      v-model="postForm.intro"
-                      :rows="1"
-                      type="textarea"
-                      class="article-textarea"
-                      autosize
-                      placeholder="简单介绍一下吧"
-                    />
-                    <span v-show="contentShortLength" class="word-counter"
-                      >{{ contentShortLength }}words</span
-                    >
+                    <el-input v-model="postForm.intro" :rows="1" type="textarea" class="article-textarea" autosize
+                      placeholder="简单介绍一下吧" />
+                    <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}words</span>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -126,116 +70,77 @@
           </el-col>
         </el-row>
         <el-row>
-   
+
+
+          <el-col :span="6">
+            <el-form-item label-width="60px" label="分类:" class="postInfo-container-item" prop="class">
+              <el-select v-model="postForm.sortClass" :remote-method="getRemoteUserList" filterable default-first-option
+                remote placeholder="选择分类">
+                <el-option v-for="(item, index) in ClassListOptions" :key="item + index" :label="item" :value="item" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item label-width="60px" label="标签:">
+              <el-drag-select v-model="value" style="width: 400px" multiple placeholder="请选择">
+                <el-option v-for="item in options" :key="item.id" :label="item.tagName" :value="item.id" />
+              </el-drag-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <div style="margin-left:16px;" class="postInfo-container">
+              <el-row>
+                <el-col :span="3">
+                  <div>
+                    <p>是否付费</p>
+                    <el-switch v-model="isfree" active-text="付费" inactive-text="免费">
+                    </el-switch>
+                  </div>
+                </el-col>
+                <el-col :span="5">
+                  <div style="margin-left:18px;" v-show="isfree">
+                    <p>设置价格</p>
+                    <el-input style="width: 100px" v-model="postForm.price" placeholder="请输入价格"></el-input>元
+                  </div>
+                </el-col>
+
+                <el-col :span="10">
+                  <div style="margin-left:18px;">
+                    <p>资源链接</p>
+                    <el-input style="width: 320px" v-model="postForm.resAddress" placeholder="请输入链接"></el-input>
+                  </div>
+                </el-col>
 
                 <el-col :span="6">
-                  <el-form-item
-                    label-width="60px"
-                    label="分类:"
-                    class="postInfo-container-item"
-                    prop="class"
-                  >
-                    <el-select
-                      v-model="postForm.sortClass"
-                      :remote-method="getRemoteUserList"
-                      filterable
-                      default-first-option
-                      remote
-                      placeholder="选择分类"
-                    >
-                      <el-option
-                        v-for="(item, index) in ClassListOptions"
-                        :key="item + index"
-                        :label="item"
-                        :value="item"
-                      />
-                    </el-select>
-                  </el-form-item>
+                  <p>资源密码</p>
+                  <el-input style="width: 120px" v-model="postForm.resPassword" placeholder="请输入密码"></el-input>
                 </el-col>
-                       <el-col :span="3">
-                  <el-form-item label-width="60px" label="标签:">
-                    <el-drag-select
-                      v-model="value"
-                      style="width: 400px"
-                      multiple
-                      placeholder="请选择"
-                    >
-                      <el-option
-                        v-for="item in options"
-                        :key="item.id"
-                        :label="item.tagName"
-                        :value="item.id"
-                      />
-                    </el-drag-select>
-                  </el-form-item>
-                </el-col>
+              </el-row>
+            </div>
+          </el-col>
         </el-row>
-         <el-row>
-        <el-col :span="24">
-          <div style="margin-left:16px;" class="postInfo-container">
-            <el-row>
-              <el-col :span="3">
-                <div>
-                <p>是否付费</p>
-            <el-switch
-              v-model="isfree"
-              active-text="付费"
-              inactive-text="免费"
-            >
-        </el-switch>
-        </div>
-      </el-col>
-        <el-col :span="5">
-        <div style="margin-left:18px;" v-show="isfree">
-               <p>设置价格</p>
-        <el-input style="width: 100px" v-model="postForm.price" placeholder="请输入价格"></el-input>元
-      </div>
-              </el-col>
 
-              <el-col :span="10">
-                <div style="margin-left:18px;" >
-                <p>资源链接</p>
-        <el-input style="width: 320px" v-model="postForm.resAddress" placeholder="请输入链接"></el-input></div>
-              </el-col>
-
-              <el-col :span="6">
-                 <p>资源密码</p>
-        <el-input style="width: 120px" v-model="postForm.resPassword" placeholder="请输入密码"></el-input></el-col>
-            </el-row>
-          </div>
-        </el-col>
-      </el-row>
-        
 
         <el-form-item prop="content" style="margin-bottom: 30px">
           <Tinymce ref="editor" v-model="postForm.content" :height="400" />
         </el-form-item>
 
         <el-form-item prop="image_uri" style="margin-bottom: 30px">
-          <Upload
-            :fortitle="this.postForm.title"
-            :forcontent="this.postForm.intro"
-            v-model="postForm.thumb"
-          />
+          <Upload :foriscreate="false" :fortitle="this.postForm.title" :forcontent="this.postForm.intro"
+            v-model="postForm.thumb" />
         </el-form-item>
         <h4>上传轮播图</h4>
-       <div class="upload-container">
-         <el-upload
-          class="upload-demo"
-          
-          action=""
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :file-list="fileList"
-          :before-upload="BeforeUpload"
-          :http-request="Upload"
-          list-type="picture-card">
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2mb</div>
-        </el-upload>
- </div>
+        <div class="upload-container">
+          <el-upload class="upload-demo" action="" :on-preview="handlePreview" :on-remove="handleRemove"
+            :file-list="fileList" :before-upload="BeforeUpload" :http-request="Upload" list-type="picture-card">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2mb</div>
+          </el-upload>
+        </div>
 
-        
+
       </div>
     </el-form>
   </div>
@@ -333,8 +238,8 @@ export default {
     return {
       fileList: [],
       imageList: [],
-      newFile:new FormData(), //   1. 定义一个newFile变量（FormData 对象） 
-      isfree:false,
+      newFile: new FormData(), //   1. 定义一个newFile变量（FormData 对象） 
+      isfree: false,
       value: [],
       options: [],
       articleid: '',
@@ -371,7 +276,7 @@ export default {
     }
   },
   created() {
-    const id = this.$route.params && this.$route.params.id  
+    const id = this.$route.params && this.$route.params.id
     //获取作者列表，和分类列表
     this.getRemoteUserList()
 
@@ -391,36 +296,35 @@ export default {
     this.tempRoute = Object.assign({}, this.$route)
   },
   methods: {
-   handleRemove(file, fileList) {
-        console.log(file, fileList);
-        //  this.imageList.remove(file)
-        //  console.log(this.imageList)
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
-      BeforeUpload(file){
-       if(file){
-          this.newFile.append('file',file); //  2. 上传之前，拿到file对象，并将它添加到刚刚定义的FormData对象中。 
-           console.log(this.newFile.get('file'))
-            console.log(this.newFile.get('file'),"123")
-       }else{
-         return false;
-       }     
-      },
-      Upload(){
-        const newData = this.newFile.get('file'); //  3. 拿到刚刚的数据，并将其传给后台
-        console.log(this.newFile)
-         console.log(newData,"564")
-          var form = new FormData();
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+      //  this.imageList.remove(file)
+      //  console.log(this.imageList)
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    BeforeUpload(file) {
+      if (file) {
+        this.newFile.append('file', file); //  2. 上传之前，拿到file对象，并将它添加到刚刚定义的FormData对象中。 
+        console.log(this.newFile.get('file'))
+        console.log(this.newFile.get('file'), "123")
+      } else {
+        return false;
+      }
+    },
+    Upload() {
+      const newData = this.newFile.get('file'); //  3. 拿到刚刚的数据，并将其传给后台
+      console.log(this.newFile)
+      console.log(newData, "564")
+      var form = new FormData();
       form.append('editormd-image-file', newData, newData.name)
-         updateImage(form).then(resp => {
-           console.log(resp)
+      updateImage(form).then(resp => {
         this.$message({
-            message: '上传成功',
-            type: 'success',
-            showClose: true,
-            duration: 1000
+          message: '上传成功',
+          type: 'success',
+          showClose: true,
+          duration: 1000
         })
         //上传一张后重置数据
         this.newFile = new FormData()
@@ -428,22 +332,23 @@ export default {
         this.tempUrl = imgUrl
         //  this.fileList.append('url',this.tempUrl);
         var aa = {
-        "url" : this.tempUrl,
-        "name" : this.tempUrl,
+          "url": this.tempUrl,
+          "name": this.tempUrl,
         }
         this.imageList.push(aa)
         this.fileList.push(aa)
-      }).catch((e) => { 
-       this.$message.error('抱歉,上传失败');
-       this.theprogress=false
-      console.log("上传失败") })
-      
-      },
+      }).catch((e) => {
+        this.$message.error('抱歉,上传失败');
+        this.theprogress = false
+        console.log("上传失败")
+      })
+
+    },
     async fetchData(id) {
       getResourceById(id).then(response => {
         console.log(response)
         this.postForm = response.data
-         this.postForm.price = response.data.price/100
+        this.postForm.price = response.data.price / 100
         this.postForm.articleStatus = response.data.articleStatus
         //根据classId查询对应的名称
         getClassNameById(response.data.sortClass).then(response => {
@@ -472,15 +377,15 @@ export default {
         if (valid) {
           this.loading = true
           this.postForm.status = 'published'
-        
+
           var image = JSON.stringify(this.imageList);
-          that.postForm.carousel=image
+          that.postForm.carousel = image
           that.postForm.isFree = this.isfree
-          that.postForm.price = this.postForm.price*100
+          that.postForm.price = this.postForm.price * 100
           createResource(that.postForm).then(resp => {
             //做一个简单的返回数据判断
             if (resp.status === 200) {
-              that.postForm.price = this.postForm.price/100
+              that.postForm.price = this.postForm.price / 100
               this.$notify({
                 title: '成功',
                 message: '发布文章成功',
@@ -493,12 +398,12 @@ export default {
               this.postForm.status = 'published'
               this.loading = false
             } else {
-              that.postForm.price = this.postForm.price/100
+              that.postForm.price = this.postForm.price / 100
               console.log("保存失败")
             }
           })
             .catch((e) => {
-              that.postForm.price = this.postForm.price/100
+              that.postForm.price = this.postForm.price / 100
               console.log('error submit!!')
               this.postForm.status = 'draft'
               this.loading = false
@@ -514,7 +419,7 @@ export default {
           console.log('error submit!!')
           return false
         }
-        
+
       })
     },
     draftForm() {
@@ -552,8 +457,8 @@ export default {
           return false
         })
     },
-    getRemoteTagList(id){
-      getAllTag(id).then(response => { 
+    getRemoteTagList(id) {
+      getAllTag(id).then(response => {
         this.options = response.data
       })
     },
@@ -578,6 +483,7 @@ export default {
 .createPost-container {
   position: relative;
   width: 100%;
+
   .createPost-main-container {
     padding: 40px 45px 20px 50px;
 

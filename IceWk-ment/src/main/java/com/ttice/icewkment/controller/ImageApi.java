@@ -73,10 +73,11 @@ public class ImageApi {
             //图片处理
             File bufferedImage = ImgGenerateUtils.ImgGenerate(excelFile,title,content);
             // 将File转为MultipartFile
-            MultipartFile multipartFile = fileToMultipartFile(bufferedImage);
+            MultipartFile multipartFile = getMultipartFile(bufferedImage);
 
             //调用本地上传文件
             fileNames = localUpImg(multipartFile);
+            System.out.println(fileNames);
         }
         //程序结束时，删除临时文件
         //TencentCOS.deletefile(String.valueOf(excelFile));
@@ -134,17 +135,14 @@ public class ImageApi {
      * @param file
      * @return: MultipartFile
      */
-    public static MultipartFile fileToMultipartFile(File file)
-    {
+    private MultipartFile getMultipartFile(File file){
         FileInputStream fileInputStream = null;
         MultipartFile multipartFile = null;
-        try
-        {
+        try {
             fileInputStream = new FileInputStream(file);
-            multipartFile = new MockMultipartFile(file.getName(), file.getName(), ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
-        }
-        catch (Exception e)
-        {
+            multipartFile = new MockMultipartFile(file.getName(),file.getName(),
+                    ContentType.APPLICATION_OCTET_STREAM.toString(),fileInputStream);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return multipartFile;

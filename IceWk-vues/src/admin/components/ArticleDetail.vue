@@ -1,21 +1,11 @@
 <template>
   <div class="createPost-container app-top">
-    <el-form
-      ref="postForm"
-      :model="postForm"
-      :rules="rules"
-      class="form-container"
-    >
+    <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container">
       <sticky :z-index="10" :class-name="'sub-navbar ' + postForm.status">
         <CommentDropdown v-model="postForm.commentDisabled" />
         <PlatformDropdown v-model="postForm.platforms" />
         <SourceUrlDropdown v-model="postForm.source_uri" />
-        <el-button
-          v-loading="loading"
-          style="margin-left: 10px"
-          type="success"
-          @click="submitForm"
-        >
+        <el-button v-loading="loading" style="margin-left: 10px" type="success" @click="submitForm">
           提交
         </el-button>
         <el-button v-loading="loading" type="warning" @click="draftForm">
@@ -29,12 +19,7 @@
 
           <el-col :span="24">
             <el-form-item style="margin-bottom: 40px" prop="title">
-              <MDinput
-                v-model="postForm.title"
-                :maxlength="100"
-                name="name"
-                required
-              >
+              <MDinput v-model="postForm.title" :maxlength="100" name="name" required>
                 标题
               </MDinput>
             </el-form-item>
@@ -42,59 +27,26 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item
-                    label-width="60px"
-                    label="作者:"
-                    class="postInfo-container-item"
-                    prop="author"
-                  >
-                    <el-select
-                      v-model="postForm.author"
-                      :remote-method="getRemoteUserList"
-                      filterable
-                      default-first-option
-                      remote
-                      placeholder="选择作者"
-                    >
-                      <el-option
-                        v-for="(item, index) in userListOptions"
-                        :key="item + index"
-                        :label="item"
-                        :value="item"
-                      />
+                  <el-form-item label-width="60px" label="作者:" class="postInfo-container-item" prop="author">
+                    <el-select v-model="postForm.author" :remote-method="getRemoteUserList" filterable
+                      default-first-option remote placeholder="选择作者">
+                      <el-option v-for="(item, index) in userListOptions" :key="item + index" :label="item"
+                        :value="item" />
                     </el-select>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="10">
-                  <el-form-item
-                    label-width="120px"
-                    label="发布时间:"
-                    class="postInfo-container-item"
-                  >
-                    <el-date-picker
-                      v-model="displayTime"
-                      type="datetime"
-                      format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期和时间"
-                    />
+                  <el-form-item label-width="120px" label="发布时间:" class="postInfo-container-item">
+                    <el-date-picker v-model="displayTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"
+                      placeholder="选择日期和时间" />
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="6">
-                  <el-form-item
-                    label-width="90px"
-                    label="重要性:"
-                    class="postInfo-container-item"
-                  >
-                    <el-rate
-                      v-model="postForm.ownerTag"
-                      :max="3"
-                      :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                      :low-threshold="1"
-                      :high-threshold="3"
-                      style="display: inline-block"
-                    />
+                  <el-form-item label-width="90px" label="重要性:" class="postInfo-container-item">
+                    <el-rate v-model="postForm.ownerTag" :max="3" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                      :low-threshold="1" :high-threshold="3" style="display: inline-block" />
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -108,17 +60,9 @@
               <el-row>
                 <el-col :span="8">
                   <el-form-item label-width="60px" label="简介:">
-                    <el-input
-                      v-model="postForm.intro"
-                      :rows="1"
-                      type="textarea"
-                      class="article-textarea"
-                      autosize
-                      placeholder="简单介绍一下吧"
-                    />
-                    <span v-show="contentShortLength" class="word-counter"
-                      >{{ contentShortLength }}words</span
-                    >
+                    <el-input v-model="postForm.intro" :rows="1" type="textarea" class="article-textarea" autosize
+                      placeholder="简单介绍一下吧" />
+                    <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}words</span>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -126,57 +70,36 @@
           </el-col>
         </el-row>
         <el-row>
-              
 
-                <el-col :span="6">
-                  <el-form-item
-                    label-width="60px"
-                    label="分类:"
-                    class="postInfo-container-item"
-                    prop="class"
-                  >
-                    <el-select
-                      v-model="postForm.sortClass"
-                      :remote-method="getRemoteUserList"
-                      filterable
-                      default-first-option
-                      remote
-                      placeholder="选择分类"
-                    >
-                      <el-option
-                        v-for="(item, index) in ClassListOptions"
-                        :key="item + index"
-                        :label="item"
-                        :value="item"
-                      />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="3">
-                  <el-form-item label-width="60px" label="标签:">
-                    <el-drag-select
-                      v-model="value"
-                      style="width: 400px"
-                      multiple
-                      placeholder="请选择"
-                    >
-                      <el-option
-                        v-for="item in options"
-                        :key="item.id"
-                        :label="item.tagName"
-                        :value="item.id"
-                      />
-                    </el-drag-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
+
+          <el-col :span="6">
+            <el-form-item label-width="60px" label="分类:" class="postInfo-container-item" prop="class">
+              <el-select v-model="postForm.sortClass" :remote-method="getRemoteUserList" filterable default-first-option
+                remote placeholder="选择分类">
+                <el-option v-for="(item, index) in ClassListOptions" :key="item + index" :label="item" :value="item" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item label-width="60px" label="标签:">
+              <el-drag-select v-model="value" style="width: 400px" multiple placeholder="请选择">
+                <el-option v-for="item in options" :key="item.id" :label="item.tagName" :value="item.id" />
+              </el-drag-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item prop="content" style="margin-bottom: 30px">
           <Tinymce ref="editor" v-model="postForm.content" :height="400" />
         </el-form-item>
-
+        <h4>生成图片文字(根据所填写标题)</h4>
+        <el-switch v-model="isCreate" active-color="#13ce66" inactive-color="#ff4949">
+        </el-switch>
+        <h4>上传轮播图</h4>
         <el-form-item prop="image_uri" style="margin-bottom: 30px">
-          <Upload :fortitle="this.postForm.title" :forcontent="this.postForm.intro" v-model="postForm.thumb" />
+          <Upload :foriscreate="this.isCreate" :fortitle="this.postForm.title" :forcontent="this.postForm.intro"
+            v-model="postForm.thumb" />
         </el-form-item>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2mb</div>
       </div>
     </el-form>
   </div>
@@ -271,6 +194,7 @@ export default {
       }
     }
     return {
+      isCreate: false,
       value: [],
       options: [],
       articleid: '',
@@ -449,7 +373,7 @@ export default {
       })
     },
     getRemoteTagList(id) {
-      getAllTag(id).then(response => { 
+      getAllTag(id).then(response => {
         this.options = response.data
       })
     }
@@ -463,6 +387,7 @@ export default {
 .createPost-container {
   position: relative;
   width: 100%;
+
   .createPost-main-container {
     padding: 40px 45px 20px 50px;
 
@@ -483,6 +408,7 @@ export default {
     top: 1px;
   }
 }
+
 .article-textarea ::v-deep {
   textarea {
     width: 100%;
@@ -493,7 +419,8 @@ export default {
     border-bottom: 1px solid #bfcbd9;
   }
 }
+
 .app-top {
-padding-top: 0px !important;
+  padding-top: 0px !important;
 }
 </style>

@@ -129,7 +129,7 @@ export default {
         fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',
         selector: `#${this.tinymceId}`,
         language: 'zh_CN',
-        language_url: require('./zh_CN.js'),
+        language_url: require("./zh_CN.js"),
         height: this.height,
         body_class: 'panel-body ',
         statusbar: false,
