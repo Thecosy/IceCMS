@@ -2,21 +2,31 @@ package com.ttice.icewkment.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.ttice.icewkment.Util.FileUtils;
 import com.ttice.icewkment.Util.ImgGenerateUtils;
 import com.ttice.icewkment.Util.TencentCOS;
+import com.ttice.icewkment.entity.Setting;
+import com.ttice.icewkment.mapper.SettingMapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.http.entity.ContentType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 @io.swagger.annotations.Api(tags = "图片工具类Api")
 @RestController
 @RequestMapping("/ImageApi")
 public class ImageApi {
+
+    @Autowired
+    private SettingMapper settingMapper;
 
     @ApiOperation(value = "上传图片(添加文字水印)")
     @ApiImplicitParams({
@@ -31,20 +41,45 @@ public class ImageApi {
             @PathVariable("content") String content
     ) throws IOException {
         JSONObject jsonObject = new JSONObject();
-        // 获取文件名
-        String fileName = image.getOriginalFilename();
-        // 获取文件后缀
-        String prefix=fileName.substring(fileName.lastIndexOf("."));
-        // 用uuid做为文件名，防止生成的临时文件重复
-        final File excelFile = File.createTempFile("imagesFile-"+System.currentTimeMillis(), prefix);
-        // 将MultipartFile转为File
-        image.transferTo(excelFile);
-        //图片处理
-        File bufferedImage = ImgGenerateUtils.ImgGenerate(excelFile,title,content);
-        //调用腾讯云工具上传文件
-        String fileNames = TencentCOS.uploadfile(bufferedImage);
+
+        //查询图片上传方式
+        Setting setting = settingMapper.selectOne(null);
+        Boolean isCos = setting.getIsCos();
+        String fileNames = "";
+        if (isCos) {
+            // 获取文件名
+            String fileName = image.getOriginalFilename();
+            // 获取文件后缀
+            String prefix=fileName.substring(fileName.lastIndexOf("."));
+            // 用uuid做为文件名，防止生成的临时文件重复
+            final File excelFile = File.createTempFile("imagesFile-"+System.currentTimeMillis(), prefix);
+
+            // 将MultipartFile转为File
+            image.transferTo(excelFile);
+            //图片处理
+            File bufferedImage = ImgGenerateUtils.ImgGenerate(excelFile,title,content);
+            //调用腾讯云工具上传文件
+            fileNames = TencentCOS.uploadfile(bufferedImage);
+        }else {
+            // 获取文件名
+            String fileName = image.getOriginalFilename();
+            // 获取文件后缀
+            String prefix=fileName.substring(fileName.lastIndexOf("."));
+            // 用uuid做为文件名，防止生成的临时文件重复
+            final File excelFile = File.createTempFile("imagesFile-"+System.currentTimeMillis(), prefix);
+
+            // 将MultipartFile转为File
+            image.transferTo(excelFile);
+            //图片处理
+            File bufferedImage = ImgGenerateUtils.ImgGenerate(excelFile,title,content);
+            // 将File转为MultipartFile
+            MultipartFile multipartFile = fileToMultipartFile(bufferedImage);
+
+            //调用本地上传文件
+            fileNames = localUpImg(multipartFile);
+        }
         //程序结束时，删除临时文件
-//        TencentCOS.deletefile(String.valueOf(excelFile));
+        //TencentCOS.deletefile(String.valueOf(excelFile));
         //存入图片jsonObject
         jsonObject.put("url", fileNames);
         //返回图片名称
@@ -56,39 +91,67 @@ public class ImageApi {
     @PostMapping("/updateimage")
     public JSONObject imageUpload(@RequestParam("editormd-image-file") MultipartFile image) throws IOException {
         JSONObject jsonObject = new JSONObject();
-        // 获取文件名
-        String fileName = image.getOriginalFilename();
-        // 获取文件后缀
-        String prefix=fileName.substring(fileName.lastIndexOf("."));
-        // 用uuid做为文件名，防止生成的临时文件重复
-        final File excelFile = File.createTempFile("imagesFile-"+System.currentTimeMillis(), prefix);
-        // 将MultipartFile转为File
-        image.transferTo(excelFile);
+        //查询图片上传方式
+        Setting setting = settingMapper.selectOne(null);
+        Boolean isCos = setting.getIsCos();
+        String fileNames = "";
+        if (isCos) {
+            // 获取文件名
+            String fileName = image.getOriginalFilename();
+            // 获取文件后缀
+            String prefix=fileName.substring(fileName.lastIndexOf("."));
+            // 用uuid做为文件名，防止生成的临时文件重复
+            final File excelFile = File.createTempFile("imagesFile-"+System.currentTimeMillis(), prefix);
 
-        //调用腾讯云工具上传文件
-        String fileNames = TencentCOS.uploadfile(excelFile);
-
+            // 将MultipartFile转为File
+            image.transferTo(excelFile);
+            //调用腾讯云工具上传文件
+            fileNames = TencentCOS.uploadfile(excelFile);
+        }else {
+            //调用本地上传文件
+            fileNames = localUpImg(image);
+        }
         //程序结束时，删除临时文件
-//        TencentCOS.deletefile(String.valueOf(excelFile));
+        //TencentCOS.deletefile(String.valueOf(excelFile));
         //存入图片jsonObject
         jsonObject.put("url", fileNames);
         //返回图片名称
         return jsonObject;
     }
 
-//        本地存储图片，需要配置资源映射为虚拟路径
-//        JSONObject jsonObject = new JSONObject();
-//        if(image != null) {
-//            String path = FileUtils.uploadFile(image,"/Users/macbook/");
-//            System.out.println(path);
-//            jsonObject.put("url", path);
-//            jsonObject.put("success", 1);
-//            jsonObject.put("message", "upload success!");
-//            return jsonObject;
-//        }
-//        jsonObject.put("success", 0);
-//        jsonObject.put("message", "upload error!");
-//        return jsonObject;
+    public static String localUpImg(MultipartFile localFile){
+        // 本地存储图片，需要配置资源映射为虚拟路径
+        if(localFile != null) {
+            FileUtils fileUtils = new FileUtils();
+            String path = fileUtils.uploadFile(localFile);
+            return path;
+        }
+        return null;
+    }
+
+    /**
+     * @Description: file 转 MultipartFile
+     * @param file
+     * @return: MultipartFile
+     */
+    public static MultipartFile fileToMultipartFile(File file)
+    {
+        FileInputStream fileInputStream = null;
+        MultipartFile multipartFile = null;
+        try
+        {
+            fileInputStream = new FileInputStream(file);
+            multipartFile = new MockMultipartFile(file.getName(), file.getName(), ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return multipartFile;
+    }
+
+
+
 
 }
 

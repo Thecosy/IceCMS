@@ -1,16 +1,12 @@
 package com.ttice.icewkment.controller;
 
 
-import com.ttice.icewkment.entity.DispositionCarousel;
 import com.ttice.icewkment.entity.Setting;
-import com.ttice.icewkment.mapper.DispositionCarouselMapper;
 import com.ttice.icewkment.mapper.SettingMapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -35,6 +31,22 @@ public class SettingController {
             @RequestBody Setting setting
     ) {
         return settingMapper.updateById(setting);
+    }
+
+    @ApiOperation(value = "获取oss配置")
+    @GetMapping("/getCosSetting")
+    public Setting getCosSetting(
+    ) {
+        return settingMapper.selectOne(null);
+    }
+
+    @ApiOperation(value = "修改设置")
+    @ApiImplicitParam(name = "setting",value = "设置",required = true)
+    @PostMapping("/setSettingCos")
+    public int setSettingCos(
+            @RequestBody Setting setting
+    ) {
+        return settingMapper.update(setting,null);
     }
 
 }

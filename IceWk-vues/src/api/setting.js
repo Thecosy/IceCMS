@@ -11,3 +11,22 @@ export function setSetting(data) {
     contentType: false,
   })
 }
+
+export function getCosSetting() {
+  return request({
+    url: 'Sitting/getCosSetting',
+    method: 'get'
+  })
+}
+
+export function setSettingCos(data) {
+  return request({
+    url: '/Sitting/setSettingCos',
+    method: 'post',
+    data: data,
+    dataType: 'json',
+    crossDomain: true,
+    processData: false,
+    contentType: false,
+  })
+}
