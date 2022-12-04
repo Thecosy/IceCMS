@@ -123,9 +123,16 @@ import {
   Message,
   Notification,
 
-  Scrollbar
+  Scrollbar,
+
+  Loading,
+  Skeleton,
+  skeletonItem
 } from 'element-ui';
 
+Vue.use(skeletonItem);
+Vue.use(Skeleton);
+Vue.use(Loading.directive);
 Vue.use(Scrollbar);
 Vue.use(Popover);
 Vue.use(Dialog);

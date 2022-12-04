@@ -59,9 +59,9 @@ export default {
     visitedViews() {
       return this.$store.state.tagsView.visitedViews
     },
-    routes() {
-      return this.$store.state.permission.routes
-    }
+    // routes() {
+    //   return this.$store.state.permission.routes
+    // }
   },
   watch: {
     $route() {
@@ -114,35 +114,35 @@ export default {
     isAffix(tag) {
       return tag.meta && tag.meta.affix
     },
-    filterAffixTags(routes, basePath = '/') {
-      let tags = []
-      routes.forEach(route => {
-        if (route.meta && route.meta.affix) {
-          const tagPath = path.resolve(basePath, route.path)
-          tags.push({
-            fullPath: tagPath,
-            path: tagPath,
-            name: route.name,
-            meta: { ...route.meta }
-          })
-        }
-        if (route.children) {
-          const tempTags = this.filterAffixTags(route.children, route.path)
-          if (tempTags.length >= 1) {
-            tags = [...tags, ...tempTags]
-          }
-        }
-      })
-      return tags
-    },
+    // filterAffixTags(routes, basePath = '/') {
+    //   let tags = []
+    //   routes.forEach(route => {
+    //     if (route.meta && route.meta.affix) {
+    //       const tagPath = path.resolve(basePath, route.path)
+    //       tags.push({
+    //         fullPath: tagPath,
+    //         path: tagPath,
+    //         name: route.name,
+    //         meta: { ...route.meta }
+    //       })
+    //     }
+    //     if (route.children) {
+    //       const tempTags = this.filterAffixTags(route.children, route.path)
+    //       if (tempTags.length >= 1) {
+    //         tags = [...tags, ...tempTags]
+    //       }
+    //     }
+    //   })
+    //   return tags
+    // },
     initTags() {
-      const affixTags = this.affixTags = this.filterAffixTags(this.routes)
-      for (const tag of affixTags) {
-        // Must have tag name
-        if (tag.name) {
-          this.$store.dispatch('tagsView/addVisitedView', tag)
-        }
-      }
+      // const affixTags = this.affixTags = this.filterAffixTags(this.routes)
+      // for (const tag of affixTags) {
+      //   // Must have tag name
+      //   if (tag.name) {
+      //     this.$store.dispatch('tagsView/addVisitedView', tag)
+      //   }
+      // }
     },
     addTags() {
       const { name } = this.$route

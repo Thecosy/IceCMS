@@ -33,4 +33,15 @@ public class Setting implements Serializable {
 
     private boolean imageFormat;
 
+    private String cosIntage;
+
+    private String cosBucketName;
+
+    private String cosSecretId;
+
+    private String cosSecretKey;
+
+    private String cosClientConfig;
+
+    private Boolean isCos;
 }

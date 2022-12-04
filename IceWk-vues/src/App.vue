@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--$route.fullpath: Vue.js当前页面跳转当前页面 -->
-    <router-view :key="$route.fullPath" />
+    <router-view />
   </div>
 </template>
 

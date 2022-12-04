@@ -396,14 +396,14 @@ export const constantRoutes = [
     },
     children: [
       {
-        path: 'avatar-upload',
-        component: () => import('@/admin/avatar-upload'),
+        path: 'vipData',
+        component: () => import('@/admin/StoreUser'),
         name: '商城总览',
-        meta: { title: '商城总览', icon: 'el-icon-s-check' }
+        meta: { title: '商城总览', icon: 'el-icon-s-marketing' }
       },
       {
-        path: 'avatar-upload',
-        component: () => import('@/admin/avatar-upload'),
+        path: 'vipUser',
+        component: () => import('@/admin/StoreUser'),
         name: '会员管理',
         meta: { title: '会员管理', icon: 'el-icon-star-off' }
       },
@@ -417,7 +417,7 @@ export const constantRoutes = [
         path: 'PayMent',
         component: () => import('@/admin/PayMent'),
         name: '支付测试',
-        meta: { title: '支付测试' }
+        meta: { title: '支付测试', icon: 'el-icon-s-promotion' }
       }
     ]
   },
@@ -440,40 +440,37 @@ export const constantRoutes = [
         meta: { title: '网站信息', icon: 'el-icon-info' }
       },
       {
-        path: 'avatar-upload',
-        component: () => import('@/admin/avatar-upload'),
-        name: '友情链接',
-        meta: { title: '友情链接', icon: 'el-icon-sugar' }
+        path: 'pictureUpload ',
+        component: () => import('@/admin/PictureUpload'),
+        name: '图片上传设置',
+        meta: { title: '图片上传设置', icon: 'el-icon-upload' }
       }
     ]
   },
-  {
-    path: '/swagger',
-    component: Layout,
-    redirect: '/admin/swagger',
-    children: [{
-      path: 'swagger',
-      name: 'swagger',
-      component: () => import('@/views/develop/swagger'),
-      meta: { title: 'swagger', icon: 'dashboard', requireAuth: true }
-      // 需要登录才能进入的页面可以增加一个requireAuth属性
-    }]
-  },
+  // {
+  //   path: '/swagger',
+  //   component: Layout,
+  //   redirect: '/admin/swagger',
+  //   children: [{
+  //     path: 'swagger',
+  //     name: 'swagger',
+  //     component: () => import('@/views/develop/swagger'),
+  //     meta: { title: 'swagger', icon: 'dashboard', requireAuth: true }
+  //     // 需要登录才能进入的页面可以增加一个requireAuth属性
+  //   }]
+  // },
 
-
-  // admin page
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/Thecosy/iceCMS',
-        meta: { title: 'External Link', icon: 'link', requireAuth: true }
-        // 需要登录才能进入的页面可以增加一个requireAuth属性
-      }
-    ]
-  },
+  // {
+  //   path: 'external-link',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'https://github.com/Thecosy/iceCMS',
+  //       meta: { title: 'External Link', icon: 'link', requireAuth: true }
+  //       // 需要登录才能进入的页面可以增加一个requireAuth属性
+  //     }
+  //   ]
+  // },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

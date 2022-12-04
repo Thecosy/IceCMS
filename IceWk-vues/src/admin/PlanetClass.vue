@@ -10,12 +10,12 @@
             <el-form-item label="名称">
               <el-input v-model="form.name"></el-input>
             </el-form-item>
-            <el-form-item label="父级分类">
+            <!-- <el-form-item label="父级分类">
               <el-select v-model="form.father" placeholder="请选择父级分类">
                 <el-option label="区域一" value="1"></el-option>
                 <el-option label="区域二" value="2"></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="别名">
               <el-input v-model="form.otherName"></el-input>
             </el-form-item>
@@ -56,13 +56,7 @@
           >
             <el-table-column min-width="140px" label="名称">
               <template slot-scope="{ row }">
-                <router-link
-                  target="_blank"
-                  :to="'/post/' + row.id"
-                  class="link-type"
-                >
                   <span>{{ row.name }}</span>
-                </router-link>
               </template>
             </el-table-column>
   
@@ -80,7 +74,7 @@
   
             <el-table-column class-name="status-col" label="文章总数" width="110">
               <template slot-scope="{ row }">
-                <el-tag style="display: flex;justify-content: center;" >123 </el-tag>
+                <el-tag style="display: flex;justify-content: center;" >{{ row.num }}</el-tag>
               </template>
             </el-table-column>
   
@@ -105,6 +99,8 @@
             </el-table-column>
           </el-table>
           <pagination
+          v-show="total > 0"
+          :total="total"
             :page.sync="listQuery.page"
             :limit.sync="listQuery.limit"
             @pagination="getList"
@@ -115,10 +111,7 @@
   </template>
   
   <script>
-  import { newArticleClass } from '@/api/article'
-  import { allArticleClass } from '@/api/article'
-  import { DeleteArticleClass } from '@/api/article'
-  import { getAllClassName, DelectSquareClassById, newSquareClass } from '@/api/squareclass'
+  import { allClassName, DelectSquareClassById, newSquareClass } from '@/api/squareclass'
   
   import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
   
@@ -140,7 +133,7 @@
           otherName: '',
           describes: '',
           imgclass: '',
-          top: ''
+          top: false
   
         }
       }
@@ -184,12 +177,11 @@
       getList() {
         this.listLoading = true
        
-        getAllClassName().then(resp => {
-            console.log(resp)
-          this.list = resp.data
-        //   this.total = resp.data.total
-          this.listLoading = false
-        })
+      allClassName(this.listQuery).then(resp => {
+        this.list = resp.data.data
+        this.total = resp.data.total
+        this.listLoading = false
+      })
       },
       onSubmit() {
         let that = this

@@ -8,7 +8,12 @@ import com.qcloud.cos.exception.CosClientException;
 import com.qcloud.cos.exception.CosServiceException;
 import com.qcloud.cos.model.*;
 import com.qcloud.cos.region.Region;
+import com.ttice.icewkment.entity.Setting;
+import com.ttice.icewkment.mapper.SettingMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.Random;
 
@@ -16,23 +21,18 @@ import java.util.Random;
  * 腾讯云对象存储
  *
  */
+@Component
 public class TencentCOS {
 
-    //设置访问域名
-    public static String  intage = "https://icewk-1305088812.cos.ap-nanjing.myqcloud.com";
-    // 此处填写的存储桶名称
-    private static final String bucketName = "icewk-1305088812";
-    // secretId
-    private static final String secretId = "AKIDjDRQDrRXcA7TfQNk9LO3EJchbFeneY4U";
-    // secretKey
-    private static final String secretKey = "blgxyuiIfnCLaZXH5i6FB4gmDPilY8zb";
+    @Autowired
+    private SettingMapper settingMapper;
 
-    // 1 初始化用户身份信息(secretId, secretKey，可在腾讯云后台中的API密钥管理中查看！
-    private static COSCredentials cred = new BasicCOSCredentials(secretId,secretKey);
+    public static TencentCOS tencentCOS;
 
-    // 2 设置bucket的区域, COS地域的简称请参照
-    // https://cloud.tencent.com/document/product/436/6224，根据本身建立的存储桶选择地区
-    private static ClientConfig clientConfig = new ClientConfig(new Region("ap-nanjing"));
+    @PostConstruct
+    public void init() {
+        tencentCOS = this;
+    }
 
 
     /**
@@ -41,6 +41,24 @@ public class TencentCOS {
      * @param localFile
      */
     public static String uploadfile(File localFile) throws CosClientException, CosServiceException {
+
+        Setting setting = tencentCOS.settingMapper.selectOne(null);
+        //设置访问域名
+        String  intage = setting.getCosIntage();
+        // 此处填写的存储桶名称
+        String bucketName = setting.getCosBucketName();
+        // secretId
+        String secretId = setting.getCosSecretId();
+        // secretKey
+        String secretKey = setting.getCosSecretKey();
+
+        // 1 初始化用户身份信息(secretId, secretKey，可在腾讯云后台中的API密钥管理中查看！
+        COSCredentials cred = new BasicCOSCredentials(secretId,secretKey);
+
+        // 2 设置bucket的区域, COS地域的简称请参照
+        // https://cloud.tencent.com/document/product/436/6224，根据本身建立的存储桶选择地区
+        ClientConfig clientConfig = new ClientConfig(new Region(setting.getCosClientConfig()));
+
 
         // 生成cos客户端
         COSClient cosclient = new COSClient(cred, clientConfig);
@@ -59,7 +77,7 @@ public class TencentCOS {
             // 关闭客户端(关闭后台线程)
             cosclient.shutdown();
         }
-        return fileName;
+        return intage.concat("/").concat(fileName);
     }
 
 
@@ -69,17 +87,17 @@ public class TencentCOS {
      * @Description: 下载文件
      * @return
      */
-    public static void downFile() {
-        // 生成cos客户端
-        COSClient cosclient = new COSClient(cred, clientConfig);
-        //要下载的文件路径和名称
-        String key = "down/demo1.png";
-        // 指定文件的存储路径
-        File downFile = new File("src/test/resources/mydown.txt");
-        // 指定要下载的文件所在的 bucket 和对象键
-        GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName, key);
-        ObjectMetadata downObjectMeta = cosclient.getObject(getObjectRequest, downFile);
-    }
+//    public static void downFile() {
+//        // 生成cos客户端
+//        COSClient cosclient = new COSClient(cred, clientConfig);
+//        //要下载的文件路径和名称
+//        String key = "down/demo1.png";
+//        // 指定文件的存储路径
+//        File downFile = new File("src/test/resources/mydown.txt");
+//        // 指定要下载的文件所在的 bucket 和对象键
+//        GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName, key);
+//        ObjectMetadata downObjectMeta = cosclient.getObject(getObjectRequest, downFile);
+//    }
 
 
     /**
@@ -87,12 +105,12 @@ public class TencentCOS {
      *
      * @param key
      */
-    public static void deletefile(String key) throws CosClientException, CosServiceException {
-        // 生成cos客户端
-        COSClient cosclient = new COSClient(cred, clientConfig);
-        // 指定要删除的 bucket 和路径
-        cosclient.deleteObject(bucketName, key);
-        // 关闭客户端(关闭后台线程)
-        cosclient.shutdown();
-    }
+//    public static void deletefile(String key) throws CosClientException, CosServiceException {
+//        // 生成cos客户端
+//        COSClient cosclient = new COSClient(cred, clientConfig);
+//        // 指定要删除的 bucket 和路径
+//        cosclient.deleteObject(bucketName, key);
+//        // 关闭客户端(关闭后台线程)
+//        cosclient.shutdown();
+//    }
 }

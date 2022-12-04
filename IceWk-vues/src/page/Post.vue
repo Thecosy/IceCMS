@@ -668,6 +668,21 @@ export default {
     //文章浏览量+1，临时
     viewarticle(this.$route.params.id).then((resp) => {});
   },
+  watch: {
+    $route(to, from) {
+    //数据回填
+    this.fetchData(this.$route.params.id);
+    //获取文章评论数量
+    getArticleCommentnum(this.$route.params.id).then((resp) => {
+      this.commentnum = resp.data;
+    });
+    getAllTag().then((resp) => {
+        //获取标签
+        this.taglist = resp.data;
+      });
+    //文章浏览量+1，临时
+    viewarticle(this.$route.params.id).then((resp) => {});    }
+  },
   mounted() {
     setTimeout(() => {
       prismjs.highlightAll();

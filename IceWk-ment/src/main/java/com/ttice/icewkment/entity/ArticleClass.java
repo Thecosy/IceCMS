@@ -19,4 +19,5 @@ public class ArticleClass implements Serializable {
     private String describes;
     private String imgclass;
     private Integer top;
+    private Integer num;
 }

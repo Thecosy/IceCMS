@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function getAllClassName() {
+export function allClassName(query) {
   return request({
-    url: 'squareClass/getAllClassName',
-    method: 'get'
+    url: 'squareClass/allSquareClass/' + query.page + '/' + query.limit,
+    method: 'post'
   })
 }
 
@@ -15,7 +15,7 @@ export function DelectSquareClassById(id) {
 }
 export function newSquareClass(data) {
     return request({
-      url: '/squareClass/newSquareClass',
+      url: 'squareClass/newSquareClass',
       method: 'post',
       data: data,
       dataType: 'json',

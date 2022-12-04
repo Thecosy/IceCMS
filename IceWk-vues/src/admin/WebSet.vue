@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="site">
     <el-tabs tab-position="left" style="height: 800px">
       <el-tab-pane label="网站配置" style="width: 420px">
         
@@ -27,7 +27,10 @@
         </div>
        
       </el-tab-pane>
-
+      <el-tab-pane label="主页轮播图">
+        <h4>轮播图</h4>
+       
+      </el-tab-pane>
       <el-tab-pane label="文章设置">
         <h4>禁用评论</h4>
           <el-switch
@@ -65,8 +68,8 @@
           </el-switch>
       </el-tab-pane>
       <el-row class="sitpagesitmap">
-          <el-button type="danger" round>取消</el-button>
-          <el-button type="primary" @click="sitmap()" round>保存</el-button>
+          <el-button size="small" type="danger" round>取消</el-button>
+          <el-button size="small" type="primary" @click="sitmap()" round>保存</el-button>
         </el-row>
     </el-tabs>
   </div>
@@ -161,4 +164,50 @@ export default {
   height: 178px;
   display: block;
 }
+
+.site /deep/ .el-tabs__nav-wrap::after {
+      display: none;
+  }
+  .site /deep/ .tabs-card .el-tabs__nav-scroll{
+      padding: 0;
+  }
+  .site /deep/ .el-tabs__header {
+    margin: 0;
+  }
+  .site /deep/ .el-tabs__nav-scroll {
+    padding: 0 20px;
+  }
+  .site /deep/ .el-tabs__active-bar {
+    background-color: #4FA1FF; 
+    height: 4px;
+    border-radius: 2px;
+  }
+  .site /deep/ .el-tabs__item:hover.span{
+      color: #4FA1FF; 
+  }
+  .site /deep/ .el-tabs__item.is-active {
+
+    font-weight: bold;
+    font-size: 16px;
+    position: relative;
+      color:  #4FA1FF; 
+  }
+  .site /deep/ .el-tabs__item:hover {
+    color:  #4FA1FF; 
+  }
+  .site /deep/ .el-tabs__item {
+    color: #909399;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .site /deep/ .el-tabs.tabs-card .el-tabs__item span {
+    background: none;
+    box-shadow: none;
+    height: 54px;
+    line-height: 54px;
+    min-width: 0;
+    padding: 0;
+    margin: 0 18px;
+  }
+
 </style>

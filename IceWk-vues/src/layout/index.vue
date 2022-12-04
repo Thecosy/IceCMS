@@ -27,7 +27,7 @@ export default {
   mixins: [ResizeMixin],
   computed: {
     needTagsView() {
-      console.log(this.$store.state.settings.tagsView)
+      // console.log(this.$store.state.settings.tagsView)
       return this.$store.state.settings.tagsView
       // return true
     },

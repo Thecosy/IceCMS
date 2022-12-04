@@ -287,7 +287,7 @@
           >
           <router-link
             target="_self"
-            class="nav-link"
+            class="nav-link display-top"
             :class="message5"
             data-v-1f33282a=""
             to="/planet"
@@ -295,7 +295,7 @@
           >
           <router-link
             target="_self"
-            class="nav-link"
+            class="nav-link "
             :class="message4"
             data-v-1f33282a=""
             to="/class"
@@ -1634,5 +1634,10 @@ this.$router.go(0)
   align-content: center;
   justify-content: center;
   align-items: center;
+}
+@media screen and (max-width:991px) {
+  .display-top {
+    display: none;
+  }
 }
 </style>

@@ -53,7 +53,16 @@ public class WebArticleController {
     public Article getArticleById(
             @PathVariable("id") Integer id
     ) {
-        return this.articleService.getById(id);
+        Article article = articleService.getById(id);
+        String sortClass = article.getSortClass();
+        QueryWrapper<ArticleClass> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",sortClass);
+        ArticleClass articleClass = articleClassMapper.selectOne(wrapper);
+        String name = articleClass.getName();
+        Article articleBuffer = new Article();
+        BeanUtils.copyProperties(article,articleBuffer);
+        articleBuffer.setSortClass(name);
+        return articleBuffer;
     }
 
     @ApiOperation(value = "获取全部文章列表(分页)")
@@ -105,7 +114,12 @@ public class WebArticleController {
         List<Article> articles = articleMapper.selectList(wrapper);
         for (Article article : articles) {
             articleVO = new ArticleVO();
+            QueryWrapper<ArticleClass> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("id",article.getSortClass());
+            ArticleClass articleClass = articleClassMapper.selectOne(wrapper1);
+            String name = articleClass.getName();
             BeanUtils.copyProperties(article,articleVO);
+            articleVO.setClassName(name);
             result.add(articleVO);
         }
         return result;

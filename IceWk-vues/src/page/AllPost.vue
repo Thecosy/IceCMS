@@ -1048,11 +1048,11 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
-        limit: 4,
+        limit: 8,
       },
       listQueryClass: {
         page: 1,
-        limit: 4,
+        limit: 8,
         class: ""
       },
     };

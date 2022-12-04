@@ -66,6 +66,7 @@ public class ArticleClassController {
             @PathVariable("page") Integer page,
             @PathVariable("limit") Integer limit
     ) {
+
         return this.articleClassService.GetList(page,limit);
     }
 

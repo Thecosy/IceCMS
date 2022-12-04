@@ -43,14 +43,10 @@ public class ImageApi {
         File bufferedImage = ImgGenerateUtils.ImgGenerate(excelFile,title,content);
         //调用腾讯云工具上传文件
         String fileNames = TencentCOS.uploadfile(bufferedImage);
-
         //程序结束时，删除临时文件
-        TencentCOS.deletefile(String.valueOf(excelFile));
-        //存入图片名称
-        String path = fileNames;
-        String imageName = TencentCOS.intage.concat("/").concat(path);
-        System.out.println(imageName);
-        jsonObject.put("url", imageName);
+//        TencentCOS.deletefile(String.valueOf(excelFile));
+        //存入图片jsonObject
+        jsonObject.put("url", fileNames);
         //返回图片名称
         return jsonObject;
     }
@@ -73,12 +69,9 @@ public class ImageApi {
         String fileNames = TencentCOS.uploadfile(excelFile);
 
         //程序结束时，删除临时文件
-        TencentCOS.deletefile(String.valueOf(excelFile));
-        //存入图片名称
-        String path = fileNames;
-        String imageName = TencentCOS.intage.concat("/").concat(path);
-        System.out.println(imageName);
-        jsonObject.put("url", imageName);
+//        TencentCOS.deletefile(String.valueOf(excelFile));
+        //存入图片jsonObject
+        jsonObject.put("url", fileNames);
         //返回图片名称
         return jsonObject;
     }

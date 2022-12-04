@@ -1,16 +1,8 @@
 <template>
-  <div
-    :class="{ fullscreen: fullscreen }"
-    class="tinymce-container"
-    :style="{ width: containerWidth }"
-  >
+  <div :class="{ fullscreen: fullscreen }" class="tinymce-container" :style="{ width: containerWidth }">
     <textarea :id="tinymceId" class="tinymce-textarea" />
     <div class="editor-custom-btn-container">
-      <editorImage
-        color="#1890ff"
-        class="editor-upload-btn"
-        @successCBK="imageSuccessCBK"
-      />
+      <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
     </div>
   </div>
 </template>
@@ -21,15 +13,20 @@
  * https://panjiachen.github.io/vue-element-admin-site/feature/component/rich-editor.html#tinymce
  */
 import editorImage from './components/EditorImage'
-import plugins from './plugins'
-import toolbar from './toolbar'
 import load from './dynamicLoadScript'
 import { updateImage } from '@/api/updateImage'
 
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
 // const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
-const tinymceCDN = 'https://cdn.staticfile.org/tinymce/4.9.3/tinymce.min.js'
+const tinymceCDN = 'https://cdn.staticfile.org/tinymce/6.2.0/tinymce.min.js'
+// const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js' // 此CDN在国外经常会挂，所以换其他国内cdn
+// 国内常用cdn
+// 七牛 https://www.staticfile.org
+// 360  https://cdn.baomitu.com
+// 字节跳动 https://cdn.bytedance.com
+// const tinymceCDN = 'https://www.staticfile.org/tinymce/6.2.0/tinymce.min.js'
+
 
 export default {
   name: 'Tinymce',
@@ -129,7 +126,7 @@ export default {
         content_style: "h3 {color: #ffffff !important;background-color: #222628;border-left: 12px solid #030303;width:30%;padding : 1px 1px 1px 20px;}h2 {color: #ffffff !important;background-color: #52A1FF;width:45%;border-left: 12px solid #4F89FF;padding : 1px 1px 1px 20px;} p, div {font-size: 14px; margin: 0px; border:0px ; padding: 0px}",
         // content_css: "./mycontent.css",
         theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
-        font_size_style_values: "10px,12px,13px,14px,16px,18px,20px",
+        fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',
         selector: `#${this.tinymceId}`,
         language: 'zh_CN',
         language_url: require('./zh_CN.js'),
@@ -137,9 +134,10 @@ export default {
         body_class: 'panel-body ',
         statusbar: false,
         object_resizing: false,
-        toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
+        toolbar: `undo redo | styleselect | formatselect | fontselect | fontsizeselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | image axupimgs link | insert paste code | numlist bullist | table fullscreen | forecolor backcolor hr | preview removeformat`,
         menubar: this.menubar,
-        plugins: plugins,
+        plugins: `image link code lists advlist importcss table fullscreen media preview`,
+        forced_root_block: 'p',//将任何非块元素或文本节点都包装在块元素中
         end_container_on_empty_block: true,
         powerpaste_word_import: 'clean',
         code_dialog_height: 450,
@@ -149,7 +147,6 @@ export default {
         imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
         default_link_target: '_blank',
         link_title: false,
-        nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
         init_instance_callback: editor => {
           if (_this.value) {
             editor.setContent(_this.value)
@@ -169,32 +166,30 @@ export default {
         // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
         // https://stackoverflow.com/questions/5196205/disable-tinymce-absolute-to-relative-url-conversions
         convert_urls: false,//本地url
-        paste_data_images: true,//拖拽上传
+        // CONFIG: Paste
+        paste_retain_style_properties: 'all', //贴内容时要保留的样式
+        paste_word_valid_elements: '*[*]',        // word需要它
+        paste_data_images: true,                  // 粘贴的同时能把内容里的图片自动上传，非常强力的功能
+        paste_convert_word_fake_lists: true,     // 插入word文档需要该属性
+        paste_webkit_styles: 'all',   //指定粘贴到WebKit中时要保留的样式
+        paste_merge_formats: true,   //合并相同的文本格式元素
+        nonbreaking_force_tab: false,   //按下键盘tab键时强制TinyMCE插入三个实体
 
-        //上传图片至云服务器
-        images_upload_handler(blobInfo, success, succFun, failFun) {
-          var form = new FormData();
-          console.log(blobInfo)
-          form.append('editormd-image-file', blobInfo.blob(), blobInfo.filename());
-          updateImage(form).then(resp => {
-            console.log(resp);
-            var imgUrl = resp.data.url;//根据返回值得不同这里要自己定义
-            console.log(imgUrl);
-            success(imgUrl);
-          }).catch((e) => { console.log("shibai") })
-        },
+        images_upload_handler: (blobInfo, progress) =>
+          new Promise((resolve, reject) => {
+            var form = new FormData();
+            form.append('editormd-image-file', blobInfo.blob(), blobInfo.filename());
+            updateImage(form)
+              .then(function (res) {
+                resolve(res.data.url);
+
+              }).catch(res => {
+                //failure("error");
+              });
+          }),
       })
     },
-    destroyTinymce() {
-      const tinymce = window.tinymce.get(this.tinymceId)
-      if (this.fullscreen) {
-        tinymce.execCommand('mceFullScreen')
-      }
 
-      if (tinymce) {
-        tinymce.destroy()
-      }
-    },
     setContent(value) {
       window.tinymce.get(this.tinymceId).setContent(value)
     },

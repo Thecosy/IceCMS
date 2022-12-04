@@ -107,7 +107,7 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="70px" label="简介:">
+                  <el-form-item label-width="60px" label="简介:">
                     <el-input
                       v-model="postForm.intro"
                       :rows="1"
@@ -121,24 +121,12 @@
                     >
                   </el-form-item>
                 </el-col>
-
-                <el-col :span="10">
-                  <el-form-item label="标签:">
-                    <el-drag-select
-                      v-model="value"
-                      style="width: 400px"
-                      multiple
-                      placeholder="请选择"
-                    >
-                      <el-option
-                        v-for="item in options"
-                        :key="item.id"
-                        :label="item.tagName"
-                        :value="item.id"
-                      />
-                    </el-drag-select>
-                  </el-form-item>
-                </el-col>
+              </el-row>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+   
 
                 <el-col :span="6">
                   <el-form-item
@@ -164,39 +152,61 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
-              </el-row>
-            </div>
-          </el-col>
+                       <el-col :span="3">
+                  <el-form-item label-width="60px" label="标签:">
+                    <el-drag-select
+                      v-model="value"
+                      style="width: 400px"
+                      multiple
+                      placeholder="请选择"
+                    >
+                      <el-option
+                        v-for="item in options"
+                        :key="item.id"
+                        :label="item.tagName"
+                        :value="item.id"
+                      />
+                    </el-drag-select>
+                  </el-form-item>
+                </el-col>
         </el-row>
          <el-row>
         <el-col :span="24">
-          <div class="postInfo-container">
+          <div style="margin-left:16px;" class="postInfo-container">
             <el-row>
-              <el-col :span="8">
-               <h4>设置价格</h4>
-        <el-input style="width: 220px" v-model="postForm.price" placeholder="请输入价格"></el-input>元
+              <el-col :span="3">
+                <div>
+                <p>是否付费</p>
+            <el-switch
+              v-model="isfree"
+              active-text="付费"
+              inactive-text="免费"
+            >
+        </el-switch>
+        </div>
+      </el-col>
+        <el-col :span="5">
+        <div style="margin-left:18px;" v-show="isfree">
+               <p>设置价格</p>
+        <el-input style="width: 100px" v-model="postForm.price" placeholder="请输入价格"></el-input>元
+      </div>
               </el-col>
 
               <el-col :span="10">
-                <h4>资源链接</h4>
-        <el-input style="width: 320px" v-model="postForm.resAddress" placeholder="请输入链接"></el-input>
+                <div style="margin-left:18px;" >
+                <p>资源链接</p>
+        <el-input style="width: 320px" v-model="postForm.resAddress" placeholder="请输入链接"></el-input></div>
               </el-col>
 
               <el-col :span="6">
-                 <h4>资源密码</h4>
+                 <p>资源密码</p>
         <el-input style="width: 120px" v-model="postForm.resPassword" placeholder="请输入密码"></el-input></el-col>
             </el-row>
           </div>
         </el-col>
       </el-row>
         
-        <h4>是否付费</h4>
-        <el-switch
-          v-model="isfree"
-          active-text="付费"
-          inactive-text="免费"
-        >
-        </el-switch>
+
         <el-form-item prop="content" style="margin-bottom: 30px">
           <Tinymce ref="editor" v-model="postForm.content" :height="400" />
         </el-form-item>
@@ -221,7 +231,7 @@
           :http-request="Upload"
           list-type="picture-card">
           <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2mb</div>
         </el-upload>
  </div>
 
@@ -324,7 +334,7 @@ export default {
       fileList: [],
       imageList: [],
       newFile:new FormData(), //   1. 定义一个newFile变量（FormData 对象） 
-      isfree:true,
+      isfree:false,
       value: [],
       options: [],
       articleid: '',
@@ -361,12 +371,15 @@ export default {
     }
   },
   created() {
+    const id = this.$route.params && this.$route.params.id  
     //获取作者列表，和分类列表
     this.getRemoteUserList()
 
+    //获取标签列表
+    this.getRemoteTagList(id)
+
     //数据回填
     if (this.isEdit) {
-      const id = this.$route.params && this.$route.params.id
       this.articleid = this.$route.params.id
       this.fetchData(id)
       this.fetchData(this.articleid)
@@ -441,9 +454,6 @@ export default {
         this.setPageTitle()
       }).catch(err => {
         console.log(err)
-      })
-      getAllTag(id).then(response => { 
-        this.options = response.data
       })
     },
     setTagsViewTitle() {
@@ -542,6 +552,11 @@ export default {
           return false
         })
     },
+    getRemoteTagList(id){
+      getAllTag(id).then(response => { 
+        this.options = response.data
+      })
+    },
     getRemoteUserList(query) {
       /* eslint-disable */
       //获取作者列表
@@ -578,17 +593,16 @@ export default {
   }
 
   .word-counter {
-    width: 40px;
     position: absolute;
-    right: 40%;
-    top: 0px;
+    right: -50px;
+    top: 1px;
   }
 }
 
 .article-textarea ::v-deep {
   textarea {
-    width: 45%;
-    padding-right: 40px;
+    width: 100%;
+    padding-right: 30px;
     resize: none;
     border: none;
     border-radius: 0px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="createPost-container">
+  <div class="createPost-container app-top">
     <el-form
       ref="postForm"
       :model="postForm"
@@ -107,7 +107,7 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="70px" label="简介:">
+                  <el-form-item label-width="60px" label="简介:">
                     <el-input
                       v-model="postForm.intro"
                       :rows="1"
@@ -121,24 +121,12 @@
                     >
                   </el-form-item>
                 </el-col>
-
-                <el-col :span="10">
-                  <el-form-item label="标签:">
-                    <el-drag-select
-                      v-model="value"
-                      style="width: 400px"
-                      multiple
-                      placeholder="请选择"
-                    >
-                      <el-option
-                        v-for="item in options"
-                        :key="item.id"
-                        :label="item.tagName"
-                        :value="item.id"
-                      />
-                    </el-drag-select>
-                  </el-form-item>
-                </el-col>
+              </el-row>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+              
 
                 <el-col :span="6">
                   <el-form-item
@@ -164,10 +152,24 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
+                <el-col :span="3">
+                  <el-form-item label-width="60px" label="标签:">
+                    <el-drag-select
+                      v-model="value"
+                      style="width: 400px"
+                      multiple
+                      placeholder="请选择"
+                    >
+                      <el-option
+                        v-for="item in options"
+                        :key="item.id"
+                        :label="item.tagName"
+                        :value="item.id"
+                      />
+                    </el-drag-select>
+                  </el-form-item>
+                </el-col>
               </el-row>
-            </div>
-          </el-col>
-        </el-row>
         <el-form-item prop="content" style="margin-bottom: 30px">
           <Tinymce ref="editor" v-model="postForm.content" :height="400" />
         </el-form-item>
@@ -305,16 +307,22 @@ export default {
     }
   },
   created() {
+    const id = this.$route.params && this.$route.params.id
+
     //获取作者列表，和分类列表
     this.getRemoteUserList()
 
+    //获取标签列表
+    this.getRemoteTagList(id)
+
     //数据回填
     if (this.isEdit) {
-      const id = this.$route.params && this.$route.params.id
       this.articleid = this.$route.params.id
       this.fetchData(id)
       this.fetchData(this.articleid)
     }
+
+
 
     // Why need to make a copy of this.$route here?
     // Because if you enter this page and quickly switch tag, may be in the execution of the setTagsViewTitle function, this.$route is no longer pointing to the current page
@@ -340,9 +348,7 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-      getAllTag(id).then(response => { 
-        this.options = response.data
-      })
+
     },
     setTagsViewTitle() {
       const title = '编辑文章'
@@ -441,6 +447,11 @@ export default {
       getAllClassName().then(resp => {
         this.ClassListOptions = resp.data.map(o => { return [o.name].toString() })
       })
+    },
+    getRemoteTagList(id) {
+      getAllTag(id).then(response => { 
+        this.options = response.data
+      })
     }
   }
 }
@@ -467,21 +478,22 @@ export default {
   }
 
   .word-counter {
-    width: 40px;
     position: absolute;
-    right: 40%;
-    top: 0px;
+    right: -50px;
+    top: 1px;
   }
 }
-
 .article-textarea ::v-deep {
   textarea {
-    width: 45%;
-    padding-right: 40px;
+    width: 100%;
+    padding-right: 30px;
     resize: none;
     border: none;
     border-radius: 0px;
     border-bottom: 1px solid #bfcbd9;
   }
+}
+.app-top {
+padding-top: 0px !important;
 }
 </style>

@@ -4,12 +4,12 @@
   <el-table :data="list" style="width: 100%;">
     <el-table-column label="文章标题" min-width="185">
       <template slot-scope="scope">
-        {{ scope.row.title | orderNoFilter }}
+        {{ scope.row.title  }}
       </template>
     </el-table-column>
     <el-table-column label="文章分类" min-width="105" align="center">
       <template slot-scope="scope">
-        {{ scope.row.class | toThousandFilter }}
+        {{ scope.row.className }}
       </template>
     </el-table-column>
     <el-table-column label="访问量" min-width="80" align="center">

@@ -9,13 +9,12 @@ import com.ttice.icewkment.entity.ArticleClass;
 import com.ttice.icewkment.entity.ArticleComment;
 import com.ttice.icewkment.mapper.ArticleClassMapper;
 import com.ttice.icewkment.mapper.ArticleCommentMapper;
-import com.ttice.icewkment.mapper.ArticleMapper;
-import com.ttice.icewkment.service.ArticleClassService;
 import com.ttice.icewkment.service.ArticleService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,12 +35,6 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
-
-    @Autowired
-    private ArticleMapper articleMapper;
-
-    @Autowired
-    private ArticleClassService articleClassService;
 
     @Autowired
     private ArticleClassMapper articleClassMapper;
@@ -100,7 +93,16 @@ public class ArticleController {
     public Article getArticleById(
             @PathVariable("id") Integer id
     ) {
-        return this.articleService.getById(id);
+        Article article = articleService.getById(id);
+        String sortClass = article.getSortClass();
+        QueryWrapper<ArticleClass> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",sortClass);
+        ArticleClass articleClass = articleClassMapper.selectOne(wrapper);
+        String name = articleClass.getName();
+        Article articleBuffer = new Article();
+        BeanUtils.copyProperties(article,articleBuffer);
+        articleBuffer.setSortClass(name);
+        return articleBuffer;
     }
 
     @RequiresAuthentication  //需要登陆认证的接口

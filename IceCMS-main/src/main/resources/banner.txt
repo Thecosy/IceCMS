@@ -1,4 +1,4 @@
-Application Version: ${ruoyi.version}
+Application Version: 2.2.1
 Spring Boot Version: ${spring-boot.version}
 ////////////////////////////////////////////////////////////////////
 //                          _ooOoo_                               //

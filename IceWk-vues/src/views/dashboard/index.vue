@@ -38,27 +38,12 @@ import TransactionTable from './components/TransactionTable'
 import BoxCard from './components/BoxCard'
 import PanelGroup from './components/PanelGroup'
 import GithubCorner from '@/components/GithubCorner'
-import { test } from '@/api/test'
-import { getArticleById } from '@/api/article'
 
 export default {
   create: {
 
   },
   methods: {
-    getArticle() {
-      getArticleById(50).then(resp => {
-        this.content = resp.data.content
-      })
-    },
-    submitForm() {
-      test().then(resp => {
-        console.log(resp)
-        this.res = resp.data.mes
-        console.log(resp.data.mes)
-
-      })
-    }
   },
   name: 'Dashboard',
   components: {
@@ -69,7 +54,6 @@ export default {
   },
   data() {
     return {
-      content: "",
       res: ""
     }
   },

@@ -27,7 +27,7 @@
 
                             <el-image :src="item.imgclass" lazy>
                                 <div slot="placeholder" class="image-slot">
-                               <img  style="width:100%; height:100%; object-fit:cover;"  src="../static/image/loding.gif" />
+                               <img  style="width:300px; height:250px; object-fit:cover;"  src="../static/image/loding.gif" />
                                 </div>
                             </el-image>
                             </div>

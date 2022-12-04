@@ -191,11 +191,12 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                             </a>
                             <a v-else @click="NowDownload()" data-toggle="modal" data-target="#popup_bid"
                               class="sc-button style letter style-2 style-item-details"><span
-                                style="color: #ffffff;font-weight: 700;"><i class="el-icon-download"></i>立即购买(已支付)</span>
+                                style="color: #ffffff;font-weight: 700;"><i
+                                  class="el-icon-download"></i>立即购买(已支付)</span>
                             </a>
                           </a>
                           <a v-else>
-                            <a  @click="NowDownload()" data-toggle="modal" data-target="#popup_bid"
+                            <a @click="NowDownload()" data-toggle="modal" data-target="#popup_bid"
                               class="sc-button style letter style-2 style-item-details"><span
                                 style="color: #ffffff;font-weight: 700;"><i class="el-icon-download"></i>立即下载</span>
                             </a>
@@ -248,7 +249,9 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                                           </el-avatar>
                                         </div>
                                         <div class="infor">
-                                          <p><span>用户 &#8194; &#8194; &#8194; &#8194; </span><span style="color:#4FA1FF;"> 代** </span> <span> &#8194; &#8194; &#8194; &#8194; </span> 在7分钟前下载</p>
+                                          <p><span>用户 &#8194; &#8194; &#8194; &#8194; </span><span
+                                              style="color:#4FA1FF;"> 代** </span> <span> &#8194; &#8194; &#8194; &#8194;
+                                            </span> 在7分钟前下载</p>
                                         </div>
                                       </div>
                                     </div>
@@ -262,7 +265,9 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                                           </el-avatar>
                                         </div>
                                         <div class="infor">
-                                          <p><span>用户 &#8194; &#8194; &#8194; &#8194; </span><span style="color:#4FA1FF;"> 王** </span> <span> &#8194; &#8194; &#8194; &#8194; </span> 在7分钟前下载</p>
+                                          <p><span>用户 &#8194; &#8194; &#8194; &#8194; </span><span
+                                              style="color:#4FA1FF;"> 王** </span> <span> &#8194; &#8194; &#8194; &#8194;
+                                            </span> 在7分钟前下载</p>
                                         </div>
                                       </div>
                                     </div>
@@ -276,7 +281,9 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                                           </el-avatar>
                                         </div>
                                         <div class="infor">
-                                          <p><span>用户 &#8194; &#8194; &#8194; &#8194; </span><span style="color:#4FA1FF;"> 李** </span> <span> &#8194; &#8194; &#8194; &#8194; </span> 在7分钟前下载</p>
+                                          <p><span>用户 &#8194; &#8194; &#8194; &#8194; </span><span
+                                              style="color:#4FA1FF;"> 李** </span> <span> &#8194; &#8194; &#8194; &#8194;
+                                            </span> 在7分钟前下载</p>
                                         </div>
                                       </div>
                                     </div>
@@ -574,9 +581,10 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                     </div><!-- Tags -->
                     <div class="tags">
                       <h3 class="heading-secondary mar-left">标签</h3>
-                     
-                        <div class="categories-tags mar-left"><a v-for="item in Mytag" :key="item.id"  :href="'/post/' + item + '/all'">{{item}} </a>
-                        </div>
+
+                      <div class="categories-tags mar-left"><a v-for="item in Mytag" :key="item.id"
+                          :href="'/post/' + item + '/all'">{{ item }} </a>
+                      </div>
                     </div><!-- Author card -->
                     <div class="author-card">
                       <div>
@@ -597,8 +605,8 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                             <span>上一篇 </span>
                           </div>
                           <div class="nav-post">
-                            <h3 class="heading-tertiary">{{preResource.title}}</h3>
-                                   <span class="date body-text">{{formatDate(preResource.addTime)}}</span>
+                            <h3 class="heading-tertiary">{{ preResource.title }}</h3>
+                            <span class="date body-text">{{ formatDate(preResource.addTime) }}</span>
                           </div>
                         </div>
                       </router-link>
@@ -607,8 +615,8 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                           <div class="nav-button-right">下一篇 <span><img src="../static/img/long-arrow.png"
                                 alt="arrow"></span></div>
                           <div class="nav-post">
-                            <h3 class="heading-tertiary">{{nextResource.title}}</h3>
-                                    <span class="date body-text">{{formatDate(nextResource.addTime)}}</span>
+                            <h3 class="heading-tertiary">{{ nextResource.title }}</h3>
+                            <span class="date body-text">{{ formatDate(nextResource.addTime) }}</span>
                           </div>
                         </div>
                       </router-link>
@@ -695,8 +703,8 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                 <div class="col-lg-3">
                   <div class="right-content">
                     <!-- Widget search box -->
-                    <div class="widget-search-box"><input type="text" v-model="seachcontent" placeholder="输入内容"><button  @click="queryssubmit()" class="search-btn"><i
-                          class="fas el-icon-search"></i></button></div>
+                    <div class="widget-search-box"><input type="text" v-model="seachcontent" placeholder="输入内容"><button
+                        @click="queryssubmit()" class="search-btn"><i class="fas el-icon-search"></i></button></div>
                     <h3 class="heading-tertiary">最新文章</h3>
                     <div v-for="item in newArticle" :key="item.id" class="recent-post-card">
                       <a href="">
@@ -704,13 +712,14 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                           <img class="card-thumb bg-cover" :src="item.thumb" />
                         </div>
                         <div class="card-content">
-                          <div class="post-meta"><span class="meta-item">{{item.author}} </span>
-                            <span  v-if="item.createTime != null"  class="meta-item"> {{formatDate(item.createTime)}} </span>
-                                  <span  v-else  class="meta-item"> {{formatDate(item.addTime)}} </span>
-                              
-                              <span class="meta-item"><i class="fal fa-comment"></i>{{item.hits}} </span>
+                          <div class="post-meta"><span class="meta-item">{{ item.author }} </span>
+                            <span v-if="item.createTime != null" class="meta-item"> {{ formatDate(item.createTime) }}
+                            </span>
+                            <span v-else class="meta-item"> {{ formatDate(item.addTime) }} </span>
+
+                            <span class="meta-item"><i class="fal fa-comment"></i>{{ item.hits }} </span>
                           </div>
-                          <h3 class="heading-secondary">{{item.title}}
+                          <h3 class="heading-secondary">{{ item.title }}
                           </h3>
                         </div>
                       </a>
@@ -719,11 +728,12 @@ line-height: 28px;font-weight: 400;" class="mg-bt-42">{{ this.intro }}</p>
                     <div class="widget-categories">
                       <h3 class="heading-tertiary">标签云</h3>
                       <div class="categories-tags">
-                              <a v-for="item in taglist" :key="item.id" 
-                              :href="'/list/' + item.tagName + '/all'" >{{item.tagName}} </a>
-                            </div>
+                        <a v-for="item in taglist" :key="item.id"
+                          :href="'/list/' + item.tagName + '/all'">{{ item.tagName }} </a>
+                      </div>
                     </div><!-- Widget ad banner -->
-                    <div class="widget-ad-banner bg-cover" style="background-image: url(/static/img/sidebar-add-banner.be2d2fc4.png);">
+                    <div class="widget-ad-banner bg-cover"
+                      style="background-image: url(/static/img/sidebar-add-banner.be2d2fc4.png);">
                       <div class="content"><span class="discount">20% off</span>
                         <h2 class="heading-secondary">会员折扣</h2>
                         <p class="body-text">开通会员享受更多优惠</p><a href="#" class="button icon-button active"><span><i
@@ -885,7 +895,7 @@ import foot from './components/Foots.vue'
 import comment from './components/ResComment.vue'
 
 import { getResourceCommentnum } from '@/api/webresourceComment'
-import { getResourceById, loveresource,getPrenewsResource,getLastnewsResource } from '@/api/webresource'
+import { getResourceById, loveresource, getPrenewsResource, getLastnewsResource } from '@/api/webresource'
 import { getResourceClassNameByid } from '@/api/webresourceclass'
 import { getNewArticle } from "@/api/webarticle";
 
@@ -906,7 +916,31 @@ export default {
     comment,
     VEmojiPicker,
     router
-},
+  },
+  watch: {
+    $route(to, from) {
+      //数据回填
+      this.fetchData(this.$route.params.id)
+      //根据Id查询用户是否购买过此资源
+      const user = JSON.parse(window.localStorage.getItem('access-admin'))
+      this.userJudje = (user == null)
+      if (!this.userJudje) {
+        this.userid = user.data.userid
+        this.queryOrderStatusBytrues(this.$route.params.id, this.userid)
+      }
+      getAllTag().then((resp) => {
+        //获取标签
+        this.taglist = resp.data;
+      });
+      //获取资源评论数量
+      getResourceCommentnum(this.$route.params.id).then(resp => {
+        this.commentnum = resp.data
+      })
+      getNewArticle(2).then((resp) => {
+        this.newArticle = resp.data;
+      });
+    }
+  },
   created() {
     //数据回填
     this.fetchData(this.$route.params.id)
@@ -918,21 +952,21 @@ export default {
       this.queryOrderStatusBytrues(this.$route.params.id, this.userid)
     }
     getAllTag().then((resp) => {
-        //获取标签
-        this.taglist = resp.data;
-      });
+      //获取标签
+      this.taglist = resp.data;
+    });
     //获取资源评论数量
     getResourceCommentnum(this.$route.params.id).then(resp => {
       this.commentnum = resp.data
     })
     getNewArticle(2).then((resp) => {
-        this.newArticle = resp.data;
-      });
+      this.newArticle = resp.data;
+    });
   },
 
   methods: {
-       //判空
-       judgeNull(str) {
+    //判空
+    judgeNull(str) {
       if (str == "") return true;
       var regu = "^[ ]+$";
       var re = new RegExp(regu);
@@ -950,10 +984,10 @@ export default {
         console.log(this.fundByresource)
         //   直接调用$router.push 实现携带参数的跳转
 
-          this.$router.push({
+        this.$router.push({
           path: `/list/${this.seachcontent}/all`,
         })
-       
+
       }
     },
     loveClick() {
@@ -1225,14 +1259,14 @@ export default {
         JSON.parse(resp.data.keyword).forEach((item) => {
           getTagByList(item).then((resp) => {
             this.Mytag.push(resp.data.tagName);
-        });
+          });
         });
         console.log(this.Mytag)
       })
       getPrenewsResource(id).then((resp) => {
         this.preResource.title = resp.data.title;
         this.preResource.id = resp.data.id;
-        if(resp.data.createTime != null){
+        if (resp.data.createTime != null) {
           this.preResource.addTime = resp.data.createTime;
         } else {
           this.preResource.addTime = resp.data.addTime;
@@ -1241,7 +1275,7 @@ export default {
       getLastnewsResource(id).then((resp) => {
         this.nextResource.title = resp.data.title;
         this.nextResource.id = resp.data.id;
-        if(resp.data.createTime != null){
+        if (resp.data.createTime != null) {
           this.nextResource.addTime = resp.data.createTime;
         } else {
           this.nextResource.addTime = resp.data.addTime;
@@ -1528,18 +1562,20 @@ export default {
 .el-carousel__item[data-v-3aa17da5]:nth-child(2n + 1) {
   background-color: #d3dce6;
   border-radius: 17px;
-  -webkit-animation:move 4s linear infinite both;
+  -webkit-animation: move 4s linear infinite both;
   -webkit-border-radius: 17px;
 }
+
 .el-carousel__item[data-v-3aa17da5]:nth-child(2n) {
   background-color: #d3dce6;
   border-radius: 17px;
-  -webkit-animation:move 4s linear infinite both;
+  -webkit-animation: move 4s linear infinite both;
   -webkit-border-radius: 17px;
 }
-.is-animating{
+
+.is-animating {
   border-radius: 17px;
-  -webkit-animation:move 4s linear infinite both;
+  -webkit-animation: move 4s linear infinite both;
   -webkit-border-radius: 17px;
 }
 

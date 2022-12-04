@@ -1,8 +1,7 @@
 package com.ttice.icewkment.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ttice.icewkment.commin.vo.ArticleClassPageVO;
-import com.ttice.icewkment.entity.ArticleClass;
+import com.ttice.icewkment.commin.vo.SquareClassPageVO;
 import com.ttice.icewkment.entity.SquareClass;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SquareClassService extends IService<SquareClass> {
 
-    ArticleClassPageVO GetList(Integer page, Integer limit);
+    SquareClassPageVO GetList(Integer page, Integer limit);
 
 }

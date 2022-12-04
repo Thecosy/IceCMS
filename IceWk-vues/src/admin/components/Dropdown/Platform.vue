@@ -30,9 +30,9 @@ export default {
   data() {
     return {
       platformsOptions: [
-        { key: 'a-platform', name: 'a-平台' },
-        { key: 'b-platform', name: 'b-平台' },
-        { key: 'c-platform', name: 'c-平台' }
+        { key: 'a-platform', name: 'PC' },
+        { key: 'b-platform', name: 'h5' },
+        { key: 'c-platform', name: '移动' }
       ]
     }
   },

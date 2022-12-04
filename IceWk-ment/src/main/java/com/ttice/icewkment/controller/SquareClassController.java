@@ -2,11 +2,9 @@ package com.ttice.icewkment.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ttice.icewkment.commin.vo.ArticleClassPageVO;
-import com.ttice.icewkment.commin.vo.ClassNameVO;
+import com.ttice.icewkment.commin.vo.SquareClassPageVO;
 import com.ttice.icewkment.entity.ArticleClass;
 import com.ttice.icewkment.entity.SquareClass;
-import com.ttice.icewkment.entity.SquareComment;
 import com.ttice.icewkment.mapper.ArticleClassMapper;
 import com.ttice.icewkment.mapper.SquareClassMapper;
 import com.ttice.icewkment.service.ArticleClassService;
@@ -15,11 +13,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,18 +60,17 @@ public class SquareClassController {
         return this.squareClassMapper.insert(squareClass);
     }
 
-    @RequiresAuthentication  //需要登陆认证的接口
-    @ApiOperation(value = "获取文章分类列表(分页)")
+    @ApiOperation(value = "获取圈子分类列表(分页)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page",value = "页数",required = true),
             @ApiImplicitParam(name = "limit",value = "总量",required = true)
     })
-    @PostMapping("/allArticleClass/{page}/{limit}")
-    public ArticleClassPageVO allArticleClass(
+    @PostMapping("/allSquareClass/{page}/{limit}")
+    public SquareClassPageVO allSquareClass(
             @PathVariable("page") Integer page,
             @PathVariable("limit") Integer limit
     ) {
-        return this.articleClassService.GetList(page,limit);
+        return this.squareClassService.GetList(page,limit);
     }
 
     @ApiOperation(value = "获取全部分类列表")

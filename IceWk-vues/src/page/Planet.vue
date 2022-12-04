@@ -318,8 +318,8 @@
                                   </span> </time></b></span>
                             <!---->
                             <div class="topic-meta-more-box">
-                              <el-popover placement="bottom" title="标题" width="200" trigger="hover"
-                                content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                              <el-popover placement="bottom" title="更多" width="200" trigger="hover"
+                                content="更多信息">
                                 <button slot="reference" class="topic-date topic-meta-more">
                                   <i class="el-icon-more-outline"></i>
                                 </button>
@@ -412,10 +412,10 @@
                                         <!-- <div class="topic-meta-more-box">
                                           <el-popover
                                             placement="bottom"
-                                            title="标题"
+                                            title="更多信息"
                                             width="200"
                                             trigger="hover"
-                                            content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+                                            content="更多信息"
                                           >
                                             <button
                                               slot="reference"
@@ -526,10 +526,10 @@
                                             <!-- <div class="topic-meta-more-box">
                                               <el-popover
                                                 placement="bottom"
-                                                title="标题"
+                                                title="更多"
                                                 width="200"
                                                 trigger="hover"
-                                                content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+                                                content="更多信息"
                                               >
                                                 <button
                                                   slot="reference"
@@ -1551,7 +1551,7 @@ button:hover {
   justify-content: center;
   align-items: center;
   --width: 150px;
-  --timing: 2s;
+  --timing: 8s;
   border: 0;
   width: 80px;
   height: 40px;
