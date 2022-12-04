@@ -26,6 +26,7 @@
     <modules>
         <module>IceWk-ment</module>
         <module>IceCMS-main</module>
+        <module>IcePay-ment</module>
     </modules>
     <dependencies>
         <dependency>

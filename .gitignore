@@ -9,19 +9,19 @@
 *.war
 *.ear
 
-./pom.xml
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-*.yml
 /target/
 target/
 .idea
+.iml
 *.iml
 *.iws
 
 /IcePay-ment
-pom.xml
+#./pom.xml
+#pom.xml
 
 .classpath
 .project
