@@ -1,12 +1,16 @@
 package com.ttice.icewkment.controller;
 
 
+import com.ttice.icewkment.entity.DispositionCarousel;
 import com.ttice.icewkment.entity.Setting;
+import com.ttice.icewkment.mapper.DispositionCarouselMapper;
 import com.ttice.icewkment.mapper.SettingMapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -23,6 +27,9 @@ public class SettingController {
 
     @Autowired
     private SettingMapper settingMapper;
+
+    @Autowired
+    private DispositionCarouselMapper dispositionCarouselMapper;
 
     @ApiOperation(value = "修改设置")
     @ApiImplicitParam(name = "setting",value = "设置",required = true)
@@ -47,6 +54,14 @@ public class SettingController {
             @RequestBody Setting setting
     ) {
         return settingMapper.update(setting,null);
+    }
+
+    @ApiOperation(value = "获取全部轮播图")
+    @ApiImplicitParam(name = "setting",value = "设置",required = true)
+    @GetMapping("/getAllDispositionCarousel")
+    public List<DispositionCarousel> getAllDispositionCarousel(
+    ) {
+        return dispositionCarouselMapper.selectList(null);
     }
 
 }

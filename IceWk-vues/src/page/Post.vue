@@ -665,7 +665,7 @@ export default {
         //获取标签
         this.taglist = resp.data;
       });
-    //文章浏览量+1，临时
+    //文章浏览量+1
     viewarticle(this.$route.params.id).then((resp) => {});
   },
   watch: {

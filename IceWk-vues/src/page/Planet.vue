@@ -701,6 +701,25 @@ export default {
   components: {
     top, foot, Tinymce, VEmojiPicker
   },
+  watch: {
+    $route(to, from) {
+      //清空
+      this.squaredata = [];
+        //获取全部评论
+        getAllSquare(this.$route.params.square, this.page, 6).then((response) => {
+          // console.log(response);
+          // this.squaredata = this.squaredata.concat(response.data.data)
+          this.squaredata = response.data.data
+        });
+        //更新菜单数据
+        getArticleClassByotherName(this.$route.params.square).then(
+          (response) => {
+            this.planetInfo = response.data;
+          }
+        );
+      } 
+    
+  },
   created() {
     //数据回填
     this.fetchData();
@@ -724,7 +743,6 @@ export default {
   watch: {
     // 如果路由有变化，会再次执行该方法
     $route: "fetchData",
-
     MyEmoge(val) {
       // this.$router.go(0);
       this.postForm.content += val
@@ -827,11 +845,11 @@ export default {
       const user = JSON.parse(window.localStorage.getItem("access-admin"));
       this.userJudje = user == null;
       if (this.userJudje) {
-        console.log("未登陆");
+        // console.log("未登陆");
         //显示需要登陆
         this.shownologin = true;
       } else {
-        console.log("已登陆");
+        // console.log("已登陆");
         this.postReplyForm.userId = this.user.userid;
         //显示需要登陆
         this.shownologin = false;
@@ -846,11 +864,11 @@ export default {
       const user = JSON.parse(window.localStorage.getItem("access-admin"));
       this.userJudje = user == null;
       if (this.userJudje) {
-        console.log("未登陆");
+        // console.log("未登陆");
         //显示需要登陆
         this.shownologin = true;
       } else {
-        console.log("已登陆");
+        // console.log("已登陆");
         this.postReplysForm.userId = this.user.userid;
         //显示需要登陆
         this.shownologin = false;
@@ -871,11 +889,11 @@ export default {
       const user = JSON.parse(window.localStorage.getItem("access-admin"));
       this.userJudje = user == null;
       if (this.userJudje) {
-        console.log("未登陆");
+        // console.log("未登陆");
         //显示需要登陆
         this.shownologin = true;
       } else {
-        console.log("已登陆");
+        // console.log("已登陆");
         this.postReplysToUserForm.userId = this.user.userid;
         //显示需要登陆
         this.shownologin = false;
@@ -930,7 +948,7 @@ export default {
         );
         //获取全部评论
         getAllSquare(this.$route.params.square, this.page, 6).then((response) => {
-          console.log(response);
+          // console.log(response);
           this.squaredata = this.squaredata.concat(response.data.data)
         });
       } else {
@@ -1024,11 +1042,11 @@ export default {
       const user = JSON.parse(window.localStorage.getItem("access-admin"));
       this.userJudje = user == null;
       if (this.userJudje) {
-        console.log("未登陆");
+        // console.log("未登陆");
         //显示需要登陆
         this.shownologin = true;
       } else {
-        console.log("已登陆");
+        // console.log("已登陆");
         this.user = user.data;
         this.postForm.author = this.user.userid;
         //显示需要登陆

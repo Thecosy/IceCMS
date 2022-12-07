@@ -229,13 +229,6 @@ export const constantRoutes = [
         // 需要登录才能进入的页面可以增加一个requireAuth属性
       },
       {
-        path: 'dropzone',
-        component: () => import('@/admin/Dropzone'),
-        name: 'DropzoneDemo',
-        meta: { title: '图片上传', icon: 'el-icon-upload', requireAuth: true }
-        // 需要登录才能进入的页面可以增加一个requireAuth属性
-      },
-      {
         path: 'ArticleComment',
         component: () => import('@/admin/ArticleComment'),
         name: 'ArticleComment',
@@ -274,7 +267,7 @@ export const constantRoutes = [
         path: 'PlanetCommentList',
         component: () => import('@/admin/PlanetCommentList'),
         name: 'PlanetCommentList',
-        meta: { title: '评论管理', icon: 'message', requireAuth: true }
+        meta: { title: '内容管理', icon: 'message', requireAuth: true }
         // 需要登录才能进入的页面可以增加一个requireAuth属性
       },
       {
@@ -332,13 +325,6 @@ export const constantRoutes = [
         component: () => import('@/admin/ResourceList'),
         name: 'AllResource',
         meta: { title: '资源列表', icon: 'documentation', requireAuth: true }
-        // 需要登录才能进入的页面可以增加一个requireAuth属性
-      },
-      {
-        path: 'dropzone',
-        component: () => import('@/admin/Dropzone'),
-        name: 'DropzoneDemo2',
-        meta: { title: '图片上传', icon: 'el-icon-upload', requireAuth: true }
         // 需要登录才能进入的页面可以增加一个requireAuth属性
       },
       {

@@ -76,3 +76,10 @@ export function getLastnewsResource(id) {
     method: 'get',
   })
 }
+
+export function viewresource(id) {
+  return request({
+    url: '/WebResource/resource/'+ id +'/view',
+    method: 'get',
+  })
+}

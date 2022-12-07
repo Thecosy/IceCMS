@@ -65,7 +65,7 @@
       </el-table>
 
       <pagination
-
+      
         :page.sync="listQuery.page"
         :limit.sync="listQuery.limit"
         @pagination="getList"

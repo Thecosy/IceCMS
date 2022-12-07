@@ -21,12 +21,19 @@ export function getCosSetting() {
 
 export function setSettingCos(data) {
   return request({
-    url: '/Sitting/setSettingCos',
+    url: 'Sitting/setSettingCos',
     method: 'post',
     data: data,
     dataType: 'json',
     crossDomain: true,
     processData: false,
     contentType: false,
+  })
+}
+
+export function getAllDispositionCarousel() {
+  return request({
+    url: 'Sitting/getAllDispositionCarousel',
+    method: 'get'
   })
 }

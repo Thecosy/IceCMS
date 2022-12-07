@@ -895,7 +895,7 @@ import foot from './components/Foots.vue'
 import comment from './components/ResComment.vue'
 
 import { getResourceCommentnum } from '@/api/webresourceComment'
-import { getResourceById, loveresource, getPrenewsResource, getLastnewsResource } from '@/api/webresource'
+import { getResourceById, loveresource, getPrenewsResource, getLastnewsResource, viewresource } from '@/api/webresource'
 import { getResourceClassNameByid } from '@/api/webresourceclass'
 import { getNewArticle } from "@/api/webarticle";
 
@@ -961,6 +961,10 @@ export default {
     })
     getNewArticle(2).then((resp) => {
       this.newArticle = resp.data;
+    });
+    //资源浏览量+1
+    viewresource(this.$route.params.id).then((resp) => {
+      console.log(resp)
     });
   },
 
