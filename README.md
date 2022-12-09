@@ -249,10 +249,10 @@ npm run build:prod
 
 感谢 [JetBrains](https://www.jetbrains.com/) 提供的非商业开源软件 License
 
-感谢上面提到的每个开源项目
 
 
 
-## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/Thecosy/IceCMS.svg)](https://starchart.cc/Thecosy/IceCMS)
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Thecosy/IceCMS&type=Date)](https://star-history.com/#Thecosy/IceCMS&Date)
