@@ -147,14 +147,14 @@ Docker部署方式(推荐,可用于快速上线或测试)
     docker run -d -p 0:3389 \
     --name MySQL \
     --restart always \
-    thecosy/icemysql:v1.2.0
+    thecosy/icemysql:v2.2.0
 
     2.运行Spring容器
     docker run -d -p 8181:8181 \
     --name springboot-admin \
     --restart always \
     --link MySQL:db \
-    thecosy/icecms:v1.2.0
+    thecosy/icecms:v2.2.0
 
 <strong>配置最小开发环境(开发而非部署)</strong>
 
