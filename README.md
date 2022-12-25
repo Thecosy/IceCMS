@@ -142,19 +142,29 @@ Docker部署方式(推荐,可用于快速上线或测试)
     sudo systemctl daemon-reload
     # 重启docker服务
     sudo systemctl restart docker
+    
+    main-命令执行
+    Ps:按顺序执行
 
     1.运行Mysql容器
     docker run -d -p 0:3389 \
-    --name MySQL \
+    --name ice-sql \
     --restart always \
     thecosy/icemysql:v2.2.0
-
+    
     2.运行Spring容器
     docker run -d -p 8181:8181 \
-    --name springboot-admin \
+    --name ice-api \
     --restart always \
-    --link MySQL:db \
+    --link ice-sql:db \
     thecosy/icecms:v2.2.0
+    
+    3.运行Vue容器
+    docker run -d -p 3000:80 \
+    --name ice-vue \
+    --restart always \
+    --link  ice-api:iceApi \
+    thecosy/icevue:v2.2.0
 
 <strong>配置最小开发环境(开发而非部署)</strong>
 
