@@ -166,7 +166,78 @@ Docker部署方式(推荐,可用于快速上线或测试)
     --link  ice-api:iceApi \
     thecosy/icevue:v2.2.0
 
-<strong>配置最小开发环境(开发而非部署)</strong>
+## 目录结构
+    iceCMS/
+    ├── HELP.md
+    ├── IceCMS-java.iml
+    ├── IceCMS-main             --java主程序启动入口
+    │   ├── IceCMS-main.iml
+    │   ├── main.iml
+    │   ├── pom.xml
+    │   ├── src
+    │   └── target
+    ├── IcePay-ment             --java支付模块
+    │   ├── IcePay-ment.iml
+    │   ├── pom.xml
+    │   ├── src
+    │   └── target
+    ├── IceWk-ment              --java前端api模块
+    │   ├── IceWk-ment.iml
+    │   ├── pom.xml
+    │   ├── src
+    │   └── target
+    ├── IceWk-uniApp            --h5Uniapp模块
+    │   ├── App.vue
+    │   ├── LICENSE
+    │   ├── components
+    │   ├── main.js
+    │   ├── manifest.json
+    │   ├── nPro
+    │   ├── package-lock.json
+    │   ├── package.json
+    │   ├── pages
+    │   ├── pages.json
+    │   ├── static
+    │   ├── store
+    │   ├── subPage
+    │   ├── template.h5.html
+    │   ├── theme
+    │   ├── uni.scss
+    │   ├── uni_modules
+    │   ├── utils
+    │   └── vue.config.js
+    ├── IceWk-vues                --前端vue模块
+    │   ├── LICENSE
+    │   ├── README.md
+    │   ├── babel.config.js
+    │   ├── build
+    │   ├── dist
+    │   ├── jest.config.js
+    │   ├── jsconfig.json
+    │   ├── node_modules
+    │   ├── package-lock.json
+    │   ├── package.json
+    │   ├── postcss.config.js
+    │   ├── public
+    │   ├── serverless.yml
+    │   ├── src
+    │   ├── vue.config.js
+    │   └── yarn.lock
+    ├── README.md
+    ├── bin
+    │   ├── clean.bat
+    │   ├── package.bat
+    │   └── run.bat
+    ├── doc
+    │   └── IceCMS环境使用手册.docx
+    ├── mvnw
+    ├── mvnw.cmd
+    ├── pom.xml
+    └── sql                        --项目sql文件
+    ├── icecms5.6.sql
+    └── icecms8.0.sql
+
+<strong>配置最小开发环境</strong>
 
 MySQL
 JDK1.8或以上
