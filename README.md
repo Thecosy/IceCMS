@@ -23,7 +23,7 @@
 
 使用: （[www.macwk.cc](http://www.macwk.cc/)）
 
-官网: （[doc.snym.cn](http://doc.snym.cn)）
+官网: （[doc.macwk.cc](http://doc.macwk.cc)）
 
 ## QQ交流群
 
@@ -33,7 +33,7 @@ QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC5
 
 该群是一个学习交流群，如果是程序相关问题，请直接提交issues
 
-IceCMS 文档： （[http://doc.snym.cn/books/icecms](http://doc.snym.cn/books/icecms)）
+IceCMS 文档： （[http://doc.macwk.cc/books/icecms](http://doc.macwk.cc/books/icecms)）
 
 ## 预览地址：
 
