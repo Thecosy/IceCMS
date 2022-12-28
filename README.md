@@ -19,9 +19,7 @@
 
 基于 Spring Boot + Vue 前后端分离的内容管理系统
 
-本站UI来源于macwk但由于前者资金匮乏而倒闭。所以本项目想自建一个像macwk一样的内容管理站，目前已基本还原95%，现在免费供大家使用。
-
-使用: （[www.macwk.cc](http://www.macwk.cc/)）
+使用: （[www.macwk.cc](https://www.macwk.cc/)）
 
 官网: （[doc.macwk.cc](http://doc.macwk.cc)）
 
