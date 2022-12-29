@@ -51,7 +51,7 @@ uniapp移动端：[m.www.macwk.cc](http://m.www.macwk.cc)
 
 ## PC端
 <div class = "half">
-<img alt="describe" src = "https://cos.snym.cn/directlink/1/img/68747470733a2f2f73312e617831782e636f6d2f323032322f31312f31382f7a6e697670342e706e67.png"  width = “50%”><img alt="describe" src = "https://cos.snym.cn/directlink/1/img/68747470733a2f2f73312e617831782e636f6d2f323032322f31312f32302f7a4d53374f312e706e67.png"  width = “50%”>
+<img alt="describe" src = "http://img.snym.cn/i/2022/12/29/63ad57a5d3bc8.jpg"  width = “50%”><img alt="describe" src = "http://img.snym.cn/i/2022/12/29/63ad57a6d95f3.jpg"  width = “50%”>
 </div>
 <div class = "half">
 <img alt="describe" src = "https://img.snym.cn/i/2022/12/29/63ad4f1205559.png"  width = “50%”><img alt="describe" src = "https://img.snym.cn/i/2022/12/29/63ad4f1eca995.png"  width = “50%”>
