@@ -1,15 +1,21 @@
-<p align="center">
-	<a href="https://naccl.top/" target="_blank">
-		<img style="height: 120px" src="https://self-1305088812.cos.ap-nanjing.myqcloud.com/2021/83dc9cd0954a3c8d6d81c3d92d529389f9d184674ef9-5zqq0l_fw1200.png"/>
+<p style="display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;">
+	<a href="https://www.macwk.cc" target="_blank">
+		<img alt="logo" style="height: 120px" src="https://img.snym.cn/i/2022/12/29/63ad515c99cdf.png"/>
 	</a>
 </p>
-<p align="center">
-	<img src="https://img.shields.io/badge/JDK-1.8+-orange">
-	<img src="https://img.shields.io/badge/SpringBoot-2.2.7.RELEASE-brightgreen">
-	<img src="https://img.shields.io/badge/MyBatis-3.5.5-red">
-	<img src="https://img.shields.io/badge/Vue-2.6.11-brightgreen">
-	<img src="https://img.shields.io/badge/license-MIT-blue">
-	<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FNaccl%2FNBlog&count_bg=%2344CC11&title_bg=%23555555&icon=notist.svg&icon_color=%231296DB&title=hits&edge_flat=false">
+<p style="display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;">
+	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/JDK-1.8+-orange">
+	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/SpringBoot-2.2.7.RELEASE-brightgreen">
+	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/MyBatis-3.5.5-red">
+	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/Vue-2.6.11-brightgreen">
+	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/license-MIT-blue">
+	<img style="padding: 4px;" alt="Label" src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FNaccl%2FNBlog&count_bg=%2344CC11&title_bg=%23555555&icon=notist.svg&icon_color=%231296DB&title=hits&edge_flat=false">
 </p>
 
 
@@ -43,26 +49,26 @@ uniapp移动端：[m.www.macwk.cc](http://m.www.macwk.cc)
 
 
 
-## h5端
+## PC端
 <div class = "half">
-<img src = "https://s1.ax1x.com/2022/11/18/znivp4.png"  width = “50%” align = left><img src = "https://s1.ax1x.com/2022/11/20/zMS7O1.png"  width = “50%” align = right>
+<img alt="describe" src = "https://cos.snym.cn/directlink/1/img/68747470733a2f2f73312e617831782e636f6d2f323032322f31312f31382f7a6e697670342e706e67.png"  width = “50%”><img alt="describe" src = "https://cos.snym.cn/directlink/1/img/68747470733a2f2f73312e617831782e636f6d2f323032322f31312f32302f7a4d53374f312e706e67.png"  width = “50%”>
 </div>
 <div class = "half">
-<img src = "https://s1.ax1x.com/2022/11/20/zMSqw6.png"  width = “50%” align = left><img src = "https://s1.ax1x.com/2022/11/18/znir6A.png"  width = “50%” align = right>
+<img alt="describe" src = "https://img.snym.cn/i/2022/12/29/63ad4f1205559.png"  width = “50%”><img alt="describe" src = "https://img.snym.cn/i/2022/12/29/63ad4f1eca995.png"  width = “50%”>
 </div>
 
 
 
 ## 后台
 <div class = "half">
-<img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934180-截屏2022-08-30-18.49.21.png"  width = “50%” align = left><img src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934191-截屏2022-08-30-18.54.51.png"  width = “50%” align = right>
+<img alt="describe" src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934180-截屏2022-08-30-18.49.21.png"  width = “50%”><img alt="describe" src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934191-截屏2022-08-30-18.54.51.png"  width = “50%”>
 </div>
 
 
-## uniapp移动端
-<img src="https://i0.hdslb.com/bfs/album/354a1caa29bfd8bc9571be67b18db13227bea80f.png" width="280" height="405"><img src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934220-截屏2022-08-30-17.05.29.png" width="280" height="405">
+## UniApp H5、小程序移动端
+<img alt="describe" src="https://i0.hdslb.com/bfs/album/354a1caa29bfd8bc9571be67b18db13227bea80f.png" width="280" height="405"><img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934220-截屏2022-08-30-17.05.29.png" width="280" height="405">
 
-<img src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934226-截屏2022-08-30-17.05.45.png" width="280" height="405"><img src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934233-截屏2022-08-30-17.06.42.png" width="280" height="405">
+<img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934226-截屏2022-08-30-17.05.45.png" width="280" height="405"><img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934233-截屏2022-08-30-17.06.42.png" width="280" height="405">
 
 
 ## 
@@ -107,17 +113,16 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 
 [Element UI](https://github.com/ElemeFE/element)：部分使用，一些小组件，更改了ui样式，便于快速实现效果
 
-文章排版：基于 [typo.css](https://github.com/sofish/typo.css) 修改
-
-
 
 ## 最近更新
-
-支持 Telegram Bot 快捷操作
 
 增加标签功能
 
 完善部分ui
+
+docker 前端部署方式
+
+docker compose 一键部署
 
     
 ## 快速开始
@@ -163,6 +168,8 @@ Docker部署方式(推荐,可用于快速上线或测试)
     --restart always \
     --link  ice-api:iceApi \
     thecosy/icevue:v2.2.0
+    
+    #访问前端地址http://ip:3000
 
 ## 目录结构
     iceCMS/
@@ -235,7 +242,9 @@ Docker部署方式(推荐,可用于快速上线或测试)
     ├── icecms5.6.sql
     └── icecms8.0.sql
 
-<strong>配置最小开发环境</strong>
+## <strong>配置最小开发环境</strong>
+
+1.环境配置
 
 MySQL
 JDK1.8或以上
@@ -243,13 +252,15 @@ Maven
 Nodejs
 微信开发者工具
 
+### <strong>后端部署</strong>
+
 2.创建 MySQL 数据库`IceCMS`，并执行`/sql/IceCMS.sql`初始化表数据
 
-3.启动小商场和管理后台的后端服务
+3.启动iceCMS-main管理后台的后端服务
 
-3.1.修改配置信息`IceCMS-main/src/main/resources/application.yml`
+3.1.修改配置信息`IceCMS-main/src/main/resources/application.yml`配置数据库连接
 
-3.2.安装 Redis 并启动
+3.2.安装 Redis 并启动(不用的话不影响)
 
 3.3.打开命令行，输入以下命令
 
@@ -257,10 +268,11 @@ Nodejs
     mvn install
     mvn clean package
     java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
+    #在iceCMS.jar目录输入 java -jar iceCMS.jar
 
 ### <strong>前端部署</strong>
 
-4.启动后台前端（后台地址http://localhost:9528/admin）
+4.进入iceCMS-vues目录
 
 打开命令行，输入以下命令
 
@@ -294,11 +306,15 @@ npm run build:prod
 浏览器打开，访问 [http://localhost:9528](http://localhost:9528)
 , 此时进入前端页面。
 
+启动前端后台（后台地址http://localhost:9528/admin）
+
 6.启动uniapp移动端
 
 下载HBuilderX
 
 进入（[https://ext.dcloud.net.cn/plugin?id=9261](https://ext.dcloud.net.cn/plugin?id=9261)）uniapp移动端插件目录，点击导入，然后即可导入到本地。
+
+也可在本地打开IceCMS-uniapp项目
 
 打开`IceWK-uniApp`目录,进行编译打包
 
@@ -312,16 +328,21 @@ npm run build:prod
 - 注意修改IceCMS-main目录下的`application-dev.properties`的配置信息
   - Redis 若没有密码，留空即可
   - 注意修改`token.secretKey`，否则无法保证 token 安全性
-  - `spring.mail.host`及`spring.mail.port`的默认配置为阿里云邮箱，其它邮箱服务商参考关键字`spring mail 服务器`（邮箱配置用于接收评论提醒）
+
+[//]: # (  - `spring.mail.host`及`spring.mail.port`的默认配置为阿里云邮箱，其它邮箱服务商参考关键字`spring mail 服务器`（邮箱配置用于接收评论提醒）)
 
 
 
-## 隐藏功能
+[//]: # (## 隐藏功能)
 
-- 在前台访问`/login`路径登录后，可以以博主身份（带有博主标识）回复评论，且不需要填写昵称和邮箱即可提交
-- 在 Markdown 中加入`<meting-js server="netease" type="song" id="歌曲id" theme="#25CCF7"></meting-js>` （注意以正文形式添加，而不是代码片段）可以在文章中添加 [APlayer](https://github.com/DIYgod/APlayer) 音乐播放器，`netease`为网易云音乐，其它配置及具体用法参考 [MetingJS](https://github.com/metowolf/MetingJS)
-- 提供了两种隐藏文字效果：在 Markdown 中使用`@@`包住文字，文字会被渲染成“黑幕”效果，鼠标悬浮在上面时才会显示；使用`%%`包住文字，文字会被“蓝色覆盖层”遮盖，只有鼠标选中状态才会反色显示。例如：`@@隐藏文字@@`，`%%隐藏文字%%`
-- 大部分个性化配置可以在后台“站点设置”中修改，小部分由于考虑到首屏加载速度（如首页大图）需要修改前端源码
+[//]: # ()
+[//]: # (- 在前台访问`/login`路径登录后，可以以博主身份（带有博主标识）回复评论，且不需要填写昵称和邮箱即可提交)
+
+[//]: # (- 在 Markdown 中加入`<meting-js server="netease" type="song" id="歌曲id" theme="#25CCF7"></meting-js>` （注意以正文形式添加，而不是代码片段）可以在文章中添加 [APlayer]&#40;https://github.com/DIYgod/APlayer&#41; 音乐播放器，`netease`为网易云音乐，其它配置及具体用法参考 [MetingJS]&#40;https://github.com/metowolf/MetingJS&#41;)
+
+[//]: # (- 提供了两种隐藏文字效果：在 Markdown 中使用`@@`包住文字，文字会被渲染成“黑幕”效果，鼠标悬浮在上面时才会显示；使用`%%`包住文字，文字会被“蓝色覆盖层”遮盖，只有鼠标选中状态才会反色显示。例如：`@@隐藏文字@@`，`%%隐藏文字%%`)
+
+[//]: # (- 大部分个性化配置可以在后台“站点设置”中修改，小部分由于考虑到首屏加载速度（如首页大图）需要修改前端源码)
 
 
 ## Thanks
