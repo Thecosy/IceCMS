@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 25/11/2022 20:50:31
+ Date: 29/12/2022 14:37:25
 */
 
 SET NAMES utf8mb4;
@@ -22,8 +22,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `all_tag`;
 CREATE TABLE `all_tag` (
-  `id` int DEFAULT NULL,
-  `tag_name` varchar(255) DEFAULT NULL COMMENT '标签名称'
+                           `id` int DEFAULT NULL,
+                           `tag_name` varchar(255) DEFAULT NULL COMMENT '标签名称'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
@@ -46,52 +46,53 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `sort_class` int DEFAULT NULL COMMENT '所厲栏目Class',
-  `title` varchar(255) DEFAULT NULL COMMENT '文章标题',
-  `title_color` varchar(8) DEFAULT NULL COMMENT '标题颜色',
-  `titlefont_size` varchar(2) DEFAULT NULL COMMENT '标题大小',
-  `titlefont_type` int DEFAULT NULL COMMENT '标题字形',
-  `full_title` varchar(255) DEFAULT NULL COMMENT '完整标题',
-  `subhead` varchar(255) DEFAULT NULL COMMENT '副标题',
-  `intro` varchar(255) DEFAULT NULL COMMENT '简介',
-  `content` longtext COMMENT '文章内容',
-  `author` varchar(20) DEFAULT NULL COMMENT '作者',
-  `copyfrom` varchar(20) DEFAULT NULL COMMENT '来源',
-  `inputer` varchar(20) DEFAULT NULL COMMENT '录入者',
-  `http_url` varchar(255) DEFAULT NULL COMMENT '转向连接',
-  `keyword` varchar(255) DEFAULT NULL COMMENT '关健字',
-  `hits` int DEFAULT NULL COMMENT '点击数',
-  `post_num` int DEFAULT NULL COMMENT '评论数',
-  `love_num` int DEFAULT NULL COMMENT '喜欢数',
-  `comment_disabled` varchar(10) DEFAULT NULL COMMENT '是否评论',
-  `ontop` int DEFAULT NULL COMMENT '是否顶制',
-  `iselite` int DEFAULT NULL COMMENT '是否推荐',
-  `deleted` int DEFAULT NULL COMMENT '是否删除',
-  `add_time` datetime DEFAULT NULL COMMENT '添加时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `create_time` datetime DEFAULT NULL COMMENT '生成时间',
-  `last_post` datetime DEFAULT NULL COMMENT '最后评论时间',
-  `owner_tag` int DEFAULT NULL COMMENT '重要性',
-  `owner_remark` varchar(1024) DEFAULT NULL COMMENT '自定义备注',
-  `html_path` varchar(255) DEFAULT NULL COMMENT 'htm地址',
-  `file_path` varchar(255) DEFAULT NULL COMMENT '上传文件地址',
-  `temp_path` varchar(255) DEFAULT NULL COMMENT '模板地址',
-  `thumb` varchar(255) DEFAULT NULL COMMENT '缩略图地址',
-  `status` varchar(25) DEFAULT NULL COMMENT '生成状态',
-  `article_status` int(10) unsigned zerofill NOT NULL COMMENT '文章状态身份',
-  PRIMARY KEY (`id`,`article_status`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1000000238 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+                           `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
+                           `sort_class` int DEFAULT NULL COMMENT '所厲栏目Class',
+                           `title` varchar(255) DEFAULT NULL COMMENT '文章标题',
+                           `title_color` varchar(8) DEFAULT NULL COMMENT '标题颜色',
+                           `titlefont_size` varchar(2) DEFAULT NULL COMMENT '标题大小',
+                           `titlefont_type` int DEFAULT NULL COMMENT '标题字形',
+                           `full_title` varchar(255) DEFAULT NULL COMMENT '完整标题',
+                           `subhead` varchar(255) DEFAULT NULL COMMENT '副标题',
+                           `intro` varchar(255) DEFAULT NULL COMMENT '简介',
+                           `content` longtext COMMENT '文章内容',
+                           `author` varchar(20) DEFAULT NULL COMMENT '作者',
+                           `copyfrom` varchar(20) DEFAULT NULL COMMENT '来源',
+                           `inputer` varchar(20) DEFAULT NULL COMMENT '录入者',
+                           `http_url` varchar(255) DEFAULT NULL COMMENT '转向连接',
+                           `keyword` varchar(255) DEFAULT NULL COMMENT '关健字',
+                           `hits` int DEFAULT NULL COMMENT '点击数',
+                           `post_num` int DEFAULT NULL COMMENT '评论数',
+                           `love_num` int DEFAULT NULL COMMENT '喜欢数',
+                           `comment_disabled` varchar(10) DEFAULT NULL COMMENT '是否评论',
+                           `ontop` int DEFAULT NULL COMMENT '是否顶制',
+                           `iselite` int DEFAULT NULL COMMENT '是否推荐',
+                           `deleted` int DEFAULT NULL COMMENT '是否删除',
+                           `add_time` datetime DEFAULT NULL COMMENT '添加时间',
+                           `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                           `create_time` datetime DEFAULT NULL COMMENT '生成时间',
+                           `last_post` datetime DEFAULT NULL COMMENT '最后评论时间',
+                           `owner_tag` int DEFAULT NULL COMMENT '重要性',
+                           `owner_remark` varchar(1024) DEFAULT NULL COMMENT '自定义备注',
+                           `html_path` varchar(255) DEFAULT NULL COMMENT 'htm地址',
+                           `file_path` varchar(255) DEFAULT NULL COMMENT '上传文件地址',
+                           `temp_path` varchar(255) DEFAULT NULL COMMENT '模板地址',
+                           `thumb` varchar(255) DEFAULT NULL COMMENT '缩略图地址',
+                           `status` varchar(25) DEFAULT NULL COMMENT '生成状态',
+                           `article_status` int(10) unsigned zerofill NOT NULL COMMENT '文章状态身份',
+                           PRIMARY KEY (`id`,`article_status`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1000000239 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
 BEGIN;
-INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (0000000189, 19, '这是我的第一篇文章名', NULL, NULL, NULL, NULL, NULL, 'kjnk', '<p>这是我的第一篇文章</p>\n<h2>标题</h2>\n<h3>代码</h3>\n<pre class=\"language-javascript\"><code>    //数据回填\n    if (this.isEdit) {\n      const id = this.$route.params &amp;&amp; this.$route.params.id\n      this.articleid = this.$route.params.id\n      this.fetchData(id)\n      this.fetchData(this.articleid)\n    }</code></pre>\n<p>yes</p>', 'ttice', NULL, NULL, NULL, NULL, 47, 1, 15, NULL, NULL, NULL, NULL, '2022-02-23 11:17:35', '2022-03-15 02:49:29', '2021-11-16 10:00:00', NULL, 3, NULL, NULL, NULL, NULL, NULL, 'published', 0004807611);
-INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (0000000217, 20, 'JetBrains全系列软件激活教程激活码以及JetBrains系列软件汉化包', NULL, NULL, NULL, NULL, NULL, '阿松大', '<h2 id=\"最新激活方式\">最新激活方式</h2>\n<p>如果安装过无限试用、修改过 hosts 请先卸载干净旧版本再安装，否需无法激活！</p>\n<blockquote>\n<p>以&nbsp;<code>WebStorm</code>&nbsp;为例</p>\n</blockquote>\n<ol>\n<li><a class=\"text-primary\" href=\"https://www.jetbrains.com/\" target=\"_blank\" rel=\"noopener\">JetBrains官网</a>&nbsp;下载安装你需要的 IDE，如果下载慢可以在 macwk 搜索 jetbrains。</li>\n<li>下载&nbsp;<a class=\"text-primary\" href=\"https://macwk.lanzouo.com/i8eElxh573a\" target=\"_blank\" rel=\"noopener\">Jetbrains.zip</a>，下载后解压，得到 fineagent.jar，将该文件复制到&nbsp;<code>/Users/你的用户名/</code>&nbsp;文件夹下</li>\n<li>打开访达，点击左侧的&nbsp;<code>应用程序</code>&nbsp;找到&nbsp;<code>WebStorm</code>，在 WebStorm 图标上右键，点击&nbsp;<code>显示包内容</code></li>\n<li>进入&nbsp;<code>Contents</code>&nbsp;目录，再进入&nbsp;<code>bin</code>&nbsp;目录，使用文本编辑器打开&nbsp;<code>webstorm.vmoptions</code>&nbsp;文件</li>\n<li>在最后面添加&nbsp;<code>-javaagent:/Users/你的用户名/fineagent.jar</code>，记得修改一下你的用户名。</li>\n<li>运行 WebStorm, 选择&nbsp;<code>Activate WebStorm</code>，再点击&nbsp;<code>Activation Code</code></li>\n<li>复制下面的的激活码粘贴到激活窗口的输入框中，点击&nbsp;<code>Activate</code>。可以用到 2099 年！</li>\n</ol>\n<pre class=\"language-  language-undefined\" tabindex=\"0\"><code>5AYV1D1RE5-eyJsaWNlbnNlSWQiOiI1QVlWMUQxUkU1IiwibGljZW5zZWVOYW1lIjoiaHR0cHM6Ly93d3cuaml3ZWljaGVuZ3podS5jb20iLCJhc3NpZ25lZU5hbWUiOiIiLCJhc3NpZ25lZUVtYWlsIjoiIiwibGljZW5zZVJlc3RyaWN0aW9uIjoiIiwiY2hlY2tDb25jdXJyZW50VXNlIjpmYWxzZSwicHJvZHVjdHMiOlt7ImNvZGUiOiJJSSIsImZhbGxiYWNrRGF0ZSI6IjIwOTktMTItMzEiLCJwYWlkVXBUbyI6IjIwOTktMTItMzEifSx7ImNvZGUiOiJBQyIsImZhbGxiYWNrRGF0ZSI6IjIwOTktMTItMzEiLCJwYWlkVXBUbyI6IjIwOTktMTItMzEifSx7ImNvZGUiOiJEUE4iLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiUFMiLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiR08iLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiRE0iLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiQ0wiLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiUlMwIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlJDIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlJEIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlBDIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlJNIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IldTIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IkRCIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IkRDIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlJTVSIsImZhbGxiYWNrRGF0ZSI6IjIwOTktMTItMzEiLCJwYWlkVXBUbyI6IjIwOTktMTItMzEifV0sImhhc2giOiIxMjc5Njg3Ny8wIiwiZ3JhY2VQZXJpb2REYXlzIjo3LCJhdXRvUHJvbG9uZ2F0ZWQiOmZhbHNlLCJpc0F1dG9Qcm9sb25nYXRlZCI6ZmFsc2V9-HNPogO0kWkHCVMnsjmBXUqQt87UPHqdkYqZGveSJtu8hb2V2Yq7gHsHenp4UuEd3jwEwC+YrUIf7U5yDA/56F5Sdn0RLUHZX5DHeQbJPbmYCBsDRT7m8rnmMFOSZn3vwNatvv1cooZbcGOk3Wwxx6bF7XcgaIrmXRcmZMZgv2PZehr0WS1HxNKe3X4nbGP3MwiSbg4ypmxNDrljmgv+Si9QDDwNLDffqeO0Lce0FqEJuMWmvBS42S0aeIYF8IS5bp4+LFKLJ8T7tF40OxKYDurBb9+9c43GZBscM/eLB8Jos66jNGFwgebFUlvhzJKVHZtuc/N8zGeEnTq6K0T/B8w==-MIIDTjCCAjagAwIBAgIBDTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMCAXDTE4MTEwMTEyMjk0NloYDzIwOTkwODA5MDIyNjA3WjAfMR0wGwYDVQQDDBRwcm9kMnktZnJvbS0yMDIwMTAxOTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMK3eyr0+Oys/TwcQO+qYaXWGBmXcEP4fR0bHHzZd/4WNGltXhecM80OWthA38BQRYAJBCKz/dSkO2Kj1H2y+7KB5cIaOiJEyTESfTSgzQdot6laRBU8oxy9mmagI46M8zEEmplPybY4YJj4HOwZiBsMQEMxoTgMDLpuHX6uASoVhSj6koB55lOj4wEgsQBeAMWTAXmTl88ixE179J8aBUkBGpL8w/tZzl9BJXZNF15gPfkS58rw8cdPzXLS0Yym37A2/KKFhfHzJc5KhbaxqYzmkAfTMqPsIqCQ1lQUAqfiPn2gN2I1Z3/cQuEW27M55fXVr2DduQe5DWzYJs85L50CAwEAAaOBmTCBljAJBgNVHRMEAjAAMB0GA1UdDgQWBBQk2hEilvWFQcCTR+gxI0z0wIQC/zBIBgNVHSMEQTA/gBSjnrZIZ0ISNkG9beC5tKBSi5fxs6EcpBowGDEWMBQGA1UEAwwNSmV0UHJvZmlsZSBDQYIJANJssYOyg3nhMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAsGA1UdDwQEAwIFoDANBgkqhkiG9w0BAQsFAAOCAQEAsCQBjO5wttco/Z5cj/o4GBrku8UtBBBVFq4xsBanshTHm4deVxcTvta4aScV0TPKcaLqGqWx8A9v8XXO8dBbCuyXvWZteZ/C2Covg1xXiM99lz7VxqpjVmLdKanZn5u0gQSiYJdcfF+TdbmEIeSOnN/kLXNq2hXdJQK2zk2J25UZqu5EibRtTbdOzw6ZcfwJ8uOntXfsmAhnNICP3Wf/4wR/mwB0Ka4S+JA3IbF5MUmUZ/fjUaFarnin70us+Vxf/sZUi7u67wilvwVV0NAqDpthHUV0NRc4q+yOr2Dt/uCHdy4XRXLJfAv/z9/xBwNZZALNz3EtQL6IeIWWJByl3g==</code></pre>\n<p>尽情享用吧！</p>\n<h2 id=\"激活码方式\">激活码方式</h2>\n<p>该方式不需要另外设置，直接即可通过激活码激活，但是不保证稳定性！</p>\n<p><a class=\"text-primary fs-30\" href=\"https://jetbra.in/test-7b06e3ddfa68ff9b483adfcd08cdd243831f7928.html?t=16018385822?source=https://www.macwk.com/article/jetbrains-crack\" target=\"_blank\" rel=\"noopener\">点我获取最新激活码</a>，</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<h2 id=\"无限重置试用方式\">无限重置试用方式</h2>\n<blockquote>\n<p>无限重置试用方式仅适用于 2021.2.2 及以下版本！！！</p>\n</blockquote>\n<h3 id=\"前面的话\">前面的话</h3>\n<blockquote>\n<p>永久激活的工具 zhile 的大神已经不再继续开发维护了，此方法一直是跳转到 zhile 的主页，但是经常遇到反馈说目标网站打不开或者不知道怎么安装插件的问题，所以直接转到这个页面并配一下操作图片吧。另外目前只有这种无限重置试用的方法了，<code>最终和永久激活使用无差异，因为插件是每次运行自动续期的</code>！支持 JetBrains 系列软件的所有新旧版本的激活！！！MacWk.com 建议大家去&nbsp;<a href=\"https://www.jetbrains.com/\" target=\"_blank\" rel=\"noopener\">JetBrains官网</a>&nbsp;下载JetBrains系列工具的官方版，一般情况下载很快的。</p>\n</blockquote>\n<p>此方法也适用于 Windows。</p>\n<h3 id=\"背景\">背景</h3>\n<p>Jetbrains 家的产品有一个很良心的地方，他会允许你试用 30 天（这个数字写死在代码里了）以评估是否你真的需要为它而付费。 但很多时候会出现一种情况：IDE 并不能按照我们实际的试用时间来计算。</p>\n<p>我举个例子：如果我们开始了试用，然后媳妇生孩子要你回去陪产！陪产时我们并无空闲对IDE试用评估，它依旧算试用时间。（只是举个例子，或许你并没有女朋友）</p>\n<p>发现了吗？你未能真的有 30 天来对它进行全面的试用评估，你甚至无法作出是否付费的决定。此时你会想要延长试用时间，然而 Jetbrains 并未提供相关功能，该怎么办？</p>\n<p>事实上有一款插件可以实现这个功能，你或许可以用它来重置一下试用时间。但切记不要无休止的一直试用，这并不是这个插件的初衷！</p>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-01.jpg\" alt=\"\" /></p>\n<h3 id=\"如何安装\">如何安装</h3>\n<blockquote>\n<p>提供以下两种方法，二选一即可。</p>\n</blockquote>\n<ol>\n<li>插件市场安装：</li>\n</ol>\n<p>在&nbsp;<code>Settings/Preferences... -&gt; Plugins</code>&nbsp;内手动添加第三方插件仓库地址：<code>https://plugins.zhile.io</code>&nbsp;搜索：IDE Eval Reset 插件进行安装。</p>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-02.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-03.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-04.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-05.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-06.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-07.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-08.jpg\" alt=\"\" /></p>\n<ol start=\"2\">\n<li>手动下载安装：</li>\n</ol>\n<p><a class=\"text-primary\" href=\"https://macwk.lanzoui.com/iwY9lvf1ckj\" target=\"_blank\" rel=\"noopener\">点击这个链接(v2.1.14)下载插件的 zip 包</a>（macOS可能会自动解压，切记使用的是 zip 包，不是解压后的文件夹！），然后打开&nbsp;<code>Settings/Preferences... -&gt; Plugins</code>&nbsp;手动安装插件。</p>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-09.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-10.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-11.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-12.jpg\" alt=\"\" /></p>\n<h3 id=\"如何使用\">如何使用</h3>\n<p>一般来说，在 IDE 窗口切出去或切回来时（窗口失去/得到焦点）会触发事件，检测是否长时间（25天）没有重置，给通知让你选择。（初次安装因为无法获取上次重置时间，会直接给予提示）。</p>\n<p>您也可以手动唤出插件的主界面：</p>\n<p>a. 如果 IDE 没有打开项目，在 Welcome 界面点击 IDE 的菜单：<code>Get Help -&gt; Eval Reset</code></p>\n<p>b. 如果 IDE 打开了项目，点击 IDE 的菜单：<code>Help -&gt; Eval Reset</code></p>\n<p>唤出的插件主界面中包含了一些显示信息，有 2 个按钮和 1 个勾选项：</p>\n<ul>\n<li>按钮：<code>Reload</code>&nbsp;用来刷新界面上的显示信息。</li>\n<li>按钮：<code>Reset</code>&nbsp;点击会询问是否重置试用信息并重启 IDE。选择 Yes 则执行重置操作并重启 IDE 生效，选择 No 则什么也不做。（此为手动重置方式）</li>\n<li>勾选项：<code>Auto reset before per restart</code>&nbsp;如果勾选了，则自勾选后每次重启/退出 IDE 时会自动重置试用信息，你无需做额外的事情。（此为自动重置方式，推荐此方法！）</li>\n</ul>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-13.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-14.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-15.jpg\" alt=\"\" /></p>\n<h3 id=\"如何更新\">如何更新</h3>\n<ol>\n<li>插件更新机制（推荐）：</li>\n</ol>\n<p>IDE 会自行检测其自身和所安装插件的更新并给予提示。如果本插件有更新，你会收到提示看到更新日志，自行选择是否更新。</p>\n<p>点击 IDE 的 Check for Updates... 菜单手动检测 IDE 和所安装插件的更新。如果本插件有更新，你会收到提示看到更新日志，自行选择是否更新。</p>\n<p>插件更新可能会需要重启IDE。</p>\n<ol start=\"2\">\n<li>手动更新：</li>\n</ol>\n<p>从本页面下载最新的插件 zip 包安装更新。插件更新需要重启IDE。</p>\n<h3 id=\"一些说明\">一些说明</h3>\n<p>市场付费插件的试用信息也会一并重置。</p>\n<p>MyBatisCodeHelperPro 插件有两个版本如下，功能完全相同，安装时须看清楚！</p>\n<ul>\n<li><a href=\"https://plugins.jetbrains.com/plugin/14522-mybatiscodehelperpro-marketplace-edition-\" target=\"_blank\" rel=\"noopener\">MyBatisCodeHelperPro</a>&nbsp;(Marketplace Edition)，<code>可重置</code>！</li>\n<li><a href=\"https://plugins.jetbrains.com/plugin/9837-mybatiscodehelperpro\" target=\"_blank\" rel=\"noopener\">MyBatisCodeHelperPro</a>，<code>不可重置</code>！</li>\n</ul>\n<p>对于某些付费插件（如: Iedis 2, MinBatis）来说，你可能需要去取掉 javaagent 配置（如果有）后重启IDE：</p>\n<ul>\n<li>如果IDE没有打开项目，在 Welcome 界面点击菜单：Configure -&gt; Edit Custom VM Options... -&gt; 移除 -javaagent: 开头的行。</li>\n<li>如果IDE打开了项目，点击菜单：Help -&gt; Edit Custom VM Options... -&gt; 移除 -javaagent: 开头的行。</li>\n</ul>\n<p>重置需要重启IDE生效！</p>\n<p>重置后并不弹出 Licenses 对话框让你选择输入 License 或试用，这和之前的重置脚本/插件不同（省去这烦人的一步）。</p>\n<p>如果长达 25 天不曾有任何重置动作，IDE 会有通知询问你是否进行重置。</p>\n<p>如果勾选：Auto reset before per restart ，重置是静默无感知的。</p>\n<p>简单来说：勾选了 Auto reset before per restart 则无需再管，一劳永逸。</p>\n<h3 id=\"开源信息\">开源信息</h3>\n<p>插件是学习研究项目，源代码是开放的。源码仓库地址：<a class=\"text-primary\" href=\"https://gitee.com/pengzhile/ide-eval-resetter\" target=\"_blank\" rel=\"noopener\">Gitee</a>。</p>\n<p>如果你有更好的想法，欢迎给我提 Pull Request 来共同研究完善。</p>\n<p>插件源码使用：GPL-2.0开源协议发布。</p>\n<p>插件使用 PHP 编写，毕竟 PHP 是世界上最好的编程语言！</p>\n<h3 id=\"支持的产品\">支持的产品</h3>\n<ul>\n<li>IntelliJ IDEA</li>\n<li>AppCode</li>\n<li>CLion</li>\n<li>DataGrip</li>\n<li>GoLand</li>\n<li>PhpStorm</li>\n<li>PyCharm</li>\n<li>Rider</li>\n<li>RubyMine</li>\n<li>WebStorm</li>\n</ul>\n<p><a class=\"text-primary\" href=\"https://zhile.io/2020/11/18/jetbrains-eval-reset-da33a93d.html\" target=\"_blank\" rel=\"noopener\">点我查看原文链接</a></p>\n<h2 id=\"中文汉化包\">中文汉化包</h2>\n<p>JetBrains 系列大部分在官方的插件中心直接安装使用了。</p>\n<p>以 WebStrom 为例，打开它的设置，点击 Plugins，搜索 chinese，安装即可。</p>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-activation-step-09-1.jpg\" alt=\"\" /></p>\n<h2 id=\"激活码\">激活码</h2>\n<p>目前全网 Jetbrains 全家桶激活码激活方式都不稳定，请使用无限重置试用的方法。</p>', 'awe', NULL, NULL, NULL, NULL, 105, 2, 60, 'false', NULL, NULL, NULL, '2022-02-24 10:27:15', '2022-03-15 02:49:23', '2022-02-27 13:04:45', NULL, 3, NULL, NULL, NULL, NULL, 'https://icewk-1305088812.cos.ap-nanjing.myqcloud.com/images/4941645728392129.png', 'published', 0009170287);
-INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (0000000229, 20, 'Github上传操作-push-pull-delete', NULL, NULL, NULL, NULL, NULL, '按顺序擦速度', '<p>&nbsp;</p>\n<div>\n<div>\n<article class=\"_2rhmJa\">\n<h2>新建</h2>\n<h3>&hellip;or create a new repository on the command line</h3>\n<div class=\"copyable-terminal\">\n<div class=\"copyable-terminal-button\">&nbsp;</div>\n<pre class=\"language-css\"><code>echo \"# IceWk\" &gt;&gt; README.md\ngit init\ngit add README.md\ngit commit -m \"first commit\"\ngit branch -M main\ngit remote add origin git@github.com:Thecosy/IceWk.git\ngit push -u origin main删除</code></pre>\n</div>\n<h2>删除</h2>\n<p>在上传项目到github时,忘记忽略了某个文件夹target,就直接push上去了, 最后意识到了此问题,决定删除掉远程仓库中的target文件夹</p>\n<p>&nbsp;</p>\n<p>在github上只能删除仓库,却无法删除文件夹或文件, 所以只能通过命令来解决</p>\n<p>&nbsp;</p>\n<p>首先进入你的master文件夹下, Git Bash Here ,打开命令窗口</p>\n<p>$ git --help # 帮助命令</p>\n<p>&nbsp;</p>\n<p>$ git pull origin master # 将远程仓库里面的项目拉下来</p>\n<p>$ dir # 查看有哪些文件夹</p>\n<p>$ git rm -r --cached target # 删除target文件夹<br />$ git commit -m \'删除了target\' # 提交,添加操作说明</p>\n<p>&nbsp;</p>\n<ul>\n<li>\n<p>提交上述操作<br /><strong><code>git commit -m \"log message\"</code></strong></p>\n</li>\n<li>\n<p>推送所有文件到远程仓库<br /><strong><code>git push origin master</code></strong></p>\n<blockquote>\n<p>这时候如果再执行添加origin操作，会提示<strong>远程origin已经存在</strong>。<br />细心的可能会发现这地方跟<a target=\"_blank\" rel=\"noopener\">添加本地项目到github</a>的最后一步操作不一样，那里是<code>git push -u origin master</code></p>\n<blockquote>\n<p>第一次添加远程origin时，需要语句<code>-u</code></p>\n</blockquote>\n</blockquote>\n</li>\n</ul>\n<p>这时候我们再去github上查看此项目，就可以看到已经更新了刚才的操作！</p>\n<h2>更新</h2>\n<p>&nbsp;</p>\n</article>\n<div>\n<p>向本地仓库中准备文件</p>\n<p>git add .<br /><br />这条命令是向本地仓库传入全部文件<br />或者</p>\n<h3>git add filepath(具体文件的路径)<br /><br />交付<br />备注信息不能为空，否则会交付失败。</h3>\n<p>git commit -m \"备注信息\"<br /><br />还可以添加其他参数<br />连接远程仓库<br />第一次上传时，需要在github创建一个Repository,然后复制其URL或者SSH<br />更新时若已经进入项目根目录可以无此操作。</p>\n<p>git remote add origin https://github.com/cocolabear/snake.git<br /><br />注意是add不是and</p>\n<p>提交代码</p>\n<p>git push -u origin master<br /><br />当出现莫名其妙的问题时，强制push</p>\n<p>git push -u origin master -f<br /><br />这一步可能需要输入github的账号和密码。<br /><br /></p>\n<div>\n<div>\n<div>\n<div>\n<p>&nbsp;</p>\n<p>正确步骤：<br />1. git init //初始化仓库</p>\n<ol>\n<li>\n<p>git add .(文件name) //添加文件到本地仓库</p>\n</li>\n<li>\n<p>git commit -m &ldquo;first commit&rdquo; //添加文件描述信息</p>\n</li>\n<li>\n<p>git remote add origin + 远程仓库地址&nbsp;//链接远程仓库，创建主分支</p>\n</li>\n<li>\n<p>git pull origin master // 把本地仓库的变化连接到远程仓库主分支</p>\n</li>\n<li>\n<p>git push -u origin master //把本地仓库的文件推送到远程仓库</p>\n</li>\n</ol>\n<p>OK<br />搞定！！</p>\n</div>\n<div class=\"_19DgIp\">&nbsp;</div>\n</div>\n<br /><br /></div>\n</div>\n</div>\n<div class=\"_19DgIp\">&nbsp;</div>\n</div>\n<br /><br /></div>', 'awe', NULL, NULL, NULL, NULL, 39, 8, 3, NULL, NULL, NULL, NULL, '2022-02-27 11:26:51', '2022-05-13 15:01:44', '2022-02-27 13:01:00', NULL, 3, NULL, NULL, NULL, NULL, NULL, 'published', 0007751656);
-INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (0000000233, 20, 'vue组件之间传值的方式', NULL, NULL, NULL, NULL, NULL, '', '<p>父组件往子组件传值</p>\n<p>prop作为初始值传入后，子组件想把它当作局部数据来用</p>\n<pre class=\"language-javascript\"><code>&lt;div class=\"content\"&gt;\n    &lt;my-table :table-data=\"tableData\" :page-info=\"pageInfo\" id=\"myTable\"&gt;&lt;/my-table&gt;\n&lt;/div&gt;</code></pre>\n<pre class=\"language-javascript\"><code>props: [\'tableData\', \'pageInfo\'],\ndata() {\n    return {\n        tData: this.tableData,\n        page: this.pageInfo\n    }\n}</code></pre>\n<p>&nbsp;</p>\n<p>父组件传值给子组件后，在子组件里接收到之后，用的时候就直接用this.tableData</p>\n<pre><code> props: {\n    tableData: {\n      type: Array\n    }\n  },\ncreated: function () {\n  console.log(this.tableData)\n}</code></pre>\n<p class=\"p1\">&nbsp;</p>\n<p class=\"p2\">vue路由传参的三种基本方式</p>\n<p class=\"p3\"><strong>方案一：</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; </span>getDescribe(id) {</p>\n<p class=\"p2\">// <span class=\"Apple-converted-space\">&nbsp; </span>直接调用$router.push 实现携带参数的跳转</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; </span>this.$router.push({</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>path: `/describe/${id}`,</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; </span>})</p>\n<p class=\"p3\"><strong>方案一，需要对应路由配置如下：</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>{</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>path: \'/describe/:id\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>name: \'Describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>component: Describe</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>}</p>\n<p class=\"p3\"><strong>很显然，需要在path中添加/:id来对应 $router.push 中path携带的参数。在子组件中可以使用来获取传递的参数值。</strong></p>\n<p class=\"p2\">this.$route.params.id</p>\n<p class=\"p3\"><strong>方案二：</strong></p>\n<p class=\"p3\"><strong>父组件中：通过路由属性中的name来确定匹配的路由，通过params来传递参数。</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; &nbsp; </span>this.$router.push({</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>name: \'Describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>params: {</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>id: id</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>}</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; </span>})</p>\n<p class=\"p3\"><strong>对应路由配置: 这里可以添加:/id 也可以不添加，不添加数据会在url后面显示，不添加数据就不会显示</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>{</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>path: \'/describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>name: \'Describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>component: Describe</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>}</p>\n<p class=\"p3\"><strong>子组件中: 这样来获取参数</strong></p>\n<p class=\"p2\">this.$route.params.id</p>\n<p class=\"p3\"><strong>方案三：</strong></p>\n<p class=\"p3\"><strong>父组件：使用path来匹配路由，然后通过query来传递参数<br />这种情况下 query传递的参数会显示在url后面?id=？</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; </span>this.$router.push({</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>path: \'/describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>query: {</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>id: id</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>}</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; </span>})</p>\n<p class=\"p3\"><strong>对应路由配置：</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>{</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>path: \'/describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>name: \'Describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>component: Describe</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>}</p>\n<p class=\"p3\"><strong>对应子组件: 这样来获取参数</strong></p>\n<p class=\"p2\">this.$route.query.id</p>\n<p class=\"p3\"><strong>这里要特别注意 在子组件中 获取参数的时候是$route.params 而不是</strong></p>\n<p class=\"p3\"><strong>$router </strong><span class=\"s1\"><strong>这很重要</strong></span><strong>~~~</strong></p>', 'ttice', NULL, NULL, NULL, NULL, 128, 2, 26, 'false', NULL, NULL, NULL, '2022-03-13 05:41:21', '2022-03-31 10:42:05', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, 'published', 0008560208);
-INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (1000000237, 19, '部分地区蓝奏云下载链接无法访问问题解决', NULL, NULL, NULL, NULL, NULL, '如果出现蓝奏云打不开的问题，可以根据蓝奏云官方提供的修改域名或者修改DNS方法解决无法访问问题。', '<p>如果出现蓝奏云打不开的问题，可以根据蓝奏云官方提供的修改域名或者修改DNS方法解决无法访问问题。</p>\n<h3>修改域名</h3>\n<blockquote class=\"wp-block-quote\">\n<p>1.把下载链接中lanzou<span class=\"has-inline-color has-vivid-red-color\">s</span>.com 改成 lanzou<span class=\"has-inline-color has-vivid-red-color\">x</span>.com。</p>\n<p>2.把下载链接中lanzou<span class=\"has-inline-color has-vivid-red-color\">s</span>.com 改成 lanzou<span class=\"has-inline-color has-vivid-red-color\">i</span>.com。</p>\n<p>3.把下载链接中lanzou<span class=\"has-inline-color has-vivid-red-color\">s</span>.com 改成 lanzou.com。</p>\n<p>4.把下载链接中<span class=\"has-inline-color has-vivid-red-color\">macoshome</span>.lanzoux.com/xxxxx，二级域名<span class=\"has-inline-color has-vivid-red-color\">macoshome</span>前缀删除，变成lanzoux.com/xxxxx。</p>\n</blockquote>\n<p>以上4选一尝试，如果都无法方法请使用修改DNS方法解决。</p>\n<h3>修改DNS</h3>\n<p>把网络链接的DNS改成阿里、百度、腾讯、114公共DNS解决，下面是各厂商公共DNS发布地址，根据你的需要选择。</p>\n<blockquote class=\"wp-block-quote\">\n<p><a href=\"https://www.aliyun.com/activity/dns/pubdns_launch\" target=\"_blank\" rel=\"noreferrer noopener\">阿里DNS</a>&nbsp;｜&nbsp;<a href=\"https://dudns.baidu.com/index.html\" target=\"_blank\" rel=\"noreferrer noopener\">百度DNS</a>｜<a href=\"https://www.dnspod.cn/Products/Public.DNS\" target=\"_blank\" rel=\"noreferrer noopener\">腾讯DNS</a>｜<a href=\"https://www.114dns.com/index.html\" target=\"_blank\" rel=\"noreferrer noopener\">114DNS</a></p>\n</blockquote>\n<p>1.打开 系统偏好设置 &ndash; <span class=\"has-inline-color has-vivid-red-color\">网络</span>；</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7844\" src=\"http://img.macoshome.com/2021/05/DNSset1.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"510\" /></figure>\n<p>2.到了网络设置之后，点击 <span class=\"has-inline-color has-vivid-red-color\">高级</span> 按钮；</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7845\" src=\"http://img.macoshome.com/2021/05/DNSset2.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"950\" /></figure>\n<p>3.弹出的选项点击<span class=\"has-inline-color has-vivid-red-color\"> DNS</span>，再点击 左下角 <span class=\"has-inline-color has-vivid-red-color\">+</span> 按钮进行添加DNS地址输入框；</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7846\" src=\"http://img.macoshome.com/2021/05/DNSset3.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"950\" /></figure>\n<p>4.在DNS服务器处新添加的输入框输入DSN地址，苹果系统之家这里以114.114.114.114 地址为例子，输入好之后再点击右下角的<span class=\"has-inline-color has-vivid-red-color\"> 好 </span>按钮完成添加；</p>\n<p>TPS：如果之前有添加过其他DNS地址，要选中DNS地址，再点击左下角的 &ndash; 按钮删除。</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7847\" src=\"http://img.macoshome.com/2021/05/DNSset4.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"950\" /></figure>\n<p>5.最后再点击右下角的<span class=\"has-inline-color has-vivid-red-color\"> 应用</span>按钮完成DNS修改。</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7848\" src=\"http://img.macoshome.com/2021/05/DNSset5.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"950\" /></figure>', 'ttice', NULL, NULL, NULL, '[6,4,3]', 65, 1, 1, 'false', NULL, NULL, NULL, '2022-11-17 10:32:51', '2022-11-20 07:31:48', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'published', 0002304118);
+INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (0000000189, 19, '这是我的第一篇文章名', NULL, NULL, NULL, NULL, NULL, 'kjnk', '<p>这是我的第一篇文章</p>\n<h2>标题</h2>\n<h3>代码</h3>\n<pre class=\"language-javascript\"><code>    //数据回填\n    if (this.isEdit) {\n      const id = this.$route.params &amp;&amp; this.$route.params.id\n      this.articleid = this.$route.params.id\n      this.fetchData(id)\n      this.fetchData(this.articleid)\n    }</code></pre>\n<p>yes</p>', 'ttice', NULL, NULL, NULL, NULL, 52, 1, 15, NULL, NULL, NULL, NULL, '2022-02-23 11:17:35', '2022-03-15 02:49:29', '2021-11-16 10:00:00', NULL, 3, NULL, NULL, NULL, NULL, NULL, 'published', 0004807611);
+INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (0000000217, 20, 'JetBrains全系列软件激活教程激活码以及JetBrains系列软件汉化包', NULL, NULL, NULL, NULL, NULL, '阿松大', '<h2 id=\"最新激活方式\">最新激活方式</h2>\n<p>如果安装过无限试用、修改过 hosts 请先卸载干净旧版本再安装，否需无法激活！</p>\n<blockquote>\n<p>以&nbsp;<code>WebStorm</code>&nbsp;为例</p>\n</blockquote>\n<ol>\n<li><a class=\"text-primary\" href=\"https://www.jetbrains.com/\" target=\"_blank\" rel=\"noopener\">JetBrains官网</a>&nbsp;下载安装你需要的 IDE，如果下载慢可以在 macwk 搜索 jetbrains。</li>\n<li>下载&nbsp;<a class=\"text-primary\" href=\"https://macwk.lanzouo.com/i8eElxh573a\" target=\"_blank\" rel=\"noopener\">Jetbrains.zip</a>，下载后解压，得到 fineagent.jar，将该文件复制到&nbsp;<code>/Users/你的用户名/</code>&nbsp;文件夹下</li>\n<li>打开访达，点击左侧的&nbsp;<code>应用程序</code>&nbsp;找到&nbsp;<code>WebStorm</code>，在 WebStorm 图标上右键，点击&nbsp;<code>显示包内容</code></li>\n<li>进入&nbsp;<code>Contents</code>&nbsp;目录，再进入&nbsp;<code>bin</code>&nbsp;目录，使用文本编辑器打开&nbsp;<code>webstorm.vmoptions</code>&nbsp;文件</li>\n<li>在最后面添加&nbsp;<code>-javaagent:/Users/你的用户名/fineagent.jar</code>，记得修改一下你的用户名。</li>\n<li>运行 WebStorm, 选择&nbsp;<code>Activate WebStorm</code>，再点击&nbsp;<code>Activation Code</code></li>\n<li>复制下面的的激活码粘贴到激活窗口的输入框中，点击&nbsp;<code>Activate</code>。可以用到 2099 年！</li>\n</ol>\n<pre class=\"language-  language-undefined\" tabindex=\"0\"><code>5AYV1D1RE5-eyJsaWNlbnNlSWQiOiI1QVlWMUQxUkU1IiwibGljZW5zZWVOYW1lIjoiaHR0cHM6Ly93d3cuaml3ZWljaGVuZ3podS5jb20iLCJhc3NpZ25lZU5hbWUiOiIiLCJhc3NpZ25lZUVtYWlsIjoiIiwibGljZW5zZVJlc3RyaWN0aW9uIjoiIiwiY2hlY2tDb25jdXJyZW50VXNlIjpmYWxzZSwicHJvZHVjdHMiOlt7ImNvZGUiOiJJSSIsImZhbGxiYWNrRGF0ZSI6IjIwOTktMTItMzEiLCJwYWlkVXBUbyI6IjIwOTktMTItMzEifSx7ImNvZGUiOiJBQyIsImZhbGxiYWNrRGF0ZSI6IjIwOTktMTItMzEiLCJwYWlkVXBUbyI6IjIwOTktMTItMzEifSx7ImNvZGUiOiJEUE4iLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiUFMiLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiR08iLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiRE0iLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiQ0wiLCJmYWxsYmFja0RhdGUiOiIyMDk5LTEyLTMxIiwicGFpZFVwVG8iOiIyMDk5LTEyLTMxIn0seyJjb2RlIjoiUlMwIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlJDIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlJEIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlBDIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlJNIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IldTIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IkRCIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IkRDIiwiZmFsbGJhY2tEYXRlIjoiMjA5OS0xMi0zMSIsInBhaWRVcFRvIjoiMjA5OS0xMi0zMSJ9LHsiY29kZSI6IlJTVSIsImZhbGxiYWNrRGF0ZSI6IjIwOTktMTItMzEiLCJwYWlkVXBUbyI6IjIwOTktMTItMzEifV0sImhhc2giOiIxMjc5Njg3Ny8wIiwiZ3JhY2VQZXJpb2REYXlzIjo3LCJhdXRvUHJvbG9uZ2F0ZWQiOmZhbHNlLCJpc0F1dG9Qcm9sb25nYXRlZCI6ZmFsc2V9-HNPogO0kWkHCVMnsjmBXUqQt87UPHqdkYqZGveSJtu8hb2V2Yq7gHsHenp4UuEd3jwEwC+YrUIf7U5yDA/56F5Sdn0RLUHZX5DHeQbJPbmYCBsDRT7m8rnmMFOSZn3vwNatvv1cooZbcGOk3Wwxx6bF7XcgaIrmXRcmZMZgv2PZehr0WS1HxNKe3X4nbGP3MwiSbg4ypmxNDrljmgv+Si9QDDwNLDffqeO0Lce0FqEJuMWmvBS42S0aeIYF8IS5bp4+LFKLJ8T7tF40OxKYDurBb9+9c43GZBscM/eLB8Jos66jNGFwgebFUlvhzJKVHZtuc/N8zGeEnTq6K0T/B8w==-MIIDTjCCAjagAwIBAgIBDTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMCAXDTE4MTEwMTEyMjk0NloYDzIwOTkwODA5MDIyNjA3WjAfMR0wGwYDVQQDDBRwcm9kMnktZnJvbS0yMDIwMTAxOTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMK3eyr0+Oys/TwcQO+qYaXWGBmXcEP4fR0bHHzZd/4WNGltXhecM80OWthA38BQRYAJBCKz/dSkO2Kj1H2y+7KB5cIaOiJEyTESfTSgzQdot6laRBU8oxy9mmagI46M8zEEmplPybY4YJj4HOwZiBsMQEMxoTgMDLpuHX6uASoVhSj6koB55lOj4wEgsQBeAMWTAXmTl88ixE179J8aBUkBGpL8w/tZzl9BJXZNF15gPfkS58rw8cdPzXLS0Yym37A2/KKFhfHzJc5KhbaxqYzmkAfTMqPsIqCQ1lQUAqfiPn2gN2I1Z3/cQuEW27M55fXVr2DduQe5DWzYJs85L50CAwEAAaOBmTCBljAJBgNVHRMEAjAAMB0GA1UdDgQWBBQk2hEilvWFQcCTR+gxI0z0wIQC/zBIBgNVHSMEQTA/gBSjnrZIZ0ISNkG9beC5tKBSi5fxs6EcpBowGDEWMBQGA1UEAwwNSmV0UHJvZmlsZSBDQYIJANJssYOyg3nhMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAsGA1UdDwQEAwIFoDANBgkqhkiG9w0BAQsFAAOCAQEAsCQBjO5wttco/Z5cj/o4GBrku8UtBBBVFq4xsBanshTHm4deVxcTvta4aScV0TPKcaLqGqWx8A9v8XXO8dBbCuyXvWZteZ/C2Covg1xXiM99lz7VxqpjVmLdKanZn5u0gQSiYJdcfF+TdbmEIeSOnN/kLXNq2hXdJQK2zk2J25UZqu5EibRtTbdOzw6ZcfwJ8uOntXfsmAhnNICP3Wf/4wR/mwB0Ka4S+JA3IbF5MUmUZ/fjUaFarnin70us+Vxf/sZUi7u67wilvwVV0NAqDpthHUV0NRc4q+yOr2Dt/uCHdy4XRXLJfAv/z9/xBwNZZALNz3EtQL6IeIWWJByl3g==</code></pre>\n<p>尽情享用吧！</p>\n<h2 id=\"激活码方式\">激活码方式</h2>\n<p>该方式不需要另外设置，直接即可通过激活码激活，但是不保证稳定性！</p>\n<p><a class=\"text-primary fs-30\" href=\"https://jetbra.in/test-7b06e3ddfa68ff9b483adfcd08cdd243831f7928.html?t=16018385822?source=https://www.macwk.com/article/jetbrains-crack\" target=\"_blank\" rel=\"noopener\">点我获取最新激活码</a>，</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<h2 id=\"无限重置试用方式\">无限重置试用方式</h2>\n<blockquote>\n<p>无限重置试用方式仅适用于 2021.2.2 及以下版本！！！</p>\n</blockquote>\n<h3 id=\"前面的话\">前面的话</h3>\n<blockquote>\n<p>永久激活的工具 zhile 的大神已经不再继续开发维护了，此方法一直是跳转到 zhile 的主页，但是经常遇到反馈说目标网站打不开或者不知道怎么安装插件的问题，所以直接转到这个页面并配一下操作图片吧。另外目前只有这种无限重置试用的方法了，<code>最终和永久激活使用无差异，因为插件是每次运行自动续期的</code>！支持 JetBrains 系列软件的所有新旧版本的激活！！！MacWk.com 建议大家去&nbsp;<a href=\"https://www.jetbrains.com/\" target=\"_blank\" rel=\"noopener\">JetBrains官网</a>&nbsp;下载JetBrains系列工具的官方版，一般情况下载很快的。</p>\n</blockquote>\n<p>此方法也适用于 Windows。</p>\n<h3 id=\"背景\">背景</h3>\n<p>Jetbrains 家的产品有一个很良心的地方，他会允许你试用 30 天（这个数字写死在代码里了）以评估是否你真的需要为它而付费。 但很多时候会出现一种情况：IDE 并不能按照我们实际的试用时间来计算。</p>\n<p>我举个例子：如果我们开始了试用，然后媳妇生孩子要你回去陪产！陪产时我们并无空闲对IDE试用评估，它依旧算试用时间。（只是举个例子，或许你并没有女朋友）</p>\n<p>发现了吗？你未能真的有 30 天来对它进行全面的试用评估，你甚至无法作出是否付费的决定。此时你会想要延长试用时间，然而 Jetbrains 并未提供相关功能，该怎么办？</p>\n<p>事实上有一款插件可以实现这个功能，你或许可以用它来重置一下试用时间。但切记不要无休止的一直试用，这并不是这个插件的初衷！</p>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-01.jpg\" alt=\"\" /></p>\n<h3 id=\"如何安装\">如何安装</h3>\n<blockquote>\n<p>提供以下两种方法，二选一即可。</p>\n</blockquote>\n<ol>\n<li>插件市场安装：</li>\n</ol>\n<p>在&nbsp;<code>Settings/Preferences... -&gt; Plugins</code>&nbsp;内手动添加第三方插件仓库地址：<code>https://plugins.zhile.io</code>&nbsp;搜索：IDE Eval Reset 插件进行安装。</p>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-02.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-03.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-04.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-05.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-06.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-07.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-08.jpg\" alt=\"\" /></p>\n<ol start=\"2\">\n<li>手动下载安装：</li>\n</ol>\n<p><a class=\"text-primary\" href=\"https://macwk.lanzoui.com/iwY9lvf1ckj\" target=\"_blank\" rel=\"noopener\">点击这个链接(v2.1.14)下载插件的 zip 包</a>（macOS可能会自动解压，切记使用的是 zip 包，不是解压后的文件夹！），然后打开&nbsp;<code>Settings/Preferences... -&gt; Plugins</code>&nbsp;手动安装插件。</p>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-09.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-10.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-11.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-12.jpg\" alt=\"\" /></p>\n<h3 id=\"如何使用\">如何使用</h3>\n<p>一般来说，在 IDE 窗口切出去或切回来时（窗口失去/得到焦点）会触发事件，检测是否长时间（25天）没有重置，给通知让你选择。（初次安装因为无法获取上次重置时间，会直接给予提示）。</p>\n<p>您也可以手动唤出插件的主界面：</p>\n<p>a. 如果 IDE 没有打开项目，在 Welcome 界面点击 IDE 的菜单：<code>Get Help -&gt; Eval Reset</code></p>\n<p>b. 如果 IDE 打开了项目，点击 IDE 的菜单：<code>Help -&gt; Eval Reset</code></p>\n<p>唤出的插件主界面中包含了一些显示信息，有 2 个按钮和 1 个勾选项：</p>\n<ul>\n<li>按钮：<code>Reload</code>&nbsp;用来刷新界面上的显示信息。</li>\n<li>按钮：<code>Reset</code>&nbsp;点击会询问是否重置试用信息并重启 IDE。选择 Yes 则执行重置操作并重启 IDE 生效，选择 No 则什么也不做。（此为手动重置方式）</li>\n<li>勾选项：<code>Auto reset before per restart</code>&nbsp;如果勾选了，则自勾选后每次重启/退出 IDE 时会自动重置试用信息，你无需做额外的事情。（此为自动重置方式，推荐此方法！）</li>\n</ul>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-13.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-14.jpg\" alt=\"\" /><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-crack-screen-15.jpg\" alt=\"\" /></p>\n<h3 id=\"如何更新\">如何更新</h3>\n<ol>\n<li>插件更新机制（推荐）：</li>\n</ol>\n<p>IDE 会自行检测其自身和所安装插件的更新并给予提示。如果本插件有更新，你会收到提示看到更新日志，自行选择是否更新。</p>\n<p>点击 IDE 的 Check for Updates... 菜单手动检测 IDE 和所安装插件的更新。如果本插件有更新，你会收到提示看到更新日志，自行选择是否更新。</p>\n<p>插件更新可能会需要重启IDE。</p>\n<ol start=\"2\">\n<li>手动更新：</li>\n</ol>\n<p>从本页面下载最新的插件 zip 包安装更新。插件更新需要重启IDE。</p>\n<h3 id=\"一些说明\">一些说明</h3>\n<p>市场付费插件的试用信息也会一并重置。</p>\n<p>MyBatisCodeHelperPro 插件有两个版本如下，功能完全相同，安装时须看清楚！</p>\n<ul>\n<li><a href=\"https://plugins.jetbrains.com/plugin/14522-mybatiscodehelperpro-marketplace-edition-\" target=\"_blank\" rel=\"noopener\">MyBatisCodeHelperPro</a>&nbsp;(Marketplace Edition)，<code>可重置</code>！</li>\n<li><a href=\"https://plugins.jetbrains.com/plugin/9837-mybatiscodehelperpro\" target=\"_blank\" rel=\"noopener\">MyBatisCodeHelperPro</a>，<code>不可重置</code>！</li>\n</ul>\n<p>对于某些付费插件（如: Iedis 2, MinBatis）来说，你可能需要去取掉 javaagent 配置（如果有）后重启IDE：</p>\n<ul>\n<li>如果IDE没有打开项目，在 Welcome 界面点击菜单：Configure -&gt; Edit Custom VM Options... -&gt; 移除 -javaagent: 开头的行。</li>\n<li>如果IDE打开了项目，点击菜单：Help -&gt; Edit Custom VM Options... -&gt; 移除 -javaagent: 开头的行。</li>\n</ul>\n<p>重置需要重启IDE生效！</p>\n<p>重置后并不弹出 Licenses 对话框让你选择输入 License 或试用，这和之前的重置脚本/插件不同（省去这烦人的一步）。</p>\n<p>如果长达 25 天不曾有任何重置动作，IDE 会有通知询问你是否进行重置。</p>\n<p>如果勾选：Auto reset before per restart ，重置是静默无感知的。</p>\n<p>简单来说：勾选了 Auto reset before per restart 则无需再管，一劳永逸。</p>\n<h3 id=\"开源信息\">开源信息</h3>\n<p>插件是学习研究项目，源代码是开放的。源码仓库地址：<a class=\"text-primary\" href=\"https://gitee.com/pengzhile/ide-eval-resetter\" target=\"_blank\" rel=\"noopener\">Gitee</a>。</p>\n<p>如果你有更好的想法，欢迎给我提 Pull Request 来共同研究完善。</p>\n<p>插件源码使用：GPL-2.0开源协议发布。</p>\n<p>插件使用 PHP 编写，毕竟 PHP 是世界上最好的编程语言！</p>\n<h3 id=\"支持的产品\">支持的产品</h3>\n<ul>\n<li>IntelliJ IDEA</li>\n<li>AppCode</li>\n<li>CLion</li>\n<li>DataGrip</li>\n<li>GoLand</li>\n<li>PhpStorm</li>\n<li>PyCharm</li>\n<li>Rider</li>\n<li>RubyMine</li>\n<li>WebStorm</li>\n</ul>\n<p><a class=\"text-primary\" href=\"https://zhile.io/2020/11/18/jetbrains-eval-reset-da33a93d.html\" target=\"_blank\" rel=\"noopener\">点我查看原文链接</a></p>\n<h2 id=\"中文汉化包\">中文汉化包</h2>\n<p>JetBrains 系列大部分在官方的插件中心直接安装使用了。</p>\n<p>以 WebStrom 为例，打开它的设置，点击 Plugins，搜索 chinese，安装即可。</p>\n<p><img src=\"https://cdn.macwk.com/public/uploads/_/originals/jetbrains-activation-step-09-1.jpg\" alt=\"\" /></p>\n<h2 id=\"激活码\">激活码</h2>\n<p>目前全网 Jetbrains 全家桶激活码激活方式都不稳定，请使用无限重置试用的方法。</p>', 'awe', NULL, NULL, NULL, NULL, 133, 2, 61, 'false', NULL, NULL, NULL, '2022-02-24 10:27:15', '2022-03-15 02:49:23', '2022-02-27 13:04:45', NULL, 3, NULL, NULL, NULL, NULL, 'https://icewk-1305088812.cos.ap-nanjing.myqcloud.com/images/4941645728392129.png', 'published', 0009170287);
+INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (0000000229, 20, 'Github上传操作-push-pull-delete', NULL, NULL, NULL, NULL, NULL, '按顺序擦速度', '<p>&nbsp;</p>\n<div>\n<div>\n<article class=\"_2rhmJa\">\n<h2>新建</h2>\n<h3>&hellip;or create a new repository on the command line</h3>\n<div class=\"copyable-terminal\">\n<div class=\"copyable-terminal-button\">&nbsp;</div>\n<pre class=\"language-css\"><code>echo \"# IceWk\" &gt;&gt; README.md\ngit init\ngit add README.md\ngit commit -m \"first commit\"\ngit branch -M main\ngit remote add origin git@github.com:Thecosy/IceWk.git\ngit push -u origin main删除</code></pre>\n</div>\n<h2>删除</h2>\n<p>在上传项目到github时,忘记忽略了某个文件夹target,就直接push上去了, 最后意识到了此问题,决定删除掉远程仓库中的target文件夹</p>\n<p>&nbsp;</p>\n<p>在github上只能删除仓库,却无法删除文件夹或文件, 所以只能通过命令来解决</p>\n<p>&nbsp;</p>\n<p>首先进入你的master文件夹下, Git Bash Here ,打开命令窗口</p>\n<p>$ git --help # 帮助命令</p>\n<p>&nbsp;</p>\n<p>$ git pull origin master # 将远程仓库里面的项目拉下来</p>\n<p>$ dir # 查看有哪些文件夹</p>\n<p>$ git rm -r --cached target # 删除target文件夹<br />$ git commit -m \'删除了target\' # 提交,添加操作说明</p>\n<p>&nbsp;</p>\n<ul>\n<li>\n<p>提交上述操作<br /><strong><code>git commit -m \"log message\"</code></strong></p>\n</li>\n<li>\n<p>推送所有文件到远程仓库<br /><strong><code>git push origin master</code></strong></p>\n<blockquote>\n<p>这时候如果再执行添加origin操作，会提示<strong>远程origin已经存在</strong>。<br />细心的可能会发现这地方跟<a target=\"_blank\" rel=\"noopener\">添加本地项目到github</a>的最后一步操作不一样，那里是<code>git push -u origin master</code></p>\n<blockquote>\n<p>第一次添加远程origin时，需要语句<code>-u</code></p>\n</blockquote>\n</blockquote>\n</li>\n</ul>\n<p>这时候我们再去github上查看此项目，就可以看到已经更新了刚才的操作！</p>\n<h2>更新</h2>\n<p>&nbsp;</p>\n</article>\n<div>\n<p>向本地仓库中准备文件</p>\n<p>git add .<br /><br />这条命令是向本地仓库传入全部文件<br />或者</p>\n<h3>git add filepath(具体文件的路径)<br /><br />交付<br />备注信息不能为空，否则会交付失败。</h3>\n<p>git commit -m \"备注信息\"<br /><br />还可以添加其他参数<br />连接远程仓库<br />第一次上传时，需要在github创建一个Repository,然后复制其URL或者SSH<br />更新时若已经进入项目根目录可以无此操作。</p>\n<p>git remote add origin https://github.com/cocolabear/snake.git<br /><br />注意是add不是and</p>\n<p>提交代码</p>\n<p>git push -u origin master<br /><br />当出现莫名其妙的问题时，强制push</p>\n<p>git push -u origin master -f<br /><br />这一步可能需要输入github的账号和密码。<br /><br /></p>\n<div>\n<div>\n<div>\n<div>\n<p>&nbsp;</p>\n<p>正确步骤：<br />1. git init //初始化仓库</p>\n<ol>\n<li>\n<p>git add .(文件name) //添加文件到本地仓库</p>\n</li>\n<li>\n<p>git commit -m &ldquo;first commit&rdquo; //添加文件描述信息</p>\n</li>\n<li>\n<p>git remote add origin + 远程仓库地址&nbsp;//链接远程仓库，创建主分支</p>\n</li>\n<li>\n<p>git pull origin master // 把本地仓库的变化连接到远程仓库主分支</p>\n</li>\n<li>\n<p>git push -u origin master //把本地仓库的文件推送到远程仓库</p>\n</li>\n</ol>\n<p>OK<br />搞定！！</p>\n</div>\n<div class=\"_19DgIp\">&nbsp;</div>\n</div>\n<br /><br /></div>\n</div>\n</div>\n<div class=\"_19DgIp\">&nbsp;</div>\n</div>\n<br /><br /></div>', 'awe', NULL, NULL, NULL, NULL, 79, 8, 3, NULL, NULL, NULL, NULL, '2022-02-27 11:26:51', '2022-05-13 15:01:44', '2022-02-27 13:01:00', NULL, 3, NULL, NULL, NULL, NULL, NULL, 'published', 0007751656);
+INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (0000000233, 20, 'vue组件之间传值的方式', NULL, NULL, NULL, NULL, NULL, '', '<p>父组件往子组件传值</p>\n<p>prop作为初始值传入后，子组件想把它当作局部数据来用</p>\n<pre class=\"language-javascript\"><code>&lt;div class=\"content\"&gt;\n    &lt;my-table :table-data=\"tableData\" :page-info=\"pageInfo\" id=\"myTable\"&gt;&lt;/my-table&gt;\n&lt;/div&gt;</code></pre>\n<pre class=\"language-javascript\"><code>props: [\'tableData\', \'pageInfo\'],\ndata() {\n    return {\n        tData: this.tableData,\n        page: this.pageInfo\n    }\n}</code></pre>\n<p>&nbsp;</p>\n<p>父组件传值给子组件后，在子组件里接收到之后，用的时候就直接用this.tableData</p>\n<pre><code> props: {\n    tableData: {\n      type: Array\n    }\n  },\ncreated: function () {\n  console.log(this.tableData)\n}</code></pre>\n<p class=\"p1\">&nbsp;</p>\n<p class=\"p2\">vue路由传参的三种基本方式</p>\n<p class=\"p3\"><strong>方案一：</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; </span>getDescribe(id) {</p>\n<p class=\"p2\">// <span class=\"Apple-converted-space\">&nbsp; </span>直接调用$router.push 实现携带参数的跳转</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; </span>this.$router.push({</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>path: `/describe/${id}`,</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; </span>})</p>\n<p class=\"p3\"><strong>方案一，需要对应路由配置如下：</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>{</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>path: \'/describe/:id\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>name: \'Describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>component: Describe</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>}</p>\n<p class=\"p3\"><strong>很显然，需要在path中添加/:id来对应 $router.push 中path携带的参数。在子组件中可以使用来获取传递的参数值。</strong></p>\n<p class=\"p2\">this.$route.params.id</p>\n<p class=\"p3\"><strong>方案二：</strong></p>\n<p class=\"p3\"><strong>父组件中：通过路由属性中的name来确定匹配的路由，通过params来传递参数。</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; &nbsp; </span>this.$router.push({</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>name: \'Describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>params: {</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>id: id</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>}</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; </span>})</p>\n<p class=\"p3\"><strong>对应路由配置: 这里可以添加:/id 也可以不添加，不添加数据会在url后面显示，不添加数据就不会显示</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>{</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>path: \'/describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>name: \'Describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>component: Describe</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>}</p>\n<p class=\"p3\"><strong>子组件中: 这样来获取参数</strong></p>\n<p class=\"p2\">this.$route.params.id</p>\n<p class=\"p3\"><strong>方案三：</strong></p>\n<p class=\"p3\"><strong>父组件：使用path来匹配路由，然后通过query来传递参数<br />这种情况下 query传递的参数会显示在url后面?id=？</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; </span>this.$router.push({</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>path: \'/describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>query: {</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>id: id</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>}</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp; &nbsp; &nbsp; &nbsp; </span>})</p>\n<p class=\"p3\"><strong>对应路由配置：</strong></p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>{</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>path: \'/describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>name: \'Describe\',</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; &nbsp; </span>component: Describe</p>\n<p class=\"p2\"><span class=\"Apple-converted-space\">&nbsp;&nbsp; </span>}</p>\n<p class=\"p3\"><strong>对应子组件: 这样来获取参数</strong></p>\n<p class=\"p2\">this.$route.query.id</p>\n<p class=\"p3\"><strong>这里要特别注意 在子组件中 获取参数的时候是$route.params 而不是</strong></p>\n<p class=\"p3\"><strong>$router </strong><span class=\"s1\"><strong>这很重要</strong></span><strong>~~~</strong></p>', 'ttice', NULL, NULL, NULL, NULL, 155, 2, 26, 'false', NULL, NULL, NULL, '2022-03-13 05:41:21', '2022-03-31 10:42:05', NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, 'published', 0008560208);
+INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (1000000237, 19, '部分地区蓝奏云下载链接无法访问问题解决', NULL, NULL, NULL, NULL, NULL, '如果出现蓝奏云打不开的问题，可以根据蓝奏云官方提供的修改域名或者修改DNS方法解决无法访问问题。', '<p>如果出现蓝奏云打不开的问题，可以根据蓝奏云官方提供的修改域名或者修改DNS方法解决无法访问问题。</p>\n<h3>修改域名</h3>\n<blockquote class=\"wp-block-quote\">\n<p>1.把下载链接中lanzou<span class=\"has-inline-color has-vivid-red-color\">s</span>.com 改成 lanzou<span class=\"has-inline-color has-vivid-red-color\">x</span>.com。</p>\n<p>2.把下载链接中lanzou<span class=\"has-inline-color has-vivid-red-color\">s</span>.com 改成 lanzou<span class=\"has-inline-color has-vivid-red-color\">i</span>.com。</p>\n<p>3.把下载链接中lanzou<span class=\"has-inline-color has-vivid-red-color\">s</span>.com 改成 lanzou.com。</p>\n<p>4.把下载链接中<span class=\"has-inline-color has-vivid-red-color\">macoshome</span>.lanzoux.com/xxxxx，二级域名<span class=\"has-inline-color has-vivid-red-color\">macoshome</span>前缀删除，变成lanzoux.com/xxxxx。</p>\n</blockquote>\n<p>以上4选一尝试，如果都无法方法请使用修改DNS方法解决。</p>\n<h3>修改DNS</h3>\n<p>把网络链接的DNS改成阿里、百度、腾讯、114公共DNS解决，下面是各厂商公共DNS发布地址，根据你的需要选择。</p>\n<blockquote class=\"wp-block-quote\">\n<p><a href=\"https://www.aliyun.com/activity/dns/pubdns_launch\" target=\"_blank\" rel=\"noreferrer noopener\">阿里DNS</a>&nbsp;｜&nbsp;<a href=\"https://dudns.baidu.com/index.html\" target=\"_blank\" rel=\"noreferrer noopener\">百度DNS</a>｜<a href=\"https://www.dnspod.cn/Products/Public.DNS\" target=\"_blank\" rel=\"noreferrer noopener\">腾讯DNS</a>｜<a href=\"https://www.114dns.com/index.html\" target=\"_blank\" rel=\"noreferrer noopener\">114DNS</a></p>\n</blockquote>\n<p>1.打开 系统偏好设置 &ndash; <span class=\"has-inline-color has-vivid-red-color\">网络</span>；</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7844\" src=\"http://img.macoshome.com/2021/05/DNSset1.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"510\" /></figure>\n<p>2.到了网络设置之后，点击 <span class=\"has-inline-color has-vivid-red-color\">高级</span> 按钮；</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7845\" src=\"http://img.macoshome.com/2021/05/DNSset2.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"950\" /></figure>\n<p>3.弹出的选项点击<span class=\"has-inline-color has-vivid-red-color\"> DNS</span>，再点击 左下角 <span class=\"has-inline-color has-vivid-red-color\">+</span> 按钮进行添加DNS地址输入框；</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7846\" src=\"http://img.macoshome.com/2021/05/DNSset3.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"950\" /></figure>\n<p>4.在DNS服务器处新添加的输入框输入DSN地址，苹果系统之家这里以114.114.114.114 地址为例子，输入好之后再点击右下角的<span class=\"has-inline-color has-vivid-red-color\"> 好 </span>按钮完成添加；</p>\n<p>TPS：如果之前有添加过其他DNS地址，要选中DNS地址，再点击左下角的 &ndash; 按钮删除。</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7847\" src=\"http://img.macoshome.com/2021/05/DNSset4.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"950\" /></figure>\n<p>5.最后再点击右下角的<span class=\"has-inline-color has-vivid-red-color\"> 应用</span>按钮完成DNS修改。</p>\n<figure class=\"wp-block-image size-large\"><img class=\"wp-image-7848\" src=\"http://img.macoshome.com/2021/05/DNSset5.png\" alt=\"部分地区蓝奏云下载链接无法访问问题解决\" width=\"1100\" height=\"950\" /></figure>', 'ttice', NULL, NULL, NULL, '[6,4,3]', 75, 1, 1, 'false', NULL, NULL, NULL, '2022-11-17 10:32:51', '2022-11-20 07:31:48', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'published', 0002304118);
+INSERT INTO `article` (`id`, `sort_class`, `title`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`, `article_status`) VALUES (1000000238, 19, '123', NULL, NULL, NULL, NULL, NULL, '123', '<p><img src=\"https://icewk-1305088812.cos.ap-nanjing.myqcloud.com/images/96661670046731754.png\" /></p>', 'admin', NULL, NULL, NULL, '[]', 40, NULL, NULL, 'false', NULL, NULL, NULL, '2022-12-03 05:52:33', '2022-12-03 05:52:33', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'published', 0005242319);
 COMMIT;
 
 -- ----------------------------
@@ -99,22 +100,23 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `article_class`;
 CREATE TABLE `article_class` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '名称',
-  `father` int DEFAULT NULL COMMENT '父级分类',
-  `other_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '别名',
-  `describes` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '描述',
-  `imgclass` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '分类图片',
-  `top` int DEFAULT NULL COMMENT '顶制',
-  PRIMARY KEY (`id`)
+                                 `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                 `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '名称',
+                                 `father` int DEFAULT NULL COMMENT '父级分类',
+                                 `other_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '别名',
+                                 `describes` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '描述',
+                                 `imgclass` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '分类图片',
+                                 `top` int DEFAULT NULL COMMENT '顶制',
+                                 `num` int DEFAULT NULL COMMENT '文章数量',
+                                 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of article_class
 -- ----------------------------
 BEGIN;
-INSERT INTO `article_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000019, '新手入门', NULL, 'rumen', '', '', NULL);
-INSERT INTO `article_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000020, '基础教程', NULL, 'teach', '', '', NULL);
+INSERT INTO `article_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000019, '新手入门', NULL, 'rumen', '', '', NULL, NULL);
+INSERT INTO `article_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000020, '基础教程', NULL, 'teach', '', '', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -122,17 +124,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `article_comment`;
 CREATE TABLE `article_comment` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '内容',
-  `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '用户名',
-  `email` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `parent_id` int DEFAULT NULL COMMENT '父id',
-  `foreign_id` int DEFAULT NULL COMMENT '外部id',
-  `profile` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '头像',
-  `article_id` int DEFAULT NULL COMMENT '文章id',
-  `user_id` int DEFAULT NULL COMMENT '用户id',
-  PRIMARY KEY (`id`)
+                                   `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '内容',
+                                   `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '用户名',
+                                   `email` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+                                   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                   `parent_id` int DEFAULT NULL COMMENT '父id',
+                                   `foreign_id` int DEFAULT NULL COMMENT '外部id',
+                                   `profile` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '头像',
+                                   `article_id` int DEFAULT NULL COMMENT '文章id',
+                                   `user_id` int DEFAULT NULL COMMENT '用户id',
+                                   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 -- ----------------------------
@@ -167,12 +169,12 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `disposition_carousel`;
 CREATE TABLE `disposition_carousel` (
-  `id` int NOT NULL,
-  `title` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `introduce` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `button` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `img` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  PRIMARY KEY (`id`)
+                                        `id` int NOT NULL,
+                                        `title` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+                                        `introduce` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+                                        `button` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+                                        `img` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+                                        PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='轮播图';
 
 -- ----------------------------
@@ -188,46 +190,46 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `sort_class` int DEFAULT NULL COMMENT '所厲栏目Class',
-  `title` varchar(255) DEFAULT NULL COMMENT '文章标题',
-  `price` int DEFAULT NULL COMMENT '价格',
-  `res_address` varchar(255) DEFAULT NULL COMMENT '资源地址',
-  `res_password` varchar(255) DEFAULT NULL COMMENT '资源密码',
-  `is_free` tinyint(1) DEFAULT NULL COMMENT '是否免费',
-  `title_color` varchar(8) DEFAULT NULL COMMENT '标题颜色',
-  `titlefont_size` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '标题大小',
-  `titlefont_type` int DEFAULT NULL COMMENT '标题字形',
-  `full_title` varchar(255) DEFAULT NULL COMMENT '完整标题',
-  `subhead` varchar(255) DEFAULT NULL COMMENT '副标题',
-  `intro` varchar(255) DEFAULT NULL COMMENT '简介',
-  `content` longtext COMMENT '文章内容',
-  `author` varchar(20) DEFAULT NULL COMMENT '作者',
-  `copyfrom` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '来源',
-  `inputer` varchar(20) DEFAULT NULL COMMENT '录入者',
-  `http_url` varchar(255) DEFAULT NULL COMMENT '转向连接',
-  `keyword` varchar(255) DEFAULT NULL COMMENT '关健字',
-  `hits` int DEFAULT NULL COMMENT '点击数',
-  `post_num` int DEFAULT NULL COMMENT '评论数',
-  `love_num` int DEFAULT NULL COMMENT '喜欢数',
-  `comment_disabled` varchar(10) DEFAULT NULL COMMENT '是否评论',
-  `ontop` int DEFAULT NULL COMMENT '是否顶制',
-  `iselite` int DEFAULT NULL COMMENT '是否推荐',
-  `deleted` int DEFAULT NULL COMMENT '是否删除',
-  `add_time` datetime DEFAULT NULL COMMENT '添加时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `create_time` datetime DEFAULT NULL COMMENT '生成时间',
-  `last_post` datetime DEFAULT NULL COMMENT '最后评论时间',
-  `owner_tag` int DEFAULT NULL COMMENT '重要性',
-  `owner_remark` varchar(1024) DEFAULT NULL COMMENT '自定义备注',
-  `html_path` varchar(255) DEFAULT NULL COMMENT 'htm地址',
-  `file_path` varchar(255) DEFAULT NULL COMMENT '上传文件地址',
-  `temp_path` varchar(255) DEFAULT NULL COMMENT '模板地址',
-  `carousel` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '轮播图',
-  `thumb` varchar(255) DEFAULT NULL COMMENT '缩略图地址',
-  `status` varchar(25) DEFAULT NULL COMMENT '生成状态',
-  `article_status` int(10) unsigned zerofill NOT NULL COMMENT '文章状态身份',
-  PRIMARY KEY (`id`,`article_status`) USING BTREE
+                            `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
+                            `sort_class` int DEFAULT NULL COMMENT '所厲栏目Class',
+                            `title` varchar(255) DEFAULT NULL COMMENT '文章标题',
+                            `price` int DEFAULT NULL COMMENT '价格',
+                            `res_address` varchar(255) DEFAULT NULL COMMENT '资源地址',
+                            `res_password` varchar(255) DEFAULT NULL COMMENT '资源密码',
+                            `is_free` tinyint(1) DEFAULT NULL COMMENT '是否免费',
+                            `title_color` varchar(8) DEFAULT NULL COMMENT '标题颜色',
+                            `titlefont_size` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '标题大小',
+                            `titlefont_type` int DEFAULT NULL COMMENT '标题字形',
+                            `full_title` varchar(255) DEFAULT NULL COMMENT '完整标题',
+                            `subhead` varchar(255) DEFAULT NULL COMMENT '副标题',
+                            `intro` varchar(255) DEFAULT NULL COMMENT '简介',
+                            `content` longtext COMMENT '文章内容',
+                            `author` varchar(20) DEFAULT NULL COMMENT '作者',
+                            `copyfrom` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '来源',
+                            `inputer` varchar(20) DEFAULT NULL COMMENT '录入者',
+                            `http_url` varchar(255) DEFAULT NULL COMMENT '转向连接',
+                            `keyword` varchar(255) DEFAULT NULL COMMENT '关健字',
+                            `hits` int DEFAULT NULL COMMENT '点击数',
+                            `post_num` int DEFAULT NULL COMMENT '评论数',
+                            `love_num` int DEFAULT NULL COMMENT '喜欢数',
+                            `comment_disabled` varchar(10) DEFAULT NULL COMMENT '是否评论',
+                            `ontop` int DEFAULT NULL COMMENT '是否顶制',
+                            `iselite` int DEFAULT NULL COMMENT '是否推荐',
+                            `deleted` int DEFAULT NULL COMMENT '是否删除',
+                            `add_time` datetime DEFAULT NULL COMMENT '添加时间',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `create_time` datetime DEFAULT NULL COMMENT '生成时间',
+                            `last_post` datetime DEFAULT NULL COMMENT '最后评论时间',
+                            `owner_tag` int DEFAULT NULL COMMENT '重要性',
+                            `owner_remark` varchar(1024) DEFAULT NULL COMMENT '自定义备注',
+                            `html_path` varchar(255) DEFAULT NULL COMMENT 'htm地址',
+                            `file_path` varchar(255) DEFAULT NULL COMMENT '上传文件地址',
+                            `temp_path` varchar(255) DEFAULT NULL COMMENT '模板地址',
+                            `carousel` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '轮播图',
+                            `thumb` varchar(255) DEFAULT NULL COMMENT '缩略图地址',
+                            `status` varchar(25) DEFAULT NULL COMMENT '生成状态',
+                            `article_status` int(10) unsigned zerofill NOT NULL COMMENT '文章状态身份',
+                            PRIMARY KEY (`id`,`article_status`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=909004 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -831,12 +833,12 @@ INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `re
 INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000908994, 0, 'Pixelstyle Photo Editor', 0, 'https://vk.com/s/v1/doc/0bedwIr4VHYe-t_Vmf010aBuphMYAeeVRqn_r95GIPg-jVwDSpk', NULL, 1, NULL, '40,7 МB', NULL, NULL, '3.8.2 [MAS]', '轻松编辑照片和图像，创作独一无二的艺术作品', '<p>PixelStyle Photo Editor 可轻松编辑照片和图像，并创建原创的独特艺术作品。它包含数十种高质量滤镜，并带有类似于 PS 软件的有用编辑功能，例如高光、复制元素或图层、变换、颜色选择器、使用数百种画笔绘制、图像调整大小、渐变填充、去划痕、裁剪、擦除、填充桶、克隆、涂抹、Alpha 通道编辑等。</p><p></p><p>PixelStyle Photo Editor 具有最先进的照片处理引擎，可快速处理高质量照片，并在 Mac 上立即产生惊人的效果。</p><p></p><p>您将从 PixelStyle Photo Editor 中获得许多强大的功能：</p><p></p><p>- 有用的照片编辑工具：</p><p>• 文本工具：将文本设置更改为粗体、斜体和字距调整，并沿路径绘制文本。</p><p>• 图像编辑工具：克隆、涂抹、alpha 编辑、裁剪、油漆填充、渐变填充...</p><p>• 消除红眼效果的工具。</p><p>• RGBalpha 和 Alpha 通道编辑工具。</p><p>• 具有可定制压力敏感度的绘图工具：基础绘图、像素绘图和纹理绘图。</p><p>• 免费变换工具：缩放、移动、调整大小、旋转、倾斜、对齐和自由透视变换。</p><p>• 多路径选择和编辑工具。</p><p></p><p>- 照片设置：</p><p>• 亮度设置</p><p>• 对比度调整</p><p>• 色调调整</p><p>• 饱和度和价值</p><p>• 调整白点</p><p>• 单色</p><p>• 配色方案</p><p>• 转换为灰度</p><p>• 反转</p><p>• 弯曲</p><p>• 伽马调整</p><p>• 色调分离</p><p>•墨鱼</p><p>• 临界点</p><p></p><p>- 图层系统：</p><p>• 非破坏性图层效果：描边、内发光、外发光、阴影、填充……</p><p>• 图层设置：锐化、模糊、曝光、饱和度、亮度、对比度……</p><p>• 单层：旋转、调整大小、移动、对齐、布局、整合、缩放、裁剪到边缘...</p><p>• 多级管理：重复和批处理。</p><p></p><p>- 灵活的兼容性：</p><p>• 处理几乎所有流行的格式：png、jpg、gif、bmp、pdf、svg、raw、heic、jpeg、tiff、pict...</p><p>• 将图像导出为 svg、pdf、bmp、png、tiff、jpeg、jpg、gif、jp2...</p><p>• 将文件另存为项目供以后编辑。</p><p>• 渲染：显示alpha 透明度并将文件导出为PNG 图像。</p><p></p><p>- 数十种高品质过滤器：</p><p></p><p>最近添加的：</p><p>1.自拍抠图。</p><p>2.绘图中的擦除工具。</p><p>3.双面光滑</p><p>4. 智能缩放</p><p></p><p>- 模糊</p><p>• 高斯模糊</p><p>• 模糊</p><p>• 缩放模糊</p><p></p><p>- 失真效果</p><p>• 压花变形</p><p>• 圆形爆裂失真</p><p>• 圆形失真</p><p>• 玻璃钻石变形</p><p>• 孔变形</p><p>• 收缩失真</p><p>• 环形透镜畸变</p><p>• 旋转变形</p><p>• 涡旋畸变</p><p></p><p>- 加强</p><p>• 对比度锐度</p><p>• 清晰度</p><p>• 暴露</p><p>• 中位数</p><p>• 噪声抑制</p><p></p><p>- 生成</p><p>• 棋盘</p><p>• 光环</p><p>• 水平条纹</p><p>• 随机数发生器</p><p>• 聚光灯</p><p>• 星光</p><p>• 太阳光线</p><p>• 竖条纹</p><p></p><p>- 半音</p><p>• 圆形屏幕</p><p>• CMYK 半色调</p><p>• 点屏幕</p><p>• 阴影屏幕</p><p>• 线屏</p><p></p><p>- 造型</p><p>• 开花</p><p>• 彩色边缘</p><p>• 结晶</p><p>• 偏移失真</p><p>• 结束</p><p>• 玻璃变形</p><p>•黑暗</p><p>• 像素化</p><p>• 点画</p><p></p><p>- 平铺效果</p><p>• 浅万花筒</p><p>• 平行四边形瓷砖</p><p>• 缩放和旋转图块</p><p>• 方形瓷砖</p><p>• 三角形瓷砖</p><p>• 透视图块</p>', 'ice', 'https://www.effectmatrix.com/mac-appstore/mac-photo-editor-pixelstyle.htm', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2022-05/1651401384_1.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2022-05/1651401385_2.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2022-05/1651401386_3.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2022-05/1651401386_4.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2022-05/1651401380_icon.png ', 'published', 0003544942);
 INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000908995, 20, 'Marmoset Toolbag', 0, 'https://vk.com/doc154826112_591596849', NULL, 1, NULL, '169,4 МB', NULL, NULL, '4.02', '实时材质编辑器、渲染器和动画工具', '<p>Marmoset Toolbag 是一个带有内置材质编辑器的实时渲染程序。该程序允许您通过微调材料、光线和相机获得高度逼真的图片。它还使用 HDRI 贴图，使您的模型适合任何环境。该程序被 3D 艺术家、视觉设计师和游戏设计师广泛使用。</p><p></p><p>应用：</p><p>- 包含广泛的动画、修饰和渲染功能；</p><p>- 与所有格式的 3D 模型交互；</p><p>- 不仅可以开发项目，还可以使用 ArtStation 平台发布您的开发成果。</p><p></p><p>特点：</p><p>- 该程序旨在用最少的时间获得最好的结果 - 只需将模型拖到窗口中并对其应用纹理。</p><p>- 使用程序时视图会更新：可以实时查看每种材质和光源的设置，以及更复杂的效果，例如环境光遮挡和景深。</p><p>- 该程序将使您免于长时间等待渲染图像的过程。</p><p>- 在程序 marmoset.co 的官方网站上，您可以找到很多有用的信息，包括有关如何使用和微调工具包中每个部分的教程。</p><p>- 自动网格更新。</p><p>- 体积雾。</p><p>- 用于导出到查看器的相机限制设置。</p><p>- 能够从 .fbx 文件导入灯光和相机。</p><p>- 发射着色器的可选 UV 集。</p><p></p><p>查看器功能：</p><p>- 相机限制，支持 AO 贴图，无损法线贴图。</p><p>- 用于导出的纹理失真和过滤器选项。</p><p>- 添加背景混合支持。</p>', 'ice', 'https://marmoset.co/toolbag/', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2021-03/1614606132_1-min.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2021-03/1614606180_2-min.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2021-03/1614606132_3-min.png\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2021-03/1614606194_4-min.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2021-03/1614604842_marmoset-toolbag.png ', 'published', 0007795760);
 INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000908996, 20, 'Substance Alchemist', 0, 'https://vk.com/doc154826112_591364415', NULL, 1, NULL, '674,9 МB', NULL, NULL, '2020.3.2', '创建您自己的 3D 纹理和材质库', '<p>这个下一代应用程序可以轻松简单地创建材料集合。您可以混合和匹配现有素材，或从照片和高分辨率扫描件创建新素材。当您需要真实的参考样本或只是想进行实验时，这非常方便。使用 Alchemist，您可以重新思考和改进成品材料。</p>', 'ice', 'https://www.substance3d.com/products/substance-alchemist/', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2020-06/1591545731_1.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2020-06/1591545751_2.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2020-06/1591545729_3.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2020-06/1591545809_4.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2020-06/1591545779_substance-alchemist.png ', 'published', 0007848751);
-INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000908997, 22, 'Unibox', 0, 'https://vk.com/doc154826112_549118188', NULL, 1, NULL, '10 МB', NULL, NULL, '1.9.2 [MAS]', '一种全新的方式来组织您的电子邮件', '<p>忘记无聊的邮箱 - Unibox 以美丽、不变和熟悉的方式存储信息。使用这个功能强大但优雅的电子邮件客户端，您将看到收件人而不是匿名列表。该应用程序不仅安全、直观且占用空间小，而且还使整个短信过程更加自然和令人兴奋。您将从一个完全不同的角度查看您的电子邮件 - 更像是一种新的交流方式，让人联想到文本通信。</p><p></p><p>Unibox的主要特点</p><p></p><p>电子邮件被发件人完美合并</p><p>始终如一地对电子邮件进行分组。您的整个联系人列表按最新的电子邮件日期组织。您只会看到每个联系人一次。要收集有关与特定人员对话的所有信息，请选择一个联系人。该程序感觉非常熟悉，就像聊天或短信应用程序一样。</p><p></p><p>连续的信件和对话</p><p>如果您与某个人的所有对话都在一个列表中怎么办？听起来不错，不是吗？给予沟通应有的重视。没有大惊小怪或中断。想要检查一个有多个参与者的特定对话？将其展开为线程。</p><p></p><p>带有预览的优雅附件</p><p>以更方便的方式查看附件。决定您是希望附件成为对话的一部分，还是在其他两种类型之间进行选择。要在方便的网格中查看附件的小预览，请选择图标视图。要以表格形式获取有关附件的详细数据，请选择列表视图。</p><p></p><p>支持常见的邮件提供商</p><p>此 Mac 电子邮件客户端使用大多数电子邮件客户端制造商使用的 IMAP 协议。因此，无论您喜欢 Gmail、Yahoo!、iCloud、Outlook.com、Hotmail 还是 Live.com，都没有关系 - Unibox 都支持它们。如果 IMAP 正在运行，它还可以与自定义 IMAP 服务器和 Microsoft Exchange 一起使用。</p><p></p><p>在一个窗口中读写</p><p>想象一下：您的电子邮件实际上是即时消息。是的，您所有的交流都在一个窗口中 - 无论您是阅读还是回复。因此，您将不会再失去谈话的线索。该应用程序仅分配您进行通信所需的空间，因此您在打字时几乎有无限的空间来查看其他电子邮件和附件。</p><p></p><p>使用快捷方便</p><p>Unibox 将处理您的电子邮件并清理传入消息中的阻塞。开始使用这款可靠的 Mac 电子邮件客户端，您将感受到使用它的乐趣。但请注意：它非常棒，以至于让人上瘾。短时间使用后，很难切换回 Mac 上的其他电子邮件程序。</p>', 'ice', 'https://www.uniboxapp.com/', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2020-05/1588594756_1.png\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2020-05/1588594752_2.png\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2020-05/1588594688_3.png\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2020-05/1588594774_4.png\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2020-05/1588594723_unibox.png ', 'published', 0007287717);
+INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000908997, 22, 'Unibox', 0, 'https://vk.com/doc154826112_549118188', NULL, 1, NULL, '10 МB', NULL, NULL, '1.9.2 [MAS]', '一种全新的方式来组织您的电子邮件', '<p>忘记无聊的邮箱 - Unibox 以美丽、不变和熟悉的方式存储信息。使用这个功能强大但优雅的电子邮件客户端，您将看到收件人而不是匿名列表。该应用程序不仅安全、直观且占用空间小，而且还使整个短信过程更加自然和令人兴奋。您将从一个完全不同的角度查看您的电子邮件 - 更像是一种新的交流方式，让人联想到文本通信。</p><p></p><p>Unibox的主要特点</p><p></p><p>电子邮件被发件人完美合并</p><p>始终如一地对电子邮件进行分组。您的整个联系人列表按最新的电子邮件日期组织。您只会看到每个联系人一次。要收集有关与特定人员对话的所有信息，请选择一个联系人。该程序感觉非常熟悉，就像聊天或短信应用程序一样。</p><p></p><p>连续的信件和对话</p><p>如果您与某个人的所有对话都在一个列表中怎么办？听起来不错，不是吗？给予沟通应有的重视。没有大惊小怪或中断。想要检查一个有多个参与者的特定对话？将其展开为线程。</p><p></p><p>带有预览的优雅附件</p><p>以更方便的方式查看附件。决定您是希望附件成为对话的一部分，还是在其他两种类型之间进行选择。要在方便的网格中查看附件的小预览，请选择图标视图。要以表格形式获取有关附件的详细数据，请选择列表视图。</p><p></p><p>支持常见的邮件提供商</p><p>此 Mac 电子邮件客户端使用大多数电子邮件客户端制造商使用的 IMAP 协议。因此，无论您喜欢 Gmail、Yahoo!、iCloud、Outlook.com、Hotmail 还是 Live.com，都没有关系 - Unibox 都支持它们。如果 IMAP 正在运行，它还可以与自定义 IMAP 服务器和 Microsoft Exchange 一起使用。</p><p></p><p>在一个窗口中读写</p><p>想象一下：您的电子邮件实际上是即时消息。是的，您所有的交流都在一个窗口中 - 无论您是阅读还是回复。因此，您将不会再失去谈话的线索。该应用程序仅分配您进行通信所需的空间，因此您在打字时几乎有无限的空间来查看其他电子邮件和附件。</p><p></p><p>使用快捷方便</p><p>Unibox 将处理您的电子邮件并清理传入消息中的阻塞。开始使用这款可靠的 Mac 电子邮件客户端，您将感受到使用它的乐趣。但请注意：它非常棒，以至于让人上瘾。短时间使用后，很难切换回 Mac 上的其他电子邮件程序。</p>', 'ice', 'https://www.uniboxapp.com/', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2020-05/1588594756_1.png\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2020-05/1588594752_2.png\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2020-05/1588594688_3.png\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2020-05/1588594774_4.png\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2020-05/1588594723_unibox.png ', 'published', 0007287717);
 INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000908998, 23, 'Firewall', 0, 'https://vk.com/doc154826112_593712856', NULL, 1, NULL, '4,1 МB', NULL, NULL, '2.0 MAS', '在 macOS 上监视和控制传出网络连接', '<p>虽然 macOS 的内置防火墙成功阻止了所有不需要的传入连接，但 Paragon Firewall for Mac 可帮助您控制将信息发送到 Internet 的程序和服务，确保未经您的许可不会将数据从您的计算机发送到第三方服务器。</p><p></p><p>直观的界面</p><p>一个简单、完全集成的界面，可帮助您控制和管理网络流量</p><p></p><p>网络监控</p><p>阻止系统上的应用程序未经授权发送数据</p><p></p><p>详细的流量统计</p><p>报告包含 Mac 上运行的每个应用程序的详细传入/传出流量统计信息。</p><p>在方便易懂的表格和图形中查看数据，生成所有时间的报告（自安装防火墙以来），按日、周、月和年对报告进行分组。一键展开和折叠统计数据。</p><p></p><p>静音模式</p><p>有时候默默地工作是件好事。您可以禁用所有通知并暂时允许或阻止所有传出连接。</p><p></p><p>警报模式</p><p>当新应用程序尝试连接到 Internet 时，系统会提示您指示是否要允许它访问 Internet。您的选择将被记住。</p><p></p><p>应用锁</p><p>在不影响其余应用程序的情况下阻止任何应用程序。被阻止的应用程序将无法与远程服务器建立传出连接并发送数据。</p>', 'ice', 'https://www.paragon-software.com/ru/home/firewall-mac/', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2021-03/1616167574_1.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2021-03/1616167580_2.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2021-03/1616167586_3.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2021-03/1616167579_4.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2021-03/1616167157_firewall.png ', 'published', 0004309167);
 INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000908999, 23, 'Disk Xray', 0, 'https://vk.com/s/v1/doc/GULCNC7fIPSGjB4lea3eeltK9iA8_J9F9xZhC_S6Zs_3d56NY7k', NULL, 1, NULL, '4.1 МB', NULL, NULL, '2.8.4', '用于查看磁盘使用统计信息、查找和清理重复文件和文件夹的程序', '<p>Disk Xray 是适用于 macOS 的磁盘使用统计查看器、重复文件和文件夹查找器以及清理工具。</p><p></p><p>Disk Xray 主要做三件事——而且做得很好，如果您不小心删除了某些内容，它会提供最大的安全性来恢复所有文件。</p><p></p><p>为什么选择 Disk Xray：</p><p></p><p>- 快速高效的文件夹扫描仪比竞争对手更快地找到重复项</p><p></p><p>- 以干净、优雅和易于理解的方式显示扫描结果</p><p></p><p>- 查找重复文件夹</p><p></p><p>- 可从主窗口轻松访问基本搜索选项</p><p></p><p>- 搜索结果按文件类型（音乐、电影、照片等）划分</p><p></p><p>- 一个三合一的应用程序，可满足您维修磁盘驱动器所需的一切</p><p></p><p>特点：</p><p></p><p>文件夹扫描器是一种可视化磁盘/文件夹分析器，可让您检测磁盘上的大文件和文件夹 - 无论是整个硬盘驱动器还是子文件夹 - 并提供有关磁盘空间使用确切位置的分类信息。一目了然，您可以通过依次深入了解哪些文件夹占用了大量空间以及其中的内容。</p><p></p><p>重复文件检测器通过查找和删除重复的文件和文件夹来释放磁盘空间，让您有机会回收千兆字节的磁盘空间。此扫描可以显示您在驱动器上分散存储的相同文档、照片或其他文件类型的副本数量。所有重复文件都逐字节检查，100% 保证它们是准确的副本。</p><p></p><p>磁盘清理器通过查找和删除计算机上的临时文件来加速您的计算机。这包括明显的“垃圾箱”和“下载”文件夹，以及您可能不想清空甚至不知道去哪里寻找的地方，例如应用程序日志、Web 浏览器缓存和 cookie、应用程序缓存，以及不断增长的存储电子邮件附件列表本地但从未清除。您还可以将程序设置为搜索磁盘上的所有大文件。确定已删除文件的期限：从一周到一个月或一年。</p><p></p><p>Disk Cleaner 和 Duplicates Finder 允许您在不小心删除某些内容时恢复所有文件。您可以从应用程序内将项目移至废纸篓，如果您犯了错误，菜单中有一个选项可以撤消此操作。</p>', 'ice', 'https://naarakstudio.com/diskxray/', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2022-06/1655483015_1-min.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2022-06/1655483016_2-min.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2022-06/1655482567_disk-xray-2_8_4-hciso.png ', 'published', 0002405893);
 INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000909000, 20, 'Hexels', 0, 'https://vk.com/doc249553273_590561455', NULL, 1, NULL, '63,8 МB', NULL, NULL, '3.1.5', '用于矢量艺术、像素艺术、设计和动画的基于网格的绘图工具', '<p>Marmoset Hexels 是一种基于网格的多功能绘图工具。强大的形状模式让您可以完全控制多面子网络。该实用程序有助于创建等距设计、复杂的几何图案，以及抽象艺术风格的作品。用户界面可根据特定要求完全定制。</p><p></p><p>六边形</p><p>Hexels 的核心是一个可绘制的几何形状网格：由六边形、三角形、正方形和自定义多边形构建的平铺画布。 Hexels 网格允许艺术家通过单笔画笔创建复杂的矢量艺术。它是一种新的工作流程，对初学者来说直观易学，是专业人士手中的多功能工具。</p><p></p><p>像素化</p><p>Hexels 中基于网格的画布非常适合具有前瞻性思维的像素艺术家。充分利用同样出色的绘图工具。使用调色板跟踪颜色和渐变。使用动画时间轴让您的画布动起来。为每座城堡中的每位公主导出精灵表。</p><p></p><p>构造</p><p>对于希望构建世界的工匠，Hexels 提供了一组用于绘制各种形式的等距艺术的网格和指南。建造墙壁，开凿山脉，按照你的意愿改变视角，建造不可能的奇迹。</p><p></p><p>细节</p><p>像素和 Trixels 和谐相处！ Hexels 允许您在同一画布上组合矢量和像素艺术图层。用柔和、扫过的笔触补充 Hexel 的棱角艺术。在等距艺术中切出像素完美完成。以矢量形式绘制整个城市，然后深入细节。</p><p></p><p>栅格化</p><p>Hexels 让您可以完全控制矢量到像素的渲染过程。高级光栅化工具可在任何导出分辨率下提供矢量对齐、完美的像素等距、像素缩放和抗锯齿功能。由于 Hexels 在 GPU 上渲染所有内容，您将在绘画时看到画布上像素的完美预览。</p><p></p><p>动画</p><p>使用 Hexels 动画时间轴构建世界并使其栩栩如生。使用后期效果和运动曲线将微妙的运动呼吸到静止图像中。发送随层变换旋转的形状和颜色。或者用简单的翻书动画讲述手绘童话故事。</p><p></p><p>图案</p><p>Hexels 是学习瓷砖设计和几何的完美工具。在无尽的画布上绘制马赛克图案。探索高级网格类型，例如 Voronoi。使用强大的自定义网格生成器创建您自己的网格。无论您是设计纺织品还是布置复杂的马赛克，Hexels 都可以提供帮助。</p><p></p><p>设计</p><p>Hexels 是一款多功能工具，适用于打印就绪分辨率的多应用程序图形艺术家。从现有图像和动画中组装您的画布。使用图层、蒙版和组保持井井有条。使用后期效果和实时着色器库添加一点程序性。然后将画布导出为 SVG 或分层 PSD，以在其他地方进行最后润色。</p>', 'ice', 'https://marmoset.co/hexels/', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2021-02/1614259580_1.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2021-02/1614259578_2.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2021-02/1614259624_3.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2021-02/1614259613_4.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2021-02/1614260266_hexels.png ', 'published', 0004430347);
-INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000909001, 28, 'iWork Converter', 0, 'https://vk.com/doc729710619_638532317', NULL, 1, NULL, '6,9 МB', NULL, NULL, '2.91', '一键将文件从 Pages 转换为 doc 或 pdf，将 Numbers 转换为 xls 格式', '<p>iWork Converter 一步转换 iWork 文件，而手动转换至少需要 5 个步骤。当您批量转换时，它的好处会变得更加明显。要自动生成 Microsoft Office 或 PDF 文件，只需将 iWork 文件拖放到 iWork Converter 中即可。</p><p></p><p>支持的转换</p><p>- 将 Pages 文件转换为 .dox、.docx 或 .pdf 文件</p><p>- 将 Numbers 文件转换为 .xls 或 .pdf 文件</p><p>- 将 Keynote 文件转换为 .ppt 或 .pdf 文件</p><p></p><p>源文件格式</p><p>- Pages 4.x (iWork \'09) 或更高版本</p><p>- Numbers 2.x (iWork \'09) 或更高版本</p><p>- Keynote 5.x (iWork \'09) 或更高版本</p>', 'ice', 'https://tyorex.com/', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2022-06/1539799082_iwork-converter_01.jpeg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2022-06/1539799092_iwork-converter_02.jpeg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2022-06/1539799066_iwork-converter_03.jpeg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2022-06/1655729089_icon.png ', 'published', 0000294239);
-INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000909002, 28, 'MacFamilyTree 10', 0, 'https://vk.com/s/v1/doc/u78ksUTgntaLIKg6GTI1RMeuHQ_ytikpo_VkPApo1eF25LfwsqU', NULL, 1, NULL, '135,5 МB', NULL, NULL, '10.07', '显示您的血统。图表、报告、视图和列表', '', 'ice', 'https://www.syniumsoftware.com/macfamilytree', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2019-08/1565627091_1.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2019-08/1565627132_2.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2019-08/1565627058_3.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2019-08/1565627083_4.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2021-11/1635949028_macfamilytree.png ', 'published', 0002987575);
+INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000909001, 28, 'iWork Converter', 0, 'https://vk.com/doc729710619_638532317', NULL, 1, NULL, '6,9 МB', NULL, NULL, '2.91', '一键将文件从 Pages 转换为 doc 或 pdf，将 Numbers 转换为 xls 格式', '<p>iWork Converter 一步转换 iWork 文件，而手动转换至少需要 5 个步骤。当您批量转换时，它的好处会变得更加明显。要自动生成 Microsoft Office 或 PDF 文件，只需将 iWork 文件拖放到 iWork Converter 中即可。</p><p></p><p>支持的转换</p><p>- 将 Pages 文件转换为 .dox、.docx 或 .pdf 文件</p><p>- 将 Numbers 文件转换为 .xls 或 .pdf 文件</p><p>- 将 Keynote 文件转换为 .ppt 或 .pdf 文件</p><p></p><p>源文件格式</p><p>- Pages 4.x (iWork \'09) 或更高版本</p><p>- Numbers 2.x (iWork \'09) 或更高版本</p><p>- Keynote 5.x (iWork \'09) 或更高版本</p>', 'ice', 'https://tyorex.com/', NULL, NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2022-06/1539799082_iwork-converter_01.jpeg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2022-06/1539799092_iwork-converter_02.jpeg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2022-06/1539799066_iwork-converter_03.jpeg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2022-06/1655729089_icon.png ', 'published', 0000294239);
+INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000909002, 28, 'MacFamilyTree 10', 0, 'https://vk.com/s/v1/doc/u78ksUTgntaLIKg6GTI1RMeuHQ_ytikpo_VkPApo1eF25LfwsqU', NULL, 1, NULL, '135,5 МB', NULL, NULL, '10.07', '显示您的血统。图表、报告、视图和列表', '', 'ice', 'https://www.syniumsoftware.com/macfamilytree', NULL, NULL, NULL, 1, NULL, 1, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', NULL, '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"url\": \"https://appstorrent.ru/uploads/posts/2019-08/1565627091_1.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2019-08/1565627132_2.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2019-08/1565627058_3.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}, {\"url\": \"https://appstorrent.ru/uploads/posts/2019-08/1565627083_4.jpg\", \"name\": \"123\", \"uid\": 1668582055770, \"status\": \"success\"}]', 'https://appstorrent.ru/uploads/posts/2021-11/1635949028_macfamilytree.png ', 'published', 0002987575);
 INSERT INTO `resource` (`id`, `sort_class`, `title`, `price`, `res_address`, `res_password`, `is_free`, `title_color`, `titlefont_size`, `titlefont_type`, `full_title`, `subhead`, `intro`, `content`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `love_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `carousel`, `thumb`, `status`, `article_status`) VALUES (0000909003, 28, 'Gifox', 0, 'https://vk.com/doc154826112_590761088', NULL, 1, NULL, '25,3 МB', NULL, NULL, '2.2.5', '使用此截屏应用程序随时创建 GIF 截屏视频', '<p>发送屏幕截图太过时了。 Gifox 提供了一种捕获屏幕的新方式，并允许您以最方便的方式分享您的观点。与简单的屏幕录像不同，这个详细的屏幕录像机将屏幕的选定区域捕获为动画 GIF。简而言之，它是静态图像和全长视频的巧妙结合。当您需要创建和共享动画操作指南、微视频以及演示和工作指南时，请使用它。顺便说一句，Gifox 也非常适合漏洞报告者。</p>\n<p>Gifox 的主要特点</p>\n<p>&nbsp;</p>\n<p>选择屏幕的任意区域</p>\n<p>通过选择屏幕的特定区域并简单地按下&ldquo;记录&rdquo;来从屏幕的特定区域创建 GIF。或者，使用键盘快捷键 Cmd + Shift + 5 即时记录屏幕操作。完成后，只需点击停止按钮，Gifox 就会自动创建一个小 GIF，将其保存到您的&ldquo;下载&rdquo;文件夹中。</p>\n<p>&nbsp;</p>\n<p>选择一个窗口</p>\n<p>轻松快速地只对应用程序窗口进行整洁的记录 - 没有覆盖或剪辑，而不是截取许多屏幕截图，帮助团队识别一些烦人的错误。要开始录制，只需切换到适当的窗口选择模式或选择键盘快捷键 Command + Shift + 6。</p>\n<p>&nbsp;</p>\n<p>设置压缩质量</p>\n<p>使用此屏幕捕获应用程序可以随时创建 GIF 屏幕录像。并且不要忘记利用高级压缩选项。使用 Gifox，您可以决定生成动画的质量和大小。只需转到&ldquo;设置&rdquo;-&ldquo;压缩&rdquo;选项卡即可。</p>\n<p>&nbsp;</p>\n<p>以您喜欢的方式录制 GIF</p>\n<p>确定您要录制的内容并选择您喜欢的方法。 Gifox 提供了多种选择，无论是录制屏幕还是它们的特定元素，以及选择 FPS。最后，您甚至可以选择您最喜欢的录音部分。</p>\n<p>&nbsp;</p>\n<p>通过云共享结果</p>\n<p>在线共享您的作品，以便您可以从任何具有互联网连接的设备访问它们。这个方便的 GIF 记录器目前与 Dropbox、Google Drive 和 Imgur 兼容，您无需额外的登录名或密码即可访问任何应用程序。此外，不断添加新的共享选项。</p>\n<p>&nbsp;</p>\n<p>即时访问记录</p>\n<p>直接从 Mac 菜单栏中的应用程序打开您最近的任何条目。您可以将 GIF 拖放到任何地方，或者直接链接到您的任何作品，而不会中断您的工作。 Gifox 提供了完美的访问便利性，不会中断您的工作流程。</p>', 'ice', 'https://gifox.io/', NULL, NULL, '[2,4,5]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-16 06:54:56', '2022-11-20 08:30:22', '2022-11-16 06:54:56', NULL, NULL, NULL, NULL, NULL, NULL, '[]', 'https://appstorrent.ru/uploads/posts/2020-08/1596450359_gifox.png ', 'published', 0007516131);
 COMMIT;
 
@@ -845,32 +847,33 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `resource_class`;
 CREATE TABLE `resource_class` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '名称',
-  `father` int DEFAULT NULL COMMENT '父级分类',
-  `other_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '别名',
-  `describes` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '描述',
-  `imgclass` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '分类图片',
-  `top` int DEFAULT NULL COMMENT '顶制',
-  PRIMARY KEY (`id`)
+                                  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '名称',
+                                  `father` int DEFAULT NULL COMMENT '父级分类',
+                                  `other_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '别名',
+                                  `describes` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '描述',
+                                  `imgclass` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '分类图片',
+                                  `top` int DEFAULT NULL COMMENT '顶制',
+                                  `num` int DEFAULT NULL COMMENT '资源数量',
+                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1224 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of resource_class
 -- ----------------------------
 BEGIN;
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000020, '图形设计', NULL, 'graphics', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/10cfe819-b854-4f40-ab4b-04896f5c73b7.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000021, '开发工具', NULL, 'code', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/f9a14f93-5fa0-40b7-98d8-68b61ff70e87.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000022, '社交网络', NULL, 'social', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/e975097a-d296-4b8b-962c-f7791c38a6c3.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000023, '公用事业', NULL, 'utilities', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/374990d3-c50a-4429-9ee7-30a9db66bcd3.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000024, '商业', NULL, 'teach', '', 'https://www.hereitis.cn/profile/upload/2021/10/27/ee01fee2-84dd-4fc0-afbd-515d027325df.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000025, '安全', NULL, 'Safety', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/68f19b22-7823-4825-949a-bbd36e80cc7c.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000026, '教育', NULL, 'education', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/249fe79b-0bfa-4345-a4d7-45a7918ab018.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000027, '设计', NULL, 'desion', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/184f65a5-852b-4c49-87be-8709472ef90e.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000028, '表现', NULL, 'Performance', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/c3feaf8e-a785-4714-9ee2-6e15e96c7308.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000029, '视频', NULL, 'video', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/330b5c3a-4bfb-4cb6-a1a2-b472f65a642d.png', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000030, '音乐', NULL, 'music', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/a74e76c9-fb98-47e4-bee7-484e42e868dd.jpg', NULL);
-INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000031, '照片', NULL, 'photo', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/ff0a46f7-b965-45ce-a901-7e2bf8e6f596.jpg', NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000020, '图形设计', NULL, 'graphics', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/10cfe819-b854-4f40-ab4b-04896f5c73b7.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000021, '开发工具', NULL, 'code', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/f9a14f93-5fa0-40b7-98d8-68b61ff70e87.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000022, '社交网络', NULL, 'social', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/e975097a-d296-4b8b-962c-f7791c38a6c3.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000023, '公用事业', NULL, 'utilities', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/374990d3-c50a-4429-9ee7-30a9db66bcd3.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000024, '商业', NULL, 'teach', '', 'https://www.hereitis.cn/profile/upload/2021/10/27/ee01fee2-84dd-4fc0-afbd-515d027325df.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000025, '安全', NULL, 'Safety', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/68f19b22-7823-4825-949a-bbd36e80cc7c.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000026, '教育', NULL, 'education', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/249fe79b-0bfa-4345-a4d7-45a7918ab018.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000027, '设计', NULL, 'desion', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/184f65a5-852b-4c49-87be-8709472ef90e.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000028, '表现', NULL, 'Performance', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/c3feaf8e-a785-4714-9ee2-6e15e96c7308.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000029, '视频', NULL, 'video', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/330b5c3a-4bfb-4cb6-a1a2-b472f65a642d.png', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000030, '音乐', NULL, 'music', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/a74e76c9-fb98-47e4-bee7-484e42e868dd.jpg', NULL, NULL);
+INSERT INTO `resource_class` (`id`, `name`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000031, '照片', NULL, 'photo', NULL, 'https://www.hereitis.cn/profile/upload/2021/10/27/ff0a46f7-b965-45ce-a901-7e2bf8e6f596.jpg', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -878,17 +881,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `resource_comment`;
 CREATE TABLE `resource_comment` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '内容',
-  `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '用户名',
-  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '邮箱',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `parent_id` int DEFAULT NULL COMMENT '父id',
-  `foreign_id` int DEFAULT NULL COMMENT '外部id',
-  `profile` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '头像',
-  `resource_id` int DEFAULT NULL COMMENT '文章id',
-  `user_id` int DEFAULT NULL COMMENT '用户id',
-  PRIMARY KEY (`id`)
+                                    `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                    `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '内容',
+                                    `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '用户名',
+                                    `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '邮箱',
+                                    `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                    `parent_id` int DEFAULT NULL COMMENT '父id',
+                                    `foreign_id` int DEFAULT NULL COMMENT '外部id',
+                                    `profile` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '头像',
+                                    `resource_id` int DEFAULT NULL COMMENT '文章id',
+                                    `user_id` int DEFAULT NULL COMMENT '用户id',
+                                    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 -- ----------------------------
@@ -912,10 +915,10 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
-  `id` int NOT NULL COMMENT 'id',
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '名称',
-  `sort` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                        `id` int NOT NULL COMMENT 'id',
+                        `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '名称',
+                        `sort` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+                        PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 -- ----------------------------
@@ -932,21 +935,27 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `setting`;
 CREATE TABLE `setting` (
-  `id` int NOT NULL COMMENT 'id',
-  `beian` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '备案号',
-  `banquan` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '版权©️',
-  `comment_show` int DEFAULT NULL COMMENT '评论显示',
-  `sit_title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '网站标题',
-  `sit_logo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '网站Logo',
-  `image_format` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                           `id` int NOT NULL COMMENT 'id',
+                           `beian` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '备案号',
+                           `banquan` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '版权©️',
+                           `comment_show` int DEFAULT NULL COMMENT '评论显示',
+                           `sit_title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '网站标题',
+                           `sit_logo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '网站Logo',
+                           `image_format` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL,
+                           `cos_intage` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT '设置访问域名\n',
+                           `cos_bucket_name` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT '存储桶名称\n',
+                           `cos_secret_id` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'secretId\n',
+                           `cos_secret_key` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'secretKey\n',
+                           `cos_client_config` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'bucket的区域\n',
+                           `is_cos` int DEFAULT NULL,
+                           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 -- ----------------------------
 -- Records of setting
 -- ----------------------------
 BEGIN;
-INSERT INTO `setting` (`id`, `beian`, `banquan`, `comment_show`, `sit_title`, `sit_logo`, `image_format`) VALUES (1, '鲁ICP备19036164号', 'Macwk.com © 2019. All rights reserved.', 1, 'IceCMS', 'https://inews.gtimg.com/newsapp_bt/0/13392595208/1000', 1);
+INSERT INTO `setting` (`id`, `beian`, `banquan`, `comment_show`, `sit_title`, `sit_logo`, `image_format`, `cos_intage`, `cos_bucket_name`, `cos_secret_id`, `cos_secret_key`, `cos_client_config`, `is_cos`) VALUES (1, '鲁ICP备19036164号', 'Macwk.com © 2019. All rights reserved.', 0, 'IceCMS', 'http://127.0.0.1:8181/logistics/4c6335c9-6be6-4183-a10f-4b98fec6a312.png', '1', 'https://icewk-1305088812.cos.ap-nanjing.myqcloud.com', 'icewk-1305088812', 'AKIDjDRQDrRXcA7TfQNk9LO3EJchbFeneY4U', 'blgxyuiIfnCLaZXH5i6FB4gmDPilY8zb', 'ap-nanjing', 0);
 COMMIT;
 
 -- ----------------------------
@@ -954,39 +963,39 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `square`;
 CREATE TABLE `square` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `sort_class` int DEFAULT NULL COMMENT '所厲栏目Class',
-  `title` varchar(255) DEFAULT NULL COMMENT '文章标题',
-  `media` varchar(255) DEFAULT NULL,
-  `type` int DEFAULT NULL,
-  `title_color` varchar(8) DEFAULT NULL COMMENT '标题颜色',
-  `titlefont_size` varchar(2) DEFAULT NULL COMMENT '标题大小',
-  `titlefont_type` int DEFAULT NULL COMMENT '标题字形',
-  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci COMMENT '内容',
-  `love_num` int DEFAULT NULL,
-  `author` int DEFAULT NULL COMMENT '作者id',
-  `copyfrom` varchar(20) DEFAULT NULL COMMENT '来源',
-  `inputer` varchar(20) DEFAULT NULL COMMENT '录入者',
-  `http_url` varchar(255) DEFAULT NULL COMMENT '转向连接',
-  `keyword` varchar(255) DEFAULT NULL COMMENT '关健字',
-  `hits` int DEFAULT NULL COMMENT '点击数',
-  `post_num` int DEFAULT NULL COMMENT '评论数',
-  `comment_disabled` varchar(10) DEFAULT NULL COMMENT '是否评论',
-  `ontop` int DEFAULT NULL COMMENT '是否顶制',
-  `iselite` int DEFAULT NULL COMMENT '是否推荐',
-  `deleted` int DEFAULT NULL COMMENT '是否删除',
-  `add_time` datetime DEFAULT NULL COMMENT '添加时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `create_time` datetime DEFAULT NULL COMMENT '生成时间',
-  `last_post` datetime DEFAULT NULL COMMENT '最后评论时间',
-  `owner_tag` int DEFAULT NULL COMMENT '重要性',
-  `owner_remark` varchar(1024) DEFAULT NULL COMMENT '自定义备注',
-  `html_path` varchar(255) DEFAULT NULL COMMENT 'htm地址',
-  `file_path` varchar(255) DEFAULT NULL COMMENT '上传文件地址',
-  `temp_path` varchar(255) DEFAULT NULL COMMENT '模板地址',
-  `thumb` varchar(255) DEFAULT NULL COMMENT '缩略图地址',
-  `status` varchar(25) DEFAULT NULL COMMENT '生成状态',
-  PRIMARY KEY (`id`) USING BTREE
+                          `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
+                          `sort_class` int DEFAULT NULL COMMENT '所厲栏目Class',
+                          `title` varchar(255) DEFAULT NULL COMMENT '文章标题',
+                          `media` varchar(255) DEFAULT NULL,
+                          `type` int DEFAULT NULL,
+                          `title_color` varchar(8) DEFAULT NULL COMMENT '标题颜色',
+                          `titlefont_size` varchar(2) DEFAULT NULL COMMENT '标题大小',
+                          `titlefont_type` int DEFAULT NULL COMMENT '标题字形',
+                          `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci COMMENT '内容',
+                          `love_num` int DEFAULT NULL,
+                          `author` int DEFAULT NULL COMMENT '作者id',
+                          `copyfrom` varchar(20) DEFAULT NULL COMMENT '来源',
+                          `inputer` varchar(20) DEFAULT NULL COMMENT '录入者',
+                          `http_url` varchar(255) DEFAULT NULL COMMENT '转向连接',
+                          `keyword` varchar(255) DEFAULT NULL COMMENT '关健字',
+                          `hits` int DEFAULT NULL COMMENT '点击数',
+                          `post_num` int DEFAULT NULL COMMENT '评论数',
+                          `comment_disabled` varchar(10) DEFAULT NULL COMMENT '是否评论',
+                          `ontop` int DEFAULT NULL COMMENT '是否顶制',
+                          `iselite` int DEFAULT NULL COMMENT '是否推荐',
+                          `deleted` int DEFAULT NULL COMMENT '是否删除',
+                          `add_time` datetime DEFAULT NULL COMMENT '添加时间',
+                          `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                          `create_time` datetime DEFAULT NULL COMMENT '生成时间',
+                          `last_post` datetime DEFAULT NULL COMMENT '最后评论时间',
+                          `owner_tag` int DEFAULT NULL COMMENT '重要性',
+                          `owner_remark` varchar(1024) DEFAULT NULL COMMENT '自定义备注',
+                          `html_path` varchar(255) DEFAULT NULL COMMENT 'htm地址',
+                          `file_path` varchar(255) DEFAULT NULL COMMENT '上传文件地址',
+                          `temp_path` varchar(255) DEFAULT NULL COMMENT '模板地址',
+                          `thumb` varchar(255) DEFAULT NULL COMMENT '缩略图地址',
+                          `status` varchar(25) DEFAULT NULL COMMENT '生成状态',
+                          PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=264 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -1004,7 +1013,7 @@ INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color
 INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000249, 1, NULL, NULL, NULL, NULL, NULL, NULL, '<p>ceshi</p>', NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-05-02 14:27:12', '2022-05-02 14:27:12', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000250, 1, NULL, NULL, NULL, NULL, NULL, NULL, '<p>最新</p>', NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-05-02 14:40:27', '2022-05-02 14:40:27', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000251, 1, NULL, NULL, NULL, NULL, NULL, NULL, '<p>asd12</p>', NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-07-24 14:35:16', '2022-07-24 14:35:16', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000252, 1, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-11 14:55:28', '2022-08-11 14:55:28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000252, 1, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-11 14:55:28', '2022-08-11 14:55:28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000253, 1, NULL, NULL, NULL, NULL, NULL, NULL, '123', 154, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-12 18:13:45', '2022-08-12 18:13:45', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000254, 2, NULL, NULL, NULL, NULL, NULL, NULL, '你好', 123, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-12 21:03:40', '2022-08-12 21:03:40', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000255, 1, NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-14 13:45:24', '2022-08-14 13:45:24', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -1012,7 +1021,7 @@ INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color
 INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000257, 1, NULL, NULL, NULL, NULL, NULL, NULL, 'add', 3, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-14 13:49:50', '2022-08-14 13:49:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000258, 2, NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-14 13:51:48', '2022-08-14 13:51:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000261, 1, '', NULL, NULL, NULL, NULL, NULL, '123', NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-28 16:30:04', '2022-08-31 14:52:38', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000263, 1, '', NULL, NULL, NULL, NULL, NULL, '圈子内容', 23, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-28 16:32:40', '2022-08-31 14:52:56', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `square` (`id`, `sort_class`, `title`, `media`, `type`, `title_color`, `titlefont_size`, `titlefont_type`, `content`, `love_num`, `author`, `copyfrom`, `inputer`, `http_url`, `keyword`, `hits`, `post_num`, `comment_disabled`, `ontop`, `iselite`, `deleted`, `add_time`, `update_time`, `create_time`, `last_post`, `owner_tag`, `owner_remark`, `html_path`, `file_path`, `temp_path`, `thumb`, `status`) VALUES (0000000263, 1, '', NULL, NULL, NULL, NULL, NULL, '圈子内容', 26, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-08-28 16:32:40', '2022-08-31 14:52:56', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1020,25 +1029,26 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `square_class`;
 CREATE TABLE `square_class` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '名称',
-  `is_free` int DEFAULT NULL,
-  `price` int DEFAULT NULL,
-  `father` int DEFAULT NULL COMMENT '父级分类',
-  `other_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '别名',
-  `describes` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '描述',
-  `imgclass` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '分类图片',
-  `top` int DEFAULT NULL COMMENT '顶制',
-  PRIMARY KEY (`id`)
+                                `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '名称',
+                                `is_free` int DEFAULT NULL,
+                                `price` int DEFAULT NULL,
+                                `father` int DEFAULT NULL COMMENT '父级分类',
+                                `other_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '别名',
+                                `describes` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '描述',
+                                `imgclass` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '分类图片',
+                                `top` int DEFAULT NULL COMMENT '顶制',
+                                `num` int DEFAULT NULL COMMENT '圈子数量',
+                                PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of square_class
 -- ----------------------------
 BEGIN;
-INSERT INTO `square_class` (`id`, `name`, `is_free`, `price`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000001, '广场', NULL, NULL, NULL, 'circle', NULL, 'https://www.zmki.cn/wp-content/uploads/2021/06/1bd160d7cbf317_1_avatar.png', NULL);
-INSERT INTO `square_class` (`id`, `name`, `is_free`, `price`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000002, '闲聊', NULL, NULL, NULL, 'liaoliao', NULL, 'https://static.7b2.com/wp-content/uploads/2021/06/4397f4d8566c1b0f_1_avatar.jpg?x-oss-process=image/resize,m_fill,h_120,w_120/sharpen,120/format,webp', NULL);
-INSERT INTO `square_class` (`id`, `name`, `is_free`, `price`, `father`, `other_name`, `describes`, `imgclass`, `top`) VALUES (0000000003, '编程', NULL, NULL, NULL, 'code', NULL, 'https://static.7b2.com/wp-content/uploads/2020/08/58ee7e73540f8e9_1_circle.png?x-oss-process=image/resize,m_fill,h_120,w_120/sharpen,120/format,webp', NULL);
+INSERT INTO `square_class` (`id`, `name`, `is_free`, `price`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000001, '广场', NULL, NULL, NULL, 'circle', NULL, 'https://www.zmki.cn/wp-content/uploads/2021/06/1bd160d7cbf317_1_avatar.png', NULL, NULL);
+INSERT INTO `square_class` (`id`, `name`, `is_free`, `price`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000002, '闲聊', NULL, NULL, NULL, 'liaoliao', NULL, 'https://static.7b2.com/wp-content/uploads/2021/06/4397f4d8566c1b0f_1_avatar.jpg?x-oss-process=image/resize,m_fill,h_120,w_120/sharpen,120/format,webp', NULL, NULL);
+INSERT INTO `square_class` (`id`, `name`, `is_free`, `price`, `father`, `other_name`, `describes`, `imgclass`, `top`, `num`) VALUES (0000000003, '编程', NULL, NULL, NULL, 'code', NULL, 'https://static.7b2.com/wp-content/uploads/2020/08/58ee7e73540f8e9_1_circle.png?x-oss-process=image/resize,m_fill,h_120,w_120/sharpen,120/format,webp', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1046,17 +1056,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `square_comment`;
 CREATE TABLE `square_comment` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `parent_id` int DEFAULT '0' COMMENT '父级id',
-  `type` int NOT NULL DEFAULT '1' COMMENT '评论类型:1帖子',
-  `user_id` bigint NOT NULL DEFAULT '0' COMMENT '评论作者ID',
-  `to_user_id` int DEFAULT '0' COMMENT '被回复用户ID',
-  `post_id` bigint NOT NULL DEFAULT '0' COMMENT '评论帖子ID',
-  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '评论内容',
-  `love_num` int DEFAULT NULL,
-  `status` tinyint DEFAULT '1' COMMENT '评论状态',
-  `add_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                  `parent_id` int DEFAULT '0' COMMENT '父级id',
+                                  `type` int NOT NULL DEFAULT '1' COMMENT '评论类型:1帖子',
+                                  `user_id` bigint NOT NULL DEFAULT '0' COMMENT '评论作者ID',
+                                  `to_user_id` int DEFAULT '0' COMMENT '被回复用户ID',
+                                  `post_id` bigint NOT NULL DEFAULT '0' COMMENT '评论帖子ID',
+                                  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '评论内容',
+                                  `love_num` int DEFAULT NULL,
+                                  `status` tinyint DEFAULT '1' COMMENT '评论状态',
+                                  `add_time` datetime DEFAULT NULL,
+                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPACT;
 
 -- ----------------------------
@@ -1178,7 +1188,7 @@ INSERT INTO `square_comment` (`id`, `parent_id`, `type`, `user_id`, `to_user_id`
 INSERT INTO `square_comment` (`id`, `parent_id`, `type`, `user_id`, `to_user_id`, `post_id`, `content`, `love_num`, `status`, `add_time`) VALUES (117, 115, 1, 3, 3, 263, 'jj', 2, 1, '2022-08-28 19:57:49');
 INSERT INTO `square_comment` (`id`, `parent_id`, `type`, `user_id`, `to_user_id`, `post_id`, `content`, `love_num`, `status`, `add_time`) VALUES (118, 0, 1, 4, 0, 263, '666', NULL, 1, '2022-08-29 09:15:36');
 INSERT INTO `square_comment` (`id`, `parent_id`, `type`, `user_id`, `to_user_id`, `post_id`, `content`, `love_num`, `status`, `add_time`) VALUES (121, 115, 1, 2, 4, 263, '666', NULL, 1, '2022-08-29 09:17:00');
-INSERT INTO `square_comment` (`id`, `parent_id`, `type`, `user_id`, `to_user_id`, `post_id`, `content`, `love_num`, `status`, `add_time`) VALUES (122, 0, 1, 2, 0, 263, 'ok', NULL, 1, '2022-08-29 11:16:28');
+INSERT INTO `square_comment` (`id`, `parent_id`, `type`, `user_id`, `to_user_id`, `post_id`, `content`, `love_num`, `status`, `add_time`) VALUES (122, 0, 1, 2, 0, 263, 'ok', 1, 1, '2022-08-29 11:16:28');
 COMMIT;
 
 -- ----------------------------
@@ -1186,20 +1196,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_order_info`;
 CREATE TABLE `t_order_info` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '订单id',
-  `title` varchar(256) DEFAULT NULL COMMENT '订单标题',
-  `order_no` varchar(50) DEFAULT NULL COMMENT '商户订单编号',
-  `user_id` bigint DEFAULT NULL COMMENT '用户id',
-  `pay_ment` varchar(255) DEFAULT NULL COMMENT '支付方式',
-  `product_id` bigint DEFAULT NULL COMMENT '支付产品id',
-  `total_fee` int DEFAULT NULL COMMENT '订单金额(分)',
-  `code_url` varchar(50) DEFAULT NULL COMMENT '订单二维码连接',
-  `order_status` varchar(10) DEFAULT NULL COMMENT '订单状态',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `already_done` int DEFAULT NULL COMMENT '已完成',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=322 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                                `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '订单id',
+                                `title` varchar(256) DEFAULT NULL COMMENT '订单标题',
+                                `order_no` varchar(50) DEFAULT NULL COMMENT '商户订单编号',
+                                `user_id` bigint DEFAULT NULL COMMENT '用户id',
+                                `pay_ment` varchar(255) DEFAULT NULL COMMENT '支付方式',
+                                `product_id` bigint DEFAULT NULL COMMENT '支付产品id',
+                                `total_fee` int DEFAULT NULL COMMENT '订单金额(分)',
+                                `code_url` varchar(50) DEFAULT NULL COMMENT '订单二维码连接',
+                                `order_status` varchar(10) DEFAULT NULL COMMENT '订单状态',
+                                `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                `already_done` int DEFAULT NULL COMMENT '已完成',
+                                PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of t_order_info
@@ -1247,6 +1257,11 @@ INSERT INTO `t_order_info` (`id`, `title`, `order_no`, `user_id`, `pay_ment`, `p
 INSERT INTO `t_order_info` (`id`, `title`, `order_no`, `user_id`, `pay_ment`, `product_id`, `total_fee`, `code_url`, `order_status`, `create_time`, `update_time`, `already_done`) VALUES (319, 'JetBrains全系列软件激活教程激活码以及JetBrains系列软件汉化包', 'ORDER_20221113180002772', NULL, '支付宝', 217, 2, 'https://qr.alipay.com/bax01747dzualubiq4yz2514', '超时已关闭', '2022-11-13 18:00:02', '2022-11-13 18:00:30', NULL);
 INSERT INTO `t_order_info` (`id`, `title`, `order_no`, `user_id`, `pay_ment`, `product_id`, `total_fee`, `code_url`, `order_status`, `create_time`, `update_time`, `already_done`) VALUES (320, 'Artstudio Pro', 'ORDER_20221115221734512', NULL, '支付宝', 290, 0, NULL, '超时已关闭', '2022-11-15 22:17:34', '2022-11-15 22:18:00', NULL);
 INSERT INTO `t_order_info` (`id`, `title`, `order_no`, `user_id`, `pay_ment`, `product_id`, `total_fee`, `code_url`, `order_status`, `create_time`, `update_time`, `already_done`) VALUES (321, 'CleanMyMac X', 'ORDER_20221118233203258', 3, '支付宝', 908871, 0, NULL, '超时已关闭', '2022-11-18 23:32:04', '2022-11-18 23:32:30', NULL);
+INSERT INTO `t_order_info` (`id`, `title`, `order_no`, `user_id`, `pay_ment`, `product_id`, `total_fee`, `code_url`, `order_status`, `create_time`, `update_time`, `already_done`) VALUES (322, 'Java课程', 'ORDER_20221201202726429', NULL, '微信', 1, 1, 'weixin://wxpay/bizpayurl?pr=50u4zSmzz', '超时已关闭', '2022-12-01 20:27:26', '2022-12-01 20:27:30', NULL);
+INSERT INTO `t_order_info` (`id`, `title`, `order_no`, `user_id`, `pay_ment`, `product_id`, `total_fee`, `code_url`, `order_status`, `create_time`, `update_time`, `already_done`) VALUES (323, 'Java课程', 'ORDER_20221201202729109', NULL, '支付宝', 1, 1, 'https://qr.alipay.com/bax01187hx6gx0yljtt33089', '超时已关闭', '2022-12-01 20:27:29', '2022-12-01 20:27:30', NULL);
+INSERT INTO `t_order_info` (`id`, `title`, `order_no`, `user_id`, `pay_ment`, `product_id`, `total_fee`, `code_url`, `order_status`, `create_time`, `update_time`, `already_done`) VALUES (324, 'Java课程', 'ORDER_20221203224439082', NULL, '微信', 1, 1, 'weixin://wxpay/bizpayurl?pr=RRWpE3Pzz', '超时已关闭', '2022-12-03 22:44:39', '2022-12-03 22:45:00', NULL);
+INSERT INTO `t_order_info` (`id`, `title`, `order_no`, `user_id`, `pay_ment`, `product_id`, `total_fee`, `code_url`, `order_status`, `create_time`, `update_time`, `already_done`) VALUES (325, 'Java课程', 'ORDER_20221203224443373', NULL, '支付宝', 1, 1, 'https://qr.alipay.com/bax03951lgoserrfvtia555e', '超时已关闭', '2022-12-03 22:44:43', '2022-12-03 22:45:00', NULL);
+INSERT INTO `t_order_info` (`id`, `title`, `order_no`, `user_id`, `pay_ment`, `product_id`, `total_fee`, `code_url`, `order_status`, `create_time`, `update_time`, `already_done`) VALUES (326, 'Java课程', 'ORDER_20221203224510825', NULL, '微信', 1, 1, 'weixin://wxpay/bizpayurl?pr=mcXuICPzz', '超时已关闭', '2022-12-03 22:45:10', '2022-12-03 22:45:30', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1254,17 +1269,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_payment_info`;
 CREATE TABLE `t_payment_info` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '支付记录id',
-  `order_no` varchar(50) DEFAULT NULL COMMENT '商户订单编号',
-  `transaction_id` varchar(50) DEFAULT NULL COMMENT '支付系统交易编号',
-  `payment_type` varchar(20) DEFAULT NULL COMMENT '支付类型',
-  `trade_type` varchar(20) DEFAULT NULL COMMENT '交易类型',
-  `trade_state` varchar(50) DEFAULT NULL COMMENT '交易状态',
-  `payer_total` int DEFAULT NULL COMMENT '支付金额(分)',
-  `content` text COMMENT '通知参数',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+                                  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '支付记录id',
+                                  `order_no` varchar(50) DEFAULT NULL COMMENT '商户订单编号',
+                                  `transaction_id` varchar(50) DEFAULT NULL COMMENT '支付系统交易编号',
+                                  `payment_type` varchar(20) DEFAULT NULL COMMENT '支付类型',
+                                  `trade_type` varchar(20) DEFAULT NULL COMMENT '交易类型',
+                                  `trade_state` varchar(50) DEFAULT NULL COMMENT '交易状态',
+                                  `payer_total` int DEFAULT NULL COMMENT '支付金额(分)',
+                                  `content` text COMMENT '通知参数',
+                                  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
@@ -1284,12 +1299,12 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_product`;
 CREATE TABLE `t_product` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '商品id',
-  `title` varchar(20) DEFAULT NULL COMMENT '商品名称',
-  `price` int DEFAULT NULL COMMENT '价格（分）',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+                             `id` bigint NOT NULL AUTO_INCREMENT COMMENT '商品id',
+                             `title` varchar(20) DEFAULT NULL COMMENT '商品名称',
+                             `price` int DEFAULT NULL COMMENT '价格（分）',
+                             `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                             `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                             PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
@@ -1307,19 +1322,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_refund_info`;
 CREATE TABLE `t_refund_info` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '退款单id',
-  `order_no` varchar(50) DEFAULT NULL COMMENT '商户订单编号',
-  `refund_no` varchar(50) DEFAULT NULL COMMENT '商户退款单编号',
-  `refund_id` varchar(50) DEFAULT NULL COMMENT '支付系统退款单号',
-  `total_fee` int DEFAULT NULL COMMENT '原订单金额(分)',
-  `refund` int DEFAULT NULL COMMENT '退款金额(分)',
-  `reason` varchar(50) DEFAULT NULL COMMENT '退款原因',
-  `refund_status` varchar(10) DEFAULT NULL COMMENT '退款状态',
-  `content_return` text COMMENT '申请退款返回参数',
-  `content_notify` text COMMENT '退款结果通知参数',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+                                 `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '退款单id',
+                                 `order_no` varchar(50) DEFAULT NULL COMMENT '商户订单编号',
+                                 `refund_no` varchar(50) DEFAULT NULL COMMENT '商户退款单编号',
+                                 `refund_id` varchar(50) DEFAULT NULL COMMENT '支付系统退款单号',
+                                 `total_fee` int DEFAULT NULL COMMENT '原订单金额(分)',
+                                 `refund` int DEFAULT NULL COMMENT '退款金额(分)',
+                                 `reason` varchar(50) DEFAULT NULL COMMENT '退款原因',
+                                 `refund_status` varchar(10) DEFAULT NULL COMMENT '退款状态',
+                                 `content_return` text COMMENT '申请退款返回参数',
+                                 `content_notify` text COMMENT '退款结果通知参数',
+                                 `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                 `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
@@ -1336,26 +1351,26 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `user_id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `user_age` int DEFAULT NULL COMMENT '年龄',
-  `intro` varchar(255) DEFAULT NULL COMMENT '简介',
-  `gender` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL COMMENT '用户自定义名称',
-  `USERNAME` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '用户名',
-  `PASSWORD` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '密码',
-  `email` varchar(255) DEFAULT NULL,
-  `code` int DEFAULT NULL COMMENT 'code',
-  `data` int DEFAULT NULL COMMENT 'data',
-  `role` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `profile` varchar(255) DEFAULT NULL,
-  `status` int DEFAULT NULL COMMENT '是否禁用',
-  `created` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_login` datetime DEFAULT NULL COMMENT '最后登陆时间',
-  `vip_valid_date` datetime DEFAULT NULL COMMENT '会员有效时间',
-  `vip_expire_date` datetime DEFAULT NULL COMMENT '会员过期时间',
-  `integral` int DEFAULT NULL COMMENT '积分',
-  `vip_disable_tip` int DEFAULT NULL COMMENT '会员是否禁用',
-  PRIMARY KEY (`user_id`) USING BTREE
+                        `user_id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
+                        `user_age` int DEFAULT NULL COMMENT '年龄',
+                        `intro` varchar(255) DEFAULT NULL COMMENT '简介',
+                        `gender` varchar(255) DEFAULT NULL,
+                        `name` varchar(255) DEFAULT NULL COMMENT '用户自定义名称',
+                        `USERNAME` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '用户名',
+                        `PASSWORD` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '密码',
+                        `email` varchar(255) DEFAULT NULL,
+                        `code` int DEFAULT NULL COMMENT 'code',
+                        `data` int DEFAULT NULL COMMENT 'data',
+                        `role` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                        `profile` varchar(255) DEFAULT NULL,
+                        `status` int DEFAULT NULL COMMENT '是否禁用',
+                        `created` datetime DEFAULT NULL COMMENT '创建时间',
+                        `last_login` datetime DEFAULT NULL COMMENT '最后登陆时间',
+                        `vip_valid_date` datetime DEFAULT NULL COMMENT '会员有效时间',
+                        `vip_expire_date` datetime DEFAULT NULL COMMENT '会员过期时间',
+                        `integral` int DEFAULT NULL COMMENT '积分',
+                        `vip_disable_tip` int DEFAULT NULL COMMENT '会员是否禁用',
+                        PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -1363,7 +1378,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `user` (`user_id`, `user_age`, `intro`, `gender`, `name`, `USERNAME`, `PASSWORD`, `email`, `code`, `data`, `role`, `profile`, `status`, `created`, `last_login`, `vip_valid_date`, `vip_expire_date`, `integral`, `vip_disable_tip`) VALUES (2, 3, '这个人很懒，什么都没有留下！', NULL, 'ice', 'ttice', '1231234', NULL, NULL, NULL, NULL, 'https://img0.baidu.com/it/u=2705683877,4119372584&fm=253&fmt=auto&app=138&f=JPEG?https://static.konlonair.com/public/uploads/_/originals/g9sqh9gp.jpeg', NULL, NULL, '2022-08-30 10:37:34', NULL, NULL, 12, 1);
-INSERT INTO `user` (`user_id`, `user_age`, `intro`, `gender`, `name`, `USERNAME`, `PASSWORD`, `email`, `code`, `data`, `role`, `profile`, `status`, `created`, `last_login`, `vip_valid_date`, `vip_expire_date`, `integral`, `vip_disable_tip`) VALUES (3, 2, '这个人很懒，什么都没有留下！', NULL, '悠悠', 'admin', '123123', '23339097@qq.com', NULL, NULL, NULL, 'https://img2.woyaogexing.com/2022/07/17/5bbaa5352282a8f7!400x400.jpg', NULL, NULL, '2022-11-18 04:07:14', '2022-06-06 08:58:28', '2022-07-06 08:58:28', 233, 1);
+INSERT INTO `user` (`user_id`, `user_age`, `intro`, `gender`, `name`, `USERNAME`, `PASSWORD`, `email`, `code`, `data`, `role`, `profile`, `status`, `created`, `last_login`, `vip_valid_date`, `vip_expire_date`, `integral`, `vip_disable_tip`) VALUES (3, 2, '这个人很懒，什么都没有留下！', NULL, '悠悠', 'admin', '123123', '23339097@qq.com', NULL, NULL, NULL, 'https://img2.woyaogexing.com/2022/07/17/5bbaa5352282a8f7!400x400.jpg', NULL, NULL, '2022-12-01 10:13:02', '2022-06-06 08:58:28', '2022-07-06 08:58:28', 233, 1);
 INSERT INTO `user` (`user_id`, `user_age`, `intro`, `gender`, `name`, `USERNAME`, `PASSWORD`, `email`, `code`, `data`, `role`, `profile`, `status`, `created`, `last_login`, `vip_valid_date`, `vip_expire_date`, `integral`, `vip_disable_tip`) VALUES (4, 23, '这个人很懒，什么都没有留下！', NULL, '天天', 'awe', '2312', '233312', NULL, NULL, NULL, 'https://img2.woyaogexing.com/2022/08/19/359346943c3c489f!400x400.jpg', NULL, NULL, '2022-08-29 09:15:27', NULL, NULL, NULL, 1);
 INSERT INTO `user` (`user_id`, `user_age`, `intro`, `gender`, `name`, `USERNAME`, `PASSWORD`, `email`, `code`, `data`, `role`, `profile`, `status`, `created`, `last_login`, `vip_valid_date`, `vip_expire_date`, `integral`, `vip_disable_tip`) VALUES (5, 6, '这个人很懒，什么都没有留下！', NULL, '小小', 'admin1', '123123', NULL, NULL, NULL, NULL, 'https://img2.woyaogexing.com/2022/08/19/96f91899b3709534!400x400.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 1);
 INSERT INTO `user` (`user_id`, `user_age`, `intro`, `gender`, `name`, `USERNAME`, `PASSWORD`, `email`, `code`, `data`, `role`, `profile`, `status`, `created`, `last_login`, `vip_valid_date`, `vip_expire_date`, `integral`, `vip_disable_tip`) VALUES (33, 2, '这个人很懒，什么都没有留下！', NULL, '新用户', '123123', '123123', NULL, NULL, NULL, NULL, 'https://img2.woyaogexing.com/2022/07/17/5bbaa5352282a8f7!400x400.jpg', NULL, '2022-08-20 08:46:46', '2022-08-20 08:49:34', NULL, NULL, NULL, 1);
@@ -1381,9 +1396,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
-  `user_id` int NOT NULL,
-  `role_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`)
+                             `user_id` int NOT NULL,
+                             `role_id` int NOT NULL,
+                             PRIMARY KEY (`user_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 -- ----------------------------
@@ -1429,10 +1444,10 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `v_product`;
 CREATE TABLE `v_product` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `title` varchar(255) DEFAULT NULL COMMENT '文章标题',
-  `price` int DEFAULT NULL COMMENT '价格',
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
+                             `title` varchar(255) DEFAULT NULL COMMENT '文章标题',
+                             `price` int DEFAULT NULL COMMENT '价格',
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=244 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
