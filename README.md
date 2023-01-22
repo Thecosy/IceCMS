@@ -25,19 +25,12 @@
 
 基于 Spring Boot + Vue 前后端分离的内容管理系统
 
-使用: （[www.macwk.cc](https://www.macwk.cc/)）
+演示: （[www.macwk.cc](https://www.macwk.cc/)）
 
 官网: （[doc.macwk.cc](http://doc.macwk.cc)）
 
-## QQ交流群
-
-为方便相互学习和交流，建了个QQ群，加群请备注来自IceCMS
-
-QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC53r-Pc7Lrubwcm4q&authKey=AaNuGPfAWTSyaN6MR5yGYFQ0+4AKsZQq7kI0uRASo+v5ttyrc6xvh7gfNEMQ7UDR&noverify=0)）
-
-该群是一个学习交流群，如果是程序相关问题，请直接提交issues
-
 IceCMS 文档： （[http://doc.macwk.cc/books/icecms](http://doc.macwk.cc/books/icecms)）
+
 
 ## 预览地址：
 
@@ -345,11 +338,20 @@ npm run build:prod
 [//]: # (- 大部分个性化配置可以在后台“站点设置”中修改，小部分由于考虑到首屏加载速度（如首页大图）需要修改前端源码)
 
 
+## QQ交流群
+
+为方便相互学习和交流，建了个QQ群，加群请备注来自IceCMS
+
+QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC53r-Pc7Lrubwcm4q&authKey=AaNuGPfAWTSyaN6MR5yGYFQ0+4AKsZQq7kI0uRASo+v5ttyrc6xvh7gfNEMQ7UDR&noverify=0)）
+
+Tg群组：[https://t.me/+1rau4SBwFyE1OTA1](https://t.me/+1rau4SBwFyE1OTA1）
+
+该群是一个学习交流群，如果是程序相关问题，请直接提交issues
+
+
 ## Thanks
 
 感谢 [JetBrains](https://www.jetbrains.com/) 提供的非商业开源软件 License
-
-
 
 
 
