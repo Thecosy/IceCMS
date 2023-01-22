@@ -29,7 +29,7 @@
 
 官网: （[doc.macwk.cc](http://doc.macwk.cc)）
 
-IceCMS 文档： （[http://doc.macwk.cc/books/icecms](http://doc.macwk.cc/books/icecms)）
+IceCMS 文档： （[http://doc.macwk.cc/docs/intro](http://doc.macwk.cc/docs/intro)）
 
 
 ## 预览地址：
