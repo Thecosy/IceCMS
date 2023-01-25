@@ -44,10 +44,10 @@ uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
 
 ## PC端
 <div class = "half">
-<img alt="describe" src = "http://img.snym.cn/i/2022/12/29/63ad57a5d3bc8.jpg"  width = “50%”><img alt="describe" src = "http://img.snym.cn/i/2022/12/29/63ad57a6d95f3.jpg"  width = “50%”>
+<img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee5a6c55.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee456c4b.png"  width = “50%”>
 </div>
 <div class = "half">
-<img alt="describe" src = "https://img.snym.cn/i/2022/12/29/63ad4f1205559.png"  width = “50%”><img alt="describe" src = "https://img.snym.cn/i/2022/12/29/63ad4f1eca995.png"  width = “50%”>
+<img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee6e070e.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee4b609d.png"  width = “50%”>
 </div>
 
 
