@@ -27,18 +27,18 @@
 
 演示: （[www.macwk.cc](https://www.macwk.cc/)）
 
-官网: （[doc.macwk.cc](http://doc.macwk.cc)）
+官网: （[doc.macwk.cc](https://doc.macwk.cc)）
 
-IceCMS 文档： （[http://doc.macwk.cc/docs/intro](http://doc.macwk.cc/docs/intro)）
+IceCMS 文档： （[http://doc.macwk.cc/docs/intro](https://doc.macwk.cc/docs/intro)）
 
 
 ## 预览地址：
 
-前台：[www.macwk.cc](http://www.macwk.cc)
+前台：[www.macwk.cc](https://www.macwk.cc)
 
-uniapp移动端：[m.www.macwk.cc](http://m.www.macwk.cc)
+uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
 
-后台：[www.macwk.cc/admin](http://www.macwk.cc/admin) 账号`admin`密码`123123`
+后台：[www.macwk.cc/admin](https://www.macwk.cc/admin) 账号`admin`密码`123123`
 
 
 
