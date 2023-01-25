@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;">
 	<a href="https://www.macwk.cc" target="_blank">
-		<img alt="logo" style="height: 120px" src="https://img.snym.cn/i/2022/12/29/63ad515c99cdf.png"/>
+		<img alt="logo" style="height: 120px" src="https://img.getdev.cn/i/2023/01/26/63d19e520d818.png"/>
 	</a>
 </p>
 <p style="display: flex;
