@@ -1,15 +1,9 @@
-<p style="display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;">
+<p>
 	<a href="https://www.macwk.cc" target="_blank">
 		<img alt="logo" style="height: 120px" src="https://img.getdev.cn/i/2023/01/26/63d19e520d818.png"/>
 	</a>
 </p>
-<p style="display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;">
+<p>
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/JDK-1.8+-orange">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/SpringBoot-2.2.7.RELEASE-brightgreen">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/MyBatis-3.5.5-red">
@@ -17,8 +11,6 @@
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/license-MIT-blue">
 	<img style="padding: 4px;" alt="Label" src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FNaccl%2FNBlog&count_bg=%2344CC11&title_bg=%23555555&icon=notist.svg&icon_color=%231296DB&title=hits&edge_flat=false">
 </p>
-
-
 
 
 ## 简介
@@ -41,7 +33,6 @@ uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
 后台：[www.macwk.cc/admin](https://www.macwk.cc/admin) 账号`admin`密码`123123`
 
 
-
 ## PC端
 <div class = "half">
 <img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee5a6c55.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee456c4b.png"  width = “50%”>
@@ -49,7 +40,6 @@ uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
 <div class = "half">
 <img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee6e070e.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee4b609d.png"  width = “50%”>
 </div>
-
 
 
 ## 后台
@@ -63,8 +53,6 @@ uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
 
 <img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934226-截屏2022-08-30-17.05.45.png" width="280" height="405"><img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934233-截屏2022-08-30-17.06.42.png" width="280" height="405">
 
-
-## 
 
 ## 后端
 
@@ -118,7 +106,7 @@ docker 前端部署方式
 docker compose 一键部署
 
     
-## 快速开始
+# 快速开始
 Docker部署方式(推荐,可用于快速上线或测试)
 
     # 未安装docker的请先安装docker，已经安装的跳过此步
@@ -350,7 +338,6 @@ Tg群组：[https://t.me/+1rau4SBwFyE1OTA1](https://t.me/+1rau4SBwFyE1OTA1）
 ## Thanks
 
 感谢 [JetBrains](https://www.jetbrains.com/) 提供的非商业开源软件 License
-
 
 
 ## Star History
