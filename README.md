@@ -1,15 +1,9 @@
-<p style="display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;">
+<p>
 	<a href="https://www.macwk.cc" target="_blank">
-		<img alt="logo" style="height: 120px" src="https://img.snym.cn/i/2022/12/29/63ad515c99cdf.png"/>
+		<img alt="logo" style="height: 120px" src="https://img.getdev.cn/i/2023/01/26/63d19e520d818.png"/>
 	</a>
 </p>
-<p style="display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;">
+<p>
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/JDK-1.8+-orange">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/SpringBoot-2.2.7.RELEASE-brightgreen">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/MyBatis-3.5.5-red">
@@ -19,44 +13,33 @@
 </p>
 
 
-
-
 ## 简介
 
 基于 Spring Boot + Vue 前后端分离的内容管理系统
 
-使用: （[www.macwk.cc](https://www.macwk.cc/)）
+演示: （[www.macwk.cc](https://www.macwk.cc/)）
 
-官网: （[doc.macwk.cc](http://doc.macwk.cc)）
+官网: （[doc.macwk.cc](https://doc.macwk.cc)）
 
-## QQ交流群
+IceCMS 文档： （[http://doc.macwk.cc/docs/intro](https://doc.macwk.cc/docs/intro)）
 
-为方便相互学习和交流，建了个QQ群，加群请备注来自IceCMS
-
-QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC53r-Pc7Lrubwcm4q&authKey=AaNuGPfAWTSyaN6MR5yGYFQ0+4AKsZQq7kI0uRASo+v5ttyrc6xvh7gfNEMQ7UDR&noverify=0)）
-
-该群是一个学习交流群，如果是程序相关问题，请直接提交issues
-
-IceCMS 文档： （[http://doc.macwk.cc/books/icecms](http://doc.macwk.cc/books/icecms)）
 
 ## 预览地址：
 
-前台：[www.macwk.cc](http://www.macwk.cc)
+前台：[www.macwk.cc](https://www.macwk.cc)
 
-uniapp移动端：[m.www.macwk.cc](http://m.www.macwk.cc)
+uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
 
-后台：[www.macwk.cc/admin](http://www.macwk.cc/admin) 账号`admin`密码`123123`
-
+后台：[www.macwk.cc/admin](https://www.macwk.cc/admin) 账号`admin`密码`123123`
 
 
 ## PC端
 <div class = "half">
-<img alt="describe" src = "http://img.snym.cn/i/2022/12/29/63ad57a5d3bc8.jpg"  width = “50%”><img alt="describe" src = "http://img.snym.cn/i/2022/12/29/63ad57a6d95f3.jpg"  width = “50%”>
+<img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee5a6c55.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee456c4b.png"  width = “50%”>
 </div>
 <div class = "half">
-<img alt="describe" src = "https://img.snym.cn/i/2022/12/29/63ad4f1205559.png"  width = “50%”><img alt="describe" src = "https://img.snym.cn/i/2022/12/29/63ad4f1eca995.png"  width = “50%”>
+<img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee6e070e.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee4b609d.png"  width = “50%”>
 </div>
-
 
 
 ## 后台
@@ -70,8 +53,6 @@ uniapp移动端：[m.www.macwk.cc](http://m.www.macwk.cc)
 
 <img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934226-截屏2022-08-30-17.05.45.png" width="280" height="405"><img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934233-截屏2022-08-30-17.06.42.png" width="280" height="405">
 
-
-## 
 
 ## 后端
 
@@ -125,7 +106,7 @@ docker 前端部署方式
 docker compose 一键部署
 
     
-## 快速开始
+# 快速开始
 Docker部署方式(推荐,可用于快速上线或测试)
 
     # 未安装docker的请先安装docker，已经安装的跳过此步
@@ -345,12 +326,18 @@ npm run build:prod
 [//]: # (- 大部分个性化配置可以在后台“站点设置”中修改，小部分由于考虑到首屏加载速度（如首页大图）需要修改前端源码)
 
 
+## QQ交流群
+
+QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC53r-Pc7Lrubwcm4q&authKey=AaNuGPfAWTSyaN6MR5yGYFQ0+4AKsZQq7kI0uRASo+v5ttyrc6xvh7gfNEMQ7UDR&noverify=0)）
+
+Tg群组：[https://t.me/+1rau4SBwFyE1OTA1](https://t.me/+1rau4SBwFyE1OTA1）
+
+该群是一个学习交流群，如果是程序相关问题，请直接提交issues
+
+
 ## Thanks
 
 感谢 [JetBrains](https://www.jetbrains.com/) 提供的非商业开源软件 License
-
-
-
 
 
 ## Star History
