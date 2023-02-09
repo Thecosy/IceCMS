@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `all_tag`;
 CREATE TABLE `all_tag` (
                            `id` int DEFAULT NULL,
                            `tag_name` varchar(255) DEFAULT NULL COMMENT '标签名称'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_c;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- ----------------------------
 -- Records of all_tag
@@ -125,7 +125,7 @@ COMMIT;
 DROP TABLE IF EXISTS `article_comment`;
 CREATE TABLE `article_comment` (
                                    `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-                                   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_c DEFAULT NULL COMMENT '内容',
+                                   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '内容',
                                    `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '用户名',
                                    `email` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
                                    `add_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -257,7 +257,7 @@ COMMIT;
 DROP TABLE IF EXISTS `resource_comment`;
 CREATE TABLE `resource_comment` (
                                     `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT 'id',
-                                    `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_c DEFAULT NULL COMMENT '内容',
+                                    `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '内容',
                                     `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '用户名',
                                     `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '邮箱',
                                     `add_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -432,7 +432,7 @@ CREATE TABLE `square_comment` (
                                   `status` tinyint DEFAULT '1' COMMENT '评论状态',
                                   `add_time` datetime DEFAULT NULL,
                                   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8 COLLATE=utf8_general_c ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 -- Records of square_comment
@@ -574,7 +574,7 @@ CREATE TABLE `t_order_info` (
                                 `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                 `already_done` int DEFAULT NULL COMMENT '已完成',
                                 PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8 COLLATE=utf8_general_c;
+) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- ----------------------------
 -- Records of t_order_info
@@ -645,7 +645,7 @@ CREATE TABLE `t_payment_info` (
                                   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                                   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 COLLATE=utf8_general_c;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- ----------------------------
 -- Records of t_payment_info
@@ -670,7 +670,7 @@ CREATE TABLE `t_product` (
                              `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                              `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                              PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_c;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- ----------------------------
 -- Records of t_product
@@ -700,7 +700,7 @@ CREATE TABLE `t_refund_info` (
                                  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                                  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_general_c;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- ----------------------------
 -- Records of t_refund_info
