@@ -1,9 +1,9 @@
-<p>
+<p align="center">
 	<a href="https://www.macwk.cc" target="_blank">
 		<img alt="logo" style="height: 120px" src="https://img.getdev.cn/i/2023/01/26/63d19e520d818.png"/>
 	</a>
 </p>
-<p>
+<p align="center">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/JDK-1.8+-orange">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/SpringBoot-2.2.7.RELEASE-brightgreen">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/MyBatis-3.5.5-red">
