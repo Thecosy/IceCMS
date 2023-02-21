@@ -2,9 +2,9 @@
 
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-           
+
   -webkit-font-smoothing: subpixel-antialiased;
-       
+
   --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(
     135deg,
     rgba(6, 147, 227, 1) 0%,
@@ -15,9 +15,9 @@
     rgb(122, 220, 180) 0%,
     rgb(0, 208, 130) 100%
   );
-           
-         
-        
+
+
+
   -webkit-user-select: text !important;
   border: 0;
   font-family: inherit;
@@ -48,9 +48,9 @@
 .circle-top {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-           
+
   -webkit-font-smoothing: subpixel-antialiased;
-       
+
   --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(
     135deg,
     rgba(6, 147, 227, 1) 0%,
@@ -61,9 +61,9 @@
     rgb(122, 220, 180) 0%,
     rgb(0, 208, 130) 100%
   );
-           
-         
-        
+
+
+
   -webkit-user-select: text !important;
   border: 0;
   font-family: inherit;
@@ -74,7 +74,7 @@
   vertical-align: baseline;
   word-wrap: break-word;
   box-sizing: border-box;
-  
+
   border-top: 1px solid #f5f6f7;
   background-color: #FFFFFF;
   border-radius: 8px;
@@ -83,9 +83,9 @@
   margin-top: 8px;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-           
+
   -webkit-font-smoothing: subpixel-antialiased;
-       
+
   --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(
     135deg,
     rgba(6, 147, 227, 1) 0%,
@@ -96,9 +96,9 @@
     rgb(122, 220, 180) 0%,
     rgb(0, 208, 130) 100%
   );
-           
-         
-        
+
+
+
   -webkit-user-select: text !important;
   border: 0;
   font-family: inherit;
@@ -122,9 +122,9 @@
 .planetul {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-           
+
   -webkit-font-smoothing: subpixel-antialiased;
-       
+
   --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(
     135deg,
     rgba(6, 147, 227, 1) 0%,
@@ -135,9 +135,9 @@
     rgb(122, 220, 180) 0%,
     rgb(0, 208, 130) 100%
   );
-           
-         
-        
+
+
+
   -webkit-user-select: text !important;
   border: 0;
   font-family: inherit;
@@ -157,9 +157,9 @@
 .planetli {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-           
+
   -webkit-font-smoothing: subpixel-antialiased;
-       
+
   --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(
     135deg,
     rgba(6, 147, 227, 1) 0%,
@@ -170,9 +170,9 @@
     rgb(122, 220, 180) 0%,
     rgb(0, 208, 130) 100%
   );
-           
-         
-        
+
+
+
   list-style: none;
   -webkit-user-select: text !important;
   border: 0;
@@ -191,9 +191,9 @@
 .topic-drop {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-           
+
   -webkit-font-smoothing: subpixel-antialiased;
-       
+
   --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(
     135deg,
     rgba(6, 147, 227, 1) 0%,
@@ -204,9 +204,9 @@
     rgb(122, 220, 180) 0%,
     rgb(0, 208, 130) 100%
   );
-           
-         
-        
+
+
+
   -webkit-user-select: text !important;
   border: 0;
   font-family: inherit;
@@ -221,7 +221,7 @@
   box-sizing: border-box;
 }
 .circle-info{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -237,7 +237,7 @@
   position: relative;
 }
 .circle-info-in{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -254,7 +254,7 @@
   justify-content: space-between;
 }
 .circle-info-left{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -276,7 +276,7 @@
   font-style: inherit;
   font-weight: inherit;
   word-wrap: break-word;
-     
+
   box-sizing: inherit;
   object-fit: cover;
   border: 0;
@@ -289,7 +289,7 @@
   display: block;
 }
 .planeth1{
-         
+
   border: 0;
   font-family: inherit;
   font-style: inherit;
@@ -312,11 +312,11 @@
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   image-rendering: -webkit-optimize-contrast;
-           
+
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
-      
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -333,7 +333,7 @@
   color: #AAAEB3;
 }
 .po-top-submit{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -353,11 +353,11 @@
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   image-rendering: -webkit-optimize-contrast;
-           
+
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
-      
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -404,7 +404,7 @@
 }
  .b2-radius-aside-left{
    width: 200px;
-         
+
   border: 0;
   font-family: inherit;
   font-style: inherit;
@@ -441,7 +441,7 @@
  background-color: #FFFFFF;
 }
 .po-form-box {
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -456,7 +456,7 @@
   padding: 10px 20px 20px;
 }
 .po-form-box-in{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -474,18 +474,18 @@
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   image-rendering: -webkit-optimize-contrast;
-           
+
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
   --wp--preset--color--black: #000000;
   --wp--preset--color--cyan-bluish-gray: #abb8c3;
-      
+
   --wp--preset--font-size--small: 13px;
   --wp--preset--font-size--medium: 20px;
   --wp--preset--font-size--large: 36px;
   --wp--preset--font-size--x-large: 42px;    text-align: center;
-     
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -500,7 +500,7 @@
   color: #2abd80!important;
 }
 .topic-header{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -516,7 +516,7 @@
   justify-content: space-between;
 }
 .topic-header-left{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -530,7 +530,7 @@
   box-sizing: border-box;
 }
 .topic-avatar{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -548,7 +548,7 @@
   height: 35px;
 }
 .topic-name{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -565,7 +565,7 @@
   margin-left: 45px;
 }
 .topic-name-data{
-         
+
   border: 0;
   font-family: inherit;
   font-style: inherit;
@@ -581,7 +581,7 @@
   font-size: 16px;
 }
 .topic-user-lv{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -601,11 +601,11 @@
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   image-rendering: -webkit-optimize-contrast;
-           
+
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
-      
+
   border: 0;
   font-family: inherit;
   font-style: inherit;
@@ -627,11 +627,11 @@
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   image-rendering: -webkit-optimize-contrast;
-           
+
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
-      
+
   border: 0;
   font-family: inherit;
   font-style: inherit;
@@ -650,7 +650,7 @@
   height: auto;
 }
 .topic-header-right{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -665,7 +665,7 @@
   line-height: 1;
 }
 .topic-circle{
-         
+
   border: 0;
   font-family: inherit;
   font-style: inherit;
@@ -684,7 +684,7 @@
   line-height: 14px;
 }
 .topic-footer{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -701,7 +701,7 @@
   align-items: center;
 }
 .topic-footer-left{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -722,10 +722,10 @@
   image-rendering: -webkit-optimize-contrast;
   --web-color: #2abd80;
   --web-light-color: rgba(42, 189, 128, 0.2);
-          
-      
+
+
       word-wrap: break-word;
-     
+
   outline: none;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   box-sizing: border-box;
@@ -753,11 +753,11 @@
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   image-rendering: -webkit-optimize-contrast;
-           
+
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
-      
+
   border: 0;
   font-family: inherit;
   font-style: inherit;
@@ -779,7 +779,7 @@
   align-items: center;
 }
 .topic-footer-right{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -793,10 +793,11 @@
   box-sizing: border-box;
 }
 .topic-content-text{
+  max-width: 500px;
   margin-left: 66px;
 }
 .sidebar-innter{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -828,7 +829,7 @@
   transition: opacity .3s;
 }
 .b2-widget-title{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -845,7 +846,7 @@
   flex-direction: column;
 }
 .widget-title{
-         
+
   border: 0;
   font-family: inherit;
   font-style: inherit;
@@ -874,7 +875,7 @@
   line-height: 1;
 }
 .b2-widget-box{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -889,7 +890,7 @@
   position: relative;
 }
 .about-widget{
-         
+
   border: 0;
   font-family: inherit;
   font-style: inherit;
@@ -903,7 +904,7 @@
   font-size: 14px;
 }
 .user-w-announcement{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -916,7 +917,7 @@
   box-sizing: border-box;
 }
 .planet-aside-ul{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -932,7 +933,7 @@
 }
 .planet-aside-li{
       list-style: none;
-     
+
   font-family: inherit;
   font-style: inherit;
   font-weight: inherit;
@@ -946,7 +947,7 @@
   border: 0;
 }
 .circle-widget-button{
-         
+
   border: 0;
   font-family: inherit;
   font-size: 100%;
@@ -966,10 +967,10 @@
   image-rendering: -webkit-optimize-contrast;
   --web-color: #2abd80;
   --web-light-color: rgba(42, 189, 128, 0.2);
-          
-      
+
+
       word-wrap: break-word;
-     
+
   outline: none;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   box-sizing: border-box;
@@ -1036,8 +1037,8 @@
   z-index: 2;
 }
 .user-w-logon-titlep{
-    
-   
+
+
       color: #121212;
   line-height: 1.4;
   text-rendering: optimizeLegibility;
@@ -1063,8 +1064,8 @@
   z-index: 2;
 }
 .oauth-login-button{
-    
-   
+
+
       color: #121212;
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
@@ -1090,8 +1091,8 @@
   padding: 0 18px;
 }
 .login-weixin{
-    
-   
+
+
       text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -1113,8 +1114,8 @@
   margin-right: 14px;
 }
 .login-weibo{
-    
-   
+
+
       text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -1136,8 +1137,8 @@
   margin-right: 14px;
 }
 .login-qq{
-    
-   
+
+
       text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -1159,8 +1160,8 @@
   margin-right: 14px;
 }
 .user-w-announcement{
-    
-   
+
+
       color: #121212;
   line-height: 1.4;
   text-rendering: optimizeLegibility;
@@ -1180,8 +1181,8 @@
   padding: 10px 0;
 }
 .widget-mission-footer{
-    
-   
+
+
       color: #121212;
   line-height: 1.4;
   text-rendering: optimizeLegibility;
@@ -1201,8 +1202,8 @@
   box-sizing: border-box;
 }
 .allad{
-    
-   
+
+
       line-height: 1.4;
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" on;
