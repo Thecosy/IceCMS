@@ -119,7 +119,7 @@ Docker部署方式(推荐,可用于快速上线或测试)
     # 创建配置文件
     sudo tee /etc/docker/daemon.json <<-'EOF'
     {
-    "registry-mirrors": ["https://registry.docker-cn.com"]
+    "registry-mirrors": ["https://mirror.ccs.tencentyun.com"]
     }
     EOF
     # 加载新的配置文件
