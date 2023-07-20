@@ -47,10 +47,10 @@ uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
 
 ## PC端
 <div class = "half">
-<img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee5a6c55.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee456c4b.png"  width = “50%”>
+<img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689828922/63d19ee5a6c55_xu7ex3.png"  width = “50%”><img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689829049/63d19ee456c4b_fhibyf.png"  width = “50%”>
 </div>
 <div class = "half">
-<img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee6e070e.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee4b609d.png"  width = “50%”>
+<img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689829099/63d19ee6e070e_meudqj.png"  width = “50%”><img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689829121/63d19ee4b609d_pt54fj.png"  width = “50%”>
 </div>
 
 
@@ -346,6 +346,11 @@ Tg群组：[https://t.me/+1rau4SBwFyE1OTA1](https://t.me/+1rau4SBwFyE1OTA1）
 
 该群是一个学习交流群，如果是程序相关问题，请直接提交issues
 
+## 软著
+
+<div class = "half">
+<img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689829207/%E7%99%BB%E8%AE%B0%E8%AF%81%E4%B9%A6_2023R11L0135975__mosaic_wgmw6p.jpg"  width = “50%”>
+</div>
 
 ## Thanks
 
