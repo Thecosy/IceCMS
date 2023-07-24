@@ -352,6 +352,19 @@ Tg群组：[https://t.me/+1rau4SBwFyE1OTA1](https://t.me/+1rau4SBwFyE1OTA1）
 <img alt="describe" style="width:420px" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689829207/%E7%99%BB%E8%AE%B0%E8%AF%81%E4%B9%A6_2023R11L0135975__mosaic_wgmw6p.jpg"  width = “50%”>
 </div>
 
+## 开源协议
+GPL-3.0 license © pipipi-pikachu
+
+## 商业用途
+* 如果你希望将本项目商用盈利，我希望你能严格遵循 GPL-3.0 协议；
+* 如果你真的需要闭源商用，无法执行 GPL-3.0 协议，可以选择：
+    * 成为项目的贡献者，大致包括：
+        * 你的代码被本项目作为依赖引用；
+        * 你提交的 PR 被本项目合并（仅限有价值的，不包括简单的错别字或拼写错误修改等）；
+        * 你参与过本项目的设计、实现（也包括对各种功能/模块的实现或Bug的修复提供了有价值的思路）；
+    * 联系作者付费商用
+
+
 ## Thanks
 
 感谢 [JetBrains](https://www.jetbrains.com/) 提供的非商业开源软件 License
