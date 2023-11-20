@@ -1,6 +1,6 @@
 <p align="center">
-	<a href="https://www.macwk.cc" target="_blank">
-		<img alt="logo" style="height: 120px" src="https://img.getdev.cn/i/2023/01/26/63d19e520d818.png"/>
+	<a href="https://www.icecmspro.com" target="_blank">
+		<img alt="logo" style="height: 120px" src="https://res.cloudinary.com/dxl1idlr5/image/upload/v1700470902/logo_s4maqv.svg"/>
 	</a>
 </p>
 <p align="center">
@@ -17,11 +17,11 @@
 
 基于 Spring Boot + Vue 前后端分离的内容管理系统
 
-演示: （[www.macwk.cc](https://www.macwk.cc/)）
+演示: （[www.icecmspro.com](https://www.icecmspro.com/)）
 
-官网: （[doc.macwk.cc](https://doc.macwk.cc)）
+官网: （[doc.icecmspro.com](https://doc.icecmspro.com)）
 
-IceCMS 文档： （[http://doc.macwk.cc/docs/intro](https://doc.macwk.cc/docs/intro)）
+IceCMS 文档： （[http://doc.icecmspro.com/docs/intro](https://doc.icecmspro.com/docs/intro)）
 
 内容管理：文章、图片、资源等多种类型的内容管理；
 
@@ -38,11 +38,11 @@ SEO优化：网站标题、关键词、描述等SEO优化功能。
 
 ## 预览地址：
 
-前台：[www.macwk.cc](https://www.macwk.cc)
+前台：[www.icecmspro.com](https://www.icecmspro.com)
 
-uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
+uniapp移动端：[m.www.icecmspro.com](https://m.www.icecmspro.com)
 
-后台：[www.macwk.cc/admin](https://www.macwk.cc/admin) 账号`admin`密码`123123`
+后台：[www.icecmspro.com/admin](https://www.icecmspro.com/admin) 账号`admin`密码`123123`
 
 
 ## PC端
