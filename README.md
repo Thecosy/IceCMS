@@ -41,9 +41,11 @@ SEO优化：网站标题、关键词、描述等SEO优化功能。
 
 前台：[www.icecmspro.com](https://www.icecmspro.com)
 
-uniapp移动端：[m.www.icecmspro.com](https://m.www.icecmspro.com)
+uniapp移动端：[uni.icecmspro.com](https://m.www.icecmspro.com)
 
-后台：[www.icecmspro.com/admin](https://www.icecmspro.com/admin) 账号`admin`密码`123123`
+后台：[admin.icecmspro.com](https://admin.icecmspro.com) 账号`admin`密码`admin123`
+
+API文档：[api.icecmspro.com/doc.html](https://api.icecmspro.com/doc.html) 账号`admin`密码`admin123`
 
 
 ## PC端
