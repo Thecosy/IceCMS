@@ -18,10 +18,10 @@
 基于 Spring Boot + Vue 前后端分离的内容管理系统
 
 演示: （[www.icecmspro.com](https://www.icecmspro.com/)）
+	后台:（[admin.icecmspro.com](https://admin.icecmspro.com/)）
+官网: （[www.icecms.cn](https://doc.icecms.cn)）
 
-官网: （[doc.icecmspro.com](https://doc.icecmspro.com)）
-
-IceCMS 文档： （[http://doc.icecmspro.com/docs/intro](https://doc.icecmspro.com/docs/intro)）
+IceCMS 文档： （[http://www.icecms.cn](https://www.icecms.cn)）
 
 内容管理：文章、图片、资源等多种类型的内容管理；
 
