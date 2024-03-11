@@ -45,7 +45,7 @@ uniapp移动端：[uni.icecmspro.com](https://m.www.icecmspro.com)
 
 后台：[admin.icecmspro.com](https://admin.icecmspro.com) 账号`admin`密码`admin123`
 
-API文档：[api.icecmspro.com/doc.html](https://api.icecmspro.com/doc.html) 账号`admin`密码`admin123`
+API文档：[api.icecmspro.com/doc.html](https://api.icecmspro.com/doc.html)
 
 
 ## PC端
