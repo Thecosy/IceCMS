@@ -1,0 +1,21 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { IconSelect } from "@/components/ReIcon";
+
+defineOptions({
+  name: "IconSelect"
+});
+
+const icon = ref("ep:add-location");
+</script>
+
+<template>
+  <el-card shadow="never">
+    <template #header>
+      <div class="card-header">
+        <span class="font-medium">图标选择器</span>
+      </div>
+    </template>
+    <IconSelect v-model="icon" class="w-[200px]" />
+  </el-card>
+</template>

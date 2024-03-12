@@ -1,0 +1,36 @@
+{
+  "Version": "4.5.0",
+  "Title": "IceCMS",
+  "FixedHeader": true,
+  "HiddenSideBar": false,
+  "MultiTagsCache": false,
+  "KeepAlive": true,
+  "Locale": "zh",
+  "Layout": "vertical",
+  "Theme": "light",
+  "DarkMode": false,
+  "OverallStyle": "light",
+  "Grey": false,
+  "Weak": false,
+  "HideTabs": false,
+  "HideFooter": true,
+  "SidebarStatus": true,
+  "EpThemeColor": "#409EFF",
+  "ShowLogo": true,
+  "ShowModel": "smart",
+  "MenuArrowIconNoTransition": false,
+  "CachingAsyncRoutes": false,
+  "TooltipEffect": "light",
+  "ResponsiveStorageNameSpace": "responsive-",
+  "MapConfigure": {
+    "amapKey": "97b3248d1553172e81f168cf94ea667e",
+    "options": {
+      "resizeEnable": true,
+      "center": [
+        113.6401,
+        34.72468
+      ],
+      "zoom": 12
+    }
+  }
+}

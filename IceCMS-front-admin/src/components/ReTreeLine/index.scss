@@ -1,0 +1,55 @@
+$--element-tree-line-color: #dcdfe6 !default;
+$--element-tree-line-style: dashed !default;
+$--element-tree-line-width: 1px !default;
+
+/* 添加 el-tree-node__conten 默认没有的 position */
+.el-tree .el-tree-node__content {
+  position: relative;
+}
+
+.element-tree-node-label-wrapper {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.element-tree-node-label {
+  font-size: 12px;
+}
+
+.element-tree-node-line-ver {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  height: 100%;
+  border-left: $--element-tree-line-width $--element-tree-line-style
+    $--element-tree-line-color;
+
+  &.last-node-line {
+    border-left: $--element-tree-line-width $--element-tree-line-style
+      transparent;
+  }
+
+  &.last-node-isLeaf-line {
+    height: 50%;
+  }
+}
+
+.element-tree-node-line-hor {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: block;
+  height: 0;
+  border-bottom: $--element-tree-line-width $--element-tree-line-style
+    $--element-tree-line-color;
+}
+
+.element-tree-node-label-line {
+  flex: 1;
+  align-self: center;
+  margin: 0 10px;
+  border-top: $--element-tree-line-width $--element-tree-line-style
+    $--element-tree-line-color;
+}

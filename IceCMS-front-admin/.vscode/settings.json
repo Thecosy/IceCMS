@@ -1,0 +1,46 @@
+{
+  "editor.formatOnType": true,
+  "editor.formatOnSave": true,
+  "[vue]": {
+    "editor.defaultFormatter": "Vue.volar"
+  },
+  "editor.tabSize": 2,
+  "editor.formatOnPaste": true,
+  "editor.guides.bracketPairs": "active",
+  "files.autoSave": "afterDelay",
+  "git.confirmSync": false,
+  "workbench.startupEditor": "newUntitledFile",
+  "editor.suggestSelection": "first",
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "css.lint.propertyIgnoredDueToDisplay": "ignore",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  },
+  "files.associations": {
+    "editor.snippetSuggestions": "top"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "i18n-ally.localesPaths": "locales",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.sortKeys": true,
+  "i18n-ally.namespace": true,
+  "i18n-ally.enabledParsers": [
+    "yaml",
+    "js"
+  ],
+  "i18n-ally.sourceLanguage": "en",
+  "i18n-ally.displayLanguage": "zh-CN",
+  "i18n-ally.enabledFrameworks": [
+    "vue"
+  ],
+  "iconify.excludes": [
+    "el"
+  ]
+}
