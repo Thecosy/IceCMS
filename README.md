@@ -66,9 +66,9 @@ API文档：[api.icecmspro.com/doc.html](https://api.icecmspro.com/doc.html)
 </div>
 
 ## UniApp H5、小程序移动端
-<img alt="describe" src="https://i0.hdslb.com/bfs/album/354a1caa29bfd8bc9571be67b18db13227bea80f.png" width="280" height="405"><img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934220-截屏2022-08-30-17.05.29.png" width="280" height="405">
+<img alt="describe" src="https://i0.hdslb.com/bfs/album/354a1caa29bfd8bc9571be67b18db13227bea80f.png" width="280" height="405"><img alt="describe" src="" width="280" height="405">
 
-<img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934226-截屏2022-08-30-17.05.45.png" width="280" height="405"><img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934233-截屏2022-08-30-17.06.42.png" width="280" height="405">
+<img alt="describe" src="" width="280" height="405"><img alt="describe" src="" width="280" height="405">
 
 
 ## 后端
