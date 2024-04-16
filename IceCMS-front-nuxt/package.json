@@ -1,0 +1,44 @@
+{
+  "name": "nuxt",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "npm run lint:js"
+  },
+  "dependencies": {
+    "@nuxtjs/component-cache": "^1.1.6",
+    "@nuxtjs/proxy": "^2.0.1",
+    "axios": "^0.21.0",
+    "cookie-universal-nuxt": "^2.2.2",
+    "core-js": "^3.30.2",
+    "element-ui": "^2.15.1",
+    "highlight.js": "^11.3.1",
+    "nuxt": "^2.15.6",
+    "prismjs": "^1.28.0",
+    "v-emoji-picker": "^2.3.3",
+    "vue-core-video-player": "^0.2.0",
+    "vue-qriously": "^1.1.1",
+    "vue-side-catalog": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^3.1.0",
+    "@nuxtjs/eslint-module": "^2.0.0",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-component": "^1.1.1",
+    "browserslist": "^4.21.3",
+    "eslint": "^7.10.0",
+    "eslint-plugin-nuxt": "^1.0.0",
+    "fibers": "^5.0.2",
+    "less": "^3.12.2",
+    "less-loader": "^7.1.0",
+    "node-sass": "^7.0.1",
+    "sass": "^1.54.1",
+    "sass-loader": "^10.3.1",
+    "webpack": "^4.46.0"
+  }
+}

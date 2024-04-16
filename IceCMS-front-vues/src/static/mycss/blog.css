@@ -1,0 +1,713 @@
+.body-text {
+    font-size: 16px;
+    line-height: 170%;
+    color: #3d5b7d;
+    font-weight: 400;
+    font-family: "Titillium Web", sans-serif
+}
+
+.body-text.light {}
+
+.heading-primary {
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 57px;
+    font-family: "Advent Pro", sans-serif;
+    color: #222;
+    text-transform: capitalize;
+}
+
+@media(max-width:767px) {
+    .heading-primary {
+        font-size: 35px;
+        line-height: 45px
+    }
+}
+
+.heading-secondary {
+    font-size: 20px;
+    line-height: 39px;
+    font-family: "Advent Pro", sans-serif;
+    color: #222
+}
+
+@media(max-width:767px) {
+    .heading-secondary {
+        font-size: 24px;
+        line-height: 30px
+    }
+}
+
+.heading-tertiary {
+    font-size: 24px;
+    line-height: 31px;
+    font-weight: 600;
+    margin-top: 13px;
+    margin-bottom: 8px;
+}
+
+@media(max-width:767px) {
+    .heading-tertiary {
+        font-size: 20px;
+        line-height: 28px
+    }
+}
+
+.button {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: "Titillium Web", sans-serif
+}
+
+.button.icon-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #dae6f9;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #177ef7
+}
+
+@media(max-width:575px) {
+    .button.icon-button {
+        width: 40px;
+        height: 40px;
+        font-size: 14px
+    }
+}
+
+.button.icon-button.active {
+    background: linear-gradient(91.85deg, #007aea 0, #00c2ff 100%);
+    color: white;
+    border: 0
+}
+
+.button.icon-button:hover {
+    background: linear-gradient(91.85deg, #007aea 0, #00c2ff 100%);
+    color: white;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    border: 0
+}
+
+.button.button-primary {
+    color: white;
+    background: linear-gradient(91.85deg, #007aea 0, #00c2ff 100%);
+    padding: 15px 40px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    -webkit-box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25);
+    box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25)
+}
+
+@media(max-width:575px) {
+    .button.button-primary {
+        font-size: 16px;
+        padding: 15px 30px
+    }
+}
+
+.categories-tags {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap
+}
+
+.categories-tags a {
+    padding: 0 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: "Titillium Web", sans-serif;
+    color: #3d5b7d;
+    border: 1px solid #dae6f9;
+    margin-bottom: 10px
+}
+
+.categories-tags a:hover {
+    background: linear-gradient(91.85deg, #007aea 0, #00c2ff 100%);
+    -webkit-box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25);
+    box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25);
+    color: white
+}
+
+.categories-tags a:not(:last-child) {
+    margin-right: 10px
+}
+
+.widget-category {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center
+}
+
+.widget-category:not(:last-child) {
+    margin-bottom: 5px
+}
+
+.widget-category .cat-thumb {
+    width: 123px;
+    /* max-width: 90px; */
+    /* max-height: 90px; */
+    border-radius: 10px;
+    margin-right: 15px;
+    height: 80px;
+
+}
+
+.widget-category .cat-title {
+    width: 135px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #222;
+    font-family: "Advent Pro", sans-serif;
+    line-height: 20px;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+}
+
+.widget-social-profile {
+    margin-top: 30px
+}
+
+.widget-social-profile .social-items {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 20px
+}
+
+.widget-social-profile .social-link {
+    font-size: 20px;
+    min-width: 70px;
+    min-height: 70px;
+    color: #177ef7;
+    border: 1px solid #dae6f9;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    line-height: 70px
+}
+
+@media(max-width:575px) {
+    .widget-social-profile .social-link {
+        min-width: 50px;
+        min-height: 50px;
+        line-height: 50px
+    }
+}
+
+.widget-social-profile .social-link:hover {
+    background: linear-gradient(91.85deg, #007aea 0, #00c2ff 100%);
+    color: white;
+    -webkit-box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25);
+    box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25);
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out
+}
+
+.widget-social-profile .social-link:not(:last-child) {
+    margin-right: 10px
+}
+
+.gradient-bar {
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(91.85deg, #007aea 0, #00c2ff 100%);
+    border-radius: 10px
+}
+
+.gradient-bar.small {
+    display: inline-block;
+    width: 100px;
+    height: 6px
+}
+
+.widget-ad-banner {
+    border-radius: 10px;
+    width: 100%;
+    min-height: 375px;
+    position: relative;
+    background-color: pink;
+    margin-top: 20px
+}
+
+.widget-ad-banner .content {
+    padding: 50px 30px
+}
+
+.widget-ad-banner .discount {
+    display: inline-block;
+    background-color: white;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #222;
+    margin-bottom: 10px
+}
+
+.widget-ad-banner p {
+    margin-top: 20px
+}
+
+.widget-ad-banner .button {
+    position: absolute;
+    left: 30px;
+    bottom: 30px
+}
+
+.categorys {
+    background: linear-gradient(91.85deg, #007aea 0, #00c2ff 100%);
+    padding: 5px 10px;
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    text-transform: capitalize
+}
+
+.author {
+    font-size: 14px;
+    color: #222;
+    margin-right: 25px;
+    font-family: "Titillium Web", sans-serif
+}
+
+.meta-item {
+    margin-right: 18px;
+    position: relative;
+    font-size: 14px
+}
+
+.meta-item:not(:last-child)::after {
+    content: "";
+    width: 5px;
+    height: 5px;
+    background-color: #177ef7;
+    border-radius: 50%;
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%)
+}
+
+.post-date,
+.comment {
+    font-size: 14px;
+    color: #3d5b7d
+}
+
+.recent-post-card {
+    margin-bottom: 30px
+}
+
+.recent-post-card .card-thumb {
+    height: 127px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.recent-post-card .card-content {
+    margin-top: 0px
+}
+
+.recent-post-card .card-content h3 {
+    font-size: 20px;
+    line-height: 26px;
+    padding-right: 20px;
+    margin-top: 10px
+}
+
+.widget-search-box {
+    max-width: 300px;
+    position: relative;
+    margin-top: 20px
+}
+
+.widget-search-box input {
+    border-color: rgb(6, 6, 6);
+    outline: 0!important;
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 10px
+}
+
+.widget-search-box::-webkit-input-placeholder {
+    font-size: 14px;
+    color: #3d5b7d
+}
+
+.widget-search-box:-ms-input-placeholder {
+    font-size: 14px;
+    color: #3d5b7d
+}
+
+.widget-search-box::-ms-input-placeholder {
+    font-size: 14px;
+    color: #3d5b7d
+}
+
+.widget-search-box .search-btn {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(91.85deg, #007aea 0, #00c2ff 100%);
+    border-radius: 10px;
+    -webkit-box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25);
+    box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25);
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%)
+}
+
+.single-post-wrapper .left-content .post-card {
+    -webkit-box-shadow: none;
+    box-shadow: none
+}
+
+.single-post-wrapper .left-content .card-thumb {
+    border-radius: 15px
+}
+
+.single-post-wrapper .left-content .card-content {
+    padding-left: 0;
+    padding-right: 0
+}
+
+.single-post-wrapper .left-content .card-content .heading-primary {
+    margin-bottom: 30px
+}
+
+.single-post-wrapper .left-content .body-text {
+    font-size: 18px
+}
+
+.post-quote {
+    margin-top: 42px;
+    padding: 60px;
+    background-color: white;
+    -webkit-box-shadow: 0 10px 30px rgba(61, 91, 125, 0.15);
+    box-shadow: 0 10px 30px rgba(61, 91, 125, 0.15);
+    border-radius: 15px;
+    position: relative;
+}
+
+.quote-icon {
+    position: absolute;
+    top: -20px;
+    left: 60px;
+}
+
+.quote-bottom {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.body-text {
+    font-size: 18px;
+}
+
+.card-meta {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: 1px solid #dae6f9;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+
+.post-author {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.categorys {
+    padding: 0 10px;
+    margin-right: 10px;
+}
+
+.author-card {
+    margin-top: 45px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background: linear-gradient(91.85deg, #007aea 0, #00c2ff 100%);
+    border-radius: 10px;
+    -webkit-box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25);
+    box-shadow: 0 10px 15px rgba(23, 126, 247, 0.25);
+}
+
+.card-img {
+    min-height: 210px;
+    max-width: 200px;
+    border-radius: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.bg-cover {
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    background-position: center;
+}
+
+.card-text {
+    padding: 15px;
+}
+
+.card-text h3 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.card-text p {
+    color: white;
+}
+
+.post-navigation {
+    margin-top: 30px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-top: 1px solid #dae6f9;
+    border-bottom: 1px solid #dae6f9;
+    padding: 40px 0;
+}
+
+.post-navigation .nav-next {
+    text-align: right;
+}
+
+.nav-button-left {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+    font-family: "Advent Pro", sans-serif;
+    text-transform: uppercase;
+    display: flex;
+    flex-wrap: nowrap;
+    -ms-flex-line-pack: start;
+    align-content: center;
+    -ms-flex-pack: distribute;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 4px;
+}
+.nav-button-right {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+    font-family: "Advent Pro", sans-serif;
+    text-transform: uppercase;
+    display: flex;
+    flex-wrap: nowrap;
+    -ms-flex-line-pack: start;
+    align-content: center;
+    -ms-flex-pack: distribute;
+    justify-content: flex-end;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.nav-button-left span {
+    margin-right: 5px;
+}
+.nav-button-right span {
+    margin-right: 5px;
+}
+
+.widget-category {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.section-head {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* margin-bottom: 30px; */
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+@media(max-width:600px) {
+    .section-head {
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap
+    }
+}
+
+.heading-secondary {
+    font-size: 20px;
+    line-height: 39px;
+    font-family: "Advent Pro", sans-serif;
+    color: #222
+}
+
+@media(max-width:767px) {
+    .heading-secondary {
+        font-size: 24px;
+        line-height: 30px
+    }
+}
+
+.c-bredcrumb {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap
+}
+
+.c-bredcrumb li {
+    position: relative
+}
+
+.c-bredcrumb li:not(:last-child) {
+    margin-right: 10px;
+    padding-right: 15px
+}
+
+.c-bredcrumb li:not(:last-child)::after {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #177ef7;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%)
+}
+
+.c-bredcrumb li a {
+    font-family: "Advent Pro", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #3d5b7d
+}
+
+.fas {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-size: inherit;
+}
+
+.heading-secondary {
+    font-size: 20px;
+    line-height: 39px;
+    font-family: "Advent Pro", sans-serif;
+    color: #222;
+}
+
+.widget-ad-banner .content {
+    padding: 50px 30px;
+}
+
+.body-text {
+    font-size: 16px;
+    line-height: 170%;
+    color: #3d5b7d;
+    font-weight: 400;
+    font-family: "Titillium Web", sans-serif;
+}
+
+.article-contents h2 {
+    position: relative;
+    font-size: 1.5rem;
+    display: table;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+
+.body-text {
+    font-size: 16px;
+    line-height: 170%;
+    color: #3d5b7d;
+    font-weight: 400;
+    font-family: "Titillium Web", sans-serif;
+}
+
+.article-contents h3 {
+    color: #2f495e;
+    position: relative;
+    font-size: 1.25rem;
+    display: table;
+    margin-top: 6px;
+    /* margin-bottom: 2rem; */
+}

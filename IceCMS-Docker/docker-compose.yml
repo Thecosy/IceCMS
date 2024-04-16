@@ -1,0 +1,61 @@
+version: '3.9'
+services:
+  # 数据库
+  icecms-sql:
+    build:
+        context: ./icecms-sql
+    container_name: icecms-sql
+    image: icecms-sql
+    restart: always
+    ports:
+        - "0:3306"
+  #后台服务
+  icecms-api:
+    build:
+        context: ./icecms-api
+    # environment:
+        # MYSQL_SERVER: renren-mysql:3306
+        # MYSQL_USER: root
+        # MYSQL_PASSWORD: avit123
+        # JAVA_OPTS: "-server -XX:+UseG1GC -Xmx2g -XX:MaxGCPauseMillis=200 -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=logs/java_heapdump.hprof -XX:-UseLargePages -Xloggc:logs/gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M"
+    links:
+      - "icecms-sql:db"
+    container_name: icecms-api
+    image: icecms-api
+    restart: always
+    ports:
+        - "8181:8181"
+  # 前端UI
+  icecms-vue:
+    build:
+        context: ./icecms-vue
+    links:
+      - "icecms-api:iceApi"
+    restart: always
+    container_name: icecms-vue
+    image: icecms-vue
+    ports:
+      - "3000:80"
+#   me_traefik:
+#     restart: always
+#     image: traefik:1.7.4
+#     ports:
+#       - '80:80'
+#       - '443:443'
+#     labels:
+#       - 'traefik.backend=me_traefik'
+#       - 'traefik.frontend.rule=Host:traefik.testdomain.com'
+#       - 'traefik.enable=true'
+#       - 'traefik.passHostHeader=true'
+#       - 'traefik.protocol=https'
+#       - 'traefik.port=8090'
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+#       - ./traefik.toml:/traefik.toml
+#       - ./acme.json:/acme.json
+#     networks:
+#       - webgateway
+# networks:
+#   webgateway:
+#     external:
+#       name: me_gateway

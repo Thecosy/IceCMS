@@ -24,8 +24,9 @@
     </properties>
     <!--声明你儿子 -->
     <modules>
-        <module>IceWk-ment</module>
+        <module>IceCMS-ment</module>
         <module>IceCMS-main</module>
+        <module>IcePay-ment</module>
     </modules>
     <dependencies>
         <dependency>
@@ -90,6 +91,11 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!--email-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -98,7 +104,6 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

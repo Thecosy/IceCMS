@@ -19,12 +19,12 @@ public class MainApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ ICE启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
-                "  ___ ___ ___ ___ __  __ ___  \n" +
-                "  |_ _/ __| __/ __|  \\/  / __| \n" +
-                "  | | (__| _| (__| |\\/| \\__ \\ \n" +
-                "  |___\\___|___\\___|_|  |_|___/ \n" +
-                "  ''-'   `'-'    `-..-'            ");
+        System.out.println(" \n" +
+                "  ___    ___   ___    ___   __  __   ___ \n" +
+                " |_ _|  / __| | __|  / __| |  \\/  | / __|\n" +
+                "  | |  | (__  | _|  | (__  | |\\/| | \\__ \\\n" +
+                " |___|  \\___| |___|  \\___| |_|  |_| |___/\n" +
+                "         (♥◠‿◠)ﾉﾞ ICE启动成功  ლ(´ڡ`ლ)ﾞ    \n");
     }
 
 }

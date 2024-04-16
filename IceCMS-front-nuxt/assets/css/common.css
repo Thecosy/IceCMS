@@ -1,0 +1,36 @@
+html,body,div,p,ul,li{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font: 14px/2  "Microsoft YaHei","PingFang SC","微软雅黑","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+ul,li{
+  list-style: none;
+}
+a{
+  color: #2c2e3b;
+  text-decoration: none;
+}
+body{
+  background-image: linear-gradient(#f9f9f9 50%, #fff);
+}
+/* 修改富文本编辑器添加代码后样式 */
+pre{
+  border-radius: 5px;
+  padding: 10px;
+  color:#333;
+  background-color: #f8f8f8!important;
+  white-space: pre-wrap;
+}
+pre code {
+  white-space: pre-wrap;
+}
+
+/* 分类、标签通用样式 */
+.result-title{
+  padding: 0 20px;
+}
+.devide{
+  background: #f9f9f9;
+  height: 10px;
+}
