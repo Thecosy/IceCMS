@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   mail:
     username: 23339097@qq.com # 发送人邮箱
-    password: gsagrtgbwgicbhci # 邮箱授权码(上面获取到的)
+    password:  # 邮箱授权码(上面获取到的)
     host: smtp.qq.com # 邮件服务器,163邮箱就是smtp.163.com
     protocol: smtp # 协议，可以不配，默认就是这个
   servlet:

@@ -1,7 +1,7 @@
 <template>
   <div class="macwk-footer white border-top pc-model">
     <div class="container">
-      <a href="index1.html" class="logo">
+      <a href="/" class="logo">
         <!-- <svg id="macwk-svg-logo" width="32" height="32"
           xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -34,9 +34,9 @@
         <img src="../../static/image/logo.svg" />
         <span class="ml-4">{{ setting.sitTitle }}</span></a>
       <div class="nav">
-        <a href="index1.html" class="nav-link">首页</a>
-        <a href="about.html" class="nav-link">关于 </a><a href="contact.html" class="nav-link">联系 </a><a href="privacy.html"
-          class="nav-link">隐私 </a><a href="version.html" class="nav-link">版本检测 </a><a href="changelogs.html"
+        <a href="/" class="nav-link">首页</a>
+        <a href="about" class="nav-link">关于 </a><a href="contact" class="nav-link">联系 </a><a href="privacy"
+          class="nav-link">隐私 </a><a href="version" class="nav-link">版本检测 </a><a href="changelogs"
           class="nav-link">更新日志
         </a>
       </div>

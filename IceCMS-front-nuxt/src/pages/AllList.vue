@@ -791,9 +791,19 @@ export default ({
 }
 </style>
 <style  scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* 定义过渡效果 */
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active 在 Vue.js 2.1.8+ 中自动应用 */ {
+  opacity: 0;
+  visibility: hidden; /* 在过渡开始时隐藏元素 */
+}
+
 .gaosiImg {
-  filter: blur(20px) opacity(70%) brightness(110%);
-  transition: .22s;
+  /* filter: blur(20px) opacity(70%) brightness(110%); */
+  filter: blur(20px) opacity(0.7) brightness(110%);
+  transition: filter 0.3s ease; /* 调整过渡时间和效果 */
+  /* transition: .22s; */
   ;
   z-index: 8
 }

@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade">
-    <!-- v-if="show" 
+    <!-- v-if="show"
        v-on:click="show = !show"-->
     <div
       v-if="close"
@@ -83,23 +83,23 @@
                 padding: 10px 0;
                 display: none;
               "
-                  
+
             >
               <i
                 class="loading-default"
-                    
+
               />
             </div>
             <div
               class="infinite-status-prompt"
               style="display: none"
-                  
+
             >
               <div class="mt-10"     >
                 <img
                   src="static/picture/comments.svg"
                   class="w-80 mb-4"
-                      
+
                 />
                 <h5 class="mb-6"     >还没有评论哦!</h5>
               </div>
@@ -107,7 +107,7 @@
             <div
               class="infinite-status-prompt"
               style="display: none"
-                  
+
             >
               <div class="mb-3 fs-12 text-muted"     >
                 全部数据已加载完毕……
@@ -121,7 +121,7 @@
                 padding: 10px 0;
                 display: none;
               "
-                  
+
             >
               <div     >
                 数据加载失败，
@@ -704,7 +704,7 @@ export default ({
     getallResourceComment(this.articleId).then(resp => {
       this.comment = resp.data
     })
-    //判断是否登陆显示临时登录框
+    //判断是否登录显示临时登录框
     this.judjelogin()
   },
   data() {
@@ -728,10 +728,10 @@ export default ({
   },
   methods: {
     savetempsuser(){
-      
+
       if(validEmail(this.tempuserform.email)){
         localStorage.setItem('temp-admin', JSON.stringify(this.tempuserform))
-      
+
         //关闭登录框
          this.cansoles()
       }else{
@@ -742,8 +742,8 @@ export default ({
         });
 
       }
-      
-       
+
+
     },
     cansoles(){
       this.userJudje = false
@@ -757,16 +757,16 @@ export default ({
       return formatDate(data, 'yyyy-MM-dd hh:mm ')
     },
     setmap() {
-      //判断是否登陆
-      //1.是否有登陆账户
+      //判断是否登录
+      //1.是否有登录账户
       //2.是否有本地缓存
        const temp = JSON.parse(window.localStorage.getItem('temp-admin'))
       if(this.user == null && temp == null){
-        //显示需要登陆页面
+        //显示需要登录页面
          this.userJudje = true
-         
+
       }
-      
+
       else{
         //正常执行提交流程
       const user = JSON.parse(window.localStorage.getItem('access-admin'))
@@ -779,7 +779,7 @@ export default ({
       }else{
          this.form.username = temp.username
         this.form.email = temp.email
-       
+
       }
       addResourceComment(this.form).then(resp => {
       })
@@ -794,7 +794,7 @@ export default ({
         let container = document.getElementById("chatRecord");
         container.scrollTop = container.scrollHeight;
       }, 300)
-      //文本框置空  
+      //文本框置空
       this.contentarea = ""
       }
     },

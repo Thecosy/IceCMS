@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "NODE_OPTIONS=--max-old-space-size=4096 vite",
+    "dev": "export NODE_OPTIONS=--openssl-legacy-provider && NODE_OPTIONS=--max-old-space-size=4096 vite",
     "serve": "pnpm dev",
     "build": "rimraf dist && NODE_OPTIONS=--max-old-space-size=8192 vite build && generate-version-file",
     "build:staging": "rimraf dist && vite build --mode staging",

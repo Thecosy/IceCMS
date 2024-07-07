@@ -85,7 +85,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      this.$message('已推出登陆')
+      this.$message('已推出登录')
       window.localStorage.removeItem('access-admin')
       this.$router.push('/login')
     }

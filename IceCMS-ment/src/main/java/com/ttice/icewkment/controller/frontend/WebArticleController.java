@@ -62,6 +62,7 @@ public class WebArticleController {
     articleBuffer.setSortClass(name);
     articleBuffer.setProfile(profile);
     articleBuffer.setAuthorName(username);
+    articleBuffer.setLoveNum(article.getLoveNum());
 
     return articleBuffer;
   }

@@ -1,22 +1,114 @@
 <template>
   <header class="app-header">
-    <!-- 登陆 -->
-    <el-dialog
-      class="dialogdeep"
-      width="30%"
-      top="30px"
-      center
-      title=""
-      :visible.sync="dialogFormVisible"
-    >
+    <!-- 登录 -->
+    <el-dialog class="dialogdeep" width="30%" top="30px" center title="" @close="closeDialog"
+      :visible.sync="dialogFormVisible">
       <div class="box">
+        <a> <img class="close-icon"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAHhlWElmTU0AKgAAAAgABAEaAAUAAAABAAAAPgEbAAUAAAABAAAARgEoAAMAAAABAAIAAIdpAAQAAAABAAAATgAAAAAAAACQAAAAAQAAAJAAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAACCgAwAEAAAAAQAAACAAAAAAfgvaUgAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAalJREFUWAntlr9OwzAQxm2XAV4DIfEQTFHE2p2B5+hSiQ5d+jh0BKlZUJ6i8BxUUBt/up5kOU7iM38W4sWxc3ffz2dfYqWm9t8zoOME7HYv1859Lo3Re6Xspqqq99hGMm6a5lwps7DWXSl1XNV1/Rr6n4UDerYPWus755TS2tz4APNSiLZtLw6Hj0cf69bHVM7NIHEfappwgGfn3BvPwdHTb2kVPJvXw4fF2YOyyiPqOwDG2LWHfWazEohT2rfkS5Eopt1wXO47ZwAvBgKMbofUNwlQCiEVh04vgBSiRHwUIBeiVDwLYAwC71EpiQM3el7gObgFMODWv0qULsqV2um0Z4nDIxsAxikIzHOTisNPBACHPogSccTrfIgw+ZdNlIG+1TNwSRayM9Aj/kSihFDy2c7KQEqcV0vSv1iGQ+L8m86x4W2K+8EMSAJLbEOIXoCSgCU+SYCSQLwqqW8HQBqAhcNeEiNRhmbxnW87QOhw2nlcotaaZQiK5w4A3V7JjEuNT3vsPDROQfiL6WXsk7gVH1e4vf7EtRwQfjt8JuharvVsHQNM4ykDX94FYhBKOJraAAAAAElFTkSuQmCC"
+            @click="closeDialog"></a>
+
         <div class="login-logo">
           <img height="40" width="40" src="../../static/image/logo.svg" />
         </div>
         <div class="login-title">
-          <span><b>快速登录</b></span>
+          <!-- <span><b>登录可享更多权益</b></span> -->
         </div>
-        <label class="login-form-item" style="display: none"
+        <div class="login-box-tabs">
+          <div class="login-box-tabs-items">
+            <span id="last-login" class="last-login-way"
+              style="display: block; left: 0px; max-width: 120px; width: 120px;">
+              扫码登录更方便
+            </span>
+            <span :class="{ 'tabs-item': true, 'tabs-active': activeTab === 'wechat' }"
+              @click="setActiveTab('wechat')">微信登录</span>
+            <span :class="{ 'tabs-item': true, 'tabs-active': activeTab === 'phone' }"
+              @click="setActiveTab('phone')">手机号登录</span>
+            <span :class="{ 'tabs-item': true, 'tabs-active': activeTab === 'password' }"
+              @click="setActiveTab('password')">密码登录</span>
+          </div>
+          <div class="login-box-tabs-main">
+            <div v-if="activeTab === 'wechat'" style="display: flex;
+              flex-wrap: nowrap;
+              align-content: center;
+              justify-content: center;
+              flex-direction: column;
+              align-items: center;">
+              <!-- 微信登录内容 -->
+              <!-- <qriously :value="qrCodeValue" :size="200"></qriously> -->
+              <div v-if="qrCodeValue">
+                <img :src="qrCodeValue" alt="QR Code" style="width: 200px; height: 200px;">
+              </div>
+              <div v-else class="loading-container">
+                <div class="spinner"></div>
+              </div>
+              <div data-v-71b618bc="" class="wechat-title">打开微信扫一扫，快速登录/注册</div>
+            </div>
+            <div v-if="activeTab === 'phone'">
+              <!-- 手机号登录内容 -->
+              <el-form ref="phoneLoginForm" :model="phoneLoginForm" :rules="phoneLoginRules" class="login-form"
+                auto-complete="on" label-position="left">
+                <el-form-item prop="phone">
+                  <el-input ref="phone" v-model="phoneLoginForm.phone" placeholder="手机号" name="phone" type="text"
+                    tabindex="1" auto-complete="on" />
+                </el-form-item>
+                <el-form-item prop="code">
+                  <el-input class="check-code-box" v-model="phoneLoginForm.code" placeholder="请输入验证码" name="code"
+                    type="text" tabindex="2" auto-complete="on">
+                    <el-button :disabled="codeButtonDisabled" size="small" slot="append" @click="sendCode">获取验证码
+                      <span v-if="codeCd">({{ long }})</span>
+                    </el-button>
+                  </el-input>
+                </el-form-item>
+                <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 30px"
+                  @click.native.prevent="handlePhoneLogin">登录</el-button>
+                <div class="ss-login_statement">
+                  <span>登录注册即代表同意</span>
+                  <a href="/Protocol">
+                    <a target="_blank">用户协议</a></a><span>及</span>
+                  <a href="/Privacy">
+                    <a target="_blank">隐私条款</a></a>
+                </div>
+                <div class="line"></div>
+              </el-form>
+            </div>
+            <div v-if="activeTab === 'password'">
+              <!-- 密码登录内容 -->
+              <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on"
+                label-position="left">
+                <el-form-item prop="username">
+                  <el-input ref="username" v-model="loginForm.username" placeholder="用户名" name="username" type="text"
+                    tabindex="1" auto-complete="on" />
+                </el-form-item>
+
+                <el-form-item prop="password">
+                  <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType"
+                    placeholder="密码" name="password" tabindex="2" auto-complete="on"
+                    @keyup.enter.native="handleLogin" />
+
+                  <!-- <span class="show-pwd" @click="showPwd">
+          <svg-icon
+            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+          />
+         </span> -->
+                </el-form-item>
+
+                <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 30px"
+                  @click.native.prevent="handleLogin">登录</el-button>
+                <div class="ss-login_statement">
+                  <span>登录注册即代表同意</span>
+                  <a href="/Protocol">
+                    <a target="_blank">用户协议</a></a><span>及</span>
+                  <a href="/Privacy">
+                    <a target="_blank">隐私条款</a></a>
+                </div>
+                <div class="line"></div>
+
+              </el-form>
+            </div>
+          </div>
+        </div>
+        <!-- <label class="login-form-item" style="display: none"
           ><input
             type="text"
             name="nickname"
@@ -26,268 +118,99 @@
             class=""
           />
           <span><b>可爱的昵称</b></span></label
-        >
-        <el-form
-          ref="loginForm"
-          :model="loginForm"
-          :rules="loginRules"
-          class="login-form"
-          auto-complete="on"
-          label-position="left"
-        >
-          <el-form-item prop="username">
-            <el-input
-              ref="username"
-              v-model="loginForm.username"
-              placeholder="用户名"
-              name="username"
-              type="text"
-              tabindex="1"
-              auto-complete="on"
-            />
-          </el-form-item>
-
-          <el-form-item prop="password">
-            <el-input
-              :key="passwordType"
-              ref="password"
-              v-model="loginForm.password"
-              :type="passwordType"
-              placeholder="密码"
-              name="password"
-              tabindex="2"
-              auto-complete="on"
-              @keyup.enter.native="handleLogin"
-            />
-            <!-- <span class="show-pwd" @click="showPwd">
-          <svg-icon
-            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-          />
-        </span> -->
-          </el-form-item>
-
-          <el-button
-            :loading="loading"
-            type="primary"
-            style="width: 100%; margin-bottom: 30px"
-            @click.native.prevent="handleLogin"
-            >登陆</el-button
-          >
-          <div      class="ss-login_statement">
-            <span     >登陆注册即代表同意</span>
-            <a href="/Protocol">
-              <a      target="_blank">用户协议</a></a
-            ><span     >及</span>
-            <a href="/Privacy">
-              <a      target="_blank">隐私条款</a></a
-            >
+        > -->
+        <div class="footer">
+          <p class="text-align-center">
+            其他登录方式
+            <a style="text-decoration: none">或</a>
+            <a href="/register">
+              <a class="text-align-center">立即注册</a></a>
+          </p>
+          <div class="other-login">
+            <button class="btn-login circle weixin">
+              <img class="qqloginsvg" src="../../static/image/qq.png" />
+            </button>
+            <button class="btn-login circle weibo">
+              <img class="qqloginsvg" src="../../static/image/weibo.png" />
+            </button>
+            <button class="btn-login circle weibo">
+              <img class="qqloginsvg" src="../../static/image/github.png" />
+            </button>
           </div>
-          <div      class="line"></div>
-          <div      class="footer">
-            <p      class="text-align-center">
-              其他登录方式
-              <a style="text-decoration: none">或</a>
-              <a href="/register">
-                <a      class="text-align-center"
-                  >立即注册</a
-                ></a
-              >
-            </p>
-            <div      class="other-login">
-              <button      class="btn-login circle weixin">
-                <img class="qqloginsvg" src="../../static/image/qq.svg" />
-              </button>
-              <button      class="btn-login circle weibo">
-                <img class="qqloginsvg" src="../../static/image/weixin.svg" />
-              </button>
-            </div>
-          </div>
+        </div>
 
-          <div class="tips">
-            <span style="margin-right: 20px"></span>
-            <span> </span>
-          </div>
-        </el-form>
+        <div class="tips">
+          <span style="margin-right: 20px"></span>
+          <span> </span>
+        </div>
       </div>
       <el-form :model="form"> </el-form>
     </el-dialog>
-    <div
-      class="app-header-navbar white shadow-4 border-bottom pc-model"
-    >
-      <div class="app-header-main"     >
-  
-          <a
-            href="/"
-            class="app-header-logo active"
-                
-            aria-current="page"
-          >
-            <img src="../../static/image/logo.svg" />
-            <span class="ml-4">{{ setting.sitTitle }}</span></a
-          >
-    
-        <div class="app-header-nav nav"     >
-          <nuxt-link
-            target="_self"
-            class="nav-link"
-            :class="message1"
-                
-            aria-current="page"
-            to="/"
-            >首页</nuxt-link
-          >
-          <nuxt-link
-            target="_self"
-            class="nav-link"
-            :class="message2"
-                
-            to="/Alllist"
-            >资源</nuxt-link
-          >
-          <nuxt-link
-            target="_self"
-            class="nav-link"
-            :class="message3"
-                
-            to="/allpost"
-            >文章</nuxt-link
-          >
-          <nuxt-link
-            target="_self"
-            class="nav-link"
-            :class="message4"
-                
-            to="/class"
-            >分类</nuxt-link
-          >
-          <nuxt-link
-            target="_self"
-            class="nav-link"
-            :class="message5"
-                
-            to="/planet"
-            >星球</nuxt-link
-          >
+    <div class="app-header-navbar white shadow-4 border-bottom pc-model">
+      <div class="app-header-main">
+
+        <a href="/" class="app-header-logo active" aria-current="page">
+          <img src="../../static/image/logo.svg" />
+          <span class="ml-4">{{ setting.sitTitle }}</span></a>
+
+        <div class="app-header-nav nav">
+          <nuxt-link target="_self" class="nav-link" :class="message1" aria-current="page" to="/">首页</nuxt-link>
+          <nuxt-link target="_self" class="nav-link" :class="message2" to="/Alllist">资源</nuxt-link>
+          <nuxt-link target="_self" class="nav-link" :class="message3" to="/allpost">文章</nuxt-link>
+          <nuxt-link target="_self" class="nav-link" :class="message4" to="/class">分类</nuxt-link>
+          <nuxt-link target="_self" class="nav-link" :class="message5" to="/planet">星球</nuxt-link>
         </div>
-        <div
-          class="app-header-search grid-list lazy-transition"
-              
-        >
-          <div id="autosuggest"     >
-            <div
-              role="combobox"
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-owns="autosuggest-autosuggest__results"
-            >
-              <el-input
-                @keyup.native="keyup()"
-                @focus="focus()"
-                @blur="blur()"
-                v-model="seachcontent"
-                type="text"
-                autocomplete="off"
-                aria-autocomplete="list"
-                aria-activedescendant=""
-                aria-controls="autosuggest-autosuggest__results"
-                id="autosuggest__input"
-                placeholder="输入关键词搜索软件或文章…"
-                value=""
-                class=""
-              />
+        <div class="app-header-search grid-list lazy-transition">
+          <div id="autosuggest">
+            <div role="combobox" aria-expanded="false" aria-haspopup="listbox"
+              aria-owns="autosuggest-autosuggest__results">
+              <el-input @keyup.native="keyup()" @focus="focus()" @blur="blur()" v-model="seachcontent" type="text"
+                autocomplete="off" aria-autocomplete="list" aria-activedescendant=""
+                aria-controls="autosuggest-autosuggest__results" id="autosuggest__input" placeholder="输入关键词搜索软件或文章…"
+                value="" class="" />
             </div>
-            <div
-              class="popUp"
-              v-show="searchshow"
-              @mouseenter="enter"
-              @mouseleave="leave"
-            >
+            <div class="popUp" v-show="searchshow" @mouseenter="enter" @mouseleave="leave">
               <div aria-labelledby="autosuggest" class="autosuggest__results">
-                <div      class="overflow-hidden">
-                  <div
-                        
-                    class="d-flex align-items-center px-5"
-                  >
-                    <a
-                      @click="codeshows()"
-                          
-                      :class="{ 'active search-active': codeshow }"
-                      class="flex flex-grow-1 text-center py-3 fs-16"
-                      ><span      class="fw-400">资源</span>
-                      <span      class="fs-12"
-                        >({{ ResourceNumber }})</span
-                      ></a
-                    >
-                    <a
-                      @click="articleshows()"
-                          
-                      :class="{ 'active search-active': articleshow }"
-                      class="flex flex-grow-1 text-center py-3 fs-16"
-                      ><span      class="">文章</span>
-                      <span      class="fs-12"
-                        >({{ articleCount }})</span
-                      ></a
-                    >
+                <div class="overflow-hidden">
+                  <div class="d-flex align-items-center px-5">
+                    <a @click="codeshows()" :class="{ 'active search-active': codeshow }"
+                      class="flex flex-grow-1 text-center py-3 fs-16"><span class="fw-400">资源</span>
+                      <span class="fs-12">({{ ResourceNumber }})</span></a>
+                    <a @click="articleshows()" :class="{ 'active search-active': articleshow }"
+                      class="flex flex-grow-1 text-center py-3 fs-16"><span class="">文章</span>
+                      <span class="fs-12">({{ articleCount }})</span></a>
                   </div>
                 </div>
                 <ul role="listbox">
                   <div v-for="(item, id) in this.tempdata" :key="id">
                     <div v-if="item.status.includes('published')">
                       <a :to="howto + item.id">
-                        <li
-                          role="option"
-                          data-suggestion-index="0"
-                          data-section-name="default"
-                          id="autosuggest__results-item--0"
-                          class="autosuggest__results-item"
-                        >
-                          <a
-                                
-                            class="macwk-app white border-top"
-                            ><span      class="snow-dot"></span>
-                            <span      class="snow-dot"></span>
-                            <span      class="snow-dot"></span>
-                            <span      class="snow-dot"></span>
-                            <span      class="snow-dot"></span>
-                            <span      class="snow-dot"></span>
-                            <span      class="snow-dot"></span>
-                            <div
-                                  
-                              class="macwk-app__hover--content"
-                            ></div>
-                            <div
-                                  
-                              class="macwk-app__header--icon"
-                            >
-                              <div
-                                    
-                                class="macwk-app__header--icon--content"
-                              ></div>
-                              <img
-                                    
-                                :src="item.thumb"
-                                lazy="loaded"
-                              />
+                        <li role="option" data-suggestion-index="0" data-section-name="default"
+                          id="autosuggest__results-item--0" class="autosuggest__results-item">
+                          <a class="macwk-app white border-top"><span class="snow-dot"></span>
+                            <span class="snow-dot"></span>
+                            <span class="snow-dot"></span>
+                            <span class="snow-dot"></span>
+                            <span class="snow-dot"></span>
+                            <span class="snow-dot"></span>
+                            <span class="snow-dot"></span>
+                            <div class="macwk-app__hover--content"></div>
+                            <div class="macwk-app__header--icon">
+                              <div class="macwk-app__header--icon--content"></div>
+                              <img :src="item.thumb" lazy="loaded" />
                             </div>
-                            <div
-                                  
-                              class="macwk-app__body py-1"
-                            >
-                              <h5
-                                    
-                                class="macwk-app__body--title fs-14"
-                                style="
+                            <div class="macwk-app__body py-1">
+                              <h5 class="macwk-app__body--title fs-14" style="
                                   display: -webkit-box;
                                   -webkit-box-orient: vertical;
                                   overflow: hidden;
                                   word-break: break-all;
                                   text-overflow: ellipsis;
                                   -webkit-line-clamp: 1;
-                                "
-                              >
-                                <span >{{ item.title }}</span>
+                                ">
+                                <span>{{ item.title }}</span>
                                 <!-- <span
-                                
+
                             class="
                               macwk-app__body--title--version
                               text-muted
@@ -297,40 +220,29 @@
                             >1.0.1</span
                           > -->
                               </h5>
-                              <p
-                                    
-                                class="macwk-app__body--info"
-                                style="
+                              <p class="macwk-app__body--info" style="
                                   display: -webkit-box;
                                   -webkit-box-orient: vertical;
                                   overflow: hidden;
                                   word-break: break-all;
                                   text-overflow: ellipsis;
                                   -webkit-line-clamp: 1;
-                                "
-                              >
-                                <span     >{{ item.intro }}</span>
+                                ">
+                                <span>{{ item.intro }}</span>
                               </p>
                             </div>
                             <!---->
-                            <div
-                                  
-                              class="macwk-box__more fs-24"
-                            >
-                              <i
-                                    
-                                class="light-icon-more icon-next-arrow"
-                              ></i></div
-                          ></a>
+                            <div class="macwk-box__more fs-24">
+                              <i class="light-icon-more icon-next-arrow"></i>
+                            </div>
+                          </a>
                         </li>
                       </a>
                     </div>
                   </div>
                 </ul>
-                <div     >
-                  <button
-                        
-                    class="
+                <div>
+                  <button class="
                       btn btn-block
                       border-top
                       no-radius
@@ -338,10 +250,9 @@
                       hover-primary
                       cursor-pointer
                       fs-14
-                    "
-                  >
+                    ">
                     查看更多
-                    <span      class="fw-400"></span>
+                    <span class="fw-400"></span>
                     <!---->
                   </button>
                 </div>
@@ -349,17 +260,10 @@
             </div>
 
             <!---->
-            <button
-              class="btn search-to"
-              @click="queryarticle()"
-                  
-            >
-              <i class="icon-search"     ></i>
+            <button class="btn search-to" @click="queryarticle()">
+              <i class="icon-search"></i>
             </button>
-            <div
-              id="autosuggest-autosuggest__results"
-              class="autosuggest__results-container"
-            >
+            <div id="autosuggest-autosuggest__results" class="autosuggest__results-container">
               <!---->
             </div>
           </div>
@@ -373,18 +277,14 @@
               <div class="topic-names">
                 <div>
                   <div class="topic-name-datas">
-                    <a target="_blank"
-                      ><b>{{ user.name }}</b></a
-                    >
+                    <a target="_blank"><b>{{ user.name }}</b></a>
                     <!---->
                     <!---->
                   </div>
                   <div class="topic-user-lvs">
                     <p>
-                      <span class="user-vips"
-                        ><i style="border-color: #ff8223"></i
-                        ><b v-show="vipTrue" style="color: #ff8223">会员</b></span
-                      >
+                      <span class="user-vips"><i style="border-color: #ff8223"></i><b v-show="vipTrue"
+                          style="color: #ff8223">会员</b></span>
                     </p>
                     <p>
                       <span class="user-lvs"><b>荣誉用户</b><i>lv5</i></span>
@@ -394,14 +294,8 @@
               </div>
             </div>
 
-            <div
-              data-title="退出登录"
-              @click="loginout()"
-              class="login-outs user-tips"
-            >
-              <a href="javascript:void(0)"
-                ><i class="el-icon-caret-left"></i
-              ></a>
+            <div data-title="退出登录" @click="loginout()" class="login-outs user-tips">
+              <a href="javascript:void(0)"><i class="el-icon-caret-left"></i></a>
             </div>
           </div>
           <!-- <div class="top-user-info-box-count">
@@ -525,7 +419,7 @@
           </div>
         </el-popover>
         <a v-if="userJudje" class="actions" style="cursor: pointer">
-          <div @click="showlogin()" class="app-header-user"     >
+          <div @click="showlogin()" class="app-header-user">
             <div class="login-button">
               <span class="logintext">登录/注册</span>
             </div>
@@ -533,14 +427,14 @@
         </a>
       </div>
     </div>
-    
+
   </header>
 </template>
 
 <script>
 import { FindarticlesByNum } from '@/api/webarticle'
 import { FindresourceByNum } from '@/api/webresource'
-import { login } from '@/api/login'
+import { login, WeChatLogin, WeChatLoginCheck } from '@/api/login'
 import { getAllResource, getAllResourceNumber } from '@/api/webresource'
 import { getAllArticle, getAllArticleNumber } from '@/api/webarticle'
 
@@ -556,30 +450,36 @@ export default ({
   },
   methods: {
     async fullnum() {
-      let res1 = await  getAllResourceNumber()
-       if (res1) {
+      let res1 = await getAllResourceNumber()
+      if (res1) {
         this.ResourceNumber = res1.data
       }
-      let res2 = await  getAllArticleNumber()
+      let res2 = await getAllArticleNumber()
       if (res2) {
         this.articleCount = res2.data
       }
     },
     async loginout() {
-      //退出登陆
+      //退出登录
       //清除本地数据
       this.$cookies.remove('access-user')
       //关闭用户头像
       this.userJudje = false
-      //跳转刷新
-      this.$router.push('/')
+
       //显示退出成功
       this.$notify({
         title: '成功',
-        message: '您已退出登陆',
+        message: '您已退出登录',
         type: 'success',
         offset: 50
       });
+      // 刷新页面
+      //延时刷新页面
+      //延时刷新页面  
+      setTimeout(() => {
+        this.$router.go(0);
+      }, 900);
+      this.$router.go(0);
     },
     async getSetting() {
       const setting = this.$cookies.get("setting")
@@ -587,17 +487,39 @@ export default ({
     },
     async getUserInfo() {
       const user = this.$cookies.get('access-user')
-      if(user != null){
+      if (user != null) {
         this.user = user
-      this.userJudje = (user == null)
-      //获取会员有效性
-       let res = await CheckVip();
-         if (res) {
-        if(resp.data){ 
-          this.vipTrue = true
+        this.userJudje = (user == null)
+        //获取会员有效性
+        let res = await CheckVip();
+        if (res) {
+          if (resp.data) {
+            this.vipTrue = true
+          }
         }
       }
-      }
+    },
+    sendCode() {
+      //发送验证码
+
+      // 获取验证码
+      // captcha(this.form.phoneNum)
+      // 开启计时
+      this.codeCd = true
+      const timer = setInterval(() => {
+        this.long--
+        if (this.long <= 0) {
+          this.long = 60
+          this.codeCd = false
+          clearInterval(timer)
+        }
+      }, 1000)
+
+    },
+    closeDialog() {
+      console.log('关闭对话框');
+      this.dialogFormVisible = false;  // 点击图片关闭对话框
+      this.beforeDestroy();
     },
     handleLogin() {
       var that = this
@@ -608,22 +530,22 @@ export default ({
             console.log(resp)
             if (resp.data.code == 402 || resp.data.code == 400) {
               that.$message({
-                message: '登陆失败',
+                message: '登录失败',
                 type: 'warning'
               })
             } else if (resp.data.code == 200) {
               console.log(resp.data)
-              this.$cookies.set('access-user', resp.data.data)
+              that.$cookies.set('access-user', resp.data.data)
 
               // 关闭登录框
               that.dialogFormVisible = false
-              // 关闭登陆按钮
+              // 关闭登录按钮
               that.userJudje = false
               //立即获取用户数据
               that.getUserInfo()
               this.$notify({
                 title: '成功',
-                message: '您已成功登陆',
+                message: '您已成功登录',
                 type: 'success',
                 offset: 50
               });
@@ -637,7 +559,20 @@ export default ({
       })
     },
     showlogin() {
+      this.setActiveTab("wechat")
       this.dialogFormVisible = true;
+
+      // 检查accountId是否为空
+      if (this.accountId.trim() === '') {
+        console.warn('accountId为空，无法开始轮询');
+        return;
+      }
+      // this.startPolling();
+    },
+    beforeDestroy() {
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
     },
     showPwd() {
       if (this.passwordType === 'password') {
@@ -723,16 +658,109 @@ export default ({
       // setTimeout(() => { this.searchshow = false }, 300)
       //设置300ms后让下拉框消失
     },
+    startPolling() {
+      const checkStatus = () => {
+        WeChatLoginCheck(this.accountId).then(resp => {
+          console.log(resp.data);
+          if (resp.data.code === 200) {
+            console.log('登录成功');
+            this.beforeDestroy(); // 停止轮询
+            this.dialogFormVisible = false;
+            // 关闭登录按钮
+            this.userJudje = false
+            console.log(resp.data.data);
+            this.$cookies.set('access-user', resp.data.data); // 设置用户访问
+            this.getUserInfo(); // 获取用户信息
+            this.$notify({
+              title: '成功',
+              message: '您已成功登录',
+              type: 'success',
+              offset: 50
+            });
+            // 刷新页面
+            //延时刷新页面  
+            setTimeout(() => {
+              this.$router.go(0);
+            }, 500);
+            this.$router.go(0);
+          }
+        }).catch(error => {
+          console.error('Error during WeChatLoginCheck:', error);
+        });
+      };
+
+      console.log('开始轮询');
+      // 设置轮询，每隔2秒检查一次
+      this.intervalId = setInterval(checkStatus, 700);
+    },
     enter() {
       this.searchshow = true
     },
     leave() {
       setTimeout(() => { this.searchshow = false }, 300)
-    }
+    },
+    setActiveTab(tab) {
+      if (tab === 'wechat') {
+        this.qrCodeValue = '';
+        // 微信登录
+        const that = this; // 将组件实例的 this 赋值给 that
+        WeChatLogin().then(resp => {
+          if (resp.data.code === 200) {
+            // 假设后端返回的是 Base64 编码的 QR 码数据
+            this.qrCodeValue = 'data:image/png;base64,' + resp.data.data.data.bytes;
+            this.accountId = resp.data.data.data.accountId;
+            console.log(resp.data.data)
+            // 设置轮询，每隔2秒检查一次
+            this.beforeDestroy(); // 停止轮询
+            console.log("开始轮询")
+            // 设置轮询，每隔2秒检查一次状态
+            that.startPolling();
+          }
+          // 清除之前所有多生成的二维码
+          // this.$refs.qrCode.innerHTML = '';
+          // 清除之前多的轮询事件
+        })
+      }
+      if (tab === 'phone') {
+        // 手机号登录
+        this.beforeDestroy(); // 停止轮询
+   
+      }
+      if (tab === 'password') {
+        // 密码登录
+        this.beforeDestroy(); // 停止轮询
+     
 
+      }
+      this.activeTab = tab;
+    }
   },
+
   data() {
     return {
+      intervalId: null,
+      activeTab: 'wechat', // 默认选中的标签
+      accountId: '', // 账号ID
+      qrCodeValue: '', // 二维码内容
+      phoneLoginForm: {
+        phone: '',
+        code: ''
+      },
+      codeCd: false,
+      // CD长度
+      long: 60,
+      phoneLoginRules: {
+        phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { pattern: /^1[34578]\d{9}$/, message: '请输入有效的手机号', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { len: 6, message: '验证码为6位数字', trigger: 'blur' }
+        ]
+      },
+      loading: false,
+      codeButtonDisabled: false,
       setting: "",
       vipTrue: false,
       articleCount: "",
@@ -773,7 +801,7 @@ export default ({
       seachcontent: ''
     }
   },
-    mounted() {
+  mounted() {
     // 判断是否在服务端
     if (process.client) {
       // this.lazyLoad();
@@ -802,13 +830,16 @@ export default ({
   box-shadow: 4px 3px 10px #2f6bd024;
   color: #fff;
 }
+
 .actions .login-btn {
   position: relative;
 }
+
 .navbar .login-btn {
   border-radius: 25px;
   width: 90px;
 }
+
 .login-button {
   height: 30px;
   width: 100px;
@@ -825,6 +856,7 @@ export default ({
   justify-content: center;
   border-radius: 50px 50px 50px 50px;
 }
+
 .logintext {
   font-size: 15px;
   text-align: center;
@@ -832,6 +864,7 @@ export default ({
   /* transform:translateY(-50%);
   transform:translateX(30px);  */
 }
+
 .login-title {
   image-rendering: -webkit-optimize-contrast;
   --bs-blue: #0d6efd;
@@ -860,11 +893,9 @@ export default ({
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
-  --bs-gradient: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.15),
-    rgba(255, 255, 255, 0)
-  );
+  --bs-gradient: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0));
   --web-color: #0a36fa;
   --web-light-color: rgba(10, 54, 250, 0.2);
   --border-radius: 4px;
@@ -888,73 +919,49 @@ export default ({
   --wp--preset--color--pale-cyan-blue: #8ed1fc;
   --wp--preset--color--vivid-cyan-blue: #0693e3;
   --wp--preset--color--vivid-purple: #9b51e0;
-  --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(
-    135deg,
-    rgba(6, 147, 227, 1) 0%,
-    rgb(155, 81, 224) 100%
-  );
-  --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(
-    135deg,
-    rgb(122, 220, 180) 0%,
-    rgb(0, 208, 130) 100%
-  );
-  --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(
-    135deg,
-    rgba(252, 185, 0, 1) 0%,
-    rgba(255, 105, 0, 1) 100%
-  );
-  --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(
-    135deg,
-    rgba(255, 105, 0, 1) 0%,
-    rgb(207, 46, 46) 100%
-  );
-  --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(
-    135deg,
-    rgb(238, 238, 238) 0%,
-    rgb(169, 184, 195) 100%
-  );
-  --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(
-    135deg,
-    rgb(74, 234, 220) 0%,
-    rgb(151, 120, 209) 20%,
-    rgb(207, 42, 186) 40%,
-    rgb(238, 44, 130) 60%,
-    rgb(251, 105, 98) 80%,
-    rgb(254, 248, 76) 100%
-  );
-  --wp--preset--gradient--blush-light-purple: linear-gradient(
-    135deg,
-    rgb(255, 206, 236) 0%,
-    rgb(152, 150, 240) 100%
-  );
-  --wp--preset--gradient--blush-bordeaux: linear-gradient(
-    135deg,
-    rgb(254, 205, 165) 0%,
-    rgb(254, 45, 45) 50%,
-    rgb(107, 0, 62) 100%
-  );
-  --wp--preset--gradient--luminous-dusk: linear-gradient(
-    135deg,
-    rgb(255, 203, 112) 0%,
-    rgb(199, 81, 192) 50%,
-    rgb(65, 88, 208) 100%
-  );
-  --wp--preset--gradient--pale-ocean: linear-gradient(
-    135deg,
-    rgb(255, 245, 203) 0%,
-    rgb(182, 227, 212) 50%,
-    rgb(51, 167, 181) 100%
-  );
-  --wp--preset--gradient--electric-grass: linear-gradient(
-    135deg,
-    rgb(202, 248, 128) 0%,
-    rgb(113, 206, 126) 100%
-  );
-  --wp--preset--gradient--midnight: linear-gradient(
-    135deg,
-    rgb(2, 3, 129) 0%,
-    rgb(40, 116, 252) 100%
-  );
+  --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,
+      rgba(6, 147, 227, 1) 0%,
+      rgb(155, 81, 224) 100%);
+  --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,
+      rgb(122, 220, 180) 0%,
+      rgb(0, 208, 130) 100%);
+  --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,
+      rgba(252, 185, 0, 1) 0%,
+      rgba(255, 105, 0, 1) 100%);
+  --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,
+      rgba(255, 105, 0, 1) 0%,
+      rgb(207, 46, 46) 100%);
+  --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,
+      rgb(238, 238, 238) 0%,
+      rgb(169, 184, 195) 100%);
+  --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,
+      rgb(74, 234, 220) 0%,
+      rgb(151, 120, 209) 20%,
+      rgb(207, 42, 186) 40%,
+      rgb(238, 44, 130) 60%,
+      rgb(251, 105, 98) 80%,
+      rgb(254, 248, 76) 100%);
+  --wp--preset--gradient--blush-light-purple: linear-gradient(135deg,
+      rgb(255, 206, 236) 0%,
+      rgb(152, 150, 240) 100%);
+  --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,
+      rgb(254, 205, 165) 0%,
+      rgb(254, 45, 45) 50%,
+      rgb(107, 0, 62) 100%);
+  --wp--preset--gradient--luminous-dusk: linear-gradient(135deg,
+      rgb(255, 203, 112) 0%,
+      rgb(199, 81, 192) 50%,
+      rgb(65, 88, 208) 100%);
+  --wp--preset--gradient--pale-ocean: linear-gradient(135deg,
+      rgb(255, 245, 203) 0%,
+      rgb(182, 227, 212) 50%,
+      rgb(51, 167, 181) 100%);
+  --wp--preset--gradient--electric-grass: linear-gradient(135deg,
+      rgb(202, 248, 128) 0%,
+      rgb(113, 206, 126) 100%);
+  --wp--preset--gradient--midnight: linear-gradient(135deg,
+      rgb(2, 3, 129) 0%,
+      rgb(40, 116, 252) 100%);
   --wp--preset--duotone--dark-grayscale: url("#wp-duotone-dark-grayscale");
   --wp--preset--duotone--grayscale: url("#wp-duotone-grayscale");
   --wp--preset--duotone--purple-yellow: url("#wp-duotone-purple-yellow");
@@ -985,6 +992,7 @@ export default ({
   margin-bottom: 20px;
   text-align: center;
 }
+
 .login-logo {
   image-rendering: -webkit-optimize-contrast;
   --bs-blue: #0d6efd;
@@ -1013,11 +1021,9 @@ export default ({
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
-  --bs-gradient: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.15),
-    rgba(255, 255, 255, 0)
-  );
+  --bs-gradient: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0));
   --web-color: #0a36fa;
   --web-light-color: rgba(10, 54, 250, 0.2);
   --border-radius: 4px;
@@ -1042,73 +1048,49 @@ export default ({
   --wp--preset--color--pale-cyan-blue: #8ed1fc;
   --wp--preset--color--vivid-cyan-blue: #0693e3;
   --wp--preset--color--vivid-purple: #9b51e0;
-  --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(
-    135deg,
-    rgba(6, 147, 227, 1) 0%,
-    rgb(155, 81, 224) 100%
-  );
-  --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(
-    135deg,
-    rgb(122, 220, 180) 0%,
-    rgb(0, 208, 130) 100%
-  );
-  --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(
-    135deg,
-    rgba(252, 185, 0, 1) 0%,
-    rgba(255, 105, 0, 1) 100%
-  );
-  --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(
-    135deg,
-    rgba(255, 105, 0, 1) 0%,
-    rgb(207, 46, 46) 100%
-  );
-  --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(
-    135deg,
-    rgb(238, 238, 238) 0%,
-    rgb(169, 184, 195) 100%
-  );
-  --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(
-    135deg,
-    rgb(74, 234, 220) 0%,
-    rgb(151, 120, 209) 20%,
-    rgb(207, 42, 186) 40%,
-    rgb(238, 44, 130) 60%,
-    rgb(251, 105, 98) 80%,
-    rgb(254, 248, 76) 100%
-  );
-  --wp--preset--gradient--blush-light-purple: linear-gradient(
-    135deg,
-    rgb(255, 206, 236) 0%,
-    rgb(152, 150, 240) 100%
-  );
-  --wp--preset--gradient--blush-bordeaux: linear-gradient(
-    135deg,
-    rgb(254, 205, 165) 0%,
-    rgb(254, 45, 45) 50%,
-    rgb(107, 0, 62) 100%
-  );
-  --wp--preset--gradient--luminous-dusk: linear-gradient(
-    135deg,
-    rgb(255, 203, 112) 0%,
-    rgb(199, 81, 192) 50%,
-    rgb(65, 88, 208) 100%
-  );
-  --wp--preset--gradient--pale-ocean: linear-gradient(
-    135deg,
-    rgb(255, 245, 203) 0%,
-    rgb(182, 227, 212) 50%,
-    rgb(51, 167, 181) 100%
-  );
-  --wp--preset--gradient--electric-grass: linear-gradient(
-    135deg,
-    rgb(202, 248, 128) 0%,
-    rgb(113, 206, 126) 100%
-  );
-  --wp--preset--gradient--midnight: linear-gradient(
-    135deg,
-    rgb(2, 3, 129) 0%,
-    rgb(40, 116, 252) 100%
-  );
+  --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,
+      rgba(6, 147, 227, 1) 0%,
+      rgb(155, 81, 224) 100%);
+  --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,
+      rgb(122, 220, 180) 0%,
+      rgb(0, 208, 130) 100%);
+  --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,
+      rgba(252, 185, 0, 1) 0%,
+      rgba(255, 105, 0, 1) 100%);
+  --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,
+      rgba(255, 105, 0, 1) 0%,
+      rgb(207, 46, 46) 100%);
+  --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,
+      rgb(238, 238, 238) 0%,
+      rgb(169, 184, 195) 100%);
+  --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,
+      rgb(74, 234, 220) 0%,
+      rgb(151, 120, 209) 20%,
+      rgb(207, 42, 186) 40%,
+      rgb(238, 44, 130) 60%,
+      rgb(251, 105, 98) 80%,
+      rgb(254, 248, 76) 100%);
+  --wp--preset--gradient--blush-light-purple: linear-gradient(135deg,
+      rgb(255, 206, 236) 0%,
+      rgb(152, 150, 240) 100%);
+  --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,
+      rgb(254, 205, 165) 0%,
+      rgb(254, 45, 45) 50%,
+      rgb(107, 0, 62) 100%);
+  --wp--preset--gradient--luminous-dusk: linear-gradient(135deg,
+      rgb(255, 203, 112) 0%,
+      rgb(199, 81, 192) 50%,
+      rgb(65, 88, 208) 100%);
+  --wp--preset--gradient--pale-ocean: linear-gradient(135deg,
+      rgb(255, 245, 203) 0%,
+      rgb(182, 227, 212) 50%,
+      rgb(51, 167, 181) 100%);
+  --wp--preset--gradient--electric-grass: linear-gradient(135deg,
+      rgb(202, 248, 128) 0%,
+      rgb(113, 206, 126) 100%);
+  --wp--preset--gradient--midnight: linear-gradient(135deg,
+      rgb(2, 3, 129) 0%,
+      rgb(40, 116, 252) 100%);
   --wp--preset--duotone--dark-grayscale: url("#wp-duotone-dark-grayscale");
   --wp--preset--duotone--grayscale: url("#wp-duotone-grayscale");
   --wp--preset--duotone--purple-yellow: url("#wp-duotone-purple-yellow");
@@ -1139,6 +1121,7 @@ export default ({
   justify-content: center;
   font-size: 27px;
 }
+
 .box {
   /* image-rendering: -webkit-optimize-contrast;
   --bs-blue: #0d6efd;
@@ -1294,6 +1277,7 @@ export default ({
   background-repeat: no-repeat;
   background: none; */
 }
+
 .footer {
   display: flex;
   justify-content: center;
@@ -1330,6 +1314,7 @@ export default ({
   flex-direction: column;
   flex-wrap: wrap;
 }
+
 .line {
   font-family: -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB,
     Microsoft YaHei, "\5FAE\8F6F\96C5\9ED1", helvetica neue, helvetica, ubuntu,
@@ -1366,6 +1351,7 @@ export default ({
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 .ss-login_statement {
   font-family: -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB,
     Microsoft YaHei, "\5FAE\8F6F\96C5\9ED1", helvetica neue, helvetica, ubuntu,
@@ -1398,11 +1384,12 @@ export default ({
   padding: 0 20px;
   color: var(--B80);
 }
-.ss-login_statement a {
+
+/* .ss-login_statement a {
   padding: 0 0.5em;
   font-weight: 600;
   color: var(--red);
-}
+} */
 </style>
 <style lang="scss" scoped>
 .dialogdeep {
@@ -1410,9 +1397,11 @@ export default ({
     border-radius: 18px;
   }
 }
+
 .avatartext {
   display: flex;
 }
+
 .spans {
   display: flex;
   align-content: center;
@@ -1420,20 +1409,188 @@ export default ({
   margin-left: 5px;
   font-weight: bold;
 }
+
 .qqloginsvg {
   display: flex;
   width: 31px;
 }
 </style>
-<style >
+<style>
 .el-dialog--center {
   border-radius: 10px;
 }
+
 .other-login {
   display: flex;
   flex-wrap: nowrap;
   align-content: center;
   justify-content: center;
   align-items: center;
+}
+
+/* .login-form {
+  width: 350px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+} */
+.login-box .login-box-top .login-box-tabs {
+  width: 100%;
+  display: block;
+}
+
+.login-box-tabs-items {
+  font-weight: 600;
+  color: #999aaa;
+  height: 32px;
+  box-sizing: content-box;
+  margin-bottom: 16px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  position: relative;
+}
+
+.tabs-item {
+  width: 120px;
+  display: inline-block;
+  font-size: 16px;
+  height: 22px;
+  line-height: 16px;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+}
+
+.tabs-active {
+  width: 120px;
+  display: inline-block;
+  font-size: 16px;
+  height: 22px;
+  line-height: 16px;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+}
+
+span.last-login-way {
+  display: none;
+  cursor: default;
+  min-width: 74px;
+  width: 74px;
+  max-width: 74px;
+  position: absolute;
+  top: -28px;
+  left: 142px;
+  background: #fef7f0;
+  border-radius: 4px 4px;
+  border: 1px solid #ffd5a6;
+  font-size: 14px;
+  font-weight: 400;
+  color: #df760c;
+  line-height: 20px;
+  text-align: center;
+  padding: 0 8px;
+}
+
+span.last-login-way:after {
+  display: block;
+  content: "";
+  width: 10px;
+  height: 6px;
+  background: url('~@/static/image/arrow_D.png') no-repeat 50%;
+  background-size: 100% 100%;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tabs-active {
+  color: #222226;
+  position: relative;
+}
+
+.tabs-active::after {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #222226;
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wechat-title {
+  font-size: 12px;
+  font-weight: 400;
+  color: #555666;
+  line-height: 20px;
+  margin-top: 17px
+}
+
+.box {
+  position: relative;
+  /* box 相对定位 */
+  padding: 20px;
+  /* 设置合适的内边距 */
+}
+
+.close-icon {
+  position: absolute;
+  /* 绝对定位 */
+  top: 2%;
+  /* 距离顶部的位置，可以根据需要调整 */
+  right: -58px;
+  /* 距离右侧的位置 */
+  width: 16px;
+  /* 图标宽度 */
+  height: 16px;
+  /* 图标高度 */
+  cursor: pointer;
+  /* 鼠标指针样式 */
+  z-index: 999;
+  /* 确保在 el-dialog 内部最上层显示 */
+}
+
+.loading-container {
+  width: 200px;
+  height: 200px;
+  background-color: #F3F5F7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #ffffff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

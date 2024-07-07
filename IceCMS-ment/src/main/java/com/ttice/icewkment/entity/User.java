@@ -25,6 +25,8 @@ public class User implements Serializable {
   @TableId(type = IdType.AUTO)
   private Integer userId;
 
+  private String openid;
+
   private Integer userage;
 
   private String intro;

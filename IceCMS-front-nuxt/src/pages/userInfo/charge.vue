@@ -62,7 +62,7 @@
         </h5>
       </el-dialog>
     </div>
-    <!-- 选择支付方式（登陆） -->
+    <!-- 选择支付方式（登录） -->
     <el-dialog
       :visible.sync="PaymentDialogVisibleLogin"
       :show-close="false"
@@ -227,7 +227,7 @@ export default {
       clearInterval(this.timer)
     },
 
-    //选择支付方式(登陆)
+    //选择支付方式(登录)
     selectPayTypeLogin(type) {
       console.log('支付方式：' + type)
       this.payOrder.payType = type
@@ -280,17 +280,17 @@ export default {
       this.userJudje = (user == null)
       if (!this.userJudje) { this.userid = user.data.userid }
       if (this.userJudje) {
-        //未登录提醒登陆
+        //未登录提醒登录
         this.$notify({
           title: '失败',
-          message: '暂未登陆请登陆后重试',
+          message: '暂未登录请登录后重试',
           type: 'warning',
           offset: 50
         });
       }
       else {
-        //登陆用户购买
-        console.log("登陆用户购买")
+        //登录用户购买
+        console.log("登录用户购买")
         //禁用按钮，防止重复提交
         this.payBtnDisabled = true
 
@@ -327,7 +327,7 @@ export default {
   bottom: 20px !important;
 }
 </style>
-  
+
 <style scoped>
 .myVEmojiPicker     :deep(.category) {
   background: none;

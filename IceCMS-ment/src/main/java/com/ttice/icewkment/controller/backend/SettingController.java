@@ -33,7 +33,7 @@ public class SettingController {
   @Autowired private DispositionCarouselMapper dispositionCarouselMapper;
 
   @ApiOperation(value = "获取设置")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiImplicitParam(name = "setting", value = "设置", required = true)
   @PostMapping("/getSetting")
   public Result getSetting() {
@@ -41,7 +41,7 @@ public class SettingController {
   }
 
   @ApiOperation(value = "修改设置")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiImplicitParam(name = "setting", value = "设置", required = true)
   @PostMapping("/setSetting")
   public int setSetting(@RequestBody Setting setting) {
@@ -49,14 +49,14 @@ public class SettingController {
   }
 
   @ApiOperation(value = "获取oss配置")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @GetMapping("/getCosSetting")
   public Result getCosSetting() {
     return Result.succ(cosInfoMapper.selectOne(null));
   }
 
   @ApiOperation(value = "修改oss设置")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiImplicitParam(name = "setting", value = "设置", required = true)
   @PostMapping("/setCosInfo")
   public Result setSettingCos(@RequestBody CosInfo cosInfo) {
@@ -64,7 +64,7 @@ public class SettingController {
   }
 
   @ApiOperation(value = "获取全部轮播图")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiImplicitParam(name = "轮播", value = "设置", required = true)
   @GetMapping("/getAllDispositionCarousel")
   public Result getAllDispositionCarousel() {
@@ -72,7 +72,7 @@ public class SettingController {
   }
 
   @ApiOperation(value = "获取全部轮播图")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiImplicitParam(name = "轮播", value = "设置", required = true)
   @GetMapping("/setAllDispositionCarousel")
   public Result setAllDispositionCarousel(DispositionCarousel dispositionCarousel) {

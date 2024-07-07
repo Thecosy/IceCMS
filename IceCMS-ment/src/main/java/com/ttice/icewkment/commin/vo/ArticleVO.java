@@ -14,9 +14,12 @@ public class ArticleVO {
   private String authorName;
   private String profile;
   private String title;
+  private String intro;
   private Integer ownerTag;
   private String status;
   private String thumb;
+  private String keyword;
+  private Integer LoveNum;
   private String sortClass;
   private Integer hits;
   private Integer CommentNum;

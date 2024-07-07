@@ -35,7 +35,7 @@ public class SquareController {
 
   @Autowired private UserMapper userMapper;
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "新增圈子")
   @ApiImplicitParam(name = "square", value = "圈子", required = true)
   @PostMapping("/create")
@@ -51,7 +51,7 @@ public class SquareController {
     return Result.succ(square.getId());
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据别名获取全部圈子(分页)")
   @ApiImplicitParam(name = "otherName", value = "otherName", required = true)
   @GetMapping("/getAllSquare/{squareId}/{page}/{limit}")
@@ -62,7 +62,7 @@ public class SquareController {
     return Result.succ(squareService.VoList(squareId, page, limit));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id修改资源")
   @ApiImplicitParam(name = "id", value = "圈子id", required = true)
   @PostMapping("/ReviseSquareById/{id}")
@@ -70,7 +70,7 @@ public class SquareController {
     return Result.succ(squareService.updateById(square));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id删除圈子")
   @ApiImplicitParam(name = "id", value = "文章id", required = true)
   @GetMapping("/DelectSquareById/{id}")
@@ -82,7 +82,7 @@ public class SquareController {
     return Result.succ(squareService.removeById(id));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id修改圈子内容")
   @ApiImplicitParam(name = "id", value = "文章id", required = true)
   @GetMapping("/ChangeSquareById/{id}/{content}")
@@ -97,7 +97,7 @@ public class SquareController {
     return Result.succ(squareMapper.update(square, wrapper));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "获取全部圈子用户")
   @GetMapping("/GetAllSquareUser")
   public Result GetAllSquareUser() {

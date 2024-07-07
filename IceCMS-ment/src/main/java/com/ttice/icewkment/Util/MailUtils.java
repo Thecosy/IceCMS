@@ -4,15 +4,15 @@ import cn.hutool.extra.mail.MailException;
 import com.ttice.icewkment.entity.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-@Component
+@Configuration
 public class MailUtils {
 
   @Value("${spring.mail.username}")
@@ -20,11 +20,13 @@ public class MailUtils {
 
   @Autowired private JavaMailSender mailSender;
 
-  public int sendCommonEmail(Email email) {
+  public int sendCommonEmail(Email email, String title) {
     // 创建简单邮件消息
     SimpleMailMessage message = new SimpleMailMessage();
+    // 设置邮件发送人显示为 IceCMS 而不是 QQ 邮箱号码
+    String fromAlias = title + "<" + from + ">";
     // 发送人
-    message.setFrom(from);
+    message.setFrom(fromAlias);
     // 接受人
     message.setTo(email.getTos());
     // 邮件标题

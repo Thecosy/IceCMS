@@ -17,7 +17,7 @@ export default {
     })
   },
 
-  //ftof下单(登陆)
+  //ftof下单(登录)
   ftofPayLogin(resourceId, userid) {
     return request({
       url: '/Pay-api/ali-pay/login-ftof/' + resourceId + '/' + userid,

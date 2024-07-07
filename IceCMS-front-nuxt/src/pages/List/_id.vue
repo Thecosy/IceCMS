@@ -1,6 +1,6 @@
 <template>
   <div class="Resource">
-    <!-- 选择支付方式（登陆） -->
+    <!-- 选择支付方式（登录） -->
     <el-dialog :visible.sync="PaymentDialogVisibleLogin" :show-close="false" @close="closeDialog" width="320px" center>
       <h6 class="outh5">请选择支付方式</h6>
       <div class="swal2-content">
@@ -178,10 +178,10 @@
 
                     <!-- <div class="
                         device device-macbook-pro device-silver device-silver
-                      ">     
+                      ">
                       <div class="device-frame">
 
-          
+
                       </div>
                       <div class="device-stripe"></div>
                       <div class="device-header"></div>
@@ -190,7 +190,7 @@
                       <div class="device-power"></div>
                     </div> -->
                   </div>
-            
+
               </div>
               </div>
               <div v-else class="container">
@@ -718,7 +718,7 @@ export default {
       clearInterval(this.timer)
     },
 
-    //选择支付方式(登陆)
+    //选择支付方式(登录)
     selectPayTypeLogin(type) {
       console.log('支付方式：' + type)
       this.payOrder.payType = type
@@ -828,8 +828,8 @@ export default {
           this.PaymentDialogVisibleTemp = true
         }
         else {
-          //登陆用户购买
-          console.log("登陆用户购买")
+          //登录用户购买
+          console.log("登录用户购买")
           //禁用按钮，防止重复提交
           this.payBtnDisabled = true
 
@@ -845,7 +845,7 @@ export default {
         this.userid = user.data.userid
         let [res] = await orderInfoApi.queryOrderStatusBytrue(this.$route.params.id, this.userid);
         if (res) {
-          //检查已登陆用户是否购买过此资源，根据userid和resourceid判断
+          //检查已登录用户是否购买过此资源，根据userid和resourceid判断
           if (res.data.code == 0) {
             this.payJudej = false
           }

@@ -61,7 +61,7 @@ public class ArticleController {
     this.articleCommentService = articleCommentService;
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "新增文章")
   @ApiImplicitParam(name = "article", value = "文章", required = true)
   @PostMapping("/create")
@@ -83,7 +83,7 @@ public class ArticleController {
     return Result.succ(article.getId());
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id删除文章")
   @ApiImplicitParam(name = "id", value = "文章id", required = true)
   @GetMapping("/DelectArticleById/{id}")
@@ -95,7 +95,7 @@ public class ArticleController {
     return Result.succ(this.articleService.removeById(id));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "批量删除文章")
   @ApiImplicitParam(name = "arr", value = "文章id", required = true)
   @PostMapping("/DeleteArticleBatch")
@@ -112,7 +112,7 @@ public class ArticleController {
     return Result.succ(null);
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id修改文章")
   @ApiImplicitParam(name = "id", value = "文章id", required = true)
   @PostMapping("/ReviseArticleById/{id}")
@@ -120,7 +120,7 @@ public class ArticleController {
     return Result.succ(articleService.updateById(article));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id获取文章")
   @ApiImplicitParam(name = "id", value = "文章id", required = true)
   @GetMapping("/getArticleById/{id}")
@@ -129,7 +129,7 @@ public class ArticleController {
     return Result.succ(article);
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "获取全部文章(分页)")
   @ApiImplicitParams({
     @ApiImplicitParam(name = "page", value = "页数", required = true),
@@ -141,7 +141,7 @@ public class ArticleController {
     return Result.succ(this.articleService.VoList(page, limit, 0));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据name获取文章")
   @ApiImplicitParam(name = "id", value = "文章name", required = true)
   @GetMapping("/getArticleByName/{name}/{page}/{limit}")
@@ -164,7 +164,7 @@ public class ArticleController {
     return Result.succ(articlePageVO);
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "获取全部文章名称")
   @GetMapping("/getAllArticleName")
   public Result getAllArticleName() {

@@ -78,7 +78,7 @@ public class ShiroConfig {
     filterMap.put("/squareClass/**", "jwt");
     filterMap.put("/square/**", "jwt");
 
-    // user主要需要未登陆登陆认证所以放开
+    // user主要需要未登录登录认证所以放开
     // filterMap.put("/User/**", "jwt");
     // 主要通过注解方式校验权限
     chainDefinition.addPathDefinitions(filterMap);

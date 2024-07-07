@@ -18,7 +18,7 @@ export default {
       method: 'post'
     })
   },
-  //Native下单(登陆)
+  //Native下单(登录)
   nativePayLogin(resourceId, userid) {
     return request({
       url: '/Pay-api/wx-pay/login-native/' + resourceId + '/' + userid,

@@ -20,6 +20,40 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+        <!-- argon2Hash工具 -->
+        <dependency>
+            <groupId>de.mkammerer</groupId>
+            <artifactId>argon2-jvm</artifactId>
+            <version>2.11</version>
+        </dependency>
+        <!--七牛短信工具-->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>[7.15.0, 7.15.99]</version>
+        </dependency>
+        <!-- 腾讯云短信工具 -->
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java</artifactId>
+            <version>3.1.1041</version>
+        </dependency>
+        <!-- 微信小程序登录工具 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.14.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.11.11</version>
+        </dependency>
         <!-- google图片处理工具 -->
         <dependency>
             <groupId>net.coobird</groupId>
@@ -36,7 +70,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.3.3</version>
+            <version>5.8.25</version>
         </dependency>
         <!--腾讯云-->
         <dependency>

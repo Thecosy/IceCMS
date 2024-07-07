@@ -88,7 +88,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
         })
         .catch(() => {
           loading.value = false;
-          //如果登陆失败则重新获取验证码
+          //如果登录失败则重新获取验证码
           // getCaptchaCode();
         });
       // useUserStoreHook()

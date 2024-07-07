@@ -42,7 +42,7 @@ public class SquareClassController {
 
   @Autowired private SquareClassMapper squareClassMapper;
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "新建分类")
   @ApiImplicitParam(name = "articleClass", value = "文章分类对象", required = true)
   @PostMapping("/newSquareClass")
@@ -59,7 +59,7 @@ public class SquareClassController {
     return this.squareClassMapper.insert(squareClass);
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "获取圈子分类列表(分页)")
   @ApiImplicitParams({
     @ApiImplicitParam(name = "page", value = "页数", required = true),
@@ -71,7 +71,7 @@ public class SquareClassController {
     return Result.succ(squareClassService.GetList(page, limit));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "获取全部分类列表")
   @GetMapping("/getAllClassName")
   public Result getAllClassName() {
@@ -89,7 +89,7 @@ public class SquareClassController {
     return Result.succ(result);
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id修改圈子分类")
   @ApiImplicitParam(name = "id", value = "id", required = true)
   @PostMapping("/ReviseSquareClassById/{id}")
@@ -97,7 +97,7 @@ public class SquareClassController {
     return Result.succ(squareClassService.updateById(squareClass));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id删除圈子分类")
   @ApiImplicitParam(name = "id", value = "文章id", required = true)
   @GetMapping("/DelectSquareClassById/{id}")
@@ -109,7 +109,7 @@ public class SquareClassController {
     return this.squareClassService.removeById(id);
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id值查询对应的分类名称")
   @ApiImplicitParam(name = "id", value = "id", required = true)
   @GetMapping("/getClassNameById/{id}")
@@ -121,7 +121,7 @@ public class SquareClassController {
     return articleClass.getName();
   }
 
-  @RequiresAuthentication  //需要登陆认证的接口
+  @RequiresAuthentication  //需要登录认证的接口
   @ApiOperation(value = "根据id值对广场类进行更新")
   @ApiImplicitParam(name = "广场", value = "广场参数", required = true)
   @PostMapping("/updatePlantClass")
@@ -130,7 +130,7 @@ public class SquareClassController {
     return Result.succ(null);
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "顶置分类")
   @ApiImplicitParam(name = "id", value = "id", required = true)
   @GetMapping("/topSquareClass/{id}")

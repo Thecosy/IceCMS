@@ -932,7 +932,7 @@ export default {
     },
     BeforeUpload(file) {
       if (file) {
-        this.newFile.append('file', file); //  2. 上传之前，拿到file对象，并将它添加到刚刚定义的FormData对象中。 
+        this.newFile.append('file', file); //  2. 上传之前，拿到file对象，并将它添加到刚刚定义的FormData对象中。
       } else {
         return false;
       }
@@ -1055,13 +1055,13 @@ export default {
       const user = this.$cookies.get("access-user")
       this.userJudje = user == null;
       if (this.userJudje) {
-        // console.log("未登陆");
-        //显示需要登陆
+        // console.log("未登录");
+        //显示需要登录
         this.shownologin = true;
       } else {
-        // console.log("已登陆");
+        // console.log("已登录");
         this.postReplyForm.userId = this.user.userid;
-        //显示需要登陆
+        //显示需要登录
         this.shownologin = false;
       }
       addPlanetComment(this.postReplyForm).then((res) => {
@@ -1074,13 +1074,13 @@ export default {
       const user = this.$cookies.get("access-user")
       this.userJudje = user == null;
       if (this.userJudje) {
-        // console.log("未登陆");
-        //显示需要登陆
+        // console.log("未登录");
+        //显示需要登录
         this.shownologin = true;
       } else {
-        // console.log("已登陆");
+        // console.log("已登录");
         this.postReplysForm.userId = this.user.userid;
-        //显示需要登陆
+        //显示需要登录
         this.shownologin = false;
       }
       addPlanetComment(this.postReplysForm).then((res) => {
@@ -1099,13 +1099,13 @@ export default {
       const user = this.$cookies.get("access-user")
       this.userJudje = user == null;
       if (this.userJudje) {
-        // console.log("未登陆");
-        //显示需要登陆
+        // console.log("未登录");
+        //显示需要登录
         this.shownologin = true;
       } else {
-        // console.log("已登陆");
+        // console.log("已登录");
         this.postReplysToUserForm.userId = this.user.userid;
-        //显示需要登陆
+        //显示需要登录
         this.shownologin = false;
       }
       console.log(this.postReplysToUserForm);
@@ -1173,7 +1173,7 @@ export default {
         });
       }
       // this.$message.success("发表成功");
-      // 刷新页面 
+      // 刷新页面
 
 
     },
@@ -1183,14 +1183,14 @@ export default {
       const user = this.$cookies.get("access-user")
       this.userJudje = user == null;
       if (this.userJudje) {
-        // console.log("未登陆");
-        //显示需要登陆
+        // console.log("未登录");
+        //显示需要登录
         this.shownologin = true;
       } else {
-        // console.log("已登陆");
+        // console.log("已登录");
         this.user = user;
         this.postForm.author = this.user.userid;
-        //显示需要登陆
+        //显示需要登录
         this.shownologin = false;
       }
     },
@@ -1205,7 +1205,7 @@ export default {
       dialogVisible: false,
       fileList: [],
       imageList: [],
-      newFile: new FormData(), //   1. 定义一个newFile变量（FormData 对象） 
+      newFile: new FormData(), //   1. 定义一个newFile变量（FormData 对象）
       sentence: "",
       page: 1,
       MyEmoge: "",

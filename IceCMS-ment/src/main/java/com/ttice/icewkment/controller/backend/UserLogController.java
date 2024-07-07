@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-@io.swagger.annotations.Api(tags = "用户登陆验证接口")
+@io.swagger.annotations.Api(tags = "用户登录验证接口")
 @RestController
 @RequestMapping("/UserLog")
 public class UserLogController {
@@ -45,11 +45,11 @@ public class UserLogController {
 
   @Autowired private EmailDetectionMapper emailDetectionMapper;
 
-  @ApiOperation(value = "后台登陆")
+  @ApiOperation(value = "后台登录")
   @ApiImplicitParam(name = "user", value = "用户对象", required = true)
-  @GetMapping("/loginAdmin") // 登陆
+  @GetMapping("/loginAdmin") // 登录
   public Result loginAdmin(User user) {
-    // 进行登陆核验操作
+    // 进行登录核验操作
     QueryWrapper<User> wrapper = new QueryWrapper<>();
     // 用户名判断
     wrapper.eq("USERNAME", user.getUsername());
@@ -68,7 +68,7 @@ public class UserLogController {
     wrappertoken.eq("user_id", userjudje.getUserId());
     // 实体类
     User doc = new User();
-    // new Date()更新登陆时间
+    // new Date()更新登录时间
     doc.setLastLogin(new Date());
     // 这一步进行成功之后在数据库保存生成的token操作
     userService.update(doc, wrappertoken);
@@ -98,7 +98,7 @@ public class UserLogController {
     String name = role.getName();
     if (Objects.equals(name, "管理员")) {
 
-      return Result.succ(200, "成功登陆", myMap);
+      return Result.succ(200, "成功登录", myMap);
     } else {
       return Result.fail(("无权限"));
     }
@@ -119,12 +119,12 @@ public class UserLogController {
     }
   }
 
-  @ApiOperation(value = "登陆")
+  @ApiOperation(value = "登录")
   @ApiImplicitParam(name = "username", value = "用户对象", required = true)
-  @PostMapping("/login") // 登陆
+  @PostMapping("/login") // 登录
   public Result login(User user) {
 
-    // 进行登陆核验操作
+    // 进行登录核验操作
     QueryWrapper<User> wrapper = new QueryWrapper<>();
     // 用户名判断
     wrapper.eq("USERNAME", user.getUsername());
@@ -143,7 +143,7 @@ public class UserLogController {
     wrappertoken.eq("user_id", userjudje.getUserId());
     // 实体类
     User doc = new User();
-    // new Date()更新登陆时间
+    // new Date()更新登录时间
     doc.setLastLogin(new Date());
     // 这一步进行成功之后在数据库保存生成的token操作
     userService.update(doc, wrappertoken);
@@ -159,7 +159,7 @@ public class UserLogController {
     myMap.put("gender", userjudje.getGender());
     myMap.put("userid", userjudje.getUserId().toString());
     myMap.put("username", userjudje.getUsername());
-    return Result.succ(200, "成功登陆", myMap);
+    return Result.succ(200, "成功登录", myMap);
   }
 
   @ApiOperation(value = "注册账号")
@@ -234,7 +234,7 @@ public class UserLogController {
     wrappertoken.eq("user_id", user.getUserId());
     // 实体类
     User doc = new User();
-    // new Date()更新登陆时间
+    // new Date()更新登录时间
     doc.setLastLogin(new Date());
     // 这一步进行成功之后在数据库保存生成的token操作
     userService.update(doc, wrappertoken);

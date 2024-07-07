@@ -8,7 +8,7 @@ import { Popover } from 'element-ui'
 import { Input } from 'element-ui'
 import { Switch } from 'element-ui'
 import { Pagination } from 'element-ui'
-// import { Notification } from 'element-ui'
+import { Notification } from 'element-ui'
 import { Dialog } from 'element-ui'
 import { Avatar } from 'element-ui'
 import { Form } from 'element-ui'
@@ -100,3 +100,5 @@ export default ()=>{
     Vue.use(Main)
     Vue.use(Upload)
 }
+// 将 Notification 挂载到 Vue 原型上
+Vue.prototype.$notify = Notification

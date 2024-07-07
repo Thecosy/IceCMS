@@ -41,7 +41,7 @@ public class AccountRealm extends AuthorizingRealm {
   protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
     System.out.println("此处先进行权限检验");
 
-    // 拿到，当前用户登陆的对象
+    // 拿到，当前用户登录的对象
     Subject subject = SecurityUtils.getSubject();
     Object currentUser = subject.getPrincipal(); // 拿到user对象
     User user = new User();

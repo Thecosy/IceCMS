@@ -33,7 +33,7 @@ public class ArticleCommentController {
   ArticleCommentService articleCommentService;
 
   @ApiOperation(value = "根据文章id查询对应的评论")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiImplicitParam(name = "articleId", value = "文章id", required = true)
   @GetMapping("/getallArticleComment/{articleId}")
   public Result getallArticleComment(@PathVariable("articleId") Integer articleId) {
@@ -45,7 +45,7 @@ public class ArticleCommentController {
   }
 
   @ApiOperation(value = "获取全部评论(分页)")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiImplicitParams({
           @ApiImplicitParam(name = "page", value = "页数", required = true),
           @ApiImplicitParam(name = "limit", value = "总量", required = true)
@@ -57,7 +57,7 @@ public class ArticleCommentController {
   }
 
   @ApiOperation(value = "增加评论")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @PostMapping("/addArticleComment")
   @ApiImplicitParam(name = "articleComment", value = "文章分类对象", required = true)
   public Result addArticleComment(@RequestBody ArticleComment articleComment) {
@@ -65,7 +65,7 @@ public class ArticleCommentController {
   }
 
   @ApiOperation(value = "查看文章对应评论数")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiImplicitParam(name = "articleId", value = "文章id", required = true)
   @GetMapping("/getArticleCommentnum/{articleId}")
   public Result getArticleCommentnum(@PathVariable("articleId") Integer articleId) {
@@ -74,7 +74,7 @@ public class ArticleCommentController {
     return Result.succ(articleCommentMapper.selectCount(wrapper));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id删除评论")
   @ApiImplicitParam(name = "id", value = "评论id", required = true)
   @GetMapping("/DeleteArticleCommentById/{id}")
@@ -82,7 +82,7 @@ public class ArticleCommentController {
     // 根据文章id删除评论
     return Result.succ(articleCommentMapper.deleteById(id));
   }
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id修改文章评论")
   @ApiImplicitParam(name = "id", value = "文章id", required = true)
   @PostMapping("/ReviseArticleCommentById/{id}")

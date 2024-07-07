@@ -1366,7 +1366,7 @@ CREATE TABLE `user` (
   `profile` varchar(255) DEFAULT NULL,
   `status` int DEFAULT NULL COMMENT '是否禁用',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_login` datetime DEFAULT NULL COMMENT '最后登陆时间',
+  `last_login` datetime DEFAULT NULL COMMENT '最后登录时间',
   `vip_valid_date` datetime DEFAULT NULL COMMENT '会员有效时间',
   `vip_expire_date` datetime DEFAULT NULL COMMENT '会员过期时间',
   `integral` int DEFAULT NULL COMMENT '积分',

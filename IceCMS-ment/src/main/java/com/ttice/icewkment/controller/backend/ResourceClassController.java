@@ -34,7 +34,7 @@ public class ResourceClassController {
 
   @Autowired private ResourceClassMapper resourceClassMapper;
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "新建资源分类")
   @ApiImplicitParam(name = "resourceClass", value = "文章分类对象", required = true)
   @PostMapping("/newResourceClass")
@@ -49,7 +49,7 @@ public class ResourceClassController {
     return Result.succ(resourceClassMapper.insert(resourceClass));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "获取资源分类列表(分页)")
   @ApiImplicitParams({
     @ApiImplicitParam(name = "page", value = "页数", required = true),
@@ -61,7 +61,7 @@ public class ResourceClassController {
     return Result.succ(resourceClassService.GetList(page, limit));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "删除资源分类")
   @ApiImplicitParam(name = "id", value = "id", required = true)
   @GetMapping("/DeleteResourceClass/{id}")
@@ -69,7 +69,7 @@ public class ResourceClassController {
     return Result.succ(resourceClassMapper.deleteById(id));
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id值查询对应的分类名称")
   @ApiImplicitParam(name = "id", value = "id", required = true)
   @GetMapping("/getClassNameById/{id}")
@@ -81,7 +81,7 @@ public class ResourceClassController {
     return Result.succ(resourceClass.getName());
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "获取全部分类列表")
   @GetMapping("/getAllClassName")
   public Result getAllClassName() {
@@ -99,7 +99,7 @@ public class ResourceClassController {
     return Result.succ(result);
   }
 
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "根据id修改资源分类")
   @ApiImplicitParam(name = "id", value = "id", required = true)
   @PostMapping("/ReviseResourceClassById/{id}")
@@ -108,7 +108,7 @@ public class ResourceClassController {
   }
 
   // 顶置分类
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @ApiOperation(value = "顶置分类")
   @ApiImplicitParam(name = "id", value = "id", required = true)
   @GetMapping("/topResourceClass/{id}")

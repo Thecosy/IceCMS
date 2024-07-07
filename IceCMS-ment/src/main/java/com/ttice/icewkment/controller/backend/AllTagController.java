@@ -18,7 +18,7 @@ public class AllTagController {
   @Autowired private AllTagMapper allTagMapper;
 
   @ApiOperation(value = "获取全部tag")
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @GetMapping("/getAllTag")
   public Result getAllTag() {
     return Result.succ(allTagMapper.selectList(null));
@@ -26,7 +26,7 @@ public class AllTagController {
 
   @ApiOperation(value = "修改标签")
   @ApiImplicitParam(name = "allTag", value = "allTag", required = true)
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @PostMapping("/setSTag")
   public Result setSTag(@RequestBody AllTag allTag) {
     return Result.succ(allTagMapper.updateById(allTag));
@@ -34,7 +34,7 @@ public class AllTagController {
 
   @ApiOperation(value = "新增单个标签")
   @ApiImplicitParam(name = "allTag", value = "allTag", required = true)
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @PostMapping("/addSTag")
   public Result addSTag(@RequestBody AllTag Tag) {
     return Result.succ(allTagMapper.insert(Tag));
@@ -42,7 +42,7 @@ public class AllTagController {
 
   @ApiOperation(value = "删除单个标签")
   @ApiImplicitParam(name = "allTag", value = "allTag", required = true)
-  @RequiresAuthentication // 需要登陆认证的接口
+  @RequiresAuthentication // 需要登录认证的接口
   @GetMapping("/deleteSTag/{id}")
   public Result deleteSTag(@PathVariable("id") Integer id) {
     return Result.succ(allTagMapper.deleteById(id));
