@@ -1,9 +1,10 @@
 <p align="center">
-	<a href="https://www.macwk.cc" target="_blank">
-		<img alt="logo" style="height: 120px" src="https://img.getdev.cn/i/2023/01/26/63d19e520d818.png"/>
-	</a>
-</p>
-<p align="center">
+  <a href="https://www.icecmspro.com" target="_blank">
+    <img alt="logo" style="height: 120px" src="https://res.cloudinary.com/dxl1idlr5/image/upload/v1700470902/logo_s4maqv.svg"/>
+  </a>
+</p>  
+
+ <p align="center">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/JDK-1.8+-orange">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/SpringBoot-2.2.7.RELEASE-brightgreen">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/MyBatis-3.5.5-red">
@@ -17,41 +18,59 @@
 
 基于 Spring Boot + Vue 前后端分离的内容管理系统
 
-演示: （[www.macwk.cc](https://www.macwk.cc/)）
+演示: （[www.icecmspro.com](https://www.icecmspro.com/)）
+后台:（[admin.icecmspro.com](https://admin.icecmspro.com/)）
 
-官网: （[doc.macwk.cc](https://doc.macwk.cc)）
+官网: （[www.icecms.cn](https://doc.icecms.cn)）
 
-IceCMS 文档： （[http://doc.macwk.cc/docs/intro](https://doc.macwk.cc/docs/intro)）
+IceCMS 文档： （[http://www.icecms.cn](https://www.icecms.cn)）
 
+内容管理：文章、图片、资源等多种类型的内容管理；
+
+栏目管理：自定义栏目，对栏目进行增删改查等操作；
+
+用户管理：管理后台用户，包括添加、删除、修改、权限分配等功能；
+
+数据统计：对网站访问量、用户行为等进行统计分析；
+
+模板管理：自定义网站模板，方便快速搭建网站；
+
+SEO优化：网站标题、关键词、描述等SEO优化功能。
 
 ## 预览地址：
 
-前台：[www.macwk.cc](https://www.macwk.cc)
+前台：[www.icecmspro.com](https://www.icecmspro.com)
 
-uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
+uniapp移动端：[uni.icecmspro.com](https://m.www.icecmspro.com)
 
-后台：[www.macwk.cc/admin](https://www.macwk.cc/admin) 账号`admin`密码`123123`
+后台：[admin.icecmspro.com](https://admin.icecmspro.com) 账号`admin`密码`admin123`
 
+API文档：[api.icecmspro.com/doc.html](https://api.icecmspro.com/doc.html)
 
 ## PC端
 <div class = "half">
-<img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee5a6c55.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee456c4b.png"  width = “50%”>
+  <img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689828922/63d19ee5a6c55_xu7ex3.png"  width = "50%">
+    <img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689829049/63d19ee456c4b_fhibyf.png"  width = "50%">
 </div>
 <div class = "half">
-<img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee6e070e.png"  width = “50%”><img alt="describe" src = "https://img.getdev.cn/i/2023/01/26/63d19ee4b609d.png"  width = “50%”>
+  <img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689829099/63d19ee6e070e_meudqj.png"  width = "50%">
+    <img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689829121/63d19ee4b609d_pt54fj.png"  width = "50%">
 </div>
 
 
 ## 后台
 <div class = "half">
-<img alt="describe" src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934180-截屏2022-08-30-18.49.21.png"  width = “50%”><img alt="describe" src = "https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934191-截屏2022-08-30-18.54.51.png"  width = “50%”>
+  <img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1710237058/Screenshot_2024-03-12_at_17.48.51_el9tcs.png"  width = "50%">
+    <img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1710237057/Screenshot_2024-03-12_at_17.49.02_eioj84.png"  width = "50%">
+
+</div>
+<div class = "half">
+  <img alt="describe" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1710237060/Screenshot_2024-03-12_at_17.49.12_x7aotb.png"  width = "50%">
 </div>
 
 
 ## UniApp H5、小程序移动端
-<img alt="describe" src="https://i0.hdslb.com/bfs/album/354a1caa29bfd8bc9571be67b18db13227bea80f.png" width="280" height="405"><img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934220-截屏2022-08-30-17.05.29.png" width="280" height="405">
-
-<img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934226-截屏2022-08-30-17.05.45.png" width="280" height="405"><img alt="describe" src="https://picture-1305088812.cos.ap-nanjing.myqcloud.com/uploads/2022/08/1661934233-截屏2022-08-30-17.06.42.png" width="280" height="405">
+<img alt="describe" src="https://i0.hdslb.com/bfs/album/354a1caa29bfd8bc9571be67b18db13227bea80f.png" width="280" height="405">
 
 
 ## 后端
@@ -67,8 +86,8 @@ uniapp移动端：[m.www.macwk.cc](https://m.www.macwk.cc)
 
 基于 JDK8 开发，8以上要添加依赖：
 
-```xml
-<dependency>
+  ```xml
+  <dependency>
     <groupId>javax.xml.bind</groupId>
     <artifactId>jaxb-api</artifactId>
     <version>2.3.0</version>
@@ -85,7 +104,7 @@ JS 依赖及参考的 css：[axios](https://github.com/axios/axios)、[moment](h
 
 ### 后台 UI
 
-后台 CMS 部分基于 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template) 
+后台 CMS 部分基于 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
 
 UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 
@@ -105,7 +124,7 @@ docker 前端部署方式
 
 docker compose 一键部署
 
-    
+
 # 快速开始
 Docker部署方式(推荐,可用于快速上线或测试)
 
@@ -119,7 +138,7 @@ Docker部署方式(推荐,可用于快速上线或测试)
     # 创建配置文件
     sudo tee /etc/docker/daemon.json <<-'EOF'
     {
-    "registry-mirrors": ["https://registry.docker-cn.com"]
+    "registry-mirrors": ["https://mirror.ccs.tencentyun.com"]
     }
     EOF
     # 加载新的配置文件
@@ -333,6 +352,24 @@ QQ交流群：（[951286996](https://qm.qq.com/cgi-bin/qm/qr?k=XLX0hSw6GGuOgNbC5
 Tg群组：[https://t.me/+1rau4SBwFyE1OTA1](https://t.me/+1rau4SBwFyE1OTA1）
 
 该群是一个学习交流群，如果是程序相关问题，请直接提交issues
+
+## 软著
+
+<div class = "half">
+  <img alt="describe" style="width:420px" src = "https://res.cloudinary.com/dxl1idlr5/image/upload/v1689829207/%E7%99%BB%E8%AE%B0%E8%AF%81%E4%B9%A6_2023R11L0135975__mosaic_wgmw6p.jpg"  width = "50%">
+</div>
+
+## 开源协议
+GPL-3.0 license © pipipi-pikachu
+
+## 商业用途
+* 如果你希望将本项目商用盈利，我希望你能严格遵循 GPL-3.0 协议；
+* 如果你真的需要闭源商用，无法执行 GPL-3.0 协议，可以选择：
+* 成为项目的贡献者，大致包括：
+* 你的代码被本项目作为依赖引用；
+* 你提交的 PR 被本项目合并（仅限有价值的，不包括简单的错别字或拼写错误修改等）；
+* 你参与过本项目的设计、实现（也包括对各种功能/模块的实现或Bug的修复提供了有价值的思路）；
+* 联系作者付费商用
 
 
 ## Thanks
