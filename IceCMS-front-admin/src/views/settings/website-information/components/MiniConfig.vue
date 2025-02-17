@@ -2,15 +2,18 @@
   <el-card shadow="never" class="site-config">
     <template #header>
       <div class="clearfix">
-        <span>商城设置</span>
+        <span>小程序设置</span>
       </div>
     </template>
     <el-form label-position="top" class="form-container">
-      <el-form-item label="开启商城">
-        <el-input v-model="siteConfig.sitTitle" class="input-width"></el-input>
+      <el-form-item label="小程序appid">
+        <el-input v-model="siteConfig.appid" class="input-width"></el-input>
       </el-form-item>
-      <el-form-item label="价格倍率">
-        <el-input v-model="siteConfig.sitLogo" class="input-width"></el-input>
+      <el-form-item label="小程序secret">
+        <el-input v-model="siteConfig.secret" class="input-width"></el-input>
+      </el-form-item>
+      <el-form-item label="小程序开发环境 (正式版为 release，体验版为 trial，开发版为 develop)">
+        <el-input v-model="siteConfig.envVersion" class="input-width"></el-input>
       </el-form-item>
       <div class="button-container">
         <el-button type="primary" @click="saveSettings">保存</el-button>
@@ -22,21 +25,21 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getSettingInfo, setSettingInfo } from '@/api/setting/webinfo';
+import { getMiniProgramSetting, updateMiniProgramSetting } from '@/api/setting/mini';
 
 import { ElMessageBox, ElNotification } from 'element-plus';
 const siteConfig = ref({
-  sitTitle: '',
-  sitLogo: '',
-  banquan: '',
-  beian: ''
+  appid: '',
+  secret: '',
+  envVersion: ''
 });
 
 // 初始化网站配置
 const initSiteConfig = async () => {
   try {
-    const response = await getSettingInfo();
+    const response = await getMiniProgramSetting();
     if (response && response.data) {
+      console.log('Site config loaded:', response.data);
       siteConfig.value = response.data;
     }
   } catch (error) {
@@ -47,7 +50,8 @@ const initSiteConfig = async () => {
 // 保存设置
 const saveSettings = async () => {
   try {
-    await setSettingInfo(siteConfig.value);
+    console.log('siteConfig.value:', siteConfig.value);
+    await updateMiniProgramSetting(siteConfig.value);
     console.log('Settings saved successfully');
     ElNotification({
       title: '成功',

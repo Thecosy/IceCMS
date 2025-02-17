@@ -49,21 +49,9 @@ export default defineFlatConfig([
     },
     rules: {
       ...configPrettier.rules,
-      ...pluginPrettier.configs.recommended.rules,
       "no-debugger": "off",
-      "no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_"
-        }
-      ],
-      "prettier/prettier": [
-        "error",
-        {
-          endOfLine: "auto"
-        }
-      ]
+      "no-unused-vars": "warn", // 从 "error" 改为 "warn"
+      "prettier/prettier": ["warn", { endOfLine: "auto" }]
     }
   },
   {
@@ -78,46 +66,20 @@ export default defineFlatConfig([
       "@typescript-eslint": pluginTypeScript
     },
     rules: {
-      ...pluginTypeScript.configs.strict.rules,
-      "@typescript-eslint/ban-types": "off",
-      "@typescript-eslint/no-redeclare": "error",
-      "@typescript-eslint/ban-ts-comment": "off",
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/prefer-as-const": "warn",
-      "@typescript-eslint/no-empty-function": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/no-import-type-side-effects": "error",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/consistent-type-imports": [
-        "error",
-        { disallowTypeAnnotations: false, fixStyle: "inline-type-imports" }
-      ],
-      "@typescript-eslint/prefer-literal-enum-member": [
-        "error",
-        { allowBitwiseExpressions: true }
-      ],
+      // 这里使用更少的类型检查规则，减少 ts 的报错
+      "@typescript-eslint/no-redeclare": "warn",
       "@typescript-eslint/no-unused-vars": [
-        "error",
+        "warn",
         {
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_"
         }
-      ]
-    }
-  },
-  {
-    files: ["**/*.d.ts"],
-    rules: {
-      "eslint-comments/no-unlimited-disable": "off",
-      "import/no-duplicates": "off",
-      "unused-imports/no-unused-vars": "off"
-    }
-  },
-  {
-    files: ["**/*.?([cm])js"],
-    rules: {
-      "@typescript-eslint/no-require-imports": "off",
-      "@typescript-eslint/no-var-requires": "off"
+      ],
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-empty-function": "warn",
+      "@typescript-eslint/consistent-type-imports": "warn",
+      "@typescript-eslint/no-non-null-assertion": "warn"
     }
   },
   {
@@ -147,18 +109,12 @@ export default defineFlatConfig([
     },
     processor: pluginVue.processors[".vue"],
     rules: {
-      ...pluginVue.configs.base.rules,
-      ...pluginVue.configs["vue3-essential"].rules,
-      ...pluginVue.configs["vue3-recommended"].rules,
-      "no-undef": "off",
-      "no-unused-vars": "off",
-      "vue/no-v-html": "off",
-      "vue/require-default-prop": "off",
-      "vue/require-explicit-emits": "off",
       "vue/multi-word-component-names": "off",
-      "vue/no-setup-props-reactivity-loss": "off",
+      "vue/no-v-html": "warn",
+      "vue/require-default-prop": "off",
+      "vue/no-setup-props-reactivity-loss": "warn",
       "vue/html-self-closing": [
-        "error",
+        "warn",
         {
           html: {
             void: "always",

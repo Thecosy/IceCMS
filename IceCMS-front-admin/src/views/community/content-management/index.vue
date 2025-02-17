@@ -255,7 +255,7 @@ const onBefore = file => {
 
 /** 超出最大上传数时触发 */
 const onExceed = () => {
-  message("最多上传1张图片，请先删除在上传");
+  message("最多上传1张图片，请先删除再上传");
 };
 
 /** 移除上传的文件 */

@@ -41,6 +41,7 @@ export function useNav() {
   const avatar = computed(() => {
     return useUserStoreHook()?.avatar;
   });
+
   /** 设置国际化选中后的样式 */
   const getDropdownItemStyle = computed(() => {
     return (locale, t) => {

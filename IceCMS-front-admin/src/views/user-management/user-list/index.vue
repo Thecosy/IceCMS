@@ -63,8 +63,8 @@ const {
         <el-form-item label="用户名称：" prop="username">
           <el-input v-model="form.username" placeholder="请输入用户名称" clearable class="!w-[180px]" />
         </el-form-item>
-        <el-form-item label="手机号码：" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入手机号码" clearable class="!w-[180px]" />
+        <el-form-item label="邮箱：" prop="phone">
+          <el-input v-model="form.phone" placeholder="请输入邮箱" clearable class="!w-[180px]" />
         </el-form-item>
         <el-form-item label="状态：" prop="status">
           <el-select v-model="form.status" placeholder="请选择" clearable class="!w-[180px]">

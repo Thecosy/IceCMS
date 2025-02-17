@@ -9,10 +9,10 @@ import { barChart, lineChart, roundChart } from "./components/chart";
 import Segmented, { type OptionsType } from "@/components/ReSegmented";
 import { barChartData, progressData, latestNewsData } from "./data";
 
-import GroupLine from "@iconify-icons/ri/group-line";
-import Question from "@iconify-icons/ri/question-answer-line";
-import CheckLine from "@iconify-icons/ri/chat-check-line";
-import Smile from "@iconify-icons/ri/star-smile-line";
+// import GroupLine from "@iconify-icons/ri/group-line";
+// import Question from "@iconify-icons/ri/question-answer-line";
+// import CheckLine from "@iconify-icons/ri/chat-check-line";
+// import Smile from "@iconify-icons/ri/star-smile-line";
 
 import { getChartData } from '@/api/common/panel'; // 请确保路径正确
 
@@ -77,7 +77,7 @@ const optionsBasis: Array<OptionsType> = [
             <div class="w-8 h-8 flex justify-center items-center rounded-md" :style="{
               backgroundColor: isDark ? 'transparent' : item.bgColor
             }">
-              <IconifyIconOffline :icon="item.icon" :color="item.color" width="18" />
+              <IconifyIconOnline :icon="item.icon" :color="item.color" width="18" />
             </div>
           </div>
           <div class="flex justify-between items-start mt-3">

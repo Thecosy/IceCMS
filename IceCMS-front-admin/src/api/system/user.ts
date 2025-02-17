@@ -158,8 +158,8 @@ export const uploadUserAvatarApi = data => {
 };
 
 /** 更改用户资料 */
-export const updateUserProfileApi = (data?: UserProfileRequest) => {
-  return http.request<ResponseData<void>>("put", "/system/user/profile", {
+export const updateUserProfileApi = (id, data?: UserProfileRequest) => {
+  return http.request<ResponseData<void>>("post",`/User/ChangeUser/${id}`, {
     data
   });
 };
@@ -173,4 +173,9 @@ export const updateCurrentUserPasswordApi = (data?: ResetPasswordRequest) => {
       data
     }
   );
+};
+
+/**  获取用户信息  */
+export const GetUserInfoByid = (id) => {
+  return http.request<ResponseData<[]>>("get",`/User/GetUserInfoByid/${id}`);
 };

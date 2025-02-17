@@ -47,10 +47,10 @@
 
 
 
-      <el-form-item label="图片大小限制（MB）">
+      <el-form-item v-if="storageMode !== 'oss'" label="图片大小限制（MB）">
         <el-input-number v-model="imageSizeLimit" class="input-width" :min="1" :max="20"></el-input-number>
       </el-form-item>
-      <el-form-item label="允许的图片类型">
+      <el-form-item v-if="storageMode !== 'oss'" label="允许的图片类型">
         <el-select v-model="allowedImageTypes" class="input-width" multiple placeholder="选择图片类型">
           <el-option label="JPEG" value="jpeg"></el-option>
           <el-option label="PNG" value="png"></el-option>
@@ -58,7 +58,10 @@
           <el-option label="SVG" value="svg"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="启用自动图片压缩">
+      <el-form-item v-if="storageMode !== 'oss'" label="启用自动图片压缩">
+        <el-switch v-model="autoCompress"></el-switch>
+      </el-form-item>
+      <el-form-item v-if="storageMode !== 'oss'" label="启用网站域名地址">
         <el-switch v-model="autoCompress"></el-switch>
       </el-form-item>
       <div class="button-container">
@@ -106,7 +109,6 @@ const fetchSettings = async () => {
     // console.log(response);
     // 根据 isCos 的值更新存储模式
     storageMode.value = response.data.isCos ? 'oss' : 'local';
-
     if (response.code === 200 && response.data) {
       // 更新响应式变量的值
       ossConfig.value.domain = response.data.cosIntage;

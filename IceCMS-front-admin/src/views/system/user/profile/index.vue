@@ -5,10 +5,12 @@ import userAvatar from "./userAvatar.vue";
 // import userAvatar from "./userAvatar";
 // import { getUserProfile } from '@/api/system/user';
 // import * as userApi from "@/api/system/userApi";
-import { reactive, ref } from "vue";
+import { ref, reactive,onMounted } from "vue";
 import dayjs from "dayjs";
 // import { useUserStoreHook } from "@/store/modules/user";
 import { storageLocal } from "@pureadmin/utils";
+import { updateUserProfileApi, UserProfileRequest,GetUserInfoByid } from "@/api/system/user";
+import { any } from "vue-types";
 
 const activeTab = ref("userinfo");
 const state = reactive({
@@ -43,17 +45,24 @@ const currentUserInfo =
     console.log('user',currentUserInfo)
 
 state.user = currentUserInfo;
-console.log(currentUserInfo);
+const UserInfo = ref({
+});
+// 初始化网站配置
+const initSiteConfig = async () => {
+  try {
+    const response = await GetUserInfoByid(currentUserInfo.userId);
+    if (response ) {
+      UserInfo.value = response;
+      // console.log('Site config loaded:', response);
+      // dispositionCarousel.value = response.data;
+      // console.log('Site config loaded:', dispositionCarousel.value);
+    }
+  } catch (error) {
+    console.error('Error fetching site config:', error);
+  }
+};
+onMounted(initSiteConfig);
 
-function getUser() {
-  // userApi.getUserProfile().then(response => {
-  //   state.user = response.user;
-  //   state.roleName = response.roleName;
-  //   state.postName = response.postName;
-  // });
-}
-
-getUser();
 </script>
 <template>
   <div class="app-container">
@@ -73,24 +82,21 @@ getUser();
             <el-row>
               <el-descriptions :column="1">
                 <el-descriptions-item label="用户名称">{{
-                  currentUserInfo.username
+                  UserInfo.name
                 }}</el-descriptions-item>
                 <el-descriptions-item label="手机号码">{{
-                  currentUserInfo.phoneNumber
+                  UserInfo.phone
                 }}</el-descriptions-item>
                 <el-descriptions-item label="用户邮箱">{{
-                  currentUserInfo.email
+                  UserInfo.email
                 }}</el-descriptions-item>
-                <el-descriptions-item label="部门 / 职位">
-                  {{ currentUserInfo.deptName }} /
-                  {{ currentUserInfo.postName }}
-                </el-descriptions-item>
+  
                 <el-descriptions-item label="角色">
-                  {{ currentUserInfo.roleName }}
+                  <!-- {{ UserInfo.roleName }} -->管理员
                 </el-descriptions-item>
                 <el-descriptions-item label="创建日期">
                   {{
-                    dayjs(currentUserInfo.createTime).format(
+                    dayjs(UserInfo.createTime).format(
                       "YYYY-MM-DD HH:mm:ss"
                     )
                   }}

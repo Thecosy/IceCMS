@@ -20,6 +20,13 @@
       <el-form-item label="启用自动资源优化">
         <el-switch v-model="autoOptimizeResources"></el-switch>
       </el-form-item>
+      <el-form-item label="资源图片显示模式">
+  <el-switch
+    v-model="ResourcesThumbMode"
+    active-text="资源模式"
+    inactive-text="主图模式"
+  ></el-switch>
+</el-form-item>
       <div class="button-container">
         <el-button type="primary" @click="saveSettings">保存</el-button>
         <el-button @click="resetSettings">取消</el-button>
@@ -29,15 +36,60 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { getSettingInfo, setSettingInfo } from '@/api/setting/webinfo';
+
+import { ElMessageBox, ElNotification } from 'element-plus';
+import { id } from 'element-plus/es/locale/index.mjs';
 
 const uploadSizeLimit = ref(100); // 默认100MB
 const allowedResourceTypes = ref(['image', 'video']); // 默认允许图片和视频
 const autoOptimizeResources = ref(true);
+const ResourcesThumbMode = ref(true);
 
-const saveSettings = () => {
+const siteConfig = ref({
+  id: "1",
+  imageFormat: '',
+  commentShow: '',
+  h5Show: '',
+});
+
+// 初始化网站配置
+const initSiteConfig = async () => {
+  try {
+    const response = await getSettingInfo();
+    if (response && response.data) {
+      console.log(response)
+      siteConfig.value = response.data;
+      ResourcesThumbMode.value = response.data.imageFormat;
+      // fileList.value = [{ name: 'image', url: siteConfig.value.sitLogo }];
+    }
+  } catch (error) {
+    console.error('Error fetching site config:', error);
+  }
+};
+onMounted(initSiteConfig);
+
+const saveSettings = async () => {
   // 实现保存设置的逻辑
   console.log('Settings saved:', { uploadSizeLimit, allowedResourceTypes, autoOptimizeResources });
+
+  try {
+    // siteConfig.value.sitLogo = fileList.value[0].url;
+    console.log(ResourcesThumbMode.value,"ResourcesThumbMode.value;")
+    siteConfig.value.imageFormat = ResourcesThumbMode.value;
+    console.log('siteConfig.value:', siteConfig.value);
+    await setSettingInfo(siteConfig.value);
+    console.log('Settings saved successfully');
+    ElNotification({
+      title: '成功',
+      message: '保存成功',
+      type: 'success',
+    });
+  } catch (error) {
+    console.error('Error saving site config:', error);
+  }
+
 };
 
 const resetSettings = () => {

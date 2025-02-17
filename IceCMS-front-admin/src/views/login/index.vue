@@ -70,27 +70,55 @@ const ruleForm = reactive({
 const onLogin = async (formEl: FormInstance | undefined) => {
   loading.value = true;
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
-        CommonAPI.loginByPassword({
-          username: ruleForm.username,
-          password: ruleForm.password
-        })
-        .then(({ data }) => {
-          // console.log(data);
-           // 获取后端路由
+      const response = await CommonAPI.loginByPassword({ username: ruleForm.username, password: ruleForm.password });
+      console.log(response);
+       if (response.code === 200) {
+          // 获取后端路由
           initRouter().then(() => {
             router.push(getTopMenu(true).path);
             message("登录成功", { type: "success" });
+            // 登录成功后刷新页面
+            window.location.reload();
           });
           // 登录成功后 将token存储到sessionStorage中
-          setTokenFromBackend(data);
-        })
-        .catch(() => {
-          loading.value = false;
-          //如果登录失败则重新获取验证码
+          setTokenFromBackend(response.data);
+
+        }else{
+           //如果登录失败则重新获取验证码
           // getCaptchaCode();
-        });
+          loading.value = false;
+          // getTopMenu(true).path;
+          message("登录失败", { type: "error" });
+          
+        }
+
+          
+      //   CommonAPI.loginByPassword({
+      //     username: ruleForm.username,
+      //     password: ruleForm.password
+      //   })
+      //   .then(({ data }) => {
+      //     console.log(data);
+      //      // 获取后端路由
+      //     initRouter().then(() => {
+      //       router.push(getTopMenu(true).path);
+      //       message("登录成功", { type: "success" });
+      //       // 登录成功后刷新页面
+      //       window.location.reload();
+      //     });
+      //     // 登录成功后 将token存储到sessionStorage中
+      //     setTokenFromBackend(data);
+      //   }
+      // )
+
+        // .catch(() => {
+        //   loading.value = false;
+        //   //如果登录失败则重新获取验证码
+        //   // getCaptchaCode();
+        // });
+
       // useUserStoreHook()
         // .loginByUsername({ username: ruleForm.username, password: "admin123" })
         // .then(res => {
