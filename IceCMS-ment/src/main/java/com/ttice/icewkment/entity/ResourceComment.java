@@ -21,6 +21,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class ResourceComment implements Serializable {
 
+  /** 唯一标识符 */
   private static final long serialVersionUID = 1L;
 
   /** id */

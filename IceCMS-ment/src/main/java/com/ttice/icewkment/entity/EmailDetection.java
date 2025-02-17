@@ -16,12 +16,16 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class EmailDetection implements Serializable {
 
+  /** id */
   @TableId(type = IdType.AUTO)
   private Integer id;
 
+  /** email邮箱 */
   private String email;
 
+  /** email验证码 */
   private String code;
 
+  /** email创建时间 */
   private Date time;
 }

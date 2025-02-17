@@ -1,6 +1,7 @@
 package com.ttice.icewkment.controller.frontend;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ttice.icewkment.commin.vo.ArticleContentVO;
 import com.ttice.icewkment.commin.vo.ArticlePageVO;
 import com.ttice.icewkment.commin.vo.ArticleVO;
 import com.ttice.icewkment.entity.Article;
@@ -43,7 +44,7 @@ public class WebArticleController {
   @ApiOperation(value = "根据id获取文章内容")
   @ApiImplicitParam(name = "id", value = "文章id", required = true)
   @GetMapping("/getArticleById/{id}")
-  public ArticleVO getArticleById(@PathVariable("id") Integer id) {
+  public ArticleContentVO getArticleById(@PathVariable("id") Integer id) {
     Article article = articleService.getById(id);
     String sortClass = String.valueOf(article.getSortClass());
     QueryWrapper<ArticleClass> wrapper = new QueryWrapper<>();
@@ -57,7 +58,7 @@ public class WebArticleController {
     String profile = user.getProfile();
     String username = user.getUsername();
 
-    ArticleVO articleBuffer = new ArticleVO();
+    ArticleContentVO articleBuffer = new ArticleContentVO();
     BeanUtils.copyProperties(article, articleBuffer);
     articleBuffer.setSortClass(name);
     articleBuffer.setProfile(profile);

@@ -16,12 +16,20 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class ArticleComment implements Serializable {
 
+  /** id */
   @TableId(type = IdType.AUTO)
   private Integer id;
 
+  /** 文章评论者id */
   private Integer userId;
+
+  /** 文章评论内容 */
   private String content;
+
+  /** 文章评论者名称 */
   private String username;
+
+  /** 文章评论者头像 */
   private String email;
 
   /** 添加时间 */
@@ -32,8 +40,15 @@ public class ArticleComment implements Serializable {
   // 返回前端自动把Data类型转换为json类型
   private Date addTime;
 
+  /** 父id */
   private Integer parentId;
+
+  /** 外键id */
   private Integer foreignId;
+
+  /** 评论头像 */
   private String profile;
+
+  /** 文章id */
   private Integer articleId;
 }

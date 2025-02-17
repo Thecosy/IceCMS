@@ -69,7 +69,6 @@ public class ArticleController {
     // 生成随机数注入
     int number = MathUtils.randomDigitNumber(7);
     article.setArticleStatus(number);
-     // 设置文章状态为已发布
     article.setStatus("published");
     // 查询分类名称对应的id值
     QueryWrapper<Article> wrapper = new QueryWrapper<>();

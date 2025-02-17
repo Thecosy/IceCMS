@@ -68,7 +68,8 @@ public class UserController {
       return Result.fail(("用户名不存在"));
     }
     Assert.notNull(user, "用户名不存在");
-    if (verifyPassword(user.getPassword(),userjudje.getPassword())) {
+    boolean verifyPassword = verifyPassword(userjudje.getPassword(), user.getPassword());
+    if (!verifyPassword) {
       return Result.fail(("密码不正确"));
     }
     // 添加token

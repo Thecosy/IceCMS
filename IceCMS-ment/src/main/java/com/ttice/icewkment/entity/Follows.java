@@ -15,10 +15,13 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 public class Follows implements Serializable {
 
+  /** id */
   @TableId(type = IdType.AUTO)
   private Integer id;
 
+  /** 关注id */
   private Integer followerId;
 
+  /** 关注者id */
   private Integer followingId;
 }

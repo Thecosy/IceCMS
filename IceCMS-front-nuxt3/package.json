@@ -1,0 +1,31 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev --dotenv .env.development",
+    "serve": "nuxt dev --dotenv .env.development",
+    "build": "nuxt build --dotenv .env.production",
+    "build:stage": "nuxt build --dotenv .env.staging",
+    "build:prod": "nuxt build --dotenv .env.production",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@kangc/v-md-editor": "^2.3.18",
+    "@pinia/nuxt": "0.5.5",
+    "dayjs": "^1.11.13",
+    "element-plus": "^2.9.3",
+    "nuxt": "^3.15.2",
+    "ohash": "^1.1.4",
+    "prismjs": "^1.29.0",
+    "vue": "latest",
+    "vue-router": "latest",
+    "vue3-emoji-picker": "^1.1.8"
+  },
+  "devDependencies": {
+    "@element-plus/nuxt": "^1.1.1",
+    "sass-embedded": "^1.83.4"
+  }
+}

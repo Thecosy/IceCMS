@@ -211,8 +211,12 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource>
       userQueryWrapper.eq("user_id", authorId);
       User user = userMapper.selectOne(userQueryWrapper);
       String profile = user.getProfile();
+      String author = user.getName();
+
       resourceVO = new ResourceVO();
       resourceVO.setAuthorThumb(profile);
+      resourceVO.setAuthor(author);
+
       BeanUtils.copyProperties(resource, resourceVO);
       result.add(resourceVO);
     }

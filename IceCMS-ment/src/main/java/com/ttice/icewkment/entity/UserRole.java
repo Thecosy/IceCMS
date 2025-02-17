@@ -16,8 +16,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class UserRole implements Serializable {
 
-  @TableId // 指定主键
+  /** 指定主键 */
+  @TableId
   private Integer userId;
 
+  /** 角色id */
   private Integer roleId;
 }

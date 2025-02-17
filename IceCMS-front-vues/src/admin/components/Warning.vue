@@ -1,4 +1,0 @@
-<template>
-  <aside></aside>
-</template>
-

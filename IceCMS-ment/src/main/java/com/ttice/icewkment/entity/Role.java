@@ -15,22 +15,31 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class Role implements Serializable {
 
+  /** 唯一标识符 */
   private static final long serialVersionUID = 1L;
 
+  /** id */
   private Integer id;
 
+  /** 名称 */
   private String name;
 
+  /** 分类 */
   private String sort;
 
+  /** 创建时间 */
   private Date createTime;
 
+  /** 更新时间 */
   private Date updateTime;
 
+  /** code */
   private String code;
 
+  /** 状态 */
   private Integer status;
 
+  /** remark */
   private String remark;
 
 }

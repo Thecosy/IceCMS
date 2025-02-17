@@ -12,14 +12,20 @@ import java.util.Date;
 @TableName("s_wx_login")
 public class WxLogin {
 
+    /** id */
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    /** 微信登录生成码 */
     private String scene;
 
+    /** 用户id */
     private Integer userId;
 
+    /** 状态 */
     private String status;
 
+    /** 创建时间 */
     private Date creatTime;
+
 }

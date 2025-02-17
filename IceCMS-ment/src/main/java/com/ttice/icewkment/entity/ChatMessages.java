@@ -12,12 +12,17 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public class ChatMessages implements Serializable {
 
+  /** id */
   @TableId(type = IdType.AUTO)
   private Integer id;
 
+  /** 聊天内容 */
   private String text;
+
+  /** 来源用户id */
   private Integer fromUserId;
 
+    /** 目标用户id */
   private Integer toUserId;
 
   //    @ApiModelProperty(value = "创建时间")

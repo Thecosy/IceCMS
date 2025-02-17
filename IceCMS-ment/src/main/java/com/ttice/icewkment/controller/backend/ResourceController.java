@@ -57,7 +57,6 @@ public class ResourceController {
     // 生成随机数注入
     int number = MathUtils.randomDigitNumber(7);
     resource.setResourceStatus(number);
-    // 设置资源状态为已发布
     resource.setStatus("published");
     // 查询分类名称对应的id值
     QueryWrapper<Resource> wrapper = new QueryWrapper<>();

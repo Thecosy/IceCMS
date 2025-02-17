@@ -14,9 +14,17 @@ import lombok.Data;
  */
 @Data
 public class Panel {
+
+  /** 面板CustomerNum */
   @TableId // 指定主键
   private Integer CustomerNum;
+
+  /** 面板CommentNum */
   private Integer CommentNum;
+
+  /** 面板SaleNum */
   private Integer SaleNum;
+
+  /** 面板OrderNum */
   private Integer OrderNum;
 }

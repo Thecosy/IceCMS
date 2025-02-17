@@ -1,8 +1,10 @@
 package com.ttice.icewkment.controller.frontend;
 
 import com.ttice.icewkment.entity.DispositionCarousel;
+import com.ttice.icewkment.entity.HomeSetting;
 import com.ttice.icewkment.entity.Setting;
 import com.ttice.icewkment.mapper.DispositionCarouselMapper;
+import com.ttice.icewkment.mapper.HomeSettingMapper;
 import com.ttice.icewkment.mapper.SettingMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +29,21 @@ public class WebSettingController {
 
   @Autowired private SettingMapper settingMapper;
 
+  @Autowired private HomeSettingMapper homeSettingMapper;
+
+
   @ApiOperation(value = "获取首页轮播图")
   @GetMapping("/getCarousel")
   public List<DispositionCarousel> getCarousel() {
 
     return this.disposition_carouselMapper.selectAll();
+  }
+
+  @ApiOperation(value = "获取首页四大金刚")
+  @GetMapping("/getFourKingKong")
+  public List<HomeSetting> getFourKingKong() {
+
+    return this.homeSettingMapper.selectList(null);
   }
 
   @ApiOperation(value = "获取所有设置")

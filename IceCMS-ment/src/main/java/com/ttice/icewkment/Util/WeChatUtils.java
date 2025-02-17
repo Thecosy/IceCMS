@@ -100,7 +100,10 @@ public class WeChatUtils {
         // 场景码，根据业务场景与【前端】约定
         body.put("scene", accountId);
         // 页面路径
-//        body.put("page", "homePages/about");
+        body.put("page", "minePages/onlogin");
+        // 关闭强制检测路径的有效性
+        body.put("check_path", false);
+
         WxLoginInfo wxLoginInfo = wxloginInfoMapper.selectOne(null);
         body.put("env_version", wxLoginInfo.getEnvVersion());
         // 透明

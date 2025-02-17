@@ -10,14 +10,19 @@ import lombok.EqualsAndHashCode;
 @TableName("s_mail_info")
 public class EmailInfo {
 
+    /** id */
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    /** 邮箱发送用户名 */
     private String username;
 
+    /** 邮箱发送密码 */
     private String password;
 
+    /** email主机 */
     private String host;
 
+    /** email端口 */
     private String protocol;
 }

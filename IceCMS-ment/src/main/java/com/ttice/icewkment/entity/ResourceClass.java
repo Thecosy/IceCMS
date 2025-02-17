@@ -36,8 +36,9 @@ public class ResourceClass implements Serializable {
   /** 分类图片 */
   private String imgclass;
 
-  /** 顶制 */
+  /** 顶置 */
   private Boolean top;
 
+  /** 数量 */
   private Integer num;
 }

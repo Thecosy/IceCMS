@@ -15,17 +15,24 @@ import java.io.Serializable;
 @TableName("s_cos_info")
 public class CosInfo implements Serializable {
 
+    /** id */
     private Integer id;
 
+    /** cosid */
     private String cosIntage;
 
+    /** 储存桶地域 */
     private String cosBucketName;
 
+    /** cosid */
     private String cosSecretId;
 
+    /** coskey */
     private String cosSecretKey;
 
+    /** cos配置 */
     private String cosClientConfig;
 
+    /** 是否使用cos */
     private Boolean isCos;
 }

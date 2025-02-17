@@ -156,7 +156,7 @@ public class UserLogController {
     myMap.put("email", userjudje.getEmail());
     myMap.put("intro", userjudje.getIntro());
     //        myMap.put("age", userjudje.getUserAge().toString());
-    myMap.put("gender", userjudje.getGender());
+    myMap.put("gender", String.valueOf(userjudje.getGender()));
     myMap.put("userid", userjudje.getUserId().toString());
     myMap.put("username", userjudje.getUsername());
     return Result.succ(200, "成功登录", myMap);
