@@ -38,13 +38,26 @@ public class SquareServiceImpl extends ServiceImpl<SquareMapper, Square> impleme
   @Autowired private SquareClassService squareClassService;
 
   @Override
-  public SquarePageVO VoList(Integer squareId, Integer page, Integer limit) {
+  public SquarePageVO VoList(Integer squareId, Integer page, Integer limit, String type) {
 
     Page<Square> squarePage = new Page<>(page, limit);
 
     List<SquareVO> result = new ArrayList<>();
     QueryWrapper<Square> queryWrapper = new QueryWrapper<Square>();
-    queryWrapper.select().orderByDesc("add_time");
+    queryWrapper.select();
+    
+    // 根据type参数决定排序方式
+    if ("recent".equals(type)) {
+      // 最近：按时间倒序
+      queryWrapper.orderByDesc("add_time");
+    } else if ("hot".equals(type)) {
+      // 热门：按点赞数和评论数排序
+      queryWrapper.orderByDesc("love_num").orderByDesc("add_time");
+    } else {
+      // 默认：按时间倒序
+      queryWrapper.orderByDesc("add_time");
+    }
+    
     queryWrapper.eq("sort_class", squareId);
     Page<Square> resultPage = squareMapper.selectPage(squarePage, queryWrapper);
 

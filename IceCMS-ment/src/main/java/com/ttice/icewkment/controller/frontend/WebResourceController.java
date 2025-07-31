@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -95,6 +96,13 @@ public class WebResourceController {
   @GetMapping("/resource/{id}/view")
   public Boolean resourceViewBrowse(@PathVariable("id") Integer id) {
     return resourceMapper.resourceBrowse(id);
+  }
+
+  @ApiOperation(value = "统计资源下载量+1")
+  @ApiImplicitParam(name = "id", value = "资源id", required = true)
+  @GetMapping("/resource/{id}/download")
+  public Boolean resourceDownloadCount(@PathVariable("id") Integer id) {
+    return resourceMapper.resourceDownloadCount(id);
   }
 
   @ApiOperation(value = "统计资源喜欢量+1")
@@ -191,5 +199,92 @@ public class WebResourceController {
     list.put("createTime", createTime);
     list.put("id", id1);
     return list;
+  }
+
+  /**
+   * 根据类型获取资源（最新、下载量、评论数、喜欢数、推荐）
+   * @param page 页数
+   * @param limit 每页数量
+   * @param type 类型：new(最新)、hot(下载量)、commend(评论数)、like(喜欢数)、recommend(推荐)
+   * @return ResourcePageVO
+   */
+  @ApiOperation(value = "根据类型获取资源")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "page", value = "页数", required = true),
+    @ApiImplicitParam(name = "limit", value = "每页数量", required = true),
+    @ApiImplicitParam(name = "type", value = "类型：new(最新)、hot(下载量)、commend(评论数)、like(喜欢数)、recommend(推荐)", required = true)
+  })
+  @GetMapping("/getResourceByType/{page}/{limit}/{type}")
+  public ResourcePageVO getResourceByType(
+      @PathVariable("page") Integer page,
+      @PathVariable("limit") Integer limit,
+      @PathVariable("type") String type) {
+    return this.resourceService.getResourceByType(page, limit, type);
+  }
+
+  /**
+   * 根据分类ID和类型获取资源
+   * @param page 页数
+   * @param limit 每页数量
+   * @param classId 分类ID
+   * @param type 类型：new(最新)、hot(下载量)、commend(评论数)、like(喜欢数)、recommend(推荐)
+   * @return ResourcePageVO
+   */
+  @ApiOperation(value = "根据分类ID和类型获取资源")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "page", value = "页数", required = true),
+    @ApiImplicitParam(name = "limit", value = "每页数量", required = true),
+    @ApiImplicitParam(name = "classId", value = "分类ID", required = true),
+    @ApiImplicitParam(name = "type", value = "类型：new(最新)、hot(下载量)、commend(评论数)、like(喜欢数)、recommend(推荐)", required = true)
+  })
+  @GetMapping("/getResourceByClassAndType/{page}/{limit}/{classId}/{type}")
+  public ResourcePageVO getResourceByClassAndType(
+      @PathVariable("page") Integer page,
+      @PathVariable("limit") Integer limit,
+      @PathVariable("classId") Integer classId,
+      @PathVariable("type") String type) {
+    return this.resourceService.getResourceByClassAndType(page, limit, classId, type);
+  }
+
+  /**
+   * 获取相关推荐资源
+   * @param classId 分类ID（可选，如果为null则获取全局推荐）
+   * @param limit 获取数量
+   * @return List<ResourceVO>
+   */
+  @ApiOperation(value = "获取相关推荐资源")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "classId", value = "分类ID（可选）", required = false),
+    @ApiImplicitParam(name = "limit", value = "获取数量", required = true)
+  })
+  @GetMapping("/getRecommendedResources/{limit}")
+  public List<ResourceVO> getRecommendedResources(
+      @PathVariable("limit") Integer limit,
+      @RequestParam(value = "classId", required = false) Integer classId) {
+    return this.resourceService.getRecommendedResources(classId, limit);
+  }
+
+  /**
+   * 获取热门资源（基于浏览量）
+   * @param limit 获取数量
+   * @return List<ResourceVO>
+   */
+  @ApiOperation(value = "获取热门资源")
+  @ApiImplicitParam(name = "limit", value = "获取数量", required = true)
+  @GetMapping("/getHotResources/{limit}")
+  public List<ResourceVO> getHotResources(@PathVariable("limit") Integer limit) {
+    return this.resourceService.getHotResources(limit);
+  }
+
+  /**
+   * 获取最新资源
+   * @param limit 获取数量
+   * @return List<ResourceVO>
+   */
+  @ApiOperation(value = "获取最新资源")
+  @ApiImplicitParam(name = "limit", value = "获取数量", required = true)
+  @GetMapping("/getLatestResources/{limit}")
+  public List<ResourceVO> getLatestResources(@PathVariable("limit") Integer limit) {
+    return this.resourceService.getLatestResources(limit);
   }
 }

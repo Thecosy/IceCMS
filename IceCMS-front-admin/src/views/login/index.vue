@@ -44,14 +44,18 @@ defineOptions({
 });
 
 const imgCode = ref("");
-const loginDay = ref(7);
+const loginDay = ref<number>(7);
 const router = useRouter();
 const loading = ref(false);
 const checked = ref(false);
 const disabled = ref(false);
 const ruleFormRef = ref<FormInstance>();
 // 判断登录页面显示哪个组件（0：登录（默认）、1：手机登录、2：二维码登录、3：注册、4：忘记密码）
-const currentPage = ref(0);
+// 使用store中的currentPage，确保组件间可以共享状态
+const userStore = useUserStoreHook();
+// 初始化时设置为登录页
+userStore.SET_CURRENTPAGE(0);
+const currentPage = computed(() => userStore.currentPage);
 
 const { t } = useI18n();
 const { initStorage } = useLayout();
@@ -67,6 +71,12 @@ const ruleForm = reactive({
   verifyCode: ""
 });
 
+// 处理登录天数变化
+const handleLoginDayChange = (value: number) => {
+  console.log("选择的天数:", value);
+  loginDay.value = Number(value);
+};
+
 const onLogin = async (formEl: FormInstance | undefined) => {
   loading.value = true;
   if (!formEl) return;
@@ -75,6 +85,15 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       const response = await CommonAPI.loginByPassword({ username: ruleForm.username, password: ruleForm.password });
       console.log(response);
        if (response.code === 200) {
+          // 更新store中的记住登录状态
+          userStore.SET_ISREMEMBERED(checked.value);
+          userStore.SET_LOGINDAY(Number(loginDay.value));
+
+          console.log("记住登录:", checked.value, "天数:", Number(loginDay.value));
+
+          // 登录成功后 将token存储到sessionStorage中
+          setTokenFromBackend(response.data, checked.value, Number(loginDay.value));
+
           // 获取后端路由
           initRouter().then(() => {
             router.push(getTopMenu(true).path);
@@ -82,8 +101,6 @@ const onLogin = async (formEl: FormInstance | undefined) => {
             // 登录成功后刷新页面
             window.location.reload();
           });
-          // 登录成功后 将token存储到sessionStorage中
-          setTokenFromBackend(response.data);
 
         }else{
            //如果登录失败则重新获取验证码
@@ -91,10 +108,10 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           loading.value = false;
           // getTopMenu(true).path;
           message("登录失败", { type: "error" });
-          
+
         }
 
-          
+
       //   CommonAPI.loginByPassword({
       //     username: ruleForm.username,
       //     password: ruleForm.password
@@ -166,9 +183,9 @@ watch(loginDay, value => {
 </script>
 
 <template>
-  <div class="select-none">
+  <div class="select-none modern-login" :class="{ 'dark': dataTheme }">
     <img :src="bg" class="wave" />
-    <div class="flex-c absolute right-5 top-3">
+    <div class="top-toolbar">
       <!-- 主题 -->
       <el-switch
         v-model="dataTheme"
@@ -180,7 +197,7 @@ watch(loginDay, value => {
       <!-- 国际化 -->
       <el-dropdown trigger="click">
         <globalization
-          class="hover:text-primary hover:!bg-[transparent] w-[20px] h-[20px] ml-1.5 cursor-pointer outline-none duration-300"
+          class="hover:text-primary hover:!bg-[transparent] w-[20px] h-[20px] cursor-pointer outline-none duration-300"
         />
         <template #dropdown>
           <el-dropdown-menu class="translation">
@@ -215,8 +232,8 @@ watch(loginDay, value => {
         <component :is="toRaw(illustration)" />
       </div>
       <div class="login-box">
-        <div class="login-form">
-          <avatar class="avatar" />
+        <div class="login-form" :class="{'login-form-en': locale === 'en'}">
+          <!-- <avatar class="avatar" /> -->
           <Motion>
             <h2 class="outline-none">
               <TypeIt :values="[title]" :cursor="false" :speed="150" />
@@ -279,42 +296,43 @@ watch(loginDay, value => {
 
             <Motion :delay="250">
               <el-form-item>
-                <div class="w-full h-[20px] flex justify-between items-center">
+                <div class="w-full flex justify-between items-center">
                   <el-checkbox v-model="checked">
-                    <span class="flex">
-                      <select
+                    <div class="flex items-center flex-wrap" :class="{'remember-login-en': locale === 'en'}">
+                      <el-select
                         v-model="loginDay"
-                        :style="{
-                          width: loginDay < 10 ? '10px' : '16px',
-                          outline: 'none',
-                          background: 'none',
-                          appearance: 'none'
-                        }"
+                        size="small"
+                        class="remember-select mr-1"
+                        :class="{'w-16': locale === 'zh', 'w-20': locale === 'en'}"
+                        :disabled="!checked"
+                        @change="handleLoginDayChange"
                       >
-                        <option value="1">1</option>
-                        <option value="7">7</option>
-                        <option value="30">30</option>
-                      </select>
-                      {{ t("login.remember") }}
+                        <el-option :value="1" :label="'1'" />
+                        <el-option :value="7" :label="'7'" />
+                        <el-option :value="30" :label="'30'" />
+                      </el-select>
+                      <span class="text-sm remember-text">{{ t("login.remember") }}</span>
                       <el-tooltip
                         effect="dark"
                         placement="top"
                         :content="t('login.rememberInfo')"
                       >
-                        <IconifyIconOffline :icon="Info" class="ml-1" />
+                        <IconifyIconOffline :icon="Info" class="ml-1 text-gray-400" />
                       </el-tooltip>
-                    </span>
+                    </div>
                   </el-checkbox>
                   <el-button
                     link
                     type="primary"
-                    @click="currentPage = 4">
+                    class="text-sm font-normal forget-btn"
+                    :class="{'text-xs': locale === 'en'}"
+                    @click="userStore.SET_CURRENTPAGE(4)">
                     {{ t("login.forget") }}
                   </el-button>
                 </div>
                 <el-button
                   class="w-full mt-4"
-                  size="default"
+                  size="large"
                   type="primary"
                   :loading="loading"
                   :disabled="disabled"
@@ -327,13 +345,15 @@ watch(loginDay, value => {
 
             <Motion :delay="300">
               <el-form-item>
-                <div class="w-full h-[20px] flex justify-between items-center">
+                <div class="w-full flex justify-between items-center gap-2 mt-4">
                   <el-button
                     v-for="(item, index) in operates"
                     :key="index"
-                    class="w-full mt-4"
+                    class="flex-1 operation-btn"
+                    :class="{'text-xs': locale === 'en'}"
                     size="default"
-                    @click="currentPage = item.page"
+                    text
+                    @click="userStore.SET_CURRENTPAGE(item.page)"
                   >
                     {{ t(item.title) }}
                   </el-button>
@@ -347,18 +367,19 @@ watch(loginDay, value => {
               <el-divider>
                 <p class="text-gray-500 text-xs">{{ t("login.thirdLogin") }}</p>
               </el-divider>
-              <div class="w-full flex justify-evenly">
-                <span
+              <div class="third-party-icons">
+                <div
                   v-for="(item, index) in thirdParty"
                   :key="index"
+                  class="icon-wrapper"
                   :title="t(item.title)"
                 >
                   <IconifyIconOnline
                     :icon="`ri:${item.icon}-fill`"
                     width="20"
-                    class="cursor-pointer text-gray-500 hover:text-blue-400"
+                    class="text-gray-600 hover:text-blue-500"
                   />
-                </span>
+                </div>
               </div>
             </el-form-item>
           </Motion>
@@ -376,11 +397,9 @@ watch(loginDay, value => {
   </div>
 </template>
 
-<style scoped>
-@import url("@/style/login.css");
-</style>
-
 <style lang="scss" scoped>
+@import url("@/style/modern-login.scss");
+
 :deep(.el-input-group__append, .el-input-group__prepend) {
   padding: 0;
 }

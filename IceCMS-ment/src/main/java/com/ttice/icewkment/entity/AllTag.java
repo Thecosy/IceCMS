@@ -15,6 +15,12 @@ public class AllTag implements Serializable {
   @TableId(type = IdType.AUTO)
   private Integer id;
 
-  /** 所厲栏目id */
+  /** 标签名称 */
   private String tagName;
+  
+  /** 标签颜色 */
+  private String color;
+  
+  /** 标签效果 */
+  private String effect;
 }

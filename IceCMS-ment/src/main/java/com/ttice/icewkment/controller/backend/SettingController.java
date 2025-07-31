@@ -63,6 +63,20 @@ public class SettingController {
   @ApiImplicitParam(name = "setting", value = "设置", required = true)
   @PostMapping("/setCosInfo")
   public Result setSettingCos(@RequestBody CosInfo cosInfo) {
+    // 如果是七牛云存储，设置storageType为3
+    if (cosInfo.getQiniuAccessKey() != null && cosInfo.getQiniuSecretKey() != null 
+        && cosInfo.getQiniuBucketName() != null && cosInfo.getQiniuDomain() != null) {
+      cosInfo.setStorageType(3);
+    } 
+    // 如果是腾讯云存储，设置storageType为2
+    else if (cosInfo.getIsCos() != null && cosInfo.getIsCos() 
+        && cosInfo.getCosSecretId() != null && cosInfo.getCosSecretKey() != null) {
+      cosInfo.setStorageType(2);
+    } 
+    // 默认为本地存储
+    else {
+      cosInfo.setStorageType(1);
+    }
     return Result.succ(cosInfoMapper.update(cosInfo, null));
   }
 

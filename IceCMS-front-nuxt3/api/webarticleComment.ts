@@ -1,4 +1,4 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 
 /**
  * @description 获取指定文章的所有评论
@@ -6,7 +6,7 @@ import httpRequest from "../service/index";
  * @return Promise<any>
  */
 export const getallArticleComment = (id: string | number) => {
-  return httpRequest.get<any>(`/WebArticleComment/getallArticleComment/${id}`);
+  return useDollarGet(`/WebArticleComment/getallArticleComment/${id}`);
 };
 
 /**
@@ -15,17 +15,7 @@ export const getallArticleComment = (id: string | number) => {
  * @return Promise<any>
  */
 export const addArticleComment = (data: any) => {
-  return httpRequest.post<any>('/WebArticleComment/addArticleComment', data, {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    params: {
-      dataType: 'json',
-      crossDomain: true,
-      processData: false,
-      contentType: false,
-    }
-  });
+  return useFetchPost('/WebArticleComment/addArticleComment', data);
 };
 
 /**
@@ -34,7 +24,7 @@ export const addArticleComment = (data: any) => {
  * @return Promise<any>
  */
 export const getArticleCommentnum = (id: string | number) => {
-  return httpRequest.get<any>(`/WebArticleComment/getArticleCommentnum/${id}`);
+  return useDollarGet(`/WebArticleComment/getArticleCommentnum/${id}`);
 };
 
 /**
@@ -43,5 +33,5 @@ export const getArticleCommentnum = (id: string | number) => {
  * @return Promise<any>
  */
 export const getNewArticleComment = (num: number) => {
-  return httpRequest.get<any>(`/WebArticleComment/getNewArticleComment/${num}`);
+  return useDollarGet(`/WebArticleComment/getNewArticleComment/${num}`);
 };

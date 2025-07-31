@@ -63,8 +63,8 @@ const {
         <el-form-item label="用户名称：" prop="username">
           <el-input v-model="form.username" placeholder="请输入用户名称" clearable class="!w-[180px]" />
         </el-form-item>
-        <el-form-item label="手机号码：" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入手机号码" clearable class="!w-[180px]" />
+        <el-form-item label="邮箱：" prop="phone">
+          <el-input v-model="form.phone" placeholder="请输入邮箱" clearable class="!w-[180px]" />
         </el-form-item>
         <el-form-item label="状态：" prop="status">
           <el-select v-model="form.status" placeholder="请选择" clearable class="!w-[180px]">
@@ -109,7 +109,7 @@ const {
             </el-popconfirm>
           </div>
           <pure-table ref="tableRef" row-key="id" adaptive align-whole="center" table-layout="auto" :loading="loading"
-            :size="size" :data="dataList" :columns="dynamicColumns" :pagination="pagination" @current-change="onSearch"
+            :size="size" :data="dataList" :columns="dynamicColumns" :pagination="pagination"
             :paginationSmall="size === 'small' ? true : false" :header-cell-style="{
               background: 'var(--el-fill-color-light)',
               color: 'var(--el-text-color-primary)'
@@ -128,8 +128,7 @@ const {
                 </template>
               </el-popconfirm>
               <el-dropdown>
-                <el-button class="ml-3 mt-[2px]" link type="primary" :size="size" :icon="useRenderIcon(More)"
-                  @click="handleUpdate(row)" />
+                <el-button class="ml-3 mt-[2px]" link type="primary" :size="size" :icon="useRenderIcon(More)" />
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>

@@ -4,7 +4,7 @@
       <div>
         <el-dialog :visible.sync="wxDialogVisible" :show-close="false" @close="closeDialog" width="320px" center>
           <h5 class="outh5">
-            <img src="../../static/image/pay/weixinbig.png" class="alipaybig_icon" />
+<!--            <img src="../../static/image/pay/weixinbig.png" class="alipaybig_icon" />-->
           </h5>
           <h5 class="outh5">
             <div class="bottom alipay">
@@ -26,7 +26,7 @@
       <div>
         <el-dialog :visible.sync="aliDialogVisible" :show-close="false" @close="closeDialog" width="320px" center>
           <h5 class="outh5">
-            <img src="../../static/image/pay/alipaybig.png" class="alipaybig_icon" />
+<!--            <img src="../../static/image/pay/alipaybig.png" class="alipaybig_icon" />-->
           </h5>
           <h5 class="outh5">
             <div class="bottom alipay">
@@ -50,18 +50,18 @@
         <div class="swal2-content">
           <div id="swal2-content" style="display: block">
             <div class="pay-button-box">
-              <div @click="selectPayTypeLogin('alipay')" class="pay-item" id="alipay" data-type="1">
-                <img style="margin-right: 14px" height="40" width="40"
-                  src="../../static/image/pay/zhifubaorenzheng.svg" /><span>支付宝</span>
-              </div>
-              <div @click="selectPayTypeLogin('wxpay')" class="pay-item" id="weixinpay" data-type="2">
-                <img style="margin: 12px" height="40" width="40"
-                  src="../../static/image/pay/weixinzhifu.svg" /><span>微信支付</span>
-              </div>
-              <div @click="selectPayTypeLogin('wxpay')" class="pay-item" id="weixinpay" data-type="2">
-                <img style="margin: 12px" height="40" width="40"
-                  src="../../static/image/pay/jifen.svg" /><span>积分支付</span>
-              </div>
+<!--              <div @click="selectPayTypeLogin('alipay')" class="pay-item" id="alipay" data-type="1">-->
+<!--                <img style="margin-right: 14px" height="40" width="40"-->
+<!--                  src="../../static/image/pay/zhifubaorenzheng.svg" /><span>支付宝</span>-->
+<!--              </div>-->
+<!--              <div @click="selectPayTypeLogin('wxpay')" class="pay-item" id="weixinpay" data-type="2">-->
+<!--                <img style="margin: 12px" height="40" width="40"-->
+<!--                  src="../../static/image/pay/weixinzhifu.svg" /><span>微信支付</span>-->
+<!--              </div>-->
+<!--              <div @click="selectPayTypeLogin('wxpay')" class="pay-item" id="weixinpay" data-type="2">-->
+<!--                <img style="margin: 12px" height="40" width="40"-->
+<!--                  src="../../static/image/pay/jifen.svg" /><span>积分支付</span>-->
+<!--              </div>-->
             </div>
             <p style="font-size: 13px; padding: 0; margin: 0"></p>
           </div>

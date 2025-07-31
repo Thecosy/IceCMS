@@ -1,4 +1,4 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 import type { Setting } from "../types/setting";
 
 /**
@@ -6,7 +6,7 @@ import type { Setting } from "../types/setting";
  * @return Promise<any>
  */
 export const getCarousel = (params: any) => {
-  return httpRequest.get<any>('/WebSitting/getCarousel', { params });
+  return useDollarGet('/WebSitting/getCarousel');
 };
 
 /**
@@ -14,7 +14,7 @@ export const getCarousel = (params: any) => {
  * @return Promise<Setting[]>
  */
 export const getSetting = (params: any) => {
-  return httpRequest.get<Setting[]>('/WebSitting/getSetting', { params });
+  return useDollarGet('/WebSitting/getSetting');
 };
 
 /**
@@ -22,5 +22,5 @@ export const getSetting = (params: any) => {
  * @return Promise<any>
  */
 export const getFourKingKong = (params: any) => {
-  return httpRequest.get<any>('/WebSitting/getFourKingKong', { params });
+  return useDollarGet('/WebSitting/getFourKingKong');
 };

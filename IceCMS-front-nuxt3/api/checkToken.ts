@@ -1,4 +1,4 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 
 /**
  * @description 检查 Token 是否有效
@@ -6,7 +6,7 @@ import httpRequest from "../service/index";
  * @return Promise<any>
  */
 export const checkToken = (data: string): Promise<any> => {
-  return httpRequest.get<any>('/User/checkToken', {
+  return useDollarGet('/User/checkToken', {
     headers: {
       token: data
     }
@@ -19,5 +19,5 @@ export const checkToken = (data: string): Promise<any> => {
  * @return Promise<any>
  */
 export const checkAdmin = (userid: string): Promise<any> => {
-  return httpRequest.get<any>(`/User/CheckAdmin/${userid}`);
+  return useDollarGet(`/User/CheckAdmin/${userid}`);
 };

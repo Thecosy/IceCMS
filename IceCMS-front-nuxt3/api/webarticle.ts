@@ -1,5 +1,5 @@
+import { useDollarGet, useFetchPost } from  "../service/useDollarFetchRequest";
 import httpRequest from "../service/index";
-import { useDollarGet } from  "../service/useDollarFetchRequest";
 
 /**
  * @description 获取所有文章
@@ -8,7 +8,7 @@ import { useDollarGet } from  "../service/useDollarFetchRequest";
  * @return Promise<any>
  */
 export const getAllArticle = (query: { page: number; limit: number }, click: number) => {
-  return httpRequest.get<any>(`/WebArticle/getAllArticle/${query.page}/${query.limit}/${click}`);
+  return useDollarGet(`/WebArticle/getAllArticle/${query.page}/${query.limit}/${click}`);
 };
 
 /**
@@ -17,7 +17,7 @@ export const getAllArticle = (query: { page: number; limit: number }, click: num
  * @return Promise<any>
  */
 export const getArticleById = (id: string | number) => {
-  return httpRequest.get<any>(`/WebArticle/getArticleById/${id}`);
+  return useDollarGet(`/WebArticle/getArticleById/${id}`);
 };
 
 /**
@@ -26,7 +26,7 @@ export const getArticleById = (id: string | number) => {
  * @return Promise<any>
  */
 export const getAllArticlebyAuthor = (author: string) => {
-  return httpRequest.get<any>(`/WebArticle/getAllArticlebyAuthor/${author}`);
+  return useDollarGet(`/WebArticle/getAllArticlebyAuthor/${author}`);
 };
 
 /**
@@ -36,7 +36,7 @@ export const getAllArticlebyAuthor = (author: string) => {
  * @return Promise<any>
  */
 export const getNewArticle = (num: number, click: string) => {
-  return httpRequest.get<any>(`/WebArticle/getNewArticle/${num}/${click}`);
+  return useDollarGet(`/WebArticle/getNewArticle/${num}/${click}`);
 };
 
 /**
@@ -44,7 +44,7 @@ export const getNewArticle = (num: number, click: string) => {
  * @return Promise<any>
  */
 export const getAllArticleNumber = () => {
-  return httpRequest.get<any>('/WebArticle/getAllArticleNumber');
+  return useDollarGet('/WebArticle/getAllArticleNumber');
 };
 
 /**
@@ -53,7 +53,7 @@ export const getAllArticleNumber = () => {
  * @return Promise<any>
  */
 export const Findarticles = (title: string) => {
-  return httpRequest.get<any>(`/WebArticle/findarticles/${title}`);
+  return useDollarGet(`/WebArticle/findarticles/${title}`);
 };
 
 /**
@@ -75,7 +75,7 @@ export const FindarticlesByNum = (title: string, num: number) => useDollarGet(`/
  * @return Promise<any>
  */
 export const FindAllArticle = (query: { content: string; page: number; limit: number }) => {
-  return httpRequest.get<any>(`/WebArticle/FindAllArticle/${query.content}/${query.page}/${query.limit}`);
+  return useDollarGet(`/WebArticle/FindAllArticle/${query.content}/${query.page}/${query.limit}`);
 };
 
 /**
@@ -84,7 +84,7 @@ export const FindAllArticle = (query: { content: string; page: number; limit: nu
  * @return Promise<any>
  */
 export const FindProfileByName = (name: string) => {
-  return httpRequest.get<any>(`/WebArticle/FindProfileByName/${name}`);
+  return useDollarGet(`/WebArticle/FindProfileByName/${name}`);
 };
 
 /**
@@ -93,7 +93,7 @@ export const FindProfileByName = (name: string) => {
  * @return Promise<any>
  */
 export const viewarticle = (id: string | number) => {
-  return httpRequest.get<any>(`/WebArticle/articles/${id}/view`);
+  return useDollarGet(`/WebArticle/articles/${id}/view`);
 };
 
 /**
@@ -102,7 +102,7 @@ export const viewarticle = (id: string | number) => {
  * @return Promise<any>
  */
 export const lovearticle = (id: string | number) => {
-  return httpRequest.get<any>(`/WebArticle/articles/${id}/love`);
+  return useDollarGet(`/WebArticle/articles/${id}/love`);
 };
 
 /**
@@ -110,7 +110,7 @@ export const lovearticle = (id: string | number) => {
  * @return Promise<any>
  */
 export const GetArticleBtmatte = () => {
-  return httpRequest.get<any>('/WebArticle/GetArticleBtmatter');
+  return useDollarGet('/WebArticle/GetArticleBtmatter');
 };
 
 /**
@@ -119,7 +119,7 @@ export const GetArticleBtmatte = () => {
  * @return Promise<any>
  */
 export const getPrenewsArticle = (id: string | number) => {
-  return httpRequest.get<any>(`/WebArticle/getPrenewsArticle/${id}`);
+  return useDollarGet(`/WebArticle/getPrenewsArticle/${id}`);
 };
 
 /**
@@ -128,5 +128,23 @@ export const getPrenewsArticle = (id: string | number) => {
  * @return Promise<any>
  */
 export const getLastnewsArticle = (id: string | number) => {
-  return httpRequest.get<any>(`/WebArticle/getLastnewsArticle/${id}`);
+  return useDollarGet(`/WebArticle/getLastnewsArticle/${id}`);
+};
+
+/**
+ * @description 获取文章的所有评论
+ * @param articleId 文章ID
+ * @return Promise<any>
+ */
+export const getallArticleComment = (articleId: string | number) => {
+  return httpRequest.get<any>(`/WebArticleComment/getallArticleComment/${articleId}`);
+};
+
+/**
+ * @description 添加文章评论
+ * @param commentData 评论数据
+ * @return Promise<any>
+ */
+export const addArticleComment = (commentData: any) => {
+  return useFetchPost('/WebArticleComment/addArticleComment', commentData);
 };

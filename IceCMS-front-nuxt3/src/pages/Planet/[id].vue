@@ -14,6 +14,7 @@ import EmojiPicker from '../../components/emoji/index.vue'
 // import UploadView from './component/upload/view.vue'
 
 // import { ElButton } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useInput } from '../../hooks/useInput'
 import { useEmoji } from '../../hooks/useEmoji'
 import { useUpload } from '../../hooks/useUpload'
@@ -21,6 +22,18 @@ import { useUpload } from '../../hooks/useUpload'
 const route = useRoute();
 const router = useRouter();
 // const { cookies } = useCookies();
+
+// 添加渲染表情的函数
+function renderEmojiContent(content: string | null | undefined): string {
+  if (!content) return '';
+  
+  // 正则表达式匹配 [emoji_name] 格式
+  const emojiRegex = /\[([^\]]+?)\]/g;
+  return content.replace(emojiRegex, (match, emojiName) => {
+    // 将 [emoji_name] 转换为 <img> 标签
+    return `<img src="/emoji/${emojiName}.png" class="emoji-icon" alt="${emojiName}" style="width: 24px; height: 24px; vertical-align: middle;" />`;
+  });
+}
 
 definePageMeta({
   validate: async (route) => {
@@ -34,6 +47,7 @@ const announcementsList = ref([]);
 const isDark = ref(false);
 const pagetotal = ref(0);
 const isLoading = ref(false);
+const isSubmitting = ref(false); // 添加提交状态
 const dialogImageUrl = ref('');
 const userJudje = ref<boolean>(false);
 const dialogVisible = ref(false);
@@ -86,14 +100,14 @@ const emit = defineEmits<{
 }>()
 
 const props = withDefaults(
-  defineProps<{
-    pid?: string
-    reply_id?: string
-  }>(),
-  {
-    pid: '',
-    reply_id: ''
-  }
+    defineProps<{
+      pid?: string
+      reply_id?: string
+    }>(),
+    {
+      pid: '',
+      reply_id: ''
+    }
 )
 
 // 输入框
@@ -112,8 +126,8 @@ const {
 await handlegetAnnouncementslistByNum();
 async function handlegetAnnouncementslistByNum() {
   try {
-    const result = await getAnnouncementslistByNum(2) as { data: { value: any } };
-    announcementsList.value = result.data.value
+    const result = await getAnnouncementslistByNum(4);
+    announcementsList.value = result
   } catch (error) {
     console.error('获取Announcementslist出错:', error);
   }
@@ -125,22 +139,28 @@ const { appendEmoji } = useEmoji()
 const { fileList, onUpload, removeFile } = useUpload()
 
 watch(
-  inputFocus,
-  (value) => {
-    if (value == true) return
-    setTimeout(() => {
-      emit('blur')
-    }, 300)
-  },
-  { immediate: false }
+    inputFocus,
+    (value) => {
+      if (value == true) return
+      setTimeout(() => {
+        emit('blur')
+      }, 300)
+    },
+    { immediate: false }
 )
 
 // 发送
-const onSend = () => {
+const onSend = async () => {
   if (inputLength.value >= 1000) {
-    // feedback.msgError('字数超过限制，请删减后发送')
+    ElMessage.warning('字数超过限制，请删减后发送')
     return
   }
+
+  if (isSubmitting.value) {
+    ElMessage.warning('正在发布中，请勿重复点击')
+    return
+  }
+
   const content = (richInputRef.value as HTMLInputElement).innerHTML
   const regex = /<img src="\/emoji\/(.+?)".*?>/g
 
@@ -155,43 +175,55 @@ const onSend = () => {
     replacedStr = replacedStr.replace(match[0], emojiText)
   }
 
-  emit('submit', {
-    content: replacedStr,
-    pid: props.pid || 0,
-    reply_id: props.reply_id || 0,
-    images: fileList.value
-  })
+  // 检查内容是否为空
+  if (!replacedStr.trim() && fileList.value.length === 0) {
+    ElMessage.warning('请输入内容或上传图片')
+    return
+  }
 
-  // if ($route.params.square) {
-  //       var images = JSON.stringify(imageList);
-  //       console.log(images);
+  const userStore = useUserStore()
+  if (!userStore.userid) {
+    ElMessage.warning('请先登录')
+    shownologin.value = true
+    return
+  }
 
-  //       postForm.image = images
-  //       createSquare(postForm, $route.params.square).then((response) => {
-  //         fetchData();
-  //         postForm.content = null;
-  //       });
+  isSubmitting.value = true
 
-  //     } else {
-  //       // console.log("circle");
-  //       var images = JSON.stringify(imageList);
-  //       console.log(images);
+  try {
+    // 设置发布内容
+    postForm.content = replacedStr
+    postForm.author = userStore.userid
+    postForm.sortClass = route.params.id as string || ''
+    postForm.image = JSON.stringify(fileList.value.map(file => ({ url: file.url, name: file.name })))
 
-  //       postForm.image = images
-  //       createSquare(postForm, "circle").then((response) => {
-  //         fetchData();
-  //         postForm.content = null;
-  //       });
-  //     }
-  //     // $message.success("发表成功");
-  //     // 刷新页面
+    const squareId = route.params.id || 'circle'
+    await createSquare(postForm)
+    
+    // 清空输入内容
+    clearInputContent()
+    postForm.content = ''
+    postForm.image = '[]'
+    
+    // 刷新数据
+    await fetchData()
+    
+    ElMessage.success('发表成功')
+  } catch (error) {
+    console.error('发布失败:', error)
+    ElMessage.error('发布失败，请重试')
+  } finally {
+    setTimeout(() => {
+      isSubmitting.value = false
+    }, 1000)
+  }
 }
 
 // 粘贴
 const onPasteContent = async (event: any) => {
   event.preventDefault()
   const text = (event.originalEvent || event).clipboardData.getData(
-    'text/plain'
+      'text/plain'
   )
   document.execCommand('insertText', false, text)
 }
@@ -243,7 +275,7 @@ await handlgetSquareClasslist();
 async function handlgetSquareClasslist() {
   try {
     const response = await getSquareClasslist();
-    classlist.value = response.data.value;
+    classlist.value = response;
     if (!route.params.id && classlist.value.length > 0) {
       router.push({ path: `/planet/${classlist.value[0].id}` });
     }
@@ -294,19 +326,6 @@ const getTime = (time: string) => {
 
 const formatDate = (time: string) => {
   return formatDate(new Date(time), 'yyyy-MM-dd');
-};
-
-const sitmap = async () => {
-  const images = JSON.stringify(imageList.value);
-  postForm.image = images;
-  const squareId = route.params.square || 'circle';
-  try {
-    await createSquare(postForm, squareId);
-    fetchData();
-    postForm.content = '';
-  } catch (error) {
-    console.error(error);
-  }
 };
 
 const likeClick = async (item: any) => {
@@ -368,6 +387,280 @@ const getNextUser = () => {
   };
 };
 
+// 分享功能相关状态
+const shareUrl = ref('');
+const shareTitle = ref('社区动态 - IceCMS');
+const shareDescription = ref('发现更多有趣内容，参与社区讨论');
+
+// 圈子帮助弹窗相关状态
+const showHelpModal = ref(false);
+const helpModalType = ref('');
+const helpModalTitle = ref('');
+const helpModalContent = ref('');
+
+// 帮助内容数据
+const helpContents = {
+  create: {
+    title: '怎么创建圈子？',
+    content: `
+      <div class="help-content">
+        <h3>创建圈子指南</h3>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>准备工作</h4>
+              <p>确保您已经完成实名认证，并且账户状态正常。新用户需要注册满7天才能创建圈子。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>提交申请</h4>
+              <p>点击"创建圈子"按钮，填写圈子名称、描述、分类等基本信息。圈子名称需要具有独特性，不能与现有圈子重复。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>审核流程</h4>
+              <p>提交申请后，管理员会在1-3个工作日内完成审核。审核通过后，您将收到通知，圈子正式开放。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>圈子管理</h4>
+              <p>作为圈主，您可以邀请管理员、制定圈子规则、管理成员、发布公告等。请确保圈子内容健康、积极。</p>
+            </div>
+          </div>
+        </div>
+        <div class="help-tips">
+          <h4>💡 小贴士</h4>
+          <ul>
+            <li>圈子名称建议简洁明了，便于用户理解和搜索</li>
+            <li>详细的圈子描述有助于吸引更多志同道合的用户</li>
+            <li>选择合适的分类能让更多用户发现您的圈子</li>
+            <li>定期发布优质内容，活跃圈子氛围</li>
+          </ul>
+        </div>
+      </div>
+    `
+  },
+  communication: {
+    title: '如何进行沟通？',
+    content: `
+      <div class="help-content">
+        <h3>圈子沟通指南</h3>
+        <div class="comm-section">
+          <h4>🗣️ 发布动态</h4>
+          <ul>
+            <li>在圈子首页点击发布框，分享您的想法、经验或问题</li>
+            <li>支持文字、图片、链接等多种内容形式</li>
+            <li>使用话题标签，让内容更容易被发现</li>
+            <li>遵守圈子规则，发布有价值的内容</li>
+          </ul>
+        </div>
+        
+        <div class="comm-section">
+          <h4>💬 评论互动</h4>
+          <ul>
+            <li>在感兴趣的动态下方进行评论</li>
+            <li>可以回复其他用户的评论，形成讨论</li>
+            <li>使用表情包让交流更生动有趣</li>
+            <li>尊重他人观点，保持友善讨论</li>
+          </ul>
+        </div>
+        
+        <div class="comm-section">
+          <h4>👍 点赞收藏</h4>
+          <ul>
+            <li>对喜欢的内容点赞，表达支持</li>
+            <li>收藏有价值的内容，方便日后查看</li>
+            <li>分享优质内容给更多朋友</li>
+          </ul>
+        </div>
+        
+        <div class="comm-section">
+          <h4>🔔 消息通知</h4>
+          <ul>
+            <li>及时查看系统通知和私信</li>
+            <li>关注感兴趣的用户，获取最新动态</li>
+            <li>开启推送通知，不错过重要消息</li>
+          </ul>
+        </div>
+        
+        <div class="help-tips">
+          <h4>💡 沟通技巧</h4>
+          <ul>
+            <li>保持积极正面的沟通态度</li>
+            <li>用事实和逻辑支撑观点</li>
+            <li>避免人身攻击和恶意言论</li>
+            <li>多倾听他人意见，开放讨论</li>
+          </ul>
+        </div>
+      </div>
+    `
+  },
+  terms: {
+    title: '圈子条款',
+    content: `
+      <div class="help-content">
+        <h3>IceCMS 圈子服务条款</h3>
+        
+        <div class="terms-section">
+          <h4>第一条 服务说明</h4>
+          <p>IceCMS圈子是为用户提供的社区交流服务平台。用户可以在圈子中发布内容、参与讨论、分享经验等。</p>
+        </div>
+        
+        <div class="terms-section">
+          <h4>第二条 用户行为规范</h4>
+          <ol>
+            <li><strong>内容规范：</strong>不得发布违法、有害、虚假、侵权的内容</li>
+            <li><strong>言论规范：</strong>保持文明用语，不得进行人身攻击或恶意诽谤</li>
+            <li><strong>版权规范：</strong>尊重他人知识产权，不得未经授权转载他人作品</li>
+            <li><strong>隐私规范：</strong>不得泄露他人隐私信息</li>
+          </ol>
+        </div>
+        
+        <div class="terms-section">
+          <h4>第三条 圈主权利与义务</h4>
+          <ol>
+            <li><strong>管理权利：</strong>圈主有权制定圈子规则、管理成员、删除违规内容</li>
+            <li><strong>维护义务：</strong>圈主应维护圈子秩序，确保内容健康积极</li>
+            <li><strong>责任义务：</strong>对圈子内违法违规行为承担管理责任</li>
+          </ol>
+        </div>
+        
+        <div class="terms-section">
+          <h4>第四条 平台权利</h4>
+          <ol>
+            <li>对违规内容进行删除、屏蔽处理</li>
+            <li>对违规用户进行警告、限制、封禁等处理</li>
+            <li>对违规圈子进行整改、关闭等处理</li>
+            <li>根据法律法规要求配合相关部门调查</li>
+          </ol>
+        </div>
+        
+        <div class="terms-section">
+          <h4>第五条 免责声明</h4>
+          <p>平台不对用户发布的内容承担法律责任，用户应对自己的言行负责。因用户违规行为导致的任何法律后果，由用户自行承担。</p>
+        </div>
+        
+        <div class="terms-section">
+          <h4>第六条 条款变更</h4>
+          <p>平台有权根据法律法规变化和业务发展需要修改本条款。修改后的条款将在平台公布，用户继续使用服务即视为同意新条款。</p>
+        </div>
+        
+        <div class="terms-section">
+          <h4>第七条 联系方式</h4>
+          <p>如有疑问或建议，请通过以下方式联系我们：</p>
+          <ul>
+            <li>邮箱：support@icecms.cn</li>
+            <li>客服QQ：123456789</li>
+            <li>工作时间：周一至周五 9:00-18:00</li>
+          </ul>
+        </div>
+        
+        <div class="update-time">
+          <p><small>最后更新时间：2024年1月1日</small></p>
+        </div>
+      </div>
+    `
+  }
+};
+
+// 显示帮助弹窗
+const showHelp = (type: string) => {
+  const content = helpContents[type];
+  if (content) {
+    helpModalType.value = type;
+    helpModalTitle.value = content.title;
+    helpModalContent.value = content.content;
+    showHelpModal.value = true;
+  }
+};
+
+// 关闭帮助弹窗
+const closeHelpModal = () => {
+  showHelpModal.value = false;
+  helpModalType.value = '';
+  helpModalTitle.value = '';
+  helpModalContent.value = '';
+};
+
+// 初始化分享信息
+if (process.client) {
+  shareUrl.value = window.location.href;
+}
+
+// 社交分享功能方法
+// QQ分享
+const shareToQQ = (item?: any) => {
+  const url = encodeURIComponent(shareUrl.value);
+  const title = encodeURIComponent(item ? `${item.author} 的动态` : shareTitle.value);
+  const desc = encodeURIComponent(item ? item.content.replace(/<[^>]*>/g, '').substring(0, 100) : shareDescription.value);
+
+  const qqShareUrl = `https://connect.qq.com/widget/shareqq/index.html?url=${url}&title=${title}&desc=${desc}&summary=${desc}&site=IceCMS`;
+  window.open(qqShareUrl, '_blank', 'width=600,height=400');
+};
+
+// 微博分享
+const shareToWeibo = (item?: any) => {
+  const url = encodeURIComponent(shareUrl.value);
+  const title = encodeURIComponent(item ? `${item.author} 的动态` : shareTitle.value);
+  const content = `${title} ${url}`;
+
+  const weiboShareUrl = `https://service.weibo.com/share/share.php?url=${url}&title=${content}&pic=`;
+  window.open(weiboShareUrl, '_blank', 'width=600,height=400');
+};
+
+// 微信分享（复制链接）
+const shareToWechat = (item?: any) => {
+  const shareContent = item ? `${item.author} 的动态: ${item.content.replace(/<[^>]*>/g, '').substring(0, 50)}...` : shareTitle.value;
+  navigator.clipboard?.writeText(`${shareContent} ${shareUrl.value}`).then(() => {
+    alert('内容已复制到剪切板，可以分享到微信了！');
+  }).catch(() => {
+    prompt('请复制以下内容分享到微信:', `${shareContent} ${shareUrl.value}`);
+  });
+};
+
+// 复制链接
+const copyLink = (item?: any) => {
+  navigator.clipboard?.writeText(shareUrl.value).then(() => {
+    alert('链接已复制到剪切板！');
+  }).catch(() => {
+    prompt('请复制以下链接:', shareUrl.value);
+  });
+};
+
+// 其他分享平台
+const shareToOther = (platform: string, item?: any) => {
+  const url = encodeURIComponent(shareUrl.value);
+  const title = encodeURIComponent(item ? `${item.author} 的动态` : shareTitle.value);
+
+  let shareUrlTemplate = '';
+
+  switch (platform) {
+    case 'twitter':
+      shareUrlTemplate = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+      break;
+    case 'facebook':
+      shareUrlTemplate = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+      break;
+    case 'linkedin':
+      shareUrlTemplate = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+      break;
+    case 'telegram':
+      shareUrlTemplate = `https://t.me/share/url?url=${url}&text=${title}`;
+      break;
+    default:
+      return;
+  }
+
+  window.open(shareUrlTemplate, '_blank', 'width=600,height=400');
+};
+
 onMounted(() => {
   isClient.value = true; // 客户端渲染时更新
   fetchData();
@@ -376,15 +669,207 @@ onMounted(() => {
   const userStore = useUserStore();  // 获取 Pinia store 实例
   // 判断用户是否已登录
   if (userStore.userid) {
-    userJudje.value = true;
-    // user.value.name = userStore.name;
-    // user.value.profile = userStore.profile;
-    // console.log("用户已登录:", userStore.name);  // 例如，你可以输出用户名或者做其他处理
+    userJudje.value = true; // 已登录，不显示登录提示
+    console.log("用户已登录:", userStore.name);
   } else {
+    userJudje.value = false; // 未登录，显示登录提示
     console.log("用户未登录");
-    // 可以在这里做一些跳转，或者显示登录提示等
   }
 });
+
+// 缺失的函数实现
+const setPullDown = async (item: any) => {
+  // 设置评论为空
+  comment.value = [];
+  if (!item.isShow) {
+    try {
+      const res = await getPlanetIdComment(item.id);
+      comment.value = res.data || [];
+    } catch (error) {
+      console.error('获取评论失败:', error);
+      comment.value = [];
+    }
+    // 使用 Vue.set 的替代方案
+    if (!Object.prototype.hasOwnProperty.call(item, 'isShow')) {
+      item.isShow = false;
+    }
+    item.isShow = !item.isShow;
+  } else {
+    item.isShow = !item.isShow;
+  }
+};
+
+const setReplayPullDown = (item: any) => {
+  if (!Object.prototype.hasOwnProperty.call(item, 'isShow')) {
+    item.isShow = false;
+  }
+  item.isShow = !item.isShow;
+};
+
+const setReplaysPullDown = (reply: any) => {
+  if (!Object.prototype.hasOwnProperty.call(reply, 'isShow')) {
+    reply.isShow = false;
+  }
+  reply.isShow = !reply.isShow;
+};
+
+const likeClickMains = async (item: any) => {
+  // 如果当前是踩状态，先取消踩
+  if (item.isLose) {
+    item.isLose = false;
+  }
+
+  if (!item.isLike) {
+    // 点赞
+    if (!Object.prototype.hasOwnProperty.call(item, 'isLike')) {
+      item.isLike = false;
+    }
+    item.isLike = true;
+    item.loveNum = (item.loveNum || 0) + 1;
+    try {
+      await likeClickComments(item.id);
+    } catch (error) {
+      console.error('点赞失败:', error);
+      // 回滚状态
+      item.isLike = false;
+      item.loveNum = Math.max(0, item.loveNum - 1);
+    }
+  } else {
+    // 取消点赞
+    item.isLike = false;
+    item.loveNum = Math.max(0, (item.loveNum || 0) - 1);
+  }
+};
+
+const LoseClickMains = (item: any) => {
+  // 如果当前是赞状态，先取消赞
+  if (item.isLike) {
+    item.isLike = false;
+    item.loveNum = Math.max(0, (item.loveNum || 0) - 1);
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(item, 'isLose')) {
+    item.isLose = false;
+  }
+
+  // 切换踩状态
+  item.isLose = !item.isLose;
+};
+
+const likeClicks = async (item: any) => {
+  if (!item.isLike) {
+    if (!Object.prototype.hasOwnProperty.call(item, 'isLike')) {
+      item.isLike = false;
+    }
+    item.isLike = !item.isLike;
+    try {
+      await likeClickComment(item.id);
+    } catch (error) {
+      console.error('点赞失败:', error);
+    }
+    item.loveNum++;
+  } else {
+    item.loveNum--;
+    item.isLike = !item.isLike;
+  }
+};
+
+const setUpPostReply = async (item: any) => {
+  // 防止重复提交
+  if (isSubmitting.value) {
+    console.log('正在提交评论，请勿重复点击');
+    return;
+  }
+
+  // 检查评论内容
+  if (!postReplyForm.content || postReplyForm.content.trim() === '') {
+    ElMessage.warning('评论内容不能为空');
+    return;
+  }
+
+  postReplyForm.postId = item.id;
+  const userStore = useUserStore();
+  
+  if (!userStore.userid) {
+    shownologin.value = true;
+    ElMessage.warning('请先登录');
+    return;
+  } else {
+    postReplyForm.userId = userStore.userid;
+    shownologin.value = false;
+  }
+
+  isSubmitting.value = true;
+  
+  try {
+    console.log('提交评论:', postReplyForm);
+    const result = await addPlanetComment(postReplyForm);
+    console.log('评论提交结果:', result);
+    
+    // 清空评论内容
+    postReplyForm.content = '';
+    
+    // 刷新评论数据
+    await fetchData();
+    
+    ElMessage.success('评论发布成功');
+  } catch (error) {
+    console.error('发布评论失败:', error);
+    ElMessage.error('评论发布失败，请重试');
+  } finally {
+    // 重置提交状态
+    setTimeout(() => {
+      isSubmitting.value = false;
+    }, 1000);
+  }
+};
+
+const setUpPostReplys = async (userId: string, id: string, postId: string) => {
+  postReplysForm.postId = postId;
+  postReplysForm.parentId = id;
+  const userStore = useUserStore();
+  if (!userStore.userid) {
+    shownologin.value = true;
+    return;
+  } else {
+    postReplysForm.userId = userStore.userid;
+    shownologin.value = false;
+  }
+
+  try {
+    const res = await addPlanetComment(postReplysForm);
+    if (res.code === 0) {
+      postReplysForm.content = '';
+      await fetchData();
+    }
+  } catch (error) {
+    console.error('发布回复失败:', error);
+  }
+};
+
+const setUpPostReplysTouser = async (usersId: string, id: string, postId: string, uId: string) => {
+  postReplysToUserForm.postId = postId;
+  postReplysToUserForm.parentId = id;
+  postReplysToUserForm.toUserId = uId;
+  const userStore = useUserStore();
+  if (!userStore.userid) {
+    shownologin.value = true;
+    return;
+  } else {
+    postReplysToUserForm.userId = userStore.userid;
+    shownologin.value = false;
+  }
+
+  try {
+    const res = await addPlanetComment(postReplysToUserForm);
+    if (res.code === 0) {
+      postReplysToUserForm.content = '';
+      await fetchData();
+    }
+  } catch (error) {
+    console.error('发布回复失败:', error);
+  }
+};
 </script>
 <template>
   <div class="content">
@@ -418,27 +903,28 @@ onMounted(() => {
                                           planet-aside-li
                                           el-icon-ice-cream-round
                                         ">
-                                  <a href="#">怎么创建圈子？</a>
+                                  <a href="javascript:void(0)" @click="showHelp('create')">怎么创建圈子？</a>
                                 </li>
                                 <li class="
                                           planet-aside-li
                                           el-icon-ice-cream-round
                                         ">
-                                  <a href="#">如何进行沟通？</a>
+                                  <a href="javascript:void(0)" @click="showHelp('communication')">如何进行沟通？</a>
                                 </li>
                                 <li class="
                                           planet-aside-li
                                           el-icon-ice-cream-round
                                         ">
-                                  <a href="#">圈子条款</a>
+                                  <a href="javascript:void(0)" @click="showHelp('terms')">圈子条款</a>
                                 </li>
                               </ul>
                             </div>
                             <div class="circle-widget-button">
-                              <button class="text-great"
-                                onclick="postPoBox.go('https://www.zmki.cn/create-circle','create_circle')">
-                                创建圈子
-                              </button>
+                              <nuxt-link to="/CreatePlanet">
+                                <button class="text-great">
+                                  创建圈子
+                                </button>
+                              </nuxt-link>
                             </div>
                           </div>
                         </div>
@@ -485,14 +971,14 @@ onMounted(() => {
                     </div>
                   </el-aside>
                   <el-main>
-                    <div class="circle-top">
+                    <div class="circle-top white">
                       <div id="po-topic-box" class="box b2-radius">
                         <div class="po-topic">
                           <div class="circle-info">
                             <div class="circle-info-in">
                               <div class="circle-info-left">
                                 <img data-src="" alt="" :src="planetInfo.imgclass" data-was-processed="true"
-                                  class="topimg" />
+                                     class="topimg" />
                                 <h1 class="planeth1">
                                   <p>
                                     <b>{{ planetInfo.name }}</b>
@@ -555,12 +1041,12 @@ onMounted(() => {
                               </div> -->
                               <div class="commenter-container" ref="commenterRef">
                                 <div class="commenter-wrapper" :class="{ 'commenter-focused': inputFocus }"
-                                  @click="onRichFocus">
+                                     @click="onRichFocus">
                                   <!--内容输入-->
                                   <div id="rich-input" ref="richInputRef" class="rich-input" tabindex="-3"
-                                    contenteditable="true" :data-placeholder="placeholder" @focus="inputFocus = true"
-                                    @blur="inputFocus ? onRichFocus() : ''" @input="onInputText"
-                                    @paste="onPasteContent"></div>
+                                       contenteditable="true" :data-placeholder="placeholder" @focus="inputFocus = true"
+                                       @blur="inputFocus ? onRichFocus() : ''" @input="onInputText"
+                                       @paste="onPasteContent"></div>
                                   <!--@keyup="onInputText"-->
 
                                   <!--图片上传-->
@@ -579,7 +1065,7 @@ onMounted(() => {
                                       justify-content: center;
                                       align-items: flex-start;
                                   " class="commenter-footer flex items-center justify-between px-3 pb-3 pt-2"
-                                    @click="moveCursorToEnd">
+                                       @click="moveCursorToEnd">
                                     <div class="flex items-center gap-x-5" @click.stop>
                                       <!--表情选择组件-->
                                       <EmojiPicker @show="moveCursorToEnd" @append="
@@ -601,7 +1087,7 @@ onMounted(() => {
                                         发送
                                       </ElButton>
                                       <div class="text-xs" style="    padding: 6px;"
-                                        :class="[inputLength >= 1000 ? 'text-error' : 'text-[#666]']">
+                                           :class="[inputLength >= 1000 ? 'text-error' : 'text-[#666]']">
                                         {{ inputLength }} / 1000
                                       </div>
 
@@ -691,7 +1177,7 @@ onMounted(() => {
                         </div>
                       </div>
                     </div>
-                    <div class="topic-type-menu">
+                    <div class="topic-type-menu white">
                       <ul class="planetul">
                         <li class="planetli">
                           <el-button type="primary" round>全部</el-button>
@@ -723,7 +1209,7 @@ onMounted(() => {
                       </div>
                     </div>
 
-                    <div v-for="item in squaredata" :key="item.id" class="circle-contenr-out">
+                    <div v-for="item in squaredata" :key="item.id" class="circle-contenr-out white">
 
                       <div class="circle-contenr">
                         <div class="topic-header">
@@ -765,14 +1251,14 @@ onMounted(() => {
                         </div>
                         <div class="topic-header-right">
                           <span class="topic-date topic-circle"><a target="_blank"><b class="circle-hash"><svg
-                                  width="16" height="16" viewBox="0 0 36 36">
+                              width="16" height="16" viewBox="0 0 36 36">
                                   <g fill-rule="evenodd">
                                     <path
-                                      d="M18 0c9.941 0 18 8.059 18 18 0 2.723-.604 5.304-1.687 7.617v6.445a2.25 2.25 0 0 1-2.096 2.245l-.154.005-6.446.001A17.932 17.932 0 0 1 18 36C8.059 36 0 27.941 0 18S8.059 0 18 0z"
-                                      fill-opacity=".1"></path>
+                                        d="M18 0c9.941 0 18 8.059 18 18 0 2.723-.604 5.304-1.687 7.617v6.445a2.25 2.25 0 0 1-2.096 2.245l-.154.005-6.446.001A17.932 17.932 0 0 1 18 36C8.059 36 0 27.941 0 18S8.059 0 18 0z"
+                                        fill-opacity=".1"></path>
                                     <path
-                                      d="M23.32 7.875c.517 0 .948.18 1.293.54.296.294.444.632.444 1.015a.589.589 0 0 1-.037.202l-.258 2.17c0 .18.087.27.259.27h.96c.592 0 1.097.185 1.516.557.419.372.628.828.628 1.369 0 .54-.21 1.003-.628 1.386a2.166 2.166 0 0 1-1.515.574h-1.478c-.197 0-.308.09-.333.27l-.517 3.684c-.025.158.049.237.221.237h1.22c.591 0 1.096.191 1.515.574.419.384.628.845.628 1.386 0 .54-.21 1.003-.628 1.386a2.166 2.166 0 0 1-1.515.574h-1.7c-.172 0-.27.08-.296.237l-.273 2.062c-.05.495-.283.912-.702 1.25a2.282 2.282 0 0 1-1.478.507c-.518 0-.949-.18-1.294-.54-.295-.294-.443-.632-.443-1.015 0-.067.012-.135.037-.202l.236-2.062c.025-.158-.049-.237-.221-.237h-3.732c-.198 0-.296.08-.296.237l-.31 2.062a1.96 1.96 0 0 1-.721 1.25c-.407.338-.88.507-1.423.507-.517 0-.948-.18-1.293-.54-.296-.294-.444-.632-.444-1.015v-.202l.274-2.062c.025-.158-.062-.237-.259-.237h-.739a2.166 2.166 0 0 1-1.515-.574c-.419-.383-.628-.845-.628-1.386 0-.54.21-1.002.628-1.386a2.166 2.166 0 0 1 1.515-.574h1.257c.172 0 .27-.079.295-.237l.48-3.684c.025-.18-.06-.27-.258-.27h-.924a2.166 2.166 0 0 1-1.515-.574c-.419-.383-.628-.84-.628-1.37 0-.529.21-.985.628-1.368a2.166 2.166 0 0 1 1.515-.575h1.515c.197 0 .308-.09.333-.27L13.01 9.6c.074-.474.314-.88.72-1.217.407-.338.881-.507 1.423-.507.518 0 .949.18 1.294.54.27.294.406.62.406.98v.237l-.294 2.17c-.025.18.061.27.259.27h3.769c.172 0 .27-.09.295-.27l.295-2.203c.074-.474.314-.88.72-1.217.407-.338.881-.507 1.423-.507zm-3.316 7.875h-3.49c-.157 0-.256.071-.296.213l-.014.077-.45 3.956c-.02.145.029.228.144.249l.064.005h3.524c.134 0 .22-.059.26-.176l.016-.078.484-3.956c.02-.166-.037-.26-.17-.284l-.072-.006z"
-                                      fill-rule="nonzero"></path>
+                                        d="M23.32 7.875c.517 0 .948.18 1.293.54.296.294.444.632.444 1.015a.589.589 0 0 1-.037.202l-.258 2.17c0 .18.087.27.259.27h.96c.592 0 1.097.185 1.516.557.419.372.628.828.628 1.369 0 .54-.21 1.003-.628 1.386a2.166 2.166 0 0 1-1.515.574h-1.478c-.197 0-.308.09-.333.27l-.517 3.684c-.025.158.049.237.221.237h1.22c.591 0 1.096.191 1.515.574.419.384.628.845.628 1.386 0 .54-.21 1.003-.628 1.386a2.166 2.166 0 0 1-1.515.574h-1.7c-.172 0-.27.08-.296.237l-.273 2.062c-.05.495-.283.912-.702 1.25a2.282 2.282 0 0 1-1.478.507c-.518 0-.949-.18-1.294-.54-.295-.294-.443-.632-.443-1.015 0-.067.012-.135.037-.202l.236-2.062c.025-.158-.049-.237-.221-.237h-3.732c-.198 0-.296.08-.296.237l-.31 2.062a1.96 1.96 0 0 1-.721 1.25c-.407.338-.88.507-1.423.507-.517 0-.948-.18-1.293-.54-.296-.294-.444-.632-.444-1.015v-.202l.274-2.062c.025-.158-.062-.237-.259-.237h-.739a2.166 2.166 0 0 1-1.515-.574c-.419-.383-.628-.845-.628-1.386 0-.54.21-1.002.628-1.386a2.166 2.166 0 0 1 1.515-.574h1.257c.172 0 .27-.079.295-.237l.48-3.684c.025-.18-.06-.27-.258-.27h-.924a2.166 2.166 0 0 1-1.515-.574c-.419-.383-.628-.84-.628-1.37 0-.529.21-.985.628-1.368a2.166 2.166 0 0 1 1.515-.575h1.515c.197 0 .308-.09.333-.27L13.01 9.6c.074-.474.314-.88.72-1.217.407-.338.881-.507 1.423-.507.518 0 .949.18 1.294.54.27.294.406.62.406.98v.237l-.294 2.17c-.025.18.061.27.259.27h3.769c.172 0 .27-.09.295-.27l.295-2.203c.074-.474.314-.88.72-1.217.407-.338.881-.507 1.423-.507zm-3.316 7.875h-3.49c-.157 0-.256.071-.296.213l-.014.077-.45 3.956c-.02.145.029.228.144.249l.064.005h3.524c.134 0 .22-.059.26-.176l.016-.078.484-3.956c.02-.166-.037-.26-.17-.284l-.072-.006z"
+                                        fill-rule="nonzero"></path>
                                   </g>
                                 </svg></b>
                               <b>{{ item.sortName }}</b></a></span>
@@ -780,59 +1266,134 @@ onMounted(() => {
                       </div>
 
                       <div class="topic-content">
-                        <div v-html="item.content" class="topic-content-text"></div>
+                        <div v-html="renderEmojiContent(item.content)" class="topic-content-text"></div>
                       </div>
                       <div v-if="item.image !== null && item.image != ''"
-                        style=" padding: 30px;display: flex;flex-direction: row;width: 521px;height: 230px;margin-right: 10px;">
+                           style=" padding: 30px;display: flex;flex-direction: row;width: 521px;height: 230px;margin-right: 10px;">
                         <div class="topic-img-inner" v-for="imagess in item.image" :key="imagess.id">
                           <el-image style="margin-right: 10px;max-width: 400px;height: 200px; /* 可以调整图像之间的间距 */"
-                            :src="imagess.url" fit="scale-down">{{ imagess.url }}</el-image>
+                                    :src="imagess.url" fit="scale-down">{{ imagess.url }}</el-image>
                         </div>
                       </div>
                       <div class="topic-footer">
                         <div class="topic-footer-left">
-                          <button v-if="!item.isLike" @click="likeClickMains(item)" class="planettext ">
-                            <i class="el-icon-caret-top"></i><span class="el-icon-caret-planettext">{{ item.loveNum > 0
-                              ? '\xa0' + item.loveNum + '\xa0\xa0赞' : '赞'
-                              }}</span><b></b>
+                          <button v-if="!item.isLike" @click="likeClickMains(item)" class="planettext like-btn">
+                            <i class="el-icon-caret-top"></i>
+                            <span class="el-icon-caret-planettext">{{ item.loveNum > 0
+                                ? item.loveNum + '赞' : '赞'
+                              }}</span>
                           </button>
-                          <button v-else @click="likeClickMains(item)" class="planettext active">
-                            <i class="el-icon-caret-top"></i><span class="el-icon-caret-planettext">{{ item.loveNum > 0
-                              ? item.loveNum + '赞' : '赞'
-                              }}</span><b></b>
+                          <button v-else @click="likeClickMains(item)" class="planettext like-btn active-like">
+                            <i class="el-icon-caret-top"></i>
+                            <span class="el-icon-caret-planettext">{{ item.loveNum > 0
+                                ? item.loveNum + '赞' : '赞'
+                              }}</span>
                           </button>
-                          <button v-if="!item.isLose" class="planettext" @click="LoseClickMains(item)">
-                            <img  class="link-icon--right" src="../../static/image/right.svg" />
+
+                          <button v-if="!item.isLose" class="planettext dislike-btn" @click="LoseClickMains(item)">
+                            <img class="link-icon--right" src="../../static/image/right.svg" />
+                            <span>踩</span>
                           </button>
-                          <button v-else class="planettext active" @click="LoseClickMains(item)">
-                            <img  class="link-icon--right" src="../../static/image/right.svg" />
+                          <button v-else class="planettext dislike-btn active-dislike" @click="LoseClickMains(item)">
+                            <img class="link-icon--right" src="../../static/image/right.svg" />
+                            <span>踩</span>
                           </button>
+
                           <span class="topic-date"><b><time class="b2timeago" datetime="2021-12-27 21:58:17"
-                                itemprop="datePublished"><span v-text="getTime(item.addTime)">
+                                                            itemprop="datePublished"><span v-text="getTime(item.addTime)">
                                 </span> </time></b></span>
                           <!---->
                           <div class="topic-meta-more-box">
                             <el-popover
-                              placement="bottom"
-                              title="更多"
-                              :width="200"
-                              trigger="hover"
-                              content="更多信息"
+                                placement="bottom-start"
+                                title="分享与更多"
+                                :width="280"
+                                trigger="hover"
+                                popper-class="share-popover"
                             >
                               <template #reference>
-                                <button slot="reference" class="topic-date topic-meta-more">
-                                <!-- <i class="el-icon-more-outline"></i> --><div>更多</div>
-                              </button>                              </template>
+                                <button class="topic-date topic-meta-more">
+                                  <div>更多</div>
+                                </button>
+                              </template>
+
+                              <div class="share-content">
+                                <!-- 分享标题 -->
+                                <div class="share-title">
+                                  <i class="el-icon-share"></i>
+                                  <span>分享动态</span>
+                                </div>
+
+                                <!-- 分享按钮组 -->
+                                <div class="share-buttons">
+                                  <div class="share-row">
+                                    <button @click="shareToQQ(item)" class="share-btn qq-btn" title="分享到QQ">
+                                      <div class="share-icon qq-icon">QQ</div>
+                                      <span>QQ</span>
+                                    </button>
+
+                                    <button @click="shareToWeibo(item)" class="share-btn weibo-btn" title="分享到微博">
+                                      <div class="share-icon weibo-icon">微博</div>
+                                      <span>微博</span>
+                                    </button>
+
+                                    <button @click="shareToWechat(item)" class="share-btn wechat-btn" title="分享到微信">
+                                      <div class="share-icon wechat-icon">微信</div>
+                                      <span>微信</span>
+                                    </button>
+
+                                    <button @click="copyLink(item)" class="share-btn copy-btn" title="复制链接">
+                                      <div class="share-icon copy-icon">链接</div>
+                                      <span>复制</span>
+                                    </button>
+                                  </div>
+
+                                  <!-- <div class="share-row">
+                                    <button @click="shareToOther('twitter', item)" class="share-btn twitter-btn" title="分享到Twitter">
+                                      <div class="share-icon twitter-icon">X</div>
+                                      <span>Twitter</span>
+                                    </button>
+
+                                    <button @click="shareToOther('facebook', item)" class="share-btn facebook-btn" title="分享到Facebook">
+                                      <div class="share-icon facebook-icon">FB</div>
+                                      <span>Facebook</span>
+                                    </button>
+
+                                    <button @click="shareToOther('telegram', item)" class="share-btn telegram-btn" title="分享到Telegram">
+                                      <div class="share-icon telegram-icon">TG</div>
+                                      <span>Telegram</span>
+                                    </button>
+
+                                    <button @click="shareToOther('linkedin', item)" class="share-btn linkedin-btn" title="分享到LinkedIn">
+                                      <div class="share-icon linkedin-icon">IN</div>
+                                      <span>LinkedIn</span>
+                                    </button>
+                                  </div> -->
+                                </div>
+
+                                <!-- 其他操作 -->
+                                <div class="more-actions">
+                                  <div class="action-divider"></div>
+                                  <button class="action-btn report-btn">
+                                    <i class="el-icon-warning"></i>
+                                    <span>举报</span>
+                                  </button>
+                                  <button class="action-btn collect-btn">
+                                    <i class="el-icon-star-off"></i>
+                                    <span>收藏</span>
+                                  </button>
+                                </div>
+                              </div>
                             </el-popover>
                           </div>
                         </div>
                         <div class="topic-footer-right">
                           <el-button v-if="!item.isShow" icon="el-icon-caret-bottom" @click="setPullDown(item)"
-                            size="small" plain>
+                                     size="small" plain>
                             <span><b>{{ item.commentNum }}</b>条讨论</span>
                           </el-button>
                           <el-button v-if="item.isShow" icon="el-icon-caret-top" @click="setPullDown(item)" size="small"
-                            plain>
+                                     plain>
                             <span>收起评论</span>
                           </el-button>
                         </div>
@@ -843,7 +1404,7 @@ onMounted(() => {
                           </el-input>
                           <div class="form-group-button">
                             <el-button size="small" class="replyBut" type="success" round
-                              @click="setUpPostReply(item)">发布</el-button>
+                                       @click="setUpPostReply(item)">发布</el-button>
                           </div>
                         </div>
                         <div class="commentBox">
@@ -855,7 +1416,7 @@ onMounted(() => {
                             </div>
                           </div>
                           <div>
-                            <p class="commentCons" v-if="comment.length == 0">
+                            <p class="commentCons" v-if="!comment || comment.length == 0">
                               暂无评论，我来发表第一篇评论！
                             </p>
                             <div v-else>
@@ -871,8 +1432,8 @@ onMounted(() => {
                                           <div>
                                             <div class="topic-name-data" v-once>
                                               <a target="_blank"><b>{{
-                                                item.reviewers
-                                                  }}</b></a>
+                                                  item.reviewers
+                                                }}</b></a>
                                               <!---->
                                               <!---->
                                             </div>
@@ -900,13 +1461,13 @@ onMounted(() => {
                                     </div>
                                   </div>
                                   <div v-once class="topic-content">
-                                    <div v-html="item.content" class="topic-content-text"></div>
+                                    <div v-html="renderEmojiContent(item.content)" class="topic-content-text"></div>
                                   </div>
                                   <div class="topic-footer">
                                     <div class="topic-footer-left">
                                       <span v-once class="topic-date"><b><time class="b2timeago"
-                                            datetime="2021-12-27 21:58:17" itemprop="datePublished"><span
-                                              v-text="getTime(item.addTime)">
+                                                                               datetime="2021-12-27 21:58:17" itemprop="datePublished"><span
+                                          v-text="getTime(item.addTime)">
                                             </span> </time></b></span>
                                       <!---->
                                       <!-- <div class="topic-meta-more-box">
@@ -937,13 +1498,13 @@ onMounted(() => {
                                         <span @click="likeClick(item)" v-if="!item.isLike" class="like">
                                           <i class="iconfont icon-like"></i>
                                           <span class="like-num">{{ item.loveNum > 0 ? item.loveNum + '人赞' :
-                                            '赞'
+                                              '赞'
                                             }}</span>
                                         </span>
                                         <span @click="likeClick(item)" v-else class="like active">
                                           <i class="iconfont icon-like"></i>
                                           <span class="like-num">{{ item.loveNum > 0 ? item.loveNum + '人赞' :
-                                            '赞'
+                                              '赞'
                                             }}</span>
                                         </span>
                                       </div>
@@ -951,7 +1512,7 @@ onMounted(() => {
                                   </div>
                                   <div v-show="item.isShow" class="reply-box">
                                     <el-input type="textarea" :rows="2" placeholder="请输入内容"
-                                      v-model="postReplysForm.content">
+                                              v-model="postReplysForm.content">
                                     </el-input>
                                     <el-button size="small" class="replyBut" type="success" round @click="
                                       setUpPostReplys(
@@ -961,7 +1522,7 @@ onMounted(() => {
                                       )
                                       ">发布</el-button>
                                   </div>
-                                  <div class="comments" v-if="item.reply.length > 0">
+                                  <div class="comments" v-if="item.reply && item.reply.length > 0">
                                     <div class="reply" v-for="reply in item.reply" :key="reply.id">
                                       <div class="circle-contenr">
                                         <div class="topic-header">
@@ -983,8 +1544,8 @@ onMounted(() => {
                                                 </div>
                                                 <div v-else class="topic-name-data">
                                                   <a target="_blank"><b>{{
-                                                    reply.reviewers
-                                                      }}</b></a>
+                                                      reply.reviewers
+                                                    }}</b></a>
                                                   <!---->
                                                   <!---->
                                                 </div>
@@ -1012,12 +1573,12 @@ onMounted(() => {
                                         </div>
                                       </div>
                                       <div class="topic-content">
-                                        <div v-html="reply.content" class="topic-content-text"></div>
+                                        <div v-html="renderEmojiContent(reply.content)" class="topic-content-text"></div>
                                       </div>
                                       <div class="topic-footer">
                                         <div class="topic-footer-left">
                                           <span class="topic-date"><b><time class="b2timeago"
-                                                datetime="2021-12-27 21:58:17" itemprop="datePublished"><span v-text="getTime(reply.addTime)
+                                                                            datetime="2021-12-27 21:58:17" itemprop="datePublished"><span v-text="getTime(reply.addTime)
                                                   ">
                                                 </span> </time></b></span>
                                           <!---->
@@ -1051,13 +1612,13 @@ onMounted(() => {
                                             <span @click="likeClicks(reply)" v-if="!reply.isLike" class="like">
                                               <i class="iconfont icon-like"></i>
                                               <span class="like-num">{{ reply.loveNum > 0 ? reply.loveNum + '人赞' :
-                                                '赞'
+                                                  '赞'
                                                 }}</span>
                                             </span>
                                             <span @click="likeClicks(reply)" v-else class="like active">
                                               <i class="iconfont icon-like"></i>
                                               <span class="like-num">{{ reply.loveNum > 0 ? reply.loveNum + '人赞' :
-                                                '赞'
+                                                  '赞'
                                                 }}</span>
                                             </span>
                                           </div>
@@ -1128,7 +1689,7 @@ onMounted(() => {
                                     <a href="" class="login-weixin">微信登录</a>
                                     <a href="" class="login-weibo">Github登录</a>
                                     <a href="https://graph.qq.com/oauth2.0/authorize?client_id=101057247&amp;state=6b96c86f14fab2f3ce7af8fc5d72c943&amp;response_type=code&amp;redirect_uri=https%3A%2F%2F7b2.com%2Fopen%3Ftype%3Dqq"
-                                      class="login-qq">qq登录</a>
+                                       class="login-qq">qq登录</a>
                                   </div>
                                 </div>
                               </div>
@@ -1175,6 +1736,24 @@ onMounted(() => {
                     textAd
                     text_ad text_ads text-ads text-ad-links
                   "></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 帮助弹窗 -->
+    <div v-if="showHelpModal" class="help-modal-overlay" @click="closeHelpModal">
+      <div class="help-modal" @click.stop>
+        <div class="help-modal-header">
+          <h2>{{ helpModalTitle }}</h2>
+          <button class="help-modal-close" @click="closeHelpModal">
+            <i class="el-icon-close"></i>
+          </button>
+        </div>
+        <div class="help-modal-body">
+          <div v-html="helpModalContent"></div>
+        </div>
+        <div class="help-modal-footer">
+          <button class="help-modal-btn" @click="closeHelpModal">我知道了</button>
         </div>
       </div>
     </div>
@@ -2150,7 +2729,83 @@ body>.el-container {
 
 .active {
   color: #3E9EFF;
+}
 
+/* 点赞按钮样式 */
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 8px;
+}
+
+.like-btn:hover {
+  border-color: #409EFF;
+  color: #409EFF;
+}
+
+.like-btn.active-like {
+  background: #409EFF;
+  border-color: #409EFF;
+  color: #fff;
+}
+
+.like-btn.active-like:hover {
+  background: #337ecc;
+  border-color: #337ecc;
+}
+
+/* 踩按钮样式 */
+.dislike-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 8px;
+}
+
+.dislike-btn:hover {
+  border-color: #F56C6C;
+  color: #F56C6C;
+}
+
+.dislike-btn.active-dislike {
+  background: #F56C6C;
+  border-color: #F56C6C;
+  color: #fff;
+}
+
+.dislike-btn.active-dislike:hover {
+  background: #dd4a4a;
+  border-color: #dd4a4a;
+}
+
+.dislike-btn .link-icon--right {
+  width: 14px;
+  height: 14px;
+  transform: rotate(180deg);
+  filter: invert(0.4);
+}
+
+.dislike-btn.active-dislike .link-icon--right {
+  filter: invert(1);
+}
+
+.dislike-btn:hover .link-icon--right {
+  filter: invert(0.4) sepia(1) saturate(5) hue-rotate(320deg);
 }
 </style>
 <style scoped>
@@ -2172,6 +2827,546 @@ body>.el-container {
 
 .myVEmojiPicker :deep(.category.active[data-v-6d975e7c]) {
   border-bottom: 3px solid #50a1ff;
+}
+
+/* 分享弹窗样式 */
+:deep(.share-popover) {
+  padding: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e1e8ed !important;
+}
+
+.share-content {
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.share-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.share-title i {
+  font-size: 18px;
+  color: #1890ff;
+}
+
+.share-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.share-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.share-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  min-height: 65px;
+  justify-content: center;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.share-btn span {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.share-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* QQ按钮样式 */
+.qq-btn .share-icon {
+  background: linear-gradient(135deg, #12b7f5 0%, #0e9fe3 100%);
+}
+
+.qq-btn:hover {
+  border-color: #12b7f5;
+}
+
+.qq-btn:hover span {
+  color: #12b7f5;
+}
+
+/* 微博按钮样式 */
+.weibo-btn .share-icon {
+  background: linear-gradient(135deg, #ff6b35 0%, #e85d2c 100%);
+}
+
+.weibo-btn:hover {
+  border-color: #ff6b35;
+}
+
+.weibo-btn:hover span {
+  color: #ff6b35;
+}
+
+/* 微信按钮样式 */
+.wechat-btn .share-icon {
+  background: linear-gradient(135deg, #1aad19 0%, #169917 100%);
+}
+
+.wechat-btn:hover {
+  border-color: #1aad19;
+}
+
+.wechat-btn:hover span {
+  color: #1aad19;
+}
+
+/* 复制链接按钮样式 */
+.copy-btn .share-icon {
+  background: linear-gradient(135deg, #666 0%, #555 100%);
+}
+
+.copy-btn:hover {
+  border-color: #666;
+}
+
+.copy-btn:hover span {
+  color: #666;
+}
+
+/* Twitter按钮样式 */
+.twitter-btn .share-icon {
+  background: linear-gradient(135deg, #1da1f2 0%, #0d8bd9 100%);
+}
+
+.twitter-btn:hover {
+  border-color: #1da1f2;
+}
+
+.twitter-btn:hover span {
+  color: #1da1f2;
+}
+
+/* Facebook按钮样式 */
+.facebook-btn .share-icon {
+  background: linear-gradient(135deg, #1877f2 0%, #166fe5 100%);
+}
+
+.facebook-btn:hover {
+  border-color: #1877f2;
+}
+
+.facebook-btn:hover span {
+  color: #1877f2;
+}
+
+/* Telegram按钮样式 */
+.telegram-btn .share-icon {
+  background: linear-gradient(135deg, #0088cc 0%, #006bb3 100%);
+}
+
+.telegram-btn:hover {
+  border-color: #0088cc;
+}
+
+.telegram-btn:hover span {
+  color: #0088cc;
+}
+
+/* LinkedIn按钮样式 */
+.linkedin-btn .share-icon {
+  background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+}
+
+.linkedin-btn:hover {
+  border-color: #0077b5;
+}
+
+.linkedin-btn:hover span {
+  color: #0077b5;
+}
+
+/* 其他操作区域 */
+.more-actions {
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.action-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin-bottom: 15px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e1e8ed;
+  border-radius: 6px;
+  background: #fff;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 8px;
+  text-decoration: none;
+}
+
+.action-btn:hover {
+  background: #f8f9fa;
+  border-color: #d1d9e0;
+  color: #333;
+}
+
+.action-btn i {
+  font-size: 14px;
+}
+
+.report-btn:hover {
+  border-color: #ff4d4f;
+  color: #ff4d4f;
+}
+
+.collect-btn:hover {
+  border-color: #faad14;
+  color: #faad14;
+}
+
+/* 帮助弹窗样式 */
+.help-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.help-modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.help-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 25px;
+  border-bottom: 1px solid #e1e5e9;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.help-modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.help-modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.help-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.help-modal-body {
+  padding: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.help-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.help-modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.help-modal-body::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.help-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.help-modal-footer {
+  padding: 20px 25px;
+  border-top: 1px solid #e1e5e9;
+  text-align: right;
+  background: #f8f9fa;
+}
+
+.help-modal-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.help-modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* 帮助内容样式 */
+.help-content {
+  padding: 25px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.help-content h3 {
+  color: #2c3e50;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.help-content h4 {
+  color: #34495e;
+  font-size: 18px;
+  margin: 20px 0 10px 0;
+  font-weight: 600;
+}
+
+.help-content p {
+  margin-bottom: 15px;
+  color: #555;
+}
+
+/* 步骤列表样式 */
+.step-list {
+  margin: 20px 0;
+}
+
+.step-item {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h4 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+}
+
+.step-content p {
+  margin: 0;
+  color: #666;
+}
+
+/* 沟通部分样式 */
+.comm-section {
+  margin: 20px 0;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.comm-section h4 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.comm-section ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.comm-section li {
+  margin-bottom: 8px;
+  color: #555;
+}
+
+/* 条款部分样式 */
+.terms-section {
+  margin: 20px 0;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+}
+
+.terms-section h4 {
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.terms-section ol {
+  padding-left: 20px;
+}
+
+.terms-section li {
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.terms-section strong {
+  color: #2c3e50;
+}
+
+/* 小贴士样式 */
+.help-tips {
+  background: linear-gradient(135deg, #3b82f615, #1d4ed815);
+  border: 1px solid #3b82f630;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.help-tips h4 {
+  margin-top: 0;
+  color: #3b82f6;
+}
+
+.help-tips ul {
+  margin: 10px 0 0 0;
+  padding-left: 20px;
+}
+
+.help-tips li {
+  margin-bottom: 8px;
+  color: #555;
+}
+
+/* 更新时间样式 */
+.update-time {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.update-time p {
+  margin: 0;
+  color: #999;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .help-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .help-modal-header {
+    padding: 15px 20px;
+  }
+
+  .help-modal-header h2 {
+    font-size: 18px;
+  }
+
+  .help-content {
+    padding: 20px;
+  }
+
+  .help-content h3 {
+    font-size: 20px;
+  }
+
+  .step-item {
+    flex-direction: column;
+  }
+
+  .step-number {
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
 }
 
 /* .myVEmojiPicker     :deep .grid-emojis[data-v-5c988bee] {
@@ -2206,7 +3401,7 @@ body>.el-container {
 .nav-links {
   margin-left: 8px;
   font-weight: 900;
-  ;
+;
   font-size: 19px;
 }
 

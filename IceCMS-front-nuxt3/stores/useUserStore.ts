@@ -10,11 +10,38 @@ export const useUserStore = defineStore('user', {
     token: localStorage.getItem('token') || "",  // 从 localStorage 获取 token
     userid: localStorage.getItem('userid') || "",
     username: localStorage.getItem('username') || "",
+    // 临时用户信息
+    tempUser: JSON.parse(localStorage.getItem('temp-user') || 'null') as { username: string; email: string } | null,
   }),
   getters: {
     fullName: (state) => `${state.name} (${state.username})`,
     isLoggedIn: (state) => !!state.token,
     userIntro: (state) => state.intro || "这位用户很神秘！",
+    // 检查是否有临时用户或正式用户
+    hasUser: (state) => !!state.token || !!state.tempUser,
+    // 获取当前用户信息（优先使用正式用户，否则使用临时用户）
+    currentUser: (state) => {
+      if (state.token) {
+        return {
+          name: state.name,
+          email: state.email,
+          profile: state.profile,
+          userid: state.userid,
+          username: state.username,
+          isTemp: false
+        };
+      } else if (state.tempUser) {
+        return {
+          name: state.tempUser.username,
+          email: state.tempUser.email,
+          profile: '',
+          userid: '',
+          username: state.tempUser.username,
+          isTemp: true
+        };
+      }
+      return null;
+    },
   },
   actions: {
     // 设置用户信息
@@ -71,6 +98,24 @@ export const useUserStore = defineStore('user', {
     updateProfilePicture(newProfile: string) {
       this.profile = newProfile;
       localStorage.setItem('profile', newProfile);  // 同步更新到 localStorage
+    },
+
+    // 设置临时用户信息
+    setTempUser(tempUserInfo: { username: string; email: string }) {
+      this.tempUser = tempUserInfo;
+      localStorage.setItem('temp-user', JSON.stringify(tempUserInfo));
+    },
+
+    // 清除临时用户信息
+    clearTempUser() {
+      this.tempUser = null;
+      localStorage.removeItem('temp-user');
+    },
+
+    // 清除所有用户信息（包括临时用户）
+    clearAllUserInfo() {
+      this.clearUserInfo();
+      this.clearTempUser();
     },
   }
 });

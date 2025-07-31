@@ -24,8 +24,12 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     // MathUtils.randomDigitNumber(7);
     //        int i = Integer.parseInt( formate );
     //        this.setFieldValByName("articleStatus",i,metaObject);
-    this.setFieldValByName("addTime", new Date(), metaObject);
-    this.setFieldValByName("updateTime", new Date(), metaObject);
+    Date now = new Date();
+    this.setFieldValByName("addTime", now, metaObject);
+    this.setFieldValByName("updateTime", now, metaObject);
+    
+    // 添加对createTime字段的处理，用于Notification实体类
+    this.setFieldValByName("createTime", now, metaObject);
   }
 
   /**

@@ -124,7 +124,7 @@ function loginout() {
   // });
   // 刷新页面
   //延时刷新页面
-  //延时刷新页面  
+  //延时刷新页面
   // setTimeout(() => {
   //   this.$router.go(0);
   // }, 900);
@@ -272,8 +272,8 @@ await handlegetAllResourceNumber();
 
 async function handlegetAllResourceNumber() {
   try {
-    const result = await getAllResourceNumber() as { data: { value: any } };
-    ResourceNumber.value = result.data.value
+    const result = await getAllResourceNumber();
+    ResourceNumber.value = result
   } catch (error) {
     console.error('获取ResourceNumber出错:', error);
   }
@@ -283,8 +283,8 @@ await handlegetAllArticleNumber();
 
 async function handlegetAllArticleNumber() {
   try {
-    const result = await getAllArticleNumber() as { data: { value: any } };
-    articleCount.value = result.data.value
+    const result = await getAllArticleNumber();
+    articleCount.value = result
   } catch (error) {
     console.error('获取ArticleNumber出错:', error);
   }
@@ -542,7 +542,7 @@ onMounted(() => {
                   style="width: 100%; margin-bottom: 30px" @click.native.prevent="handlePhoneLogin">登录</el-button>
                 <div class="ss-login_statement">
                   <span>登录注册即代表同意</span>
-             
+
                     <NuxtLink to="/Protocol" target="_blank">
                       用户协议</NuxtLink>
                     <span>及</span>
@@ -782,7 +782,7 @@ onMounted(() => {
           <nuxt-link target="_self" class="nav-link" :class="message2" to="/Alllist">资源</nuxt-link>
           <nuxt-link target="_self" class="nav-link" :class="message3" to="/Allpost">文章</nuxt-link>
           <nuxt-link target="_self" class="nav-link" :class="message4" to="/Class">分类</nuxt-link>
-          <nuxt-link target="_self" class="nav-link" :class="message5" to="/Planet/1">星球</nuxt-link>
+          <nuxt-link target="_self" class="nav-link" :class="message5" to="/Planet/1">圈子</nuxt-link>
         </div>
         <div class="app-header-search grid-list lazy-transition">
           <div id="autosuggest">
@@ -790,7 +790,7 @@ onMounted(() => {
               aria-owns="autosuggest-autosuggest__results">
               <el-input @input="handleInput" @keyup.native="keyup()" @focus="focus()" @blur="blur()"
                 v-model="seachcontent" type="text" autocomplete="off" aria-autocomplete="list" aria-activedescendant=""
-                aria-controls="autosuggest-autosuggest__results" id="autosuggest__input" placeholder="输入关键词搜索软件或文章…"
+                aria-controls="autosuggest-autosuggest__results" id="autosuggest__input" placeholder="输入关键词搜索资源或文章…"
                 value="" class="inputDeep large-serach-input" />
             </div>
             <div class="popUp" v-show="searchshow" @mouseenter="enter" @mouseleave="leave">
@@ -1028,7 +1028,7 @@ onMounted(() => {
                 <div>
                   <div class="topic-name-datas">
                     <a target="_blank"><b>{{ user.name }}</b></a>
-              
+
                   </div>
                   <div class="topic-user-lvs">
                     <p>
@@ -1038,7 +1038,7 @@ onMounted(() => {
                     <p>
                       <span class="user-lvs"><b>荣誉用户</b><i>lv1</i></span>
                     </p>
-                 
+
                   </div>
                 </div>
               </div>
@@ -1212,7 +1212,7 @@ onMounted(() => {
 
   </header>
 </template>
-<!-- 
+<!--
 <script>
 import { FindarticlesByNum } from '@/api/webarticle'
 import { FindresourceByNum } from '@/api/webresource'
@@ -1258,7 +1258,7 @@ export default ({
       });
       // 刷新页面
       //延时刷新页面
-      //延时刷新页面  
+      //延时刷新页面
       setTimeout(() => {
         this.$router.go(0);
       }, 900);
@@ -1663,7 +1663,7 @@ export default ({
               offset: 50
             });
             // 刷新页面
-            //延时刷新页面  
+            //延时刷新页面
             setTimeout(() => {
               this.$router.go(0);
             }, 500);

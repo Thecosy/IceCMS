@@ -45,14 +45,9 @@ public class WebSquareController {
 
   @ApiOperation(value = "新增圈子")
   @ApiImplicitParam(name = "square", value = "圈子对象", required = true)
-  @PostMapping("/create/{SortName}")
-  public Integer add(@RequestBody Square square, @PathVariable("SortName") String SortName)
+  @PostMapping("/create")
+  public Integer add(@RequestBody Square square)
       throws ParseException {
-    //        查询分类名称对应的id值
-    QueryWrapper<SquareClass> wrapper = new QueryWrapper<SquareClass>();
-    wrapper.eq("other_name", SortName);
-    SquareClass squareClass = squareClassService.getOne(wrapper);
-    square.setSortClass(squareClass.getId());
     // saveOrUpdate:要在插入数据库时，如果有某一个主要字段的值重复，则不插入，否则则插入！
     squareService.save(square);
     return square.getId();
@@ -98,8 +93,9 @@ public class WebSquareController {
   public SquarePageVO getAllArticle(
       @PathVariable("id") Integer id,
       @PathVariable("page") Integer page,
-      @PathVariable("limit") Integer limit) {
+      @PathVariable("limit") Integer limit,
+      @RequestParam(value = "type", defaultValue = "all") String type) {
 
-    return squareService.VoList(id, page, limit);
+    return squareService.VoList(id, page, limit, type);
   }
 }

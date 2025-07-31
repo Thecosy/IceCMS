@@ -3,6 +3,7 @@ package com.ttice.icewkment.controller.frontend;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tencentcloudapi.cms.v20190321.models.Logo;
 import com.ttice.icewkment.Util.*;
 import com.ttice.icewkment.commin.lang.Result;
@@ -60,6 +61,9 @@ public class WebUserController {
 
     @Autowired
     private SendMessageUtil sendMessageUtil;
+
+    @Autowired
+    private UserOrderInfoMapper userOrderInfoMapper;
 
     @ApiOperation(value = "根据用户名判断是否是管理员")
     @ApiImplicitParam(name = "userid", value = "用户名id", required = true)
@@ -489,10 +493,58 @@ public class WebUserController {
         data.put("gender", user.getGender());
         data.put("height", user.getUserId() != null ? user.getUserId().toString() : null);
         data.put("birthday", user.getBirthday() != null ? user.getBirthday() : null);
+        data.put("othername", user.getName() != null ? user.getName() : null);
         data.put("academic", user.getAcademic() != null ? user.getAcademic() : null);
         data.put("monthly", user.getMonthly() != null ? user.getMonthly() : null);
         data.put("permanent", user.getPermanent() != null ? user.getPermanent() : null);
         return data;
+    }
+
+    @ApiOperation(value = "获取当前登录用户的详细信息")
+    @GetMapping("/getCurrentUserInfo")
+    public Result getCurrentUserInfo(@RequestHeader(value = "Authorization", required = false) String token) {
+        if (token == null || token.isEmpty()) {
+            return Result.fail("未登录");
+        }
+        
+        try {
+            // 从token中解析用户ID
+            Integer userId = JwtUtil.getUserIdFromToken(token);
+            if (userId == null) {
+                return Result.fail("Token无效");
+            }
+            
+            User user = userMapper.selectById(userId);
+            if (user == null) {
+                return Result.fail("用户不存在");
+            }
+            
+            Map<String, Object> data = new HashMap<>();
+            data.put("userid", user.getUserId());
+            data.put("username", user.getUsername());
+            data.put("name", user.getName());
+            data.put("profile", user.getProfile());
+            data.put("email", user.getEmail());
+            data.put("intro", user.getIntro());
+            data.put("gender", user.getGender());
+            data.put("phone", user.getPhone());
+            data.put("height", user.getHeight());
+            data.put("birthday", user.getBirthday());
+            data.put("academic", user.getAcademic());
+            data.put("monthly", user.getMonthly());
+            data.put("permanent", user.getPermanent());
+            data.put("userage", user.getUserage());
+            data.put("createTime", user.getCreateTime());
+            data.put("lastLogin", user.getLastLogin());
+            data.put("integral", user.getIntegral());
+            data.put("vipDisableTip", user.getVipDisableTip());
+            data.put("vipValidDate", user.getVipValidDate());
+            data.put("vipExpireDate", user.getVipExpireDate());
+            
+            return Result.succ(200, "获取成功", data);
+        } catch (Exception e) {
+            return Result.fail("获取用户信息失败");
+        }
     }
 
     @ApiOperation(value = "短信登录")
@@ -664,8 +716,6 @@ public class WebUserController {
         } else {
             // 校验jwt
             boolean claims = JwtUtil.checkToken(jwt);
-            // 校验是否为空和时间是否过期
-            // 如果过期了就真的没有一点退路了吗？
             if (!claims) {
                 // 前端接收后进行处理
                 Result.fail(403, "Token已过期", null);
@@ -674,8 +724,8 @@ public class WebUserController {
             QueryWrapper<User> wrapper = new QueryWrapper<>();
             wrapper.eq("user_id", userid);
             User usercheak = userMapper.selectOne(wrapper);
-            String password = usercheak.getPassword();
-            if (verifyPassword(yuanPassWord, password)) {
+            String hashedPassword = usercheak.getPassword();
+            if (verifyPassword(hashedPassword, yuanPassWord)) {
                 User user = new User();
                 user.setUserId(userid);
                 user.setPassword(hashPassword(NewPassWord));
@@ -758,6 +808,54 @@ public class WebUserController {
         } else {
             // 邮箱格式不正确
             return Result.fail("邮箱格式不正确");
+        }
+    }
+
+    @ApiOperation(value = "获取当前用户的订单信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页码", required = false, dataType = "int", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "limit", value = "每页数量", required = false, dataType = "int", paramType = "query", defaultValue = "10")
+    })
+    @GetMapping("/getCurrentUserOrders")
+    public Result getCurrentUserOrders(
+            @RequestHeader(value = "Authorization", required = false) String token,
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        
+        if (token == null || token.isEmpty()) {
+            return Result.fail("未登录");
+        }
+        
+        try {
+            // 从token中解析用户ID
+            Integer userId = JwtUtil.getUserIdFromToken(token);
+            if (userId == null) {
+                return Result.fail("Token无效");
+            }
+            
+            // 创建分页对象
+            Page<OrderInfo> pageInfo = new Page<>(page, limit);
+            
+            // 创建查询条件
+            QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_id", userId);
+            queryWrapper.orderByDesc("create_time"); // 按创建时间倒序
+            
+            // 分页查询
+            Page<OrderInfo> orderPage = userOrderInfoMapper.selectPage(pageInfo, queryWrapper);
+            
+            // 构建返回数据
+            Map<String, Object> data = new HashMap<>();
+            data.put("records", orderPage.getRecords()); // 订单列表
+            data.put("total", orderPage.getTotal()); // 总记录数
+            data.put("current", orderPage.getCurrent()); // 当前页
+            data.put("size", orderPage.getSize()); // 每页大小
+            data.put("pages", orderPage.getPages()); // 总页数
+            
+            return Result.succ(200, "获取成功", data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("获取订单信息失败");
         }
     }
 }

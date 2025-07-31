@@ -36,6 +36,9 @@ menus:
   hsUserList: 用户列表
   hsRoleManagement: 角色管理
   hsUserManagement: 用户管理
+  hsNotificationManagement: 通知管理
+  hsNotificationList: 通知管理
+  hsAnnouncementSettings: 公告设置
   hsCommunityManagement: 社区管理
   hsCommunityCategoryManagement: 分类管理
   hsCommunityContentManagement: 圈子内容
@@ -188,7 +191,7 @@ login:
   verifyCodeSixReg: 请输入6位数字验证码
   phoneReg: 请输入手机号码
   phoneCorrectReg: 请输入正确的手机号码格式
-  passwordRuleReg: 密码格式应为8-18位数字、字母、符号的任意两种组合
+  passwordRuleReg: 密码格式应为6-18位数字、字母、符号
   passwordSureReg: 请输入确认密码
   passwordDifferentReg: 两次密码不一致!
   passwordUpdateReg: 修改密码成功

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, markRaw, onMounted } from "vue";
+import { ref, markRaw, onMounted, computed } from "vue";
 import ReCol from "@/components/ReCol";
 import { useDark, randomGradient } from "./utils";
 import PureTable from "./components/table/index.vue";
@@ -7,35 +7,194 @@ import { ReNormalCountTo } from "@/components/ReCountTo";
 import { useRenderFlicker } from "@/components/ReFlicker";
 import { barChart, lineChart, roundChart } from "./components/chart";
 import Segmented, { type OptionsType } from "@/components/ReSegmented";
-import { barChartData, progressData, latestNewsData } from "./data";
+import { progressData } from "./data";
 
-// import GroupLine from "@iconify-icons/ri/group-line";
-// import Question from "@iconify-icons/ri/question-answer-line";
-// import CheckLine from "@iconify-icons/ri/chat-check-line";
-// import Smile from "@iconify-icons/ri/star-smile-line";
+// 导入Element Plus图标
+import {
+  User,
+  Document,
+  Collection,
+  ChatDotRound,
+  ShoppingCart,
+  Connection,
+  ChatLineRound,
+  DocumentChecked,
+  Files,
+  ShoppingBag
+} from '@element-plus/icons-vue';
 
-import { getChartData } from '@/api/common/panel'; // 请确保路径正确
+import { getChartData, getSystemOverview } from '@/api/common/panel';
+import { ElLoading, ElMessage } from "element-plus";
 
-/** 用户人数、评论、商品、销量 */
-const chartData = ref(''); // 使用ref声明chartData
+// 导入IconifyIconOnline组件
+import { IconifyIconOnline } from "@/components/ReIcon";
 
-// Fetch user count from the API
-const fetchPanel = async () => {
+/** 图表数据 */
+const chartData = ref([]);
+
+/** 系统概览数据 */
+const systemData = ref<{
+  totalUsers: number;
+  totalArticles: number;
+  totalResources: number;
+  totalComments: number;
+  totalOrders: number;
+  totalSquares: number;
+  userGrowthRate: string;
+  articleGrowthRate: string;
+  resourceGrowthRate: string;
+  orderGrowthRate: string;
+  weeklyTrend: any[];
+}>({
+  totalUsers: 0,
+  totalArticles: 0,
+  totalResources: 0,
+  totalComments: 0,
+  totalOrders: 0,
+  totalSquares: 0,
+  userGrowthRate: "0",
+  articleGrowthRate: "0",
+  resourceGrowthRate: "0",
+  orderGrowthRate: "0",
+  weeklyTrend: []
+});
+
+/** 分析图表数据 */
+const barChartData = computed(() => {
+  if (!systemData.value.weeklyTrend || systemData.value.weeklyTrend.length === 0) {
+    return [
+      {
+        requireData: [0, 0, 0, 0, 0, 0, 0],
+        questionData: [0, 0, 0, 0, 0, 0, 0]
+      },
+      {
+        requireData: [0, 0, 0, 0, 0, 0, 0],
+        questionData: [0, 0, 0, 0, 0, 0, 0]
+      }
+    ];
+  }
+
+  // 从系统数据中提取每日数据
+  const users = systemData.value.weeklyTrend.map(day => day.users);
+  const articles = systemData.value.weeklyTrend.map(day => day.articles);
+  const resources = systemData.value.weeklyTrend.map(day => day.resources);
+  const orders = systemData.value.weeklyTrend.map(day => day.orders);
+
+  return [
+    {
+      // 资源/订单数据
+      requireData: resources,
+      questionData: orders
+    },
+    {
+      // 用户/文章数据
+      requireData: users,
+      questionData: articles
+    }
+  ];
+});
+
+/** 最新动态数据 */
+const latestNewsData = computed(() => {
+  if (!systemData.value.weeklyTrend || systemData.value.weeklyTrend.length === 0) {
+    return [];
+  }
+
+  const days = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+
+  return systemData.value.weeklyTrend.map((day, index) => {
+    const date = new Date(day.date);
+    const dayOfWeek = days[date.getDay()];
+
+    return {
+      date: `${day.date} ${dayOfWeek}`,
+      users: day.users,
+      articles: day.articles,
+      resources: day.resources,
+      orders: day.orders
+    };
+  }).reverse();
+});
+
+// 加载图表数据
+const fetchChartData = async () => {
   try {
+    const loading = ElLoading.service({
+      lock: true,
+      text: '加载中...',
+      background: 'rgba(255, 255, 255, 0.7)',
+    });
+
     const response = await getChartData();
     if (response.code === 200) {
-      // chartData = JSON.parse(JSON.stringify(chartData));
-      chartData.value = JSON.parse(response.data)
+      const data = JSON.parse(response.data);
+      // 替换图标名称为Element Plus图标组件
+      chartData.value = data.map(item => {
+        // 根据图标名称映射到Element Plus图标
+        let iconComponent;
+        switch(item.icon) {
+          case "GroupLine":
+            iconComponent = markRaw(User);
+            break;
+          case "Question":
+            iconComponent = markRaw(ChatLineRound);
+            break;
+          case "CheckLine":
+            iconComponent = markRaw(Files);
+            break;
+          case "Smile":
+            iconComponent = markRaw(ShoppingBag);
+            break;
+          default:
+            iconComponent = markRaw(Document);
+        }
+        return {
+          ...item,
+          iconComponent
+        };
+      });
     }
+
+    loading.close();
   } catch (error) {
-    console.error('Error fetching user count:', error);
+    console.error('获取图表数据失败:', error);
+    ElMessage.error('获取图表数据失败');
   }
 };
 
-// 模拟从接口获取数据
+// 加载系统概览数据
+const fetchSystemData = async () => {
+  try {
+    const response = await getSystemOverview();
+    if (response.code === 200) {
+      // 使用类型断言确保数据类型正确
+      const data = response.data as any;
+
+      // 将数据赋值给systemData
+      systemData.value = {
+        totalUsers: data.totalUsers || 0,
+        totalArticles: data.totalArticles || 0,
+        totalResources: data.totalResources || 0,
+        totalComments: data.totalComments || 0,
+        totalOrders: data.totalOrders || 0,
+        totalSquares: data.totalSquares || 0,
+        userGrowthRate: data.userGrowthRate || "0",
+        articleGrowthRate: data.articleGrowthRate || "0",
+        resourceGrowthRate: data.resourceGrowthRate || "0",
+        orderGrowthRate: data.orderGrowthRate || "0",
+        weeklyTrend: Array.isArray(data.weeklyTrend) ? data.weeklyTrend : []
+      };
+    }
+  } catch (error) {
+    console.error('获取系统概览数据失败:', error);
+    ElMessage.error('获取系统概览数据失败');
+  }
+};
+
+// 页面加载时获取数据
 onMounted(() => {
-  fetchPanel();
-  // chartData = 1
+  fetchChartData();
+  fetchSystemData();
 });
 
 defineOptions({
@@ -47,10 +206,10 @@ const { isDark } = useDark();
 let curWeek = ref(1); // 0上周、1本周
 const optionsBasis: Array<OptionsType> = [
   {
-    label: "上周"
+    label: "资源/订单"
   },
   {
-    label: "本周"
+    label: "用户/文章"
   }
 ];
 </script>
@@ -77,14 +236,16 @@ const optionsBasis: Array<OptionsType> = [
             <div class="w-8 h-8 flex justify-center items-center rounded-md" :style="{
               backgroundColor: isDark ? 'transparent' : item.bgColor
             }">
-              <IconifyIconOnline :icon="item.icon" :color="item.color" width="18" />
+              <el-icon :color="item.color" :size="18">
+                <component :is="item.iconComponent" />
+              </el-icon>
             </div>
           </div>
           <div class="flex justify-between items-start mt-3">
             <div class="w-1/2">
               <ReNormalCountTo :duration="item.duration" :fontSize="'1.6em'" :startVal="100"
                 :endVal="Number(item.TheValue)" />
-              <p class="font-medium text-green-500">{{ item.percent }}</p>
+              <p class="font-medium" :style="{ color: item.color }">{{ item.percent }}</p>
             </div>
             <lineChart v-if="item.data.length > 1" class="!w-1/2" :color="item.color" :data="item.data" />
             <roundChart v-else class="!w-1/2" />
@@ -104,12 +265,13 @@ const optionsBasis: Array<OptionsType> = [
 }">
         <el-card class="bar-card" shadow="never">
           <div class="flex justify-between">
-            <span class="text-md font-medium">分析概览</span>
+            <span class="text-md font-medium">数据趋势分析</span>
             <Segmented v-model="curWeek" :options="optionsBasis" />
           </div>
           <div class="flex justify-between items-start mt-3">
             <barChart :requireData="barChartData[curWeek].requireData"
-              :questionData="barChartData[curWeek].questionData" />
+              :questionData="barChartData[curWeek].questionData"
+              :chartType="curWeek" />
           </div>
         </el-card>
       </re-col>
@@ -126,19 +288,86 @@ const optionsBasis: Array<OptionsType> = [
 }">
         <el-card shadow="never">
           <div class="flex justify-between">
-            <span class="text-md font-medium">解决概率</span>
+            <span class="text-md font-medium">系统概览</span>
           </div>
-          <div v-for="(item, index) in progressData" :key="index" :class="[
-            'flex',
-            'justify-between',
-            'items-start',
-            index === 0 ? 'mt-8' : 'mt-[2.15rem]'
-          ]">
-            <el-progress :text-inside="true" :percentage="item.percentage" :stroke-width="21" :color="item.color" striped
-              striped-flow :duration="item.duration" />
-            <span class="text-nowrap ml-2 text-text_color_regular text-sm">
-              {{ item.week }}
-            </span>
+          <div class="system-overview">
+            <div class="stat-item">
+              <div class="stat-icon" style="background-color: #effaff;">
+                <el-icon><User /></el-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-title">用户总数</div>
+                <div class="stat-value">{{ systemData.totalUsers }}</div>
+                <div class="stat-growth" :class="{ 'positive': parseFloat(systemData.userGrowthRate) > 0, 'negative': parseFloat(systemData.userGrowthRate) < 0 }">
+                  {{ parseFloat(systemData.userGrowthRate) > 0 ? '+' : '' }}{{ systemData.userGrowthRate }}%
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-item">
+              <div class="stat-icon" style="background-color: #fff5f4;">
+                <el-icon><Document /></el-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-title">文章总数</div>
+                <div class="stat-value">{{ systemData.totalArticles }}</div>
+                <div class="stat-growth" :class="{ 'positive': parseFloat(systemData.articleGrowthRate) > 0, 'negative': parseFloat(systemData.articleGrowthRate) < 0 }">
+                  {{ parseFloat(systemData.articleGrowthRate) > 0 ? '+' : '' }}{{ systemData.articleGrowthRate }}%
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-item">
+              <div class="stat-icon" style="background-color: #eff8f4;">
+                <el-icon><Collection /></el-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-title">资源总数</div>
+                <div class="stat-value">{{ systemData.totalResources }}</div>
+                <div class="stat-growth" :class="{ 'positive': parseFloat(systemData.resourceGrowthRate) > 0, 'negative': parseFloat(systemData.resourceGrowthRate) < 0 }">
+                  {{ parseFloat(systemData.resourceGrowthRate) > 0 ? '+' : '' }}{{ systemData.resourceGrowthRate }}%
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-item">
+              <div class="stat-icon" style="background-color: #f6f4fe;">
+                <el-icon><ChatDotRound /></el-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-title">评论总数</div>
+                <div class="stat-value">{{ systemData.totalComments }}</div>
+                <div class="stat-growth positive">
+                  活跃度指标
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-item">
+              <div class="stat-icon" style="background-color: #f5f5f5;">
+                <el-icon><ShoppingCart /></el-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-title">订单总数</div>
+                <div class="stat-value">{{ systemData.totalOrders }}</div>
+                <div class="stat-growth" :class="{ 'positive': parseFloat(systemData.orderGrowthRate) > 0, 'negative': parseFloat(systemData.orderGrowthRate) < 0 }">
+                  {{ parseFloat(systemData.orderGrowthRate) > 0 ? '+' : '' }}{{ systemData.orderGrowthRate }}%
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-item">
+              <div class="stat-icon" style="background-color: #f0f8ff;">
+                <el-icon><Connection /></el-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-title">圈子总数</div>
+                <div class="stat-value">{{ systemData.totalSquares }}</div>
+                <div class="stat-growth positive">
+                  社区活跃度
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
       </re-col>
@@ -187,7 +416,7 @@ const optionsBasis: Array<OptionsType> = [
                 " :timestamp="item.date">
                 <p class="text-text_color_regular text-sm">
                   {{
-                    `新增 ${item.requiredNumber} 条问题，${item.resolveNumber} 条已解决`
+                    `新增 ${item.users} 名用户，${item.articles} 篇文章，${item.resources} 个资源，${item.orders} 个订单`
                   }}
                 </p>
               </el-timeline-item>
@@ -226,5 +455,63 @@ const optionsBasis: Array<OptionsType> = [
 
 .main-content {
   margin: 20px 20px 0 !important;
+}
+
+.system-overview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--el-bg-color);
+  transition: all 0.3s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-title {
+  font-size: 12px;
+  color: var(--el-text-color-secondary);
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 4px 0;
+}
+
+.stat-growth {
+  font-size: 12px;
+
+  &.positive {
+    color: #26ce83;
+  }
+
+  &.negative {
+    color: #f56c6c;
+  }
 }
 </style>

@@ -11,6 +11,16 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="作者" prop="authorId">
+          <el-select v-model="articleForm.authorId" placeholder="请选择作者">
+            <el-option v-for="user in userList" :key="user.userId" :label="user.username" :value="user.userId">
+              <div style="display: flex; align-items: center;">
+                <el-avatar :size="30" :src="user.profile" style="margin-right: 10px;"></el-avatar>
+                <span>{{ user.username }}</span>
+              </div>
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="发布日期">
           <el-date-picker v-model="articleForm.addTime" type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
@@ -67,15 +77,25 @@
         </div>
       </template>
     </el-dialog>
-    <!-- 编辑文章的对话框 -->
-    <el-dialog v-model="editDialogVisible" title="编辑文章" width="500px" :before-close="handleCloseEdit">
+    <!-- 编辑圈子的对话框 -->
+    <el-dialog v-model="editDialogVisible" title="编辑圈子" width="500px" :before-close="handleCloseEdit">
       <el-form :rules="rules" :model="editArticleForm">
         <el-form-item label="内容" prop="content">
           <el-input v-model="editArticleForm.content"></el-input>
         </el-form-item>
         <el-form-item label="分类" prop="sortClass">
-          <el-select v-model="articleForm.sortClass" placeholder="请选择分类">
+          <el-select v-model="editArticleForm.sortClass" placeholder="请选择分类">
             <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者" prop="authorId">
+          <el-select v-model="editArticleForm.authorId" placeholder="请选择作者">
+            <el-option v-for="user in userList" :key="user.userId" :label="user.username" :value="user.userId">
+              <div style="display: flex; align-items: center;">
+                <el-avatar :size="30" :src="user.profile" style="margin-right: 10px;"></el-avatar>
+                <span>{{ user.username }}</span>
+              </div>
             </el-option>
           </el-select>
         </el-form-item>
@@ -158,8 +178,9 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
 import { deleteArticlesBatch, createArticle, updateArticles, deleteArticle } from '@/api/com_function/community'; // 请确保路径正确
-import { getAllSquare } from '@/api/com_function/community'; // 请确保路径正确
+import { getAllSquare, getSquareDetail } from '@/api/com_function/community'; // 请确保路径正确
 import { getAllClassName } from '@/api/com_function/com_category'; // 请确保路径正确
+import { getAllUsers } from '@/api/system'; // 导入获取所有用户的API
 import type { Article } from './types';
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs';
@@ -201,7 +222,10 @@ const rules = ref({
 const classList = ref([
 ]);
 
-// 用于存储文章数据的响应式变量
+// 用户列表
+const userList = ref([]);
+
+// 用于存储圈子数据的响应式变量
 const articles = ref([]);
 
 const router = useRouter()
@@ -299,12 +323,8 @@ const handleRowClick = (row, column, event) => {
     return;
   }
 
-  // 如果不是按钮，则执行原来的导航逻辑
-  // 使用Vue Router的push方法来导航到新的URL
-  const newPath = '/content-management/edit-article/' + row.id
-  if (router.currentRoute.value.path !== newPath) {
-    router.push(newPath)
-  }
+  // 如果不是按钮，则执行编辑操作
+  editArticle(row);
 }
 
 interface ArticleResponse {
@@ -321,11 +341,11 @@ const fetchArticles = async (selectClassValue = 1, pageNum = 1, limit = pageSize
     if (response.code === 200) {
       const res = response.data;
       articles.value = res.data;
-      console.log('articles:', articles.value);
+      console.log('community:', articles.value);
       totalArticles.value = res.total;
     }
   } catch (error) {
-    console.error('Error fetching articles:', error);
+    console.error('Error fetching community:', error);
   }
 };
 
@@ -342,6 +362,23 @@ const fetchClass = async () => {
   }
 };
 
+// 获取所有用户
+const fetchUsers = async () => {
+  try {
+    console.log('开始获取用户列表');
+    const response = await getAllUsers();
+    console.log('用户API响应:', response);
+    if (response.code === 200) {
+      userList.value = response.data;
+      console.log('用户列表:', userList.value);
+    } else {
+      console.error('获取用户列表失败:', response.msg);
+    }
+  } catch (error) {
+    console.error('获取用户列表出错:', error);
+  }
+};
+
 // 页面大小变化时的处理函数
 const handleSizeChange = (newSize) => {
   pageSize.value = newSize;
@@ -354,9 +391,10 @@ const handleCurrentChange = (newPage) => {
   fetchArticles(Number(selectClass.value), currentPage.value, pageSize.value);
 };
 
-// 页面挂载时获取文章数据
+// 页面挂载时获取圈子数据
 onMounted(() => {
   fetchClass();
+  fetchUsers(); // 获取用户列表
   const selectClass = classList.value.length > 0 ? classList.value[0].id : '';
   console.log(selectClass.value)
   fetchArticles(Number(selectClass.value), currentPage.value, pageSize.value);
@@ -370,7 +408,7 @@ watch(selectClass, (newValue, oldValue) => {
 
 });
 
-// 页面挂载时获取文章数据
+// 页面挂载时获取圈子数据
 onMounted(fetchArticles);
 
 export interface DataInfo<T> {
@@ -390,13 +428,15 @@ export interface DataInfo<T> {
   userId?: number;
 }
 
-// 添加文章
+// 添加圈子
 const submitArticle = async () => {
   try {
-    const userKey = "user-info";
-
-    const userid =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.userId ?? "";
+    // 如果没有选择作者，使用当前登录用户
+    if (!articleForm.value.authorId) {
+      const userKey = "user-info";
+      const userid = storageLocal().getItem<DataInfo<number>>(userKey)?.userId ?? "";
+      articleForm.value.authorId = String(userid);
+    }
 
     // 先复制 articleForm 的内容
     const formData = { ...articleForm.value };
@@ -405,16 +445,27 @@ const submitArticle = async () => {
     if (formData.addTime) {
       formData.addTime = dayjs(formData.addTime).format('YYYY-MM-DD HH:mm:ss');
     }
-    formData.authorId = String(userid);
+
+    // 设置作者信息
+    if (formData.authorId) {
+      // 从用户列表中找到选中的用户
+      const selectedUser = userList.value.find(user => user.userId === Number(formData.authorId));
+      if (selectedUser) {
+        // 将author字段设置为authorId的值(数字类型)，而不是用户名
+        formData.author = Number(formData.authorId);
+        formData.authorImg = selectedUser.profile;
+      }
+    }
+
     formData.thumb = urlList.value[0];
-    console.log(urlList)
+    console.log('提交的数据:', formData);
 
     await createArticle(formData);
-    fetchArticles(); // 重新获取文章列表
+    fetchArticles(); // 重新获取圈子列表
     dialogVisible.value = false;
     ElNotification({
       title: '成功',
-      message: '文章添加成功',
+      message: '圈子添加成功',
       type: 'success',
     });
   } catch (error) {
@@ -422,9 +473,11 @@ const submitArticle = async () => {
   }
 };
 
-// 更新文章
+// 更新圈子
 const updateArticle = async () => {
   try {
+    console.log('更新前的表单数据:', editArticleForm.value);
+
     // 先复制 articleForm 的内容
     const formData = { ...editArticleForm.value };
 
@@ -432,17 +485,25 @@ const updateArticle = async () => {
     if (formData.addTime) {
       formData.addTime = dayjs(formData.addTime).format('YYYY-MM-DD HH:mm:ss');
     }
-          const userKey = "user-info";
 
-      const userid =
-        storageLocal().getItem<DataInfo<number>>(userKey)?.userId ?? "";
-    formData.author = String(userid);
+    // 确保author是数字类型
+    const userKey = "user-info";
+    const userid = storageLocal().getItem<DataInfo<number>>(userKey)?.userId ?? 0;
+    formData.author = Number(formData.authorId || userid);
+
+    // 确保sortClass字段存在
+    if (!formData.sortClass && selectClass.value) {
+      formData.sortClass = selectClass.value;
+    }
+
+    console.log('提交到后端的数据:', formData);
+
     await updateArticles(formData, editArticleForm.value.id);
-    fetchArticles(); // 重新获取文章列表
+    fetchArticles(); // 重新获取圈子列表
     editDialogVisible.value = false;
     ElNotification({
       title: '成功',
-      message: '文章更新成功',
+      message: '圈子更新成功',
       type: 'success',
     });
   } catch (error) {
@@ -450,18 +511,18 @@ const updateArticle = async () => {
   }
 };
 
-// 删除文章
+// 删除圈子
 const confirmDeleteArticle = async (articleId) => {
   // 弹出确认框
-  ElMessageBox.confirm('你确定要删除此文章吗?')
-    .then(() => {
+  ElMessageBox.confirm('你确定要删除此圈子吗?')
+    .then(async () => {
       // 如果用户点击了确认按钮
       try {
-        deleteArticle(articleId);
-        fetchArticles(); // 重新获取文章列表
+        await deleteArticle(articleId);
+        fetchArticles(); // 重新获取圈子列表
         ElNotification({
-          title: '删除文章',
-          message: '文章删除成功',
+          title: '删除圈子',
+          message: '圈子删除成功',
           type: 'success',
         });
       } catch (error) {
@@ -472,7 +533,7 @@ const confirmDeleteArticle = async (articleId) => {
       // 如果用户点击了取消按钮
       ElNotification({
         title: '取消删除',
-        message: '文章未被删除',
+        message: '圈子未被删除',
         type: 'info',
       });
     });
@@ -483,20 +544,24 @@ const editArticleForm = ref({
   id: 0,
   title: '',
   content: '',
-  author: '',
+  author: 0, // 修改为数字类型
   addTime: '',
   className: '',
   thumb: '',
+  authorId: '', // 添加作者ID字段
+  authorImg: '', // 添加作者头像字段
+  sortClass: '' // 添加分类ID字段，字符串类型
 });
 
 const articleForm = ref({
   content: '',
   sortClass: '',
-  author: '',
+  author: 0, // 修改为数字类型
   addTime: '',
   className: '',
   thumb: '',
-  authorId: ''
+  authorId: '',
+  authorImg: '' // 添加作者头像字段
 });
 
 const handleCloseEdit = (done: () => void) => {
@@ -505,10 +570,101 @@ const handleCloseEdit = (done: () => void) => {
 };
 // 定义 searchArticles
 const searchArticles = () => {
-  // 搜索文章的逻辑
+  // 搜索圈子的逻辑
 }
-const editArticle = (article: Article) => {
-  editArticleForm.value = { ...article };
+// 处理编辑
+const editArticle = async (article: Article) => {
+  console.log('编辑的原始数据:', article);
+
+  try {
+    // 获取圈子的完整信息
+    const response = await getSquareDetail(article.id);
+    console.log('获取到的圈子详情:', response);
+
+    if (response.code === 200 && response.data && response.data.data && response.data.data.length > 0) {
+      const fullArticle = response.data.data[0];
+      console.log('圈子完整数据:', fullArticle);
+
+      // 根据sortName查找对应的分类ID
+      let foundSortClass = '';
+      if (fullArticle.sortName) {
+        const matchedClass = classList.value.find(item => item.name === fullArticle.sortName);
+        if (matchedClass) {
+          foundSortClass = matchedClass.id;
+          console.log('根据sortName找到的分类ID:', foundSortClass);
+        }
+      }
+
+      // 复制圈子数据到编辑表单
+      editArticleForm.value = {
+        ...fullArticle,
+        id: fullArticle.id,
+        title: fullArticle.title || '',
+        content: fullArticle.content || '',
+        author: Number(fullArticle.authorId || fullArticle.author || 0), // 确保author是数字类型
+        authorId: fullArticle.authorId || String(fullArticle.author) || '', // 确保设置authorId
+        authorImg: fullArticle.authorImg || fullArticle.profile || '', // 确保设置authorImg
+        // 优先级: 1.已有sortClass 2.根据sortName找到的ID 3.当前选中的分类 4.空字符串
+        sortClass: fullArticle.sortClass || foundSortClass || String(selectClass.value) || '',
+        addTime: fullArticle.addTime || '',
+        thumb: fullArticle.thumb || '',
+        className: fullArticle.className || ''
+      };
+    } else {
+      // 如果获取详情失败，使用传入的数据
+      // 根据sortName查找对应的分类ID
+      let foundSortClass = '';
+      if (article.sortName) {
+        const matchedClass = classList.value.find(item => item.name === article.sortName);
+        if (matchedClass) {
+          foundSortClass = matchedClass.id;
+          console.log('根据sortName找到的分类ID:', foundSortClass);
+        }
+      }
+
+      editArticleForm.value = {
+        ...article,
+        id: article.id,
+        title: article.title || '',
+        content: article.content || '',
+        author: Number(article.authorId || article.author || 0),
+        authorId: article.authorId || String(article.author) || '',
+        authorImg: article.authorImg || article.profile || '',
+        sortClass: article.sortClass || foundSortClass || String(selectClass.value) || '',
+        addTime: article.addTime || '',
+        thumb: article.thumb || '',
+        className: article.className || ''
+      };
+    }
+  } catch (error) {
+    console.error('获取圈子详情失败:', error);
+    // 发生错误时使用传入的数据
+    // 根据sortName查找对应的分类ID
+    let foundSortClass = '';
+    if (article.sortName) {
+      const matchedClass = classList.value.find(item => item.name === article.sortName);
+      if (matchedClass) {
+        foundSortClass = matchedClass.id;
+        console.log('根据sortName找到的分类ID:', foundSortClass);
+      }
+    }
+
+    editArticleForm.value = {
+      ...article,
+      id: article.id,
+      title: article.title || '',
+      content: article.content || '',
+      author: Number(article.authorId || article.author || 0),
+      authorId: article.authorId || String(article.author) || '',
+      authorImg: article.authorImg || article.profile || '',
+      sortClass: article.sortClass || foundSortClass || String(selectClass.value) || '',
+      addTime: article.addTime || '',
+      thumb: article.thumb || '',
+      className: article.className || ''
+    };
+  }
+
+  console.log('编辑表单数据:', editArticleForm.value);
   editDialogVisible.value = true;
 };
 
@@ -519,7 +675,7 @@ const handleClose = (done: () => void) => {
 };
 
 const showAddArticleDialog = () => {
-  articleForm.value = { content: '', author: '', className: '', addTime: '', thumb: '', sortClass: '', authorId: '' }; // Reset form
+  articleForm.value = { content: '', author: 0, className: '', addTime: '', thumb: '', sortClass: '', authorId: '', authorImg: '' }; // Reset form
   dialogVisible.value = true;
 };
 
@@ -534,15 +690,15 @@ const handleSelectionChange = (val: Article[]) => {
 const confirmDeleteSelected = async () => {
   if (selectedArticles.value.length === 0) {
     ElNotification({
-      title: '没有选择文章',
-      message: '请选择要删除的文章',
+      title: '没有选择圈子',
+      message: '请选择要删除的圈子',
       type: 'warning',
     });
     return;
   }
 
   try {
-    await ElMessageBox.confirm('你确定要删除此文章吗?');
+    await ElMessageBox.confirm('你确定要删除此圈子吗?');
 
     // Extract IDs of selected articles
     const idsToDelete = selectedArticles.value.map(a => a.id);
@@ -553,19 +709,19 @@ const confirmDeleteSelected = async () => {
     // Check if deletion was successful based on your API response structure
     if (response.code === 200) {
       // Filter out deleted articles from the articles array
-      fetchArticles(); // 重新获取文章列表
+      fetchArticles(); // 重新获取圈子列表
       selectedArticles.value = [];
 
       ElNotification({
         title: '删除成功',
-        message: '成功删除文章',
+        message: '成功删除圈子',
         type: 'success',
       });
     } else {
       // Handle unsuccessful deletion
       ElNotification({
         title: '失败',
-        message: '删除文章失败',
+        message: '删除圈子失败',
         type: 'error',
       });
     }

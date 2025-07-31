@@ -1,16 +1,25 @@
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { getResourceByClass } from '../../../api/webresource';
+import { getResourceByClass, getResourceByClassAndType } from '../../../api/webresource';
 import { formatDate } from '@/utils/date';
-import { getResourceClassNameByid } from '../../../api/webresourceclass';
+import { getResourceClassNameByid, getResourceClasslist } from '../../../api/webresourceclass';
+import httpRequest from '../../../service/index';
 
 const route = useRoute();
 const moreIndex = ref(false);
 const className = ref<string>('');
 const rlist = ref<any[]>([]);
-  const  acticve = ref<string>('nav-link active');
+const allCategories = ref<any[]>([]);
+const acticve = ref<string>('nav-link active');
+
+// 分页相关状态
+const currentPage = ref(1);
+const pageSize = ref(12); // 每页显示12个
+const totalItems = ref(0);
+const totalPages = ref(0);
+const loading = ref(false);
 const moreaction = () => {
   moreIndex.value = !moreIndex.value;
 };
@@ -40,25 +49,173 @@ const getStyles = (): string => {
   return `background-image: ${colors[Math.floor(Math.random() * colors.length)]};`;
 };
 
+await getAllCategories();
+async function getAllCategories() {
+  try {
+    const resp = await getResourceClasslist();
+    // 处理 useFetchGet 返回的数据结构
+    if (resp && resp.data && resp.data.value) {
+      allCategories.value = Array.isArray(resp.data.value) ? resp.data.value : [];
+    } else if (resp && Array.isArray(resp)) {
+
+      allCategories.value = resp;
+    } else {
+      allCategories.value = [];
+    }
+    console.log('获取所有分类成功:', allCategories.value);
+  } catch (error) {
+    console.error("获取所有分类失败", error);
+    allCategories.value = [];
+  }
+};
+
 await getClassName();
 async function getClassName() {
   try {
     const resp = await getResourceClassNameByid(route.params.id as string);
-    className.value = resp.data.value;
+    // 处理不同的响应数据结构
+    if (resp && resp.data) {
+      if (resp.data.value) {
+        className.value = resp.data.value;
+      } else {
+        className.value = resp.data;
+      }
+    } else {
+      className.value = '未知分类';
+    }
+    console.log('获取分类名称成功:', className.value);
   } catch (error) {
     console.error("获取分类名称失败", error);
+    className.value = '未知分类';
   }
 };
 
 await getList();
-async function getList() {
+async function getList(page: number = currentPage.value) {
   try {
-    const resp = await getResourceByClass(route.params.id);
-    rlist.value = resp.data.value;
-    console.log(rlist)
+    loading.value = true;
+    const resp = await getResourceByClassAndType(
+      { page: page, limit: pageSize.value },
+      route.params.id,
+      'new' // 默认按最新排序，也可以改为其他类型
+    );
+    
+    console.log('分页数据:', resp);
+    
+    // 处理 Nuxt useFetch 返回的数据结构
+    if (resp && resp.data && resp.data.value) {
+      const responseData = resp.data.value;
+      
+      if (responseData && responseData.data) {
+        rlist.value = Array.isArray(responseData.data) ? responseData.data : [];
+        
+        // 设置分页信息
+        if (responseData.total !== undefined) {
+          totalItems.value = responseData.total;
+          totalPages.value = Math.ceil(totalItems.value / pageSize.value);
+        } else {
+          // 如果没有总数信息，根据返回的数据长度估算
+          if (rlist.value.length < pageSize.value) {
+            totalPages.value = page;
+            totalItems.value = (page - 1) * pageSize.value + rlist.value.length;
+          } else {
+            totalPages.value = page + 1; // 至少还有下一页
+          }
+        }
+      } else {
+        rlist.value = [];
+        totalItems.value = 0;
+        totalPages.value = 0;
+      }
+    } else {
+      rlist.value = [];
+      totalItems.value = 0;
+      totalPages.value = 0;
+    }
+    
+    console.log('处理后的数据:', {
+      items: rlist.value.length,
+      totalItems: totalItems.value,
+      totalPages: totalPages.value,
+      currentPage: page
+    });
   } catch (error) {
     console.error("获取资源列表失败", error);
+    rlist.value = [];
+    totalItems.value = 0;
+    totalPages.value = 0;
+  } finally {
+    loading.value = false;
   }
+};
+
+// 分页处理函数
+const handlePageChange = async (page: number) => {
+  currentPage.value = page;
+  await getList(page);
+  // 滚动到顶部
+  if (process.client) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+};
+
+// 监听路由变化重新加载数据
+watch(() => route.params.id, async (newId) => {
+  if (newId) {
+    currentPage.value = 1;
+    await getClassName();
+    await getList(1);
+  }
+});
+
+// 获取可见页码
+const getVisiblePages = () => {
+  const visiblePages = [];
+  const maxVisiblePages = 7; // 最多显示7个页码
+  
+  if (totalPages.value <= maxVisiblePages) {
+    // 如果总页数少于等于最大可见页数，显示所有页码
+    for (let i = 1; i <= totalPages.value; i++) {
+      visiblePages.push(i);
+    }
+  } else {
+    // 总页数较多时，智能显示页码
+    const halfVisible = Math.floor(maxVisiblePages / 2);
+    let startPage = Math.max(1, currentPage.value - halfVisible);
+    let endPage = Math.min(totalPages.value, currentPage.value + halfVisible);
+    
+    // 调整起始和结束页码，确保显示固定数量的页码
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      if (startPage === 1) {
+        endPage = Math.min(totalPages.value, startPage + maxVisiblePages - 1);
+      } else {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+    }
+    
+    // 添加第一页
+    if (startPage > 1) {
+      visiblePages.push(1);
+      if (startPage > 2) {
+        visiblePages.push('...');
+      }
+    }
+    
+    // 添加中间页码
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+    }
+    
+    // 添加最后一页
+    if (endPage < totalPages.value) {
+      if (endPage < totalPages.value - 1) {
+        visiblePages.push('...');
+      }
+      visiblePages.push(totalPages.value);
+    }
+  }
+  
+  return visiblePages;
 };
 
 </script>
@@ -85,15 +242,21 @@ async function getList() {
                         style="width: 300px; ">
                         <!---->
                         <div>
-                          <a href="/special/gif" aria-current="page"
-                            class="px-5 py-3 fs-26 d-block active text-primary">Gif动画制作</a><a href="/special/adobe"
-                            class="px-5 py-3 fs-26 d-block">Adobe 2021</a><a href="/special/photo"
-                            class="px-5 py-3 fs-26 d-block">图像处理</a><a href="/special/pm"
-                            class="px-5 py-3 fs-26 d-block">产品经理</a><a href="/special/mindmap"
-                            class="px-5 py-3 fs-26 d-block">思维导图</a><a href="/special/manage"
-                            class="px-5 py-3 fs-26 d-block">项目管理</a><a href="/special/prototype"
-                            class="px-5 py-3 fs-26 d-block">原型设计</a><a href="/special/novice"
-                            class="px-5 py-3 fs-26 d-block">新人必备</a>
+                          <router-link 
+                            v-for="category in allCategories" 
+                            :key="category.id" 
+                            :to="'/classdetal/' + category.id"
+                            class="px-5 py-3 fs-26 d-block hover:text-primary transition-colors"
+                            :class="{ 'active text-primary': category.id == route.params.id, 'text-dark': category.id != route.params.id }"
+                          >
+                            {{ category.name }}
+                            <span v-if="category.num" class="text-muted fs-14 ml-2">({{ category.num }})</span>
+                          </router-link>
+                          
+                          <!-- 如果没有分类数据，显示提示 -->
+                          <div v-if="allCategories.length === 0" class="px-5 py-3 text-center text-muted">
+                            暂无分类数据
+                          </div>
                         </div>
                       </div>
                       <span class="el-popover__reference-wrapper"></span>
@@ -104,7 +267,16 @@ async function getList() {
                     </h5>
                   </header>
                   <div class="clearfix special-box-list">
-                    <div class="w-r" style="margin-left: -15px; margin-right: -15px">
+                    <!-- 加载状态 -->
+                    <div v-if="loading" class="text-center py-5">
+                      <div class="loading-spinner">
+                        <i class="el-icon-loading"></i>
+                        <p class="mt-2">加载中...</p>
+                      </div>
+                    </div>
+                    
+                    <!-- 资源列表 -->
+                    <div v-else class="w-r" style="margin-left: -15px; margin-right: -15px">
                       <div
                         v-for="item in rlist"
                         :key="item.id"
@@ -242,6 +414,67 @@ async function getList() {
                         </div>
                       </div> -->
                       <!-- ----- -->
+                    </div>
+                    
+                    <!-- 分页组件 -->
+                    <div v-if="!loading && rlist.length > 0 && totalPages > 1" class="pagination-wrapper text-center mt-5">
+                      <nav aria-label="分页导航">
+                        <ul class="pagination justify-content-center">
+                          <!-- 上一页 -->
+                          <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                            <button 
+                              class="page-link" 
+                              @click="handlePageChange(currentPage - 1)" 
+                              :disabled="currentPage === 1"
+                            >
+                              <i class="icon-chevron-left"></i> 上一页
+                            </button>
+                          </li>
+                          
+                          <!-- 页码 -->
+                          <li 
+                            v-for="page in getVisiblePages()" 
+                            :key="page" 
+                            class="page-item" 
+                            :class="{ active: page === currentPage }"
+                          >
+                            <button 
+                              class="page-link" 
+                              @click="handlePageChange(page)"
+                              v-if="page !== '...'"
+                            >
+                              {{ page }}
+                            </button>
+                            <span v-else class="page-link disabled">...</span>
+                          </li>
+                          
+                          <!-- 下一页 -->
+                          <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                            <button 
+                              class="page-link" 
+                              @click="handlePageChange(currentPage + 1)" 
+                              :disabled="currentPage === totalPages"
+                            >
+                              下一页 <i class="icon-chevron-right"></i>
+                            </button>
+                          </li>
+                        </ul>
+                      </nav>
+                      
+                      <!-- 分页信息 -->
+                      <div class="pagination-info mt-3">
+                        <span class="text-muted">
+                          第 {{ currentPage }} 页，共 {{ totalPages }} 页，共 {{ totalItems }} 条记录
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <!-- 空状态 -->
+                    <div v-else-if="!loading && rlist.length === 0" class="text-center py-5">
+                      <div class="empty-state">
+                        <i class="el-icon-folder-opened" style="font-size: 48px; color: #ddd;"></i>
+                        <p class="mt-2 text-muted">该分类暂无资源</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -508,5 +741,110 @@ export default ({
     -webkit-box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
     word-break: break-all;
+}
+
+/* 分页样式 */
+.pagination-wrapper {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 5px;
+}
+
+.page-item {
+  margin: 0;
+}
+
+.page-link {
+  display: block;
+  padding: 8px 12px;
+  margin: 0;
+  text-decoration: none;
+  color: #666;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.page-link:hover:not(.disabled) {
+  color: #007bff;
+  background-color: #f8f9fa;
+  border-color: #007bff;
+  text-decoration: none;
+}
+
+.page-item.active .page-link {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+  background-color: #fff;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
+
+.page-link.disabled {
+  color: #6c757d;
+  background-color: #fff;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* 加载状态样式 */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #666;
+}
+
+.loading-spinner i {
+  font-size: 32px;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 空状态样式 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 16px;
 }
 </style>

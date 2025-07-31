@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
-import { getRoleList } from "@/api/system";
+import { getRoleList, addRole, updateRole, deleteRole } from "@/api/system";
 import { ElMessageBox } from "element-plus";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
@@ -105,7 +105,7 @@ export function useRole() {
         draggable: true
       }
     )
-      .then(() => {
+      .then(async () => {
         switchLoadMap.value[index] = Object.assign(
           {},
           switchLoadMap.value[index],
@@ -113,7 +113,15 @@ export function useRole() {
             loading: true
           }
         );
-        setTimeout(() => {
+
+        try {
+          // 更新角色状态
+          const roleData = {
+            id: row.id,
+            status: row.status
+          };
+          await updateRole(roleData);
+
           switchLoadMap.value[index] = Object.assign(
             {},
             switchLoadMap.value[index],
@@ -124,24 +132,50 @@ export function useRole() {
           message(`已${row.status === 0 ? "停用" : "启用"}${row.name}`, {
             type: "success"
           });
-        }, 300);
+        } catch (error) {
+          switchLoadMap.value[index] = Object.assign(
+            {},
+            switchLoadMap.value[index],
+            {
+              loading: false
+            }
+          );
+          message(`操作失败: ${error.message}`, {
+            type: "error"
+          });
+          // 恢复原状态
+          row.status = row.status === 0 ? 1 : 0;
+        }
       })
       .catch(() => {
         row.status === 0 ? (row.status = 1) : (row.status = 0);
       });
   }
 
-  function handleDelete(row) {
-    message(`您删除了角色名称为${row.name}的这条数据`, { type: "success" });
-    onSearch();
+  async function handleDelete(row) {
+    try {
+      // 确保ID是数字类型
+      let id = row.id;
+      if (typeof id === 'string') {
+        id = parseInt(id);
+      }
+      await deleteRole(id);
+      message(`已成功删除角色名称为${row.name}的这条数据`, { type: "success" });
+      onSearch();
+    } catch (error) {
+      message(`删除失败: ${error.message}`, { type: "error" });
+    }
   }
 
   function handleSizeChange(val: number) {
-    console.log(`${val} items per page`);
+    pagination.pageSize = val;
+    pagination.currentPage = 1; // 切换每页条数时，重置为第一页
+    onSearch();
   }
 
   function handleCurrentChange(val: number) {
-    console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    onSearch();
   }
 
   function handleSelectionChange(val) {
@@ -150,16 +184,33 @@ export function useRole() {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await getRoleList(toRaw(form));
-    dataList.value = data;
+    try {
+      // 创建一个新的表单数据对象，避免修改原始表单
+      const searchForm = { ...toRaw(form) } as any;
 
-    // pagination.total = data.total;
-    // pagination.pageSize = data.pageSize;
-    // pagination.currentPage = data.currentPage;
+      // 如果状态值存在且不为空，则转换为整数
+      if (searchForm.status !== undefined && searchForm.status !== null && searchForm.status !== "") {
+        searchForm.status = parseInt(searchForm.status);
+      }
 
-    setTimeout(() => {
-      loading.value = false;
-    }, 500);
+      console.log("搜索条件:", searchForm);
+      const { data } = await getRoleList(searchForm);
+      console.log("搜索结果:", data);
+      dataList.value = data;
+
+      // 更新分页信息
+      if (Array.isArray(data)) {
+        pagination.total = data.length;
+      } else {
+        pagination.total = 0;
+      }
+    } catch (error) {
+      message(`获取角色列表失败: ${error.message}`, { type: "error" });
+    } finally {
+      setTimeout(() => {
+        loading.value = false;
+      }, 500);
+    }
   }
 
   const resetForm = formEl => {
@@ -173,9 +224,11 @@ export function useRole() {
       title: `${title}角色`,
       props: {
         formInline: {
+          id: row?.id ?? null,
           name: row?.name ?? "",
           code: row?.code ?? "",
-          remark: row?.remark ?? ""
+          remark: row?.remark ?? "",
+          status: row?.status ?? 1
         }
       },
       width: "40%",
@@ -183,26 +236,56 @@ export function useRole() {
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(editForm, { ref: formRef }),
-      beforeSure: (done, { options }) => {
+      beforeSure: async (done, { options }) => {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
-        function chores() {
-          message(`您${title}了角色名称为${curData.name}的这条数据`, {
-            type: "success"
-          });
-          done(); // 关闭弹框
-          onSearch(); // 刷新表格数据
-        }
-        FormRef.validate(valid => {
+
+        FormRef.validate(async valid => {
           if (valid) {
-            console.log("curData", curData);
-            // 表单规则校验通过
-            if (title === "新增") {
-              // 实际开发先调用新增接口，再进行下面操作
-              chores();
-            } else {
-              // 实际开发先调用修改接口，再进行下面操作
-              chores();
+            try {
+              if (title === "新增") {
+                // 调用新增接口
+                // 添加角色时不发送ID字段
+                const { id, ...addData } = curData;
+                console.log("添加角色数据:", addData);
+                try {
+                  const result = await addRole(addData);
+                  console.log("添加角色响应:", result);
+                } catch (error) {
+                  console.error("添加角色错误:", error);
+                  message(`操作失败: ${error.message || '未知错误'}`, {
+                    type: "error"
+                  });
+                  return; // 出错时不关闭对话框
+                }
+              } else {
+                // 调用修改接口
+                // 确保ID是数字类型
+                if (typeof curData.id === 'string') {
+                  curData.id = parseInt(curData.id);
+                }
+                console.log("修改角色数据:", curData);
+                try {
+                  const result = await updateRole(curData);
+                  console.log("修改角色响应:", result);
+                } catch (error) {
+                  console.error("修改角色错误:", error);
+                  message(`操作失败: ${error.message || '未知错误'}`, {
+                    type: "error"
+                  });
+                  return; // 出错时不关闭对话框
+                }
+              }
+
+              message(`您${title}了角色名称为${curData.name}的这条数据`, {
+                type: "success"
+              });
+              done(); // 关闭弹框
+              onSearch(); // 刷新表格数据
+            } catch (error) {
+              message(`操作失败: ${error.message}`, {
+                type: "error"
+              });
             }
           }
         });

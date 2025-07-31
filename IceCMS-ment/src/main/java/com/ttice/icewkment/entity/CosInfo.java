@@ -35,4 +35,19 @@ public class CosInfo implements Serializable {
 
     /** 是否使用cos */
     private Boolean isCos;
+    
+    /** 存储类型：1-本地，2-腾讯云，3-七牛云 */
+    private Integer storageType;
+    
+    /** 七牛云accessKey */
+    private String qiniuAccessKey;
+    
+    /** 七牛云secretKey */
+    private String qiniuSecretKey;
+    
+    /** 七牛云存储空间名称 */
+    private String qiniuBucketName;
+    
+    /** 七牛云域名 */
+    private String qiniuDomain;
 }

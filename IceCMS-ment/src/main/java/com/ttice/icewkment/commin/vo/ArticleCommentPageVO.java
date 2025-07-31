@@ -1,7 +1,6 @@
 package com.ttice.icewkment.commin.vo;
 
 import com.ttice.icewkment.entity.ArticleComment;
-import com.ttice.icewkment.entity.ArticleCommentVO;
 import lombok.Data;
 
 import java.util.List;

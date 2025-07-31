@@ -15,14 +15,20 @@ export const useInput = () => {
     // 输入时
     const onInputText = () => {
         const inputNode: HTMLInputElement | any = richInputRef.value
+        if (!inputNode) return
+        
         let textLength: number | any = 0
         for (const child of inputNode.childNodes) {
             if (child.nodeType === Node.TEXT_NODE) {
-                textLength += child.textContent.trim().length
-                console.log(child.textContent)
+                // 添加空值检查，防止 textContent 为 null
+                const textContent = child.textContent || ''
+                textLength += textContent.trim().length
+                console.log(textContent)
             }
             if (child.nodeName === 'DIV') {
-                textLength += child.outerText.trim().length
+                // 添加空值检查，防止 outerText 为 null 或 undefined
+                const outerText = child.outerText || ''
+                textLength += outerText.trim().length
             }
             if (child.nodeType === 1) {
                 textLength += 1
@@ -57,7 +63,15 @@ export const useInput = () => {
     // 判断鼠标聚焦元素是否在输入框以内
     const handleMouse = (e: Event) => {
         const clickedEl: HTMLElement | any = e.target
-        const has = (commenterRef.value as HTMLElement).contains(clickedEl)
+        const commenterElement = commenterRef.value as HTMLElement
+        
+        // 添加空值检查，防止 Cannot read properties of null 错误
+        if (!commenterElement) {
+            inputFocus.value = false
+            return
+        }
+        
+        const has = commenterElement.contains(clickedEl)
         if (!has) inputFocus.value = false
     }
 

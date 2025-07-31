@@ -3,6 +3,7 @@ package com.ttice.icewkment.controller.backend;
 import com.alibaba.fastjson.JSONObject;
 import com.ttice.icewkment.Util.FileUtils;
 import com.ttice.icewkment.Util.ImgGenerateUtils;
+import com.ttice.icewkment.Util.QiniuCOS;
 import com.ttice.icewkment.Util.TencentCOS;
 import com.ttice.icewkment.entity.CosInfo;
 import com.ttice.icewkment.mapper.CosInfoMapper;
@@ -42,44 +43,33 @@ public class FileController {
 
     // 查询图片上传方式
     CosInfo cosInfo = cosInfoMapper.selectOne(null);
+    Integer storageType = cosInfo.getStorageType() != null ? cosInfo.getStorageType() : 1;
     Boolean isCos = cosInfo.getIsCos();
     String fileNames = "";
-    if (isCos) {
-      // 获取文件名
-      String fileName = image.getOriginalFilename();
-      // 获取文件后缀
-      String prefix = fileName.substring(fileName.lastIndexOf("."));
-      // 用uuid做为文件名，防止生成的临时文件重复
-      final File excelFile =
-          File.createTempFile("imagesFile-" + System.currentTimeMillis(), prefix);
-
-      // 将MultipartFile转为File
-      image.transferTo(excelFile);
-      // 图片处理
-      File bufferedImage = ImgGenerateUtils.ImgGenerate(excelFile, title, content);
-      // 调用腾讯云工具上传文件
+    
+    // 获取文件名
+    String fileName = image.getOriginalFilename();
+    // 获取文件后缀
+    String prefix = fileName.substring(fileName.lastIndexOf("."));
+    // 用uuid做为文件名，防止生成的临时文件重复
+    final File excelFile = File.createTempFile("imagesFile-" + System.currentTimeMillis(), prefix);
+    // 将MultipartFile转为File
+    image.transferTo(excelFile);
+    // 图片处理
+    File bufferedImage = ImgGenerateUtils.ImgGenerate(excelFile, title, content);
+    
+    if (storageType == 3) {
+      // 七牛云上传
+      fileNames = QiniuCOS.uploadfile(bufferedImage);
+    } else if (storageType == 2 || (isCos != null && isCos)) {
+      // 腾讯云上传
       fileNames = TencentCOS.uploadfile(bufferedImage);
     } else {
-      // 获取文件名
-      String fileName = image.getOriginalFilename();
-      // 获取文件后缀
-      String prefix = fileName.substring(fileName.lastIndexOf("."));
-      // 用uuid做为文件名，防止生成的临时文件重复
-      final File excelFile =
-          File.createTempFile("imagesFile-" + System.currentTimeMillis(), prefix);
-
-      // 将MultipartFile转为File
-      image.transferTo(excelFile);
-      // 图片处理
-      File bufferedImage = ImgGenerateUtils.ImgGenerate(excelFile, title, content);
-      // 将File转为MultipartFile
+      // 本地上传
       MultipartFile multipartFile = getMultipartFile(bufferedImage);
-
-      // 调用本地上传文件
       fileNames = localUpImg(multipartFile);
     }
-    // 程序结束时，删除临时文件
-    // TencentCOS.deletefile(String.valueOf(excelFile));
+    
     // 存入图片jsonObject
     jsonObject.put("url", fileNames);
     // 返回图片名称
@@ -94,17 +84,30 @@ public class FileController {
     JSONObject jsonObject = new JSONObject();
     // 查询图片上传方式
     CosInfo cosInfo = cosInfoMapper.selectOne(null);
+    Integer storageType = cosInfo.getStorageType() != null ? cosInfo.getStorageType() : 1;
     Boolean isCos = cosInfo.getIsCos();
     String fileNames = "";
-    if (isCos) {
+    
+    if (storageType == 3) {
+      // 七牛云上传
       // 获取文件名
       String fileName = image.getOriginalFilename();
       // 获取文件后缀
       String prefix = fileName.substring(fileName.lastIndexOf("."));
       // 用uuid做为文件名，防止生成的临时文件重复
-      final File excelFile =
-          File.createTempFile("imagesFile-" + System.currentTimeMillis(), prefix);
-
+      final File excelFile = File.createTempFile("imagesFile-" + System.currentTimeMillis(), prefix);
+      // 将MultipartFile转为File
+      image.transferTo(excelFile);
+      // 调用七牛云工具上传文件
+      fileNames = QiniuCOS.uploadfile(excelFile);
+    } else if (storageType == 2 || (isCos != null && isCos)) {
+      // 腾讯云上传
+      // 获取文件名
+      String fileName = image.getOriginalFilename();
+      // 获取文件后缀
+      String prefix = fileName.substring(fileName.lastIndexOf("."));
+      // 用uuid做为文件名，防止生成的临时文件重复
+      final File excelFile = File.createTempFile("imagesFile-" + System.currentTimeMillis(), prefix);
       // 将MultipartFile转为File
       image.transferTo(excelFile);
       // 调用腾讯云工具上传文件
@@ -113,8 +116,7 @@ public class FileController {
       // 调用本地上传文件
       fileNames = localUpImg(image);
     }
-    // 程序结束时，删除临时文件
-    // TencentCOS.deletefile(String.valueOf(excelFile));
+    
     // 存入图片jsonObject
     jsonObject.put("url", fileNames);
     // 返回图片名称
@@ -138,9 +140,24 @@ public class FileController {
       JSONObject jsonObject = new JSONObject();
       // 查询图片上传方式
       CosInfo cosInfo = cosInfoMapper.selectOne(null);
+      Integer storageType = cosInfo.getStorageType() != null ? cosInfo.getStorageType() : 1;
       Boolean isCos = cosInfo.getIsCos();
       String fileNames = "";
-      if (isCos) {
+      
+      if (storageType == 3) {
+          // 七牛云上传
+          // 获取文件名
+          String fileName = video.getOriginalFilename();
+          // 获取文件后缀
+          String prefix = fileName.substring(fileName.lastIndexOf("."));
+          // 用uuid做为文件名，防止生成的临时文件重复
+          final File excelFile = File.createTempFile("videoFile-" + System.currentTimeMillis(), prefix);
+          // 将MultipartFile转为File
+          video.transferTo(excelFile);
+          // 调用七牛云工具上传文件
+          fileNames = QiniuCOS.uploadfile(excelFile);
+      } else if (storageType == 2 || (isCos != null && isCos)) {
+          // 腾讯云上传
           // 获取文件名
           String fileName = video.getOriginalFilename();
           // 获取文件后缀
@@ -155,8 +172,7 @@ public class FileController {
           // 调用本地上传文件
           fileNames = localUpImg(video);
       }
-      // 程序结束时，删除临时文件
-      // TencentCOS.deletefile(String.valueOf(excelFile));
+      
       // 存入图片jsonObject
       jsonObject.put("url", fileNames);
       // 返回图片名称

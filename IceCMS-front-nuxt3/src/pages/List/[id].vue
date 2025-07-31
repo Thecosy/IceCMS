@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { getResourceById } from '../../../api/webresource';
+import { getResourceById, viewresource } from '../../../api/webresource';
 import { getResourceCommentnum } from '../../../api/webresourceComment';
-import { loveresource } from '../../../api/webresource';
+import { loveresource, downloadresource } from '../../../api/webresource';
 import { getResourceClassNameByid } from '../../../api/webresourceclass';
 // import { formatDate, GetWeekdate } from '@/utils/date';
 import { formatDate, GetWeekdate } from '../../utils/date.js'
@@ -68,6 +68,67 @@ const weeks: { [key: number]: string } = {
   5: '星期五',
   6: '星期六',
 };
+const DownloadVisible = ref(false)
+const downloads = ref([])
+const currentPage = ref(1)
+const pageSize = ref(5)
+
+// Computed resource info from downloads
+const supportedSystems = computed(() => {
+  if (downloads.value.length === 0) return '未知'
+  const systems = [...new Set(downloads.value.map(d => d.system))].filter(s => s && s !== 'All')
+  if (systems.length === 0 || downloads.value.some(d => d.system === 'All')) return '全平台'
+  return systems.join(', ')
+})
+
+const latestVersion = computed(() => {
+  if (downloads.value.length === 0) return '未知'
+  // Assuming the first item is the latest version
+  return downloads.value[0]?.version || '未知'
+})
+
+const totalVersions = computed(() => {
+  return downloads.value.length
+})
+
+const primaryLanguage = computed(() => {
+  if (downloads.value.length === 0) return '未知'
+  const languages = downloads.value.map(d => d.language).filter(l => l)
+  const langCount = {}
+  languages.forEach(lang => {
+    langCount[lang] = (langCount[lang] || 0) + 1
+  })
+  // Return the most common language or the first one
+  const mostCommon = Object.entries(langCount).sort((a, b) => b[1] - a[1])[0]
+  return mostCommon ? mostCommon[0] : '简体中文'
+})
+
+const totalFileSize = computed(() => {
+  if (downloads.value.length === 0) return '未知'
+  const sizes = downloads.value.map(d => d.size).filter(s => s && s !== '未知')
+  if (sizes.length === 0) return '未知'
+  // If we have multiple sizes, show the range or total
+  if (sizes.length === 1) return sizes[0]
+  return `${sizes[0]}等多种规格`
+})
+
+const resourceCategory = computed(() => {
+  // You can enhance this based on your needs
+  if (downloads.value.length > 0) {
+    const hasMultipleSystems = downloads.value.some(d => d.system !== downloads.value[0].system)
+    if (hasMultipleSystems) return '跨平台应用'
+    const system = downloads.value[0].system
+    switch(system) {
+      case 'macOS': return 'Mac应用'
+      case 'Windows': return 'Windows应用'
+      case 'iOS': return 'iOS应用'
+      case 'Android': return 'Android应用'
+      case 'Linux': return 'Linux应用'
+      default: return '软件资源'
+    }
+  }
+  return '软件资源'
+})
 
 definePageMeta({
   validate: async (route) => {
@@ -98,28 +159,36 @@ const onSelectEmoji = (emoji: any) => {
   */
 };
 // 判断用户是否已购买
-await judgeResource();
+// 只在客户端环境执行
+if (process.client) {
+  await judgeResource();
+}
+
 async function judgeResource() {
   if (process.client) {
     const userStore = useUserStore();  // 获取 Pinia store 实例
     // 判断用户是否已登录
     if (userStore.userid) {
-      const result = await orderInfoApi.queryOrderStatusBytrue(route.params.id, userStore.userid);
-      const IsOrder = result.data.value;
-      const rawIsOrder = toRaw(IsOrder);
-      //检查已登录用户是否购买过此资源，根据userid和resourceid判断
-      if (rawIsOrder?.code == 0) {
-        payJudge.value = true
-      }
-      if (rawIsOrder?.code == 101) {
-        payJudge.value = false
+      try {
+        const result = await orderInfoApi.queryOrderStatusBytrue(route.params.id, userStore.userid);
+        const IsOrder = result;
+        const rawIsOrder = toRaw(IsOrder);
+        //检查已登录用户是否购买过此资源，根据userid和resourceid判断
+        if (rawIsOrder?.code == 0) {
+          payJudge.value = true
+        }
+        if (rawIsOrder?.code == 101) {
+          payJudge.value = false
+        }
+      } catch (error) {
+        console.error('获取订单状态出错:', error);
+        payJudge.value = false;
       }
     } else {
       console.log("用户未登录");
       // 可以在这里做一些跳转，或者显示登录提示等
       payJudge.value = false
     }
-
   }
 };
 
@@ -128,22 +197,59 @@ await handlegetResourceById();
 async function handlegetResourceById() {
   try {
     const result = await getResourceById(route.params.id);
-    Resource.value = result.data.value;
+    Resource.value = result;
     console.log(Resource)
     hits.value = Resource.value.hits ?? 0;
+    
+    // 调用资源浏览量+1方法
+    // 确保只在客户端环境执行
+    if (process.client) {
+      try {
+        await viewresource(route.params.id);
+        console.log('Resource view count incremented');
+      } catch (error) {
+        console.error('Failed to increment view count:', error);
+      }
+    }
     loveNum.value = Resource.value.loveNum ?? 0;
     videoSource.value = Resource.value.resAddress ? [{ src: Resource.value.resAddress, resolution: '1080p' }] : [];
     if (Resource.value.resAddress) {
       IsvideoSource.value = true;
     } else {
       IsvideoSource.value = false;
-
+    }
+    
+    // Parse download versions from resAddress
+    try {
+      if (Resource.value.resAddress && typeof Resource.value.resAddress === 'string') {
+        const downloadData = JSON.parse(Resource.value.resAddress);
+        if (downloadData.versions && Array.isArray(downloadData.versions)) {
+          downloads.value = downloadData.versions;
+        }
+      }
+    } catch (e) {
+      // If resAddress is not JSON, treat as single download link
+      if (Resource.value.resAddress) {
+        downloads.value = [{
+          id: '1',
+          version: 'v1.0.0',
+          language: '简体中文',
+          system: 'All',
+          updateTime: formatDate(Resource.value.addTime),
+          size: '未知',
+          downloadLink: Resource.value.resAddress,
+          description: '默认下载'
+        }];
+      }
     }
     IsFreePrice.value = Resource.value.price;
     carouselNum.value = Resource.value.carousel ? JSON.parse(Resource.value.carousel).length : 0;
     carousel.value = Resource.value.carousel ? JSON.parse(Resource.value.carousel) : [];
     sortClasss.value = Resource.value.sortClass;
-    await handlegetclassName(sortClasss.value);
+    // 只在客户端环境调用
+    if (process.client) {
+      await handlegetclassName(sortClasss.value);
+    }
     // className.value = (await getResourceClassNameByid(Resource.value.sortClass))?.data ?? '';
     intro.value = Resource.value.intro ?? '';
     content.value = Resource.value.content ?? '';
@@ -166,7 +272,7 @@ await handlegetResourceCommentnum();
 async function handlegetResourceCommentnum() {
   try {
     const result = await getResourceCommentnum(route.params.id as string);
-    commentNum.value = result.data.value ?? 0;
+    commentNum.value = result ?? 0;
   } catch (error) {
     console.error('获取资源评论数量出错:', error);
   }
@@ -175,8 +281,15 @@ async function handlegetResourceCommentnum() {
 // 获取className
 async function handlegetclassName(id: number) {
   try {
-    const result = await getResourceClassNameByid(id);
-    className.value = result.data.value;
+    // 确保只在客户端环境执行
+    if (process.client) {
+      const result = await getResourceClassNameByid(id);
+      console.log(result);
+      className.value = result;
+    } else {
+      // 服务端渲染时不执行API调用
+      console.log('服务端渲染时跳过className获取');
+    }
   } catch (error) {
     console.error('获取className出错:', error);
   }
@@ -224,16 +337,19 @@ const updateDate = () => {
 
 // 点赞功能
 const loveClick = () => {
-  if (!loveCheck.value) {
-    if (firstLoveFlag.value) {
-      loveresource(route.params.id as string);
-      firstLoveFlag.value = false;
+  // 确保只在客户端环境执行
+  if (process.client) {
+    if (!loveCheck.value) {
+      if (firstLoveFlag.value) {
+        loveresource(route.params.id as string);
+        firstLoveFlag.value = false;
+      }
+      loveNum.value++;
+      loveCheck.value = true;
+    } else {
+      loveNum.value--;
+      loveCheck.value = false;
     }
-    loveNum.value++;
-    loveCheck.value = true;
-  } else {
-    loveNum.value--;
-    loveCheck.value = false;
   }
 };
 
@@ -293,6 +409,48 @@ const queryOrderStatus = () => {
 // 关闭支付对话框
 const closeDialog = () => {
   payBtnDisabled.value = false;
+};
+
+// Download functionality
+const downloadFile = async (downloadLink: string) => {
+  if (downloadLink && process.client) {
+    try {
+      // Track download count - 只在客户端环境执行
+      await downloadresource(route.params.id as string);
+      // Update local hits count
+      hits.value = hits.value + 1;
+      // Open download link
+      window.open(downloadLink, '_blank');
+    } catch (error) {
+      console.error('Failed to track download:', error);
+      // Still allow download even if tracking fails
+      window.open(downloadLink, '_blank');
+    }
+  }
+};
+
+const loadMore = () => {
+  // Implement pagination logic if needed
+  currentPage.value++;
+};
+
+const paginatedDownloads = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return downloads.value.slice(0, end);
+});
+
+// Get system-specific CSS class
+const getSystemClass = (system: string) => {
+  const systemMap = {
+    'Windows': 'system-windows',
+    'macOS': 'system-macos', 
+    'Linux': 'system-linux',
+    'iOS': 'system-ios',
+    'Android': 'system-android',
+    'All': 'system-all'
+  };
+  return systemMap[system] || 'system-default';
 };
 
 // 初始化数据
@@ -442,19 +600,93 @@ onMounted(() => {
                         </h2>
                         <div class="mb-15">
                           <el-button v-if="!IsFreePrice || IsFreePrice == '0'" :disabled="payBtnDisabled"
-                            @click="Download()" class="large-btn btn btn-theme btn-round w-200 cursor mr-4" round><i
+                            @click="DownloadVisible = true" class="large-btn btn btn-theme btn-round w-200 cursor mr-4" round><i
                               class="el-icon-download"></i>
                             免费下载</el-button>
                           <div v-else>
-                            <el-button v-if="!payJudge" :disabled="payBtnDisabled" @click="Download()"
+                            <el-button v-if="!payJudge" :disabled="payBtnDisabled" @click="DownloadVisible = true"
                               class="large-btn btn btn-theme btn-round w-200 cursor mr-4" round><i
                                 class="el-icon-download"></i>
                               支付下载</el-button>
-                            <el-button v-else :disabled="payBtnDisabled" @click="NowDownload()"
+                            <el-button v-else :disabled="payBtnDisabled" @click="DownloadVisible = true"
                               class="large-btn btn btn-theme btn-round w-200 cursor mr-4" round><i
                                 class="el-icon-download"></i>
                               立即下载(已支付)</el-button>
                           </div>
+                          <el-dialog 
+                            v-model="DownloadVisible" 
+                            :show-close="false" 
+                            width="900px"
+                            class="download-dialog"
+                            :append-to-body="true"
+                          >
+                            <template #header>
+                              <div class="download-header">
+                                <div class="header-icon">
+                                  <i class="el-icon-download"></i>
+                                </div>
+                                <div class="header-content">
+                                  <h2 class="header-title">选择下载版本</h2>
+                                  <p class="header-subtitle">请选择适合您设备的版本进行下载</p>
+                                </div>
+                                <div class="header-close" @click="DownloadVisible = false">
+                                  <i class="el-icon-close"></i>
+                                </div>
+                              </div>
+                            </template>
+                            
+                            <div class="download-content">
+                              <div class="versions-grid">
+                                <div 
+                                  v-for="(item, index) in paginatedDownloads" 
+                                  :key="index"
+                                  class="version-card"
+                                  @click="downloadFile(item.downloadLink)"
+                                >
+                                  <div class="version-card-header">
+                                    <div class="version-info">
+                                      <span class="version-number">{{ item.version }}</span>
+                                      <span class="version-language">{{ item.language }}</span>
+                                    </div>
+                                    <div class="system-badge" :class="getSystemClass(item.system)">
+                                      {{ item.system }}
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="version-card-body">
+                                    <div class="version-details">
+                                      <div class="detail-item">
+                                        <i class="el-icon-date"></i>
+                                        <span>{{ item.updateTime }}</span>
+                                      </div>
+                                      <div class="detail-item">
+                                        <i class="el-icon-document"></i>
+                                        <span>{{ item.size }}</span>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="version-description" v-if="item.description">
+                                      {{ item.description }}
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="version-card-footer">
+                                    <button class="download-btn">
+                                      <i class="el-icon-download"></i>
+                                      <span>立即下载</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div v-if="downloads.length > paginatedDownloads.length" class="load-more-section">
+                                <button class="load-more-btn" @click="loadMore">
+                                  <i class="el-icon-more"></i>
+                                  <span>加载更多版本</span>
+                                </button>
+                              </div>
+                            </div>
+                          </el-dialog>
                           <button v-if="!loveCheck" @click="loveClick()" class="
                               btn btn-outline-theme btn-round
                               px-5
@@ -487,19 +719,22 @@ onMounted(() => {
                   <div class="col-xs-12 col-lg-6 col-xl-6 text-center">
                     <!-- <vue-core-video-player :src="videoSource" :title="title" theme="#50A1FF"></vue-core-video-player> -->
 
-                    <!-- <div class="
+                    <div class="
                         device device-macbook-pro device-silver device-silver
                       ">
                       <div class="device-frame">
-
-
+                        <el-carousel height="350px">
+                          <el-carousel-item v-for="item in carousel" :key="item.uid">
+                            <img style="height: 360px; width: 620px; object-fit: cover;" :src="item.url" />
+                          </el-carousel-item>
+                        </el-carousel>
                       </div>
                       <div class="device-stripe"></div>
                       <div class="device-header"></div>
                       <div class="device-sensors"></div>
                       <div class="device-btns"></div>
                       <div class="device-power"></div>
-                    </div> -->
+                    </div>
                   </div>
 
                 </div>
@@ -591,25 +826,7 @@ onMounted(() => {
               <section class="layout-info">
                 <div class="app-info shadow-2 white bg text-center">
                   <div class="w-r">
-                    <div class="w-c w-c-4">
-                      <div class="border-right my-4">
-                        <p class="text-muted text-uppercase fs-10 ls-2 mb-0">
-                          其他
-                        </p>
-                        <p class="
-                            mb-0
-                            fs-20
-                            font-weight-bolder
-                            line-height-3
-                            opacity-70
-                          ">
-
-                        </p>
-                        <p class="text-uppercase fs-10 ls-2 mb-0 opacity-70">
-
-                        </p>
-                      </div>
-                    </div>
+                   
                     <div class="w-c w-c-4">
                       <div class="border-right my-4">
                         <p class="text-muted text-uppercase fs-10 ls-2 mb-0">
@@ -652,7 +869,7 @@ onMounted(() => {
                             line-height-3
                             opacity-70
                           ">
-                          <span class="text-inherit"> 中文 </span>
+                          <span class="text-inherit"> {{ primaryLanguage }} </span>
                         </p>
                         <p class="text-uppercase fs-10 ls-2 mb-0 opacity-70">
                           cn
@@ -662,7 +879,7 @@ onMounted(() => {
                     <div class="w-c w-c-4">
                       <div class="border-right my-4">
                         <p class="text-muted text-uppercase fs-10 ls-2 mb-0">
-                          价格
+                          系统
                         </p>
                         <p class="
                             mb-0
@@ -671,11 +888,31 @@ onMounted(() => {
                             line-height-3
                             opacity-70
                           ">
-                          {{ price }}积分
+                          {{ supportedSystems }}
                         </p>
-                        <p class="fs-10 ls-2 mb-0 opacity-70">money</p>
+                        <p class="text-uppercase fs-10 ls-2 mb-0 opacity-70">
+                          platform
+                        </p>
                       </div>
                     </div>
+                    <div class="w-c w-c-4">
+                      <div class="border-right my-4">
+                        <p class="text-muted text-uppercase fs-10 ls-2 mb-0">
+                          版本
+                        </p>
+                        <p class="
+                            mb-0
+                            fs-20
+                            font-weight-bolder
+                            line-height-3
+                            opacity-70
+                          ">
+                          {{ latestVersion }}
+                        </p>
+                        <p class="fs-10 ls-2 mb-0 opacity-70">{{ totalVersions }} 个版本</p>
+                      </div>
+                    </div>
+                  
                     <div class="w-c w-c-4">
                       <div class="border-right my-4">
                         <p class="text-muted text-uppercase fs-10 ls-2 mb-0">
@@ -873,12 +1110,8 @@ onMounted(() => {
               </svg>
             </div>
           </section>
-          <!-- </div>
-          </div> -->
-          <ResComment v-if="!mycomment" :articleId="$route.params.id" :theEmoge="MyEmoge" ref="child"
-            @closethecpmmentName="updateDate()" @openthecpmmentName="showemoge()" /> -->
-          <!--
-          <!---->
+          <ResComment v-if="!mycomment" :resourceId="$route.params.id" :theEmoge="MyEmoge" ref="child"
+            @closethecpmmentName="updateDate()" @openthecpmmentName="showemoge()" /> 
           <foot />
           <div infos="0">
             <div class="
@@ -1491,4 +1724,334 @@ export default {
   line-height: 50px;
   /* 使文本垂直居中 */
 }
+
+/* Download Dialog Styles */
+:deep(.download-dialog) {
+  .el-dialog {
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+
+  .el-dialog__header {
+    padding: 0;
+    border-bottom: none;
+  }
+
+  .el-dialog__body {
+    padding: 0;
+  }
+}
+
+.download-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 32px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  position: relative;
+}
+
+.header-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.header-icon i {
+  font-size: 24px;
+  color: white;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.header-title {
+  margin: 0 0 4px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+}
+
+.header-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.header-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.header-close i {
+  font-size: 16px;
+  color: white;
+}
+
+.download-content {
+  padding: 32px;
+  background: #f8fafc;
+}
+
+.versions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.version-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.version-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.version-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.version-card:hover::before {
+  transform: scaleX(1);
+}
+
+.version-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.version-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.version-number {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.version-language {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.system-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.system-windows {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.system-macos {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.system-linux {
+  background: #e8f5e8;
+  color: #388e3c;
+}
+
+.system-ios {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.system-android {
+  background: #e0f2f1;
+  color: #00695c;
+}
+
+.system-all {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.system-default {
+  background: #f5f5f5;
+  color: #757575;
+}
+
+.version-card-body {
+  margin-bottom: 20px;
+}
+
+.version-details {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.detail-item i {
+  font-size: 16px;
+  color: #94a3b8;
+}
+
+.version-description {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 3px solid #3b82f6;
+}
+
+.version-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.download-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.download-btn:active {
+  transform: translateY(0);
+}
+
+.download-btn i {
+  font-size: 16px;
+}
+
+.load-more-section {
+  text-align: center;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.load-more-btn {
+  background: white;
+  color: #3b82f6;
+  border: 2px solid #3b82f6;
+  padding: 12px 32px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.load-more-btn:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.load-more-btn i {
+  font-size: 16px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  :deep(.download-dialog) .el-dialog {
+    width: 95% !important;
+    margin: 20px auto;
+  }
+
+  .download-header {
+    padding: 20px 24px;
+  }
+
+  .header-title {
+    font-size: 20px;
+  }
+
+  .download-content {
+    padding: 24px 16px;
+  }
+
+  .versions-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .version-card {
+    padding: 20px;
+  }
+
+  .version-details {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
 </style>

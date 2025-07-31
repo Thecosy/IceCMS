@@ -3,7 +3,7 @@ package com.ttice.icewkment.controller.frontend;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ttice.icewkment.entity.Article;
 import com.ttice.icewkment.entity.ArticleComment;
-import com.ttice.icewkment.entity.ArticleCommentVO;
+import com.ttice.icewkment.commin.vo.ArticleCommentVO;
 import com.ttice.icewkment.mapper.ArticleCommentMapper;
 import com.ttice.icewkment.mapper.ArticleMapper;
 import com.ttice.icewkment.service.ArticleCommentService;

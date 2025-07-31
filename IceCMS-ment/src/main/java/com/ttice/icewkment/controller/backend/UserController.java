@@ -13,6 +13,8 @@ import com.ttice.icewkment.entity.*;
 import com.ttice.icewkment.mapper.*;
 import com.ttice.icewkment.service.RoleService;
 import com.ttice.icewkment.service.UserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +45,7 @@ public class UserController {
 
   @Autowired private RoleService roleService;
 
-  @Autowired private VipOrderInfoMapper vipOrderInfoMapper;
+  @Autowired private UserOrderInfoMapper userOrderInfoMapper;
 
   @Autowired private EmailDetectionMapper emailDetectionMapper;
 
@@ -321,12 +323,51 @@ public class UserController {
   }
 
   @ApiOperation(value = "根据用户id获取用户信息")
-  @ApiImplicitParam(name = "id", value = "id", required = true)
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "id", value = "id", required = true),
+    @ApiImplicitParam(name = "token", value = "token", required = true)
+  })
   @GetMapping("/GetUserInfoByid/{id}")
-  public User GetUserInfoByid(@PathVariable("id") String id) {
-    QueryWrapper<User> wrapper = new QueryWrapper<>();
-    wrapper.eq("user_id", id);
-    return userMapper.selectOne(wrapper);
+  public Result GetUserInfoByid(@PathVariable("id") String id, @RequestHeader("token") String token) {
+    // 验证token
+    if (token == null || !JwtUtil.checkToken(token)) {
+      return Result.fail("未授权，请先登录");
+    }
+    
+    try {
+      // 从token中获取当前用户ID
+      Claims claims = Jwts.parser().setSigningKey(JwtUtil.getSignature()).parseClaimsJws(token).getBody();
+      String currentUserId = claims.getSubject();
+      
+      // 检查用户权限
+      // 如果不是请求自己的信息，需要验证是否为管理员
+      if (!currentUserId.equals(id)) {
+        // 检查是否为管理员
+        QueryWrapper<UserRole> userRoleWrapper = new QueryWrapper<>();
+        userRoleWrapper.eq("user_id", currentUserId);
+        UserRole userRole = userRoleMapper.selectOne(userRoleWrapper);
+        
+        if (userRole == null || userRole.getRoleId() != 2) { // 假设roleId=2是管理员角色
+          return Result.fail("权限不足，无法查看其他用户信息");
+        }
+      }
+      
+      // 权限验证通过，返回用户信息
+      QueryWrapper<User> wrapper = new QueryWrapper<>();
+      wrapper.eq("user_id", id);
+      User user = userMapper.selectOne(wrapper);
+      
+      if (user == null) {
+        return Result.fail("用户不存在");
+      }
+      
+      // 敏感信息处理
+      user.setPassword(null); // 不返回密码
+      
+      return Result.succ(user);
+    } catch (Exception e) {
+      return Result.fail("获取用户信息失败: " + e.getMessage());
+    }
   }
 
   @ApiOperation(value = "修改用户信息")
@@ -490,7 +531,7 @@ public class UserController {
     // 根据订单号检测是否购买成功
     QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
     queryWrapper.eq("order_no", order);
-    OrderInfo orderInfo = vipOrderInfoMapper.selectOne(queryWrapper);
+    OrderInfo orderInfo = userOrderInfoMapper.selectOne(queryWrapper);
     if (orderInfo == null) {
       return Result.fail(("失败"));
     }
@@ -515,7 +556,7 @@ public class UserController {
 
       OrderInfo orderInfo1 = new OrderInfo();
       orderInfo1.setAlreadyDone(true);
-      vipOrderInfoMapper.update(orderInfo1, updateorderWrapper);
+      userOrderInfoMapper.update(orderInfo1, updateorderWrapper);
 
       return Result.succ(200, "修改成功", null);
     } else {
@@ -537,7 +578,7 @@ public class UserController {
     // 根据订单号检测是否购买成功
     QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
     queryWrapper.eq("order_no", order);
-    OrderInfo orderInfo = vipOrderInfoMapper.selectOne(queryWrapper);
+    OrderInfo orderInfo = userOrderInfoMapper.selectOne(queryWrapper);
     if (orderInfo == null) {
       return Result.fail(("失败"));
     }
@@ -583,7 +624,7 @@ public class UserController {
 
       OrderInfo orderInfo1 = new OrderInfo();
       orderInfo1.setAlreadyDone(true);
-      vipOrderInfoMapper.update(orderInfo1, updateorderWrapper);
+      userOrderInfoMapper.update(orderInfo1, updateorderWrapper);
 
       return Result.succ(200, "修改成功", null);
     } else {
@@ -633,14 +674,37 @@ public class UserController {
   @ApiOperation(value = "获取用户列表")
   @ApiImplicitParams({
     @ApiImplicitParam(name = "page", value = "page", required = true),
-    @ApiImplicitParam(name = "limit", value = "limit", required = true)
+    @ApiImplicitParam(name = "limit", value = "limit", required = true),
+    @ApiImplicitParam(name = "username", value = "用户名", required = false),
+    @ApiImplicitParam(name = "email", value = "邮箱", required = false),
+    @ApiImplicitParam(name = "status", value = "状态", required = false)
   })
   @GetMapping("/getUserList/{page}/{limit}")
-  public Result CheckVip(@PathVariable Integer page, @PathVariable Integer limit) {
+  public Result getUserList(
+      @PathVariable Integer page, 
+      @PathVariable Integer limit,
+      @RequestParam(required = false) String username,
+      @RequestParam(required = false) String email,
+      @RequestParam(required = false) String status) {
 
     Page<User> userPage = new Page<>(page, limit);
+    
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    
+    // 添加查询条件
+    if (username != null && !username.isEmpty()) {
+        queryWrapper.like("username", username);
+    }
+    
+    if (email != null && !email.isEmpty()) {
+        queryWrapper.like("email", email);
+    }
+    
+    if (status != null && !status.isEmpty()) {
+        queryWrapper.eq("status", status);
+    }
 
-    Page<User> resultPage = userService.page(userPage, null);
+    Page<User> resultPage = userService.page(userPage, queryWrapper);
 
     return Result.succ(resultPage);
   }
@@ -650,6 +714,14 @@ public class UserController {
   public  Result getUserCount() {
     Integer count = userMapper.selectCount(null);
     return Result.succ(count);
+  }
+
+  @ApiOperation(value = "获取所有用户（不分页）")
+  @GetMapping("/getAllUsers")
+  public Result getAllUsers() {
+    // 获取所有用户
+    List<User> users = userService.list();
+    return Result.succ(users);
   }
 
   @ApiOperation(value = "根据姓名搜索用户")
@@ -682,11 +754,92 @@ public class UserController {
 
     return Result.succ(null);
   }
+  
+  @ApiOperation(value = "删除用户")
+  @ApiImplicitParam(name = "id", value = "用户ID", required = true)
+  @DeleteMapping("/deleteUser/{id}")
+  public Result deleteUser(@PathVariable("id") Integer id) {
+    // 参数验证
+    if (id == null) {
+      return Result.fail("用户ID不能为空");
+    }
+    
+    // 检查用户是否存在
+    User existingUser = userMapper.selectById(id);
+    if (existingUser == null) {
+      return Result.fail("用户不存在");
+    }
+    
+    // 删除用户
+    int rows = userMapper.deleteById(id);
+    
+    // 删除用户角色关联
+    QueryWrapper<UserRole> userRoleQueryWrapper = new QueryWrapper<>();
+    userRoleQueryWrapper.eq("user_id", id);
+    userRoleMapper.delete(userRoleQueryWrapper);
+    
+    if (rows > 0) {
+      return Result.succ("用户删除成功");
+    } else {
+      return Result.fail("用户删除失败");
+    }
+  }
+  
+  @ApiOperation(value = "更新用户信息")
+  @PutMapping("/updateUser")
+  public Result updateUser(@RequestBody User user) {
+    // 参数验证
+    if (user.getUserId() == null) {
+      return Result.fail("用户ID不能为空");
+    }
+    
+    // 检查用户是否存在
+    User existingUser = userMapper.selectById(user.getUserId());
+    if (existingUser == null) {
+      return Result.fail("用户不存在");
+    }
+    
+    // 如果密码字段不为空，则加密密码
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      user.setPassword(Argon2Util.hashPassword(user.getPassword()));
+    } else {
+      // 不更新密码字段
+      user.setPassword(null);
+    }
+    
+    // 更新用户信息
+    int rows = userMapper.updateById(user);
+    
+    if (rows > 0) {
+      return Result.succ("用户信息更新成功");
+    } else {
+      return Result.fail("用户信息更新失败");
+    }
+  }
 
   @ApiOperation(value = "获取全部role")
   @GetMapping("/getAllRole")
-  public Result getAllRole() {
-      List<Role> roles = roleMapper.selectList(null);
+  public Result getAllRole(
+      @RequestParam(value = "name", required = false) String name,
+      @RequestParam(value = "code", required = false) String code,
+      @RequestParam(value = "status", required = false) Integer status) {
+            
+      QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
+      
+      // 添加筛选条件
+      if (name != null && !name.isEmpty()) {
+          queryWrapper.like("name", name);
+      }
+      
+      if (code != null && !code.isEmpty()) {
+          queryWrapper.like("code", code);
+      }
+      
+      if (status != null) {
+          queryWrapper.eq("status", status);
+      }
+      
+      List<Role> roles = roleMapper.selectList(queryWrapper);
       return Result.succ(roles);
   }
 

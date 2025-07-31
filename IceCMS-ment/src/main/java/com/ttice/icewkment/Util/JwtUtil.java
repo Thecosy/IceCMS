@@ -55,11 +55,37 @@ public class JwtUtil {
   }
 
   /**
+   * 从token中获取用户ID
+   *
+   * @param token JWT token
+   * @return 用户ID
+   */
+  public static Integer getUserIdFromToken(String token) {
+    try {
+      Claims claims = Jwts.parser().setSigningKey(signatuer).parseClaimsJws(token).getBody();
+      String subject = claims.getSubject();
+      return Integer.parseInt(subject);
+    } catch (Exception e) {
+      log.debug("get user id from token error ", e);
+      return null;
+    }
+  }
+
+  /**
    * token是否过期
    *
    * @return true：过期
    */
   public boolean isTokenExpired(Date expiration) {
     return expiration.before(new Date());
+  }
+  
+  /**
+   * 获取签名密钥
+   *
+   * @return 签名密钥
+   */
+  public static String getSignature() {
+    return signatuer;
   }
 }

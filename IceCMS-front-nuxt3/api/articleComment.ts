@@ -1,9 +1,9 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 
 /**
  * @description 获取所有文章评论
  * @return Promise<any>
  */
 export const getAllArticleComments = (): Promise<any> => {
-  return httpRequest.get<any>('ArticleComment/getallArticleComments');
+  return useDollarGet('ArticleComment/getallArticleComments');
 };

@@ -118,7 +118,7 @@ async function handlegetArticleById() {
   try {
     const result = await getArticleById(articleId);
     console.log(result)
-    Article.value = result.data.value;
+    Article.value = result;
     content.value = Article.value.content;
     profile.value = Article.value.profile;
     thumb.value = Article.value.thumb;
@@ -153,7 +153,7 @@ await handlegetArticleCommentnum();
 async function handlegetArticleCommentnum() {
   try {
     const result = await getArticleCommentnum(articleId as string);
-    commentnum.value = result.data.value;
+    commentnum.value = result;
   } catch (error) {
     console.error('获取文章评论数量出错:', error);
   }

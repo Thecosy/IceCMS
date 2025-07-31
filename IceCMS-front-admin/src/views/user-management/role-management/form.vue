@@ -5,9 +5,11 @@ import { FormProps } from "./utils/types";
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
+    id: null,
     name: "",
     code: "",
-    remark: ""
+    remark: "",
+    status: 1
   })
 });
 
@@ -42,6 +44,13 @@ defineExpose({ getRef });
         clearable
         placeholder="请输入角色标识"
       />
+    </el-form-item>
+
+    <el-form-item label="状态" prop="status">
+      <el-radio-group v-model="newFormInline.status">
+        <el-radio :label="1">启用</el-radio>
+        <el-radio :label="0">停用</el-radio>
+      </el-radio-group>
     </el-form-item>
 
     <el-form-item label="备注">

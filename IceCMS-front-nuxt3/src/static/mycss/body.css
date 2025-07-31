@@ -9119,7 +9119,7 @@ a.active .hover-opacity-normal,a:active .hover-opacity-normal,a:focus .hover-opa
 .layout-content-install:before {
 	content: url(../image/2.png);
 	position: absolute;
-	top: -100px;
+	top: -40px;
 	left: -200px
 }
 

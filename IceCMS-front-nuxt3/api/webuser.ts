@@ -1,5 +1,4 @@
-import httpRequest from "../service/index";
-import { useFetchPost } from  "../service/useDollarFetchRequest";
+import { useDollarGet, useFetchPost } from  "../service/useDollarFetchRequest";
 
 /**
  * @description 根据用户ID获取用户信息

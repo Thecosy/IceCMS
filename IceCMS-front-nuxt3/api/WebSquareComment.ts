@@ -1,4 +1,4 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 
 /**
  * @description 获取指定星球的评论
@@ -6,7 +6,7 @@ import httpRequest from "../service/index";
  * @return Promise<any>
  */
 export const getPlanetIdComment = (id: string | number) => {
-  return httpRequest.get<any>(`/WebSquareComment/getPlanetIdComment/${id}`);
+  return useDollarGet(`/WebSquareComment/getPlanetIdComment/${id}`);
 };
 
 /**
@@ -15,7 +15,7 @@ export const getPlanetIdComment = (id: string | number) => {
  * @return Promise<any>
  */
 export const getPlanetCommentnum = (id: string | number) => {
-  return httpRequest.get<any>(`/WebSquareComment/getPlanetCommentnum/${id}`);
+  return useDollarGet(`/WebSquareComment/getPlanetCommentnum/${id}`);
 };
 
 /**
@@ -24,17 +24,7 @@ export const getPlanetCommentnum = (id: string | number) => {
  * @return Promise<any>
  */
 export const addPlanetComment = (data: any) => {
-  return httpRequest.post<any>('/WebSquareComment/addPlanetComment', data, {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    params: {
-      dataType: 'json',
-      crossDomain: true,
-      processData: false,
-      contentType: false,
-    }
-  });
+  return useFetchPost('/WebSquareComment/addPlanetComment', data);
 };
 
 /**
@@ -43,5 +33,5 @@ export const addPlanetComment = (data: any) => {
  * @return Promise<any>
  */
 export const likeClickComment = (id: string | number) => {
-  return httpRequest.get<any>(`/WebSquareComment/likeClickComment/${id}`);
+  return useDollarGet(`/WebSquareComment/likeClickComment/${id}`);
 };

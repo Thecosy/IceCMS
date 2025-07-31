@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted } from 'vue'
-// import { useCookies } from 'vue3-cookies'
-import { getallArticleComment, addArticleComment } from '../../api/webarticleComment'
+import { ref, reactive, watch, onMounted, nextTick } from 'vue'
+import { getallArticleComment, addArticleComment } from '../../api/webarticle'
 import { validEmail } from '@/utils/validate'
+import { ElMessage } from 'element-plus'
+import { useUserStore } from '../../stores/useUserStore'
 
 const props = defineProps<{
   articleId: string
   theEmoge: string
 }>()
 
-const emit = defineEmits(['closethecpmmentName', 'openthecpmmentName'])
+const emit = defineEmits(['closethecpmmentName', 'openthecpmmentName', 'clearEmojiCache'])
 
 const contentarea = ref('')
 const userJudje = ref(false)
 const comment = ref({})
 const close = ref(false)
+const isSubmitting = ref(false) // 添加提交状态标志
+const lastSubmitTime = ref(0) // 添加最后提交时间戳
+const lastEmojiValue = ref('') // 添加最后的表情值，防止重复添加
+const lastEmojiTime = ref(0) // 添加最后表情添加的时间戳
 const tempuserform = reactive({
   username: '',
   email: ''
@@ -28,50 +33,92 @@ const form = reactive({
 })
 
 
-// const { cookies } = useCookies()
+const userStore = useUserStore()  // 获取 Pinia store 实例
 
 // Fetch comments on mount
 onMounted(async () => {
-  await getComments()
+  await getComments(true) // 首次加载时滚动到底部
   await checkLogin()
 })
 
 // Watch for changes in 'theEmoge' prop and append it to contentarea
-watch(() => props.theEmoge, (val) => {
-  console.log(val)
-  contentarea.value = val
-})
+watch(() => props.theEmoge, (val, oldVal) => {
+  const currentTime = Date.now()
+  
+  // 多重防护机制防止重复添加表情
+  if (!val || val.trim() === '') {
+    console.log('Empty emoji value, ignoring')
+    return
+  }
+  
+  // 防止相同值的重复触发
+  if (val === oldVal) {
+    console.log('Same emoji value as previous, ignoring')
+    return
+  }
+  
+  // 防止与上次添加的表情相同
+  if (val === lastEmojiValue.value) {
+    console.log('Same emoji as last added, ignoring')
+    return
+  }
+  
+  // 防止100ms内的快速重复（表情组件可能会快速触发）
+  if (currentTime - lastEmojiTime.value < 100) {
+    console.log('Too fast emoji clicking, ignoring')
+    return
+  }
+  
+  console.log('Adding emoji:', val, 'at time:', currentTime)
+  
+  // 追加表情到内容区域
+  contentarea.value += val
+  
+  // 更新状态
+  lastEmojiValue.value = val
+  lastEmojiTime.value = currentTime
+  
+  // 通知父组件清除emoji选择缓存
+  emit('clearEmojiCache')
+  
+  // 延迟清除本地emoji缓存，防止快速重复点击
+  setTimeout(() => {
+    clearEmojiSelection()
+  }, 200)
+}, { flush: 'post' }) // 确保在DOM更新后执行
 
 // Method to fetch all comments
-async function getComments() {
-  // try {
-  //   const resp = await getallArticleComment(props.articleId)
-  //   comment.value = resp.data
-  // } catch (error) {
-  //   console.error('Error fetching comments:', error)
-  // }
+async function getComments(shouldScroll = false) {
+  try {
+    const resp = await getallArticleComment(props.articleId)
+    comment.value = resp.data
+    console.log(comment)
+    
+    // 只有在需要时才滚动到底部
+    if (shouldScroll) {
+      await nextTick()
+      scrollToBottom()
+    }
+
+  } catch (error) {
+    console.error('Error fetching comments:', error)
+  }
 }
 
 // Method to check if the user is logged in
 async function checkLogin() {
-  // const user = cookies.get('access-user')
-  // if (!user && !cookies.get('temp-user')) {
-  //   userJudje.value = true
-  // }
+  if (!userStore.hasUser) {
+    userJudje.value = true
+  }
 }
 
 // Save temporary user details
 function savetempsuser() {
   if (validEmail(tempuserform.email)) {
-    localStorage.setItem('temp-user', JSON.stringify(tempuserform))
+    userStore.setTempUser(tempuserform)
     cansoles()
   } else {
-    // Show notification
-    // useNotification().open({
-    //   title: '错误',
-    //   message: '请输入正确的邮箱',
-    //   type: 'warning'
-    // })
+    ElMessage.warning('请输入正确的邮箱')
   }
 }
 
@@ -81,38 +128,103 @@ function cansoles() {
 }
 
 // Format date
-function formatDate(time: string): string {
-  const data = new Date(time)
-  return formatDate(data, 'yyyy-MM-dd hh:mm ')
+function formatDate(time: string) {
+  if (!time) return '';
+  
+  try {
+    const date = new Date(time);
+    if (isNaN(date.getTime())) return time; // 如果日期无效，返回原始字符串
+    
+    const currentYear = new Date().getFullYear();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    if (currentYear - year === 1) {
+      return `去年 ${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    } else if (currentYear - year === 2) {
+      return `前年 ${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    } else if (currentYear - year > 2) {
+      return '多年前';
+    } else {
+      return `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    }
+  } catch (e) {
+    console.error('日期格式化错误:', e);
+    return time;
+  }
 }
 
 // Submit the comment form
 async function setmap() {
-  const user = cookies.get('access-user')
-  const temp = cookies.get('temp-user')
+  const currentTime = Date.now()
+  
+  // 防止重复提交 - 多重检查
+  if (isSubmitting.value) {
+    console.log('Already submitting, ignoring click')
+    return
+  }
+  
+  // 防止快速连续点击（500ms内的重复点击会被忽略）
+  if (currentTime - lastSubmitTime.value < 500) {
+    console.log('Too fast clicking, ignoring')
+    return
+  }
 
-  if (!user && !temp) {
+  if (!userStore.hasUser) {
     userJudje.value = true
-  } else {
-    form.content = contentarea.value
-    if (user) {
-      form.useaname = user.name
-      form.email = user.email
-      form.profile = user.profile
-      form.userId = user.userid
-    } else {
-      form.useaname = temp.username
-      form.email = temp.email
+    return
+  }
+
+  // Check if content is empty or only whitespace
+  if (!contentarea.value || contentarea.value.trim() === '') {
+    ElMessage.warning('评论内容不能为空')
+    return
+  }
+
+  // 立即设置提交状态和时间戳
+  isSubmitting.value = true
+  lastSubmitTime.value = currentTime
+  
+  // 保存原始内容，防止在提交过程中被修改
+  const originalContent = contentarea.value.trim()
+  
+  try {
+    form.content = originalContent
+    const currentUser = userStore.currentUser
+    console.log('Submitting comment:', originalContent, 'at', currentTime)
+    
+    if (currentUser) {
+      form.useaname = currentUser.name
+      form.email = currentUser.email
+      form.profile = currentUser.profile
+      form.userId = currentUser.userid
     }
 
-    try {
-      await addArticleComment(form)
-      await getComments()
-      scrollToBottom()
-      contentarea.value = ''
-    } catch (error) {
-      console.error('Error submitting comment:', error)
-    }
+    // 提交评论
+    await addArticleComment(form)
+    
+    // 清空输入框和重置表情状态
+    contentarea.value = ''
+    lastEmojiValue.value = ''
+    lastEmojiTime.value = 0
+    
+    // 重新获取评论列表
+    await getComments()
+    
+    // 滚动到底部
+    scrollToBottom()
+    
+    console.log('Comment submitted successfully at', Date.now())
+    
+  } catch (error) {
+    console.error('Error submitting comment:', error)
+    ElMessage.error('评论提交失败，请重试')
+  } finally {
+    // 延迟重置提交状态，确保不会有竞态条件
+    setTimeout(() => {
+      isSubmitting.value = false
+    }, 1000) // 增加到1秒
   }
 }
 
@@ -123,7 +235,7 @@ function scrollToBottom() {
     if (container) {
       container.scrollTop = container.scrollHeight
     }
-  }, 300)
+  }, 100) // 增加延迟确保DOM渲染完成
 }
 
 // Handle the close action for comment section
@@ -135,6 +247,33 @@ function closethecpmment(val: boolean) {
 // Handle the open action for comment section
 function openemig(val: boolean) {
   emit('openthecpmmentName')
+}
+
+// Check if the comment is from current user
+function isCurrentUser(item: any) {
+  const currentUser = userStore.currentUser
+  if (!currentUser) return false
+  
+  // For logged in users, compare userid
+  if (currentUser.userid && item.userId) {
+    return String(item.userId) === String(currentUser.userid)
+  }
+  
+  // For temporary users, compare username and email
+  if (currentUser.isTemp && item.username && item.email) {
+    return item.username === currentUser.name && item.email === currentUser.email
+  }
+  
+  return false
+}
+
+// Clear emoji selection cache to prevent repeated additions
+function clearEmojiSelection() {
+  // 这个函数可以用来清除任何emoji相关的缓存
+  // 重置所有emoji相关状态
+  lastEmojiValue.value = ''
+  lastEmojiTime.value = 0
+  console.log('Emoji selection cache cleared')
 }
 </script>
 
@@ -273,8 +412,10 @@ function openemig(val: boolean) {
             </div>
           </div>
           <!-- ---------- -->
-          <div v-for="(item, id) in comment" :key="id" class="d-flex mb-3">
-            <div v-if="!item.profile" class="w-28 mr-3">
+          <div v-for="(item, id) in comment.value" :key="id" 
+               :class="['d-flex mb-3', isCurrentUser(item) ? 'flex-row-reverse' : '']">
+
+            <div v-if="!item.profile" :class="['w-28', isCurrentUser(item) ? 'ml-3' : 'mr-3']">
               <svg
                 viewBox="0 0 264 280"
                 version="1.1"
@@ -615,10 +756,11 @@ function openemig(val: boolean) {
                 </g>
               </svg>
             </div>
-            <div v-else class="w-28 mr-3">
+            <div v-else :class="['w-28', isCurrentUser(item) ? 'ml-3' : 'mr-3']">
               <img :src="item.profile" style="border-radius: 50%; width: 100%; height: auto;"></img>
             </div>
-            <section class="flex-grow">
+            <section class="flex-grow" 
+                     :class="isCurrentUser(item) ? 'current-user-container' : ''">
               <div class="mb-1">
                 <span class="fs-12 mr-1 fw-600 text-darken">{{
                   item.username
@@ -628,7 +770,8 @@ function openemig(val: boolean) {
                 >
               </div>
               <!---->
-              <div class="MessageBody mb-1">{{ item.content }}</div>
+              <div class="MessageBody mb-1" 
+                   :class="isCurrentUser(item) ? 'current-user-message' : ''">{{ item.content }}</div>
             </section>
           </div>
           <!-- ------------- -->
@@ -809,10 +952,12 @@ function openemig(val: boolean) {
               <span
                 ><button
                   @click="setmap()"
+                  :disabled="isSubmitting"
                   class="btn btn-theme btn-sm px-5 pt-1 fs-14"
                   style="border-top-left-radius: 10px"
+                  :class="{ 'opacity-50': isSubmitting }"
                 >
-                  评论
+                  {{ isSubmitting ? '发送中...' : '评论' }}
                 </button></span
               >
             </div>
@@ -963,6 +1108,25 @@ export default ({
 </script> -->
 <style scoped>
 @import "../static/mycss/comment.css";
+
+/* 当前用户评论样式 */
+.flex-row-reverse {
+  flex-direction: row-reverse !important;
+}
+
+.current-user-message {
+  background-color: #007bff !important;
+  color: white !important;
+  border-radius: 15px !important;
+  padding: 8px 12px !important;
+  display: inline-block !important;
+  max-width: 80% !important;
+  word-wrap: break-word !important;
+}
+
+.current-user-container {
+  text-align: right !important;
+}
 </style>
 <style scoped>
 .myVEmojiPicker {

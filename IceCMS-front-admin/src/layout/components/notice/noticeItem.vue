@@ -3,6 +3,8 @@ import { ListItem } from "./data";
 import { ref, PropType, nextTick } from "vue";
 import { useNav } from "@/layout/hooks/useNav";
 import { deviceDetection } from "@pureadmin/utils";
+import { markNotificationAsRead } from "@/api/setting/notification";
+import { ElMessage } from "element-plus";
 
 const props = defineProps({
   noticeItem: {
@@ -10,6 +12,8 @@ const props = defineProps({
     default: () => {}
   }
 });
+
+const emit = defineEmits(['read']);
 
 const titleRef = ref(null);
 const titleTooltip = ref(false);
@@ -45,11 +49,31 @@ function hoverDescription(event, description) {
     ? (descriptionTooltip.value = true)
     : (descriptionTooltip.value = false);
 }
+
+// 点击通知项，标记为已读
+async function handleClick() {
+  if (props.noticeItem.id) {
+    try {
+      const res = await markNotificationAsRead(props.noticeItem.id);
+      if (res.code === 200) {
+        ElMessage.success("已标记为已读");
+        // 通知父组件更新列表
+        emit('read', props.noticeItem.id);
+      } else {
+        ElMessage.error(res.msg || "操作失败");
+      }
+    } catch (error) {
+      console.error("标记已读失败:", error);
+      ElMessage.error("操作失败");
+    }
+  }
+}
 </script>
 
 <template>
   <div
     class="notice-container border-b-[1px] border-solid border-[#f0f0f0] dark:border-[#303030]"
+    @click="handleClick"
   >
     <el-avatar
       v-if="props.noticeItem.avatar"
@@ -118,8 +142,12 @@ function hoverDescription(event, description) {
   align-items: flex-start;
   justify-content: space-between;
   padding: 12px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
 
-  // border-bottom: 1px solid #f0f0f0;
+  &:hover {
+    background-color: #f5f5f5;
+  }
 
   .notice-container-avatar {
     margin-right: 16px;
@@ -138,7 +166,6 @@ function hoverDescription(event, description) {
       font-size: 14px;
       font-weight: 400;
       line-height: 1.5715;
-      cursor: pointer;
 
       .notice-title-content {
         flex: 1;

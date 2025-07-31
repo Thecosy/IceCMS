@@ -23,7 +23,8 @@ const home = 0, // 平台规定只有 home 路由的 rank 才能为 0 ，所以�
   communityManagement = 3,
   userManagement = 4,
   storeManagement = 5,
-  settings = 6
+  notificationManagement = 6,
+  settings = 7
 
 export {
   home,
@@ -49,5 +50,6 @@ export {
   communityManagement,
   userManagement,
   storeManagement,
+  notificationManagement,
   settings
 };

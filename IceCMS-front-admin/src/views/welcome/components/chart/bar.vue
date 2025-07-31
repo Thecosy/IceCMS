@@ -10,7 +10,22 @@ const props = defineProps({
   questionData: {
     type: Array as PropType<Array<number>>,
     default: () => []
+  },
+  chartType: {
+    type: Number,
+    default: 0 // 0: 资源/订单, 1: 用户/文章
   }
+});
+
+// 根据chartType动态设置图例和系列名称
+const legendData = computed(() => {
+  return props.chartType === 0 ? ["资源", "订单"] : ["用户", "文章"];
+});
+
+const seriesNames = computed(() => {
+  return props.chartType === 0 ?
+    { requireName: "资源", questionName: "订单" } :
+    { requireName: "用户", questionName: "文章" };
 });
 
 const { isDark } = useDark();
@@ -23,7 +38,7 @@ const { setOptions } = useECharts(chartRef, {
 });
 
 watch(
-  () => props,
+  () => [props.requireData, props.questionData, props.chartType, legendData.value, seriesNames.value],
   async () => {
     await nextTick(); // 确保DOM更新完成后再执行
     setOptions({
@@ -41,7 +56,7 @@ watch(
         right: 0
       },
       legend: {
-        data: ["用户", "评论"],
+        data: legendData.value,
         textStyle: {
           color: "#606266",
           fontSize: "0.875rem"
@@ -74,7 +89,7 @@ watch(
       ],
       series: [
         {
-          name: "需求人数",
+          name: seriesNames.value.requireName,
           type: "bar",
           barWidth: 10,
           itemStyle: {
@@ -84,7 +99,7 @@ watch(
           data: props.requireData
         },
         {
-          name: "提问数量",
+          name: seriesNames.value.questionName,
           type: "bar",
           barWidth: 10,
           itemStyle: {

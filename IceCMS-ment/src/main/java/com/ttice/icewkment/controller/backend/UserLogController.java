@@ -41,7 +41,7 @@ public class UserLogController {
 
   @Autowired private RoleService roleService;
 
-  @Autowired private VipOrderInfoMapper vipOrderInfoMapper;
+  @Autowired private UserOrderInfoMapper userOrderInfoMapper;
 
   @Autowired private EmailDetectionMapper emailDetectionMapper;
 

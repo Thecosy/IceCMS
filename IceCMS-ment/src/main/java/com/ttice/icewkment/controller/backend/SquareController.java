@@ -59,7 +59,7 @@ public class SquareController {
       @PathVariable("squareId") Integer squareId,
       @PathVariable("page") Integer page,
       @PathVariable("limit") Integer limit) {
-    return Result.succ(squareService.VoList(squareId, page, limit));
+    return Result.succ(squareService.VoList(squareId, page, limit, "all"));
   }
 
   @RequiresAuthentication // 需要登录认证的接口

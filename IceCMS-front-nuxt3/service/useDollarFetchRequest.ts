@@ -11,8 +11,16 @@ type HandleResponseOptions = { response: any };
  
 // 请求拦截器
 function handleRequest({ options }: HandleRequestOptions) {
+  // 确保 headers 是一个普通对象，过滤掉可能的 Symbol 属性
+  const cleanHeaders = options.headers ? 
+    Object.fromEntries(
+      Object.entries(options.headers).filter(([key, value]) => 
+        typeof key === 'string' && (typeof value === 'string' || typeof value === 'number')
+      ).map(([key, value]) => [key, String(value)])
+    ) : {};
+    
   options.headers = {
-    ...options.headers,
+    ...cleanHeaders,
     'Content-Type': 'application/json',
   };
 }
@@ -37,15 +45,11 @@ function createUseFetchRequest(method: HttpMethod) {
   ) {
     const {
       public: {
-        API_BASE_DEV,
-        API_BASE_PROD
+        apiBaseUrl
       }
     } = useRuntimeConfig();
  
-    // const baseURL = process.env.NODE_ENV === 'production'
-    //   ? API_BASE_PROD
-    //   : API_BASE_DEV;
-    const baseURL  = "http://127.0.0.1:8181/";
+    const baseURL = apiBaseUrl;
     const requestUrl = new URL(
       url,
       options.customBaseURL || baseURL

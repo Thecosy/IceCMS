@@ -8,8 +8,8 @@ export const useResourceStore = defineStore('resource', () => {
     // 获取资源数据
     const fetchResources = async (tab: string) => {
       try {
-        const result = await getNewArticle(6, tab) as { data: { value: any[] } };
-        rlist.value[tab] = result.data.value;
+        const result = await getNewArticle(6, tab);
+        rlist.value[tab] = result;
       } catch (error) {
         console.error(`获取 ${tab} 数据出错:`, error);
       }

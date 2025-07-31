@@ -1,13 +1,12 @@
 import type internal from "stream";
-import httpRequest from "../service/index";
-import { useDollarGet } from  "../service/useDollarFetchRequest";
+import { useDollarGet, useFetchPost } from  "../service/useDollarFetchRequest";
 
 /**
  * @description 获取广场分类列表
  * @return Promise<any>
  */
 export const getSquareClasslist = () => {
-  return httpRequest.get<any>('/WebaSquareClass/getSquareClasslist');
+  return useDollarGet('/WebaSquareClass/getSquareClasslist');
 };
 
 /**

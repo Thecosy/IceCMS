@@ -109,7 +109,7 @@ const {
             </el-popconfirm>
           </div>
           <pure-table ref="tableRef" row-key="id" adaptive align-whole="center" table-layout="auto" :loading="loading"
-            :size="size" :data="dataList" :columns="dynamicColumns" :pagination="pagination" @current-change="onSearch"
+            :size="size" :data="dataList" :columns="dynamicColumns" :pagination="pagination"
             :paginationSmall="size === 'small' ? true : false" :header-cell-style="{
               background: 'var(--el-fill-color-light)',
               color: 'var(--el-text-color-primary)'
@@ -128,8 +128,7 @@ const {
                 </template>
               </el-popconfirm>
               <el-dropdown>
-                <el-button class="ml-3 mt-[2px]" link type="primary" :size="size" :icon="useRenderIcon(More)"
-                  @click="handleUpdate(row)" />
+                <el-button class="ml-3 mt-[2px]" link type="primary" :size="size" :icon="useRenderIcon(More)" />
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>

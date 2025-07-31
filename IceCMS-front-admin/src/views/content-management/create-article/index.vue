@@ -8,6 +8,7 @@ const route = useRoute();
 const articleId = ref(route.params.articleId);
 import { getAllClassName } from '@/api/art_function/art_category'; // 请确保路径正确
 import { getAllTag } from '@/api/common/tag'; // 请确保路径正确
+import { http } from "@/utils/http";
 import type { Tag } from './types';
 
 import { storageLocal } from "@pureadmin/utils";
@@ -28,6 +29,7 @@ let fetchId = articleId.value
 onMounted(() => {
   fetchClass();
   fetchTag();
+  fetchUsers(); // 获取用户列表
   if (articleId.value) {
     // 如果有 articleId，加载文章数据进行编辑
     console.log('articleId:', articleId.value);
@@ -64,6 +66,22 @@ const fetchTag = async () => {
   }
 };
 
+const fetchUsers = async () => {
+  try {
+    const response = await http.request<ResponseData<any[]>>("get", "/User/getAllUsers");
+    if (response.code === 200) {
+      console.log('用户列表:', response.data);
+      // 添加调试信息，查看第一个用户的数据结构
+      if (response.data && response.data.length > 0) {
+        console.log('第一个用户数据结构:', response.data[0]);
+      }
+      userList.value = response.data;
+    }
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
 const fetchData = async (articleId) => {
   try {
     const response = await ArticleAPI.getArticleById(articleId);
@@ -77,6 +95,7 @@ const fetchData = async (articleId) => {
       form.value.category = res.sortClass
       form.value.summary = res.intro
       form.value.publishTime = res.createTime;
+      form.value.author = res.authorId; // 设置作者ID
       // 更新 fileList 中对应文件的 URL
       fileList.value = [{ name: 'image', url: res.thumb }];
       fetchTag();
@@ -187,6 +206,9 @@ const rules = ref({
   category: [
     { required: true, message: '请输入分类', trigger: 'blur' }
   ],
+  author: [
+    { required: true, message: '请选择作者', trigger: 'change' }
+  ],
   // 其他规则...
 });
 
@@ -234,7 +256,7 @@ const confirmArticle = () => {
         title: form.value.title,
         sortClass: form.value.category,
         content: content.value,
-        authorId: userid,
+        authorId: form.value.author, // 必须选择作者
         intro: form.value.summary,
         createTime: formData.publishTime,
         thumb: formData.thumb,
@@ -262,6 +284,9 @@ const confirmArticle = () => {
 const classList = ref([
 ]);
 
+const userList = ref([
+]);
+
 const baseComponentRef = ref(null);
 const content = ref('');
 
@@ -287,6 +312,12 @@ const fetchValueHtmlFromBase = () => {
         <el-form :model="form" :rules="rules" ref="formRef" label-width="80px" style="margin-top: 20px">
           <el-form-item label="标题" prop="title">
             <el-input v-model="form.title" placeholder="请输入标题"></el-input>
+          </el-form-item>
+          <el-form-item label="作者" prop="author">
+            <el-select v-model="form.author" placeholder="请选择作者">
+              <el-option v-for="item in userList" :key="item.userId" :label="item.name" :value="item.userId">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="发布时间">
             <el-date-picker v-model="form.publishTime" type="datetime" placeholder="请选择发布时间"></el-date-picker>

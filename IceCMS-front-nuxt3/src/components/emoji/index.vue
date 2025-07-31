@@ -2,6 +2,7 @@
     <client-only>
         <!-- 发送表情 -->
         <ElPopover
+            ref="popoverRef"
             placement="bottom-start"
             title=""
             width="416"
@@ -19,7 +20,7 @@
                         :key="index"
                         style="font-size: 28px;padding: 1.8px;"
                         :src="`/emoji/${item}.png`"
-                        @click="emit('append', item)"
+                        @click="handleEmojiClick(item)"
                     />
                 </div>
             </ElScrollbar>
@@ -47,8 +48,58 @@ import { ref } from 'vue';
 const emit = defineEmits<{
     (e: 'show'): void
     (e: 'append', value: string): void
+    (e: 'clearCache'): void
 }>()
+
 const emoji = ref<string[]>(EmojiArr)
+const popoverRef = ref()
+const lastClickedEmoji = ref('')
+const lastClickTime = ref(0)
+
+// Handle emoji click with anti-duplicate mechanism
+function handleEmojiClick(item: string) {
+    const currentTime = Date.now()
+    
+    // Prevent rapid duplicate clicks (within 300ms)
+    if (item === lastClickedEmoji.value && currentTime - lastClickTime.value < 300) {
+        console.log('Duplicate emoji click ignored:', item)
+        return
+    }
+    
+    console.log('Emoji clicked:', item, 'at time:', currentTime)
+    
+    // Update tracking variables
+    lastClickedEmoji.value = item
+    lastClickTime.value = currentTime
+    
+    // Emit the emoji to parent component
+    emit('append', item)
+    
+    // Close the popover after selection
+    setTimeout(() => {
+        if (popoverRef.value) {
+            popoverRef.value.hide()
+        }
+    }, 100)
+    
+    // Clear the selection cache after a short delay
+    setTimeout(() => {
+        clearSelectionCache()
+    }, 200)
+}
+
+// Clear emoji selection cache
+function clearSelectionCache() {
+    lastClickedEmoji.value = ''
+    lastClickTime.value = 0
+    emit('clearCache')
+    console.log('Emoji selection cache cleared')
+}
+
+// Expose clearSelectionCache for external calls
+defineExpose({
+    clearSelectionCache
+})
 </script>
 
 

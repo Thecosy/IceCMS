@@ -60,8 +60,8 @@ await handlegetNewResource(activeTab.value); // 传入 activeTab 的值
 // 获取不同类别的数据
 async function handlegetNewResource(tab: string) {
   try {
-    const result = await getNewResource(10, tab) as { data: { value: any[] } };
-    rlist.value[tab] = result.data.value;
+    const result = await getNewResource(10, tab);
+    rlist.value[tab] = result;
   } catch (error) {
     console.error(`获取 ${tab} 数据出错:`, error);
   }
@@ -75,8 +75,8 @@ await handlegetCarousel();
 
 async function handlegetCarousel() {
   try {
-    const result = await getCarousel("") as { data: { value: any } };
-    Carousel.value = result.data.value;
+    const result = await getCarousel("");
+    Carousel.value = result;
   } catch (error) {
     console.error('获取Carousel出错:', error);
   }
@@ -86,8 +86,8 @@ await handlegetFourKingKong();
 
 async function handlegetFourKingKong() {
   try {
-    const result = await getFourKingKong("") as { data: { value: any } };
-    FourKingKong.value = result.data.value
+    const result = await getFourKingKong("");
+    FourKingKong.value = result
   } catch (error) {
     console.error('获取FourKingKong出错:', error);
   }
@@ -262,8 +262,8 @@ onMounted(() => {
                 <div id="listAppContainer" class="app-content-body listAppContainer">
 
                   <div class="mw-row">
-                    <div v-for="item, index in rlist[activeTab]" :key="item.id" class="mw-col list-animation-leftIn delay-3">
-                      <nuxt-link :to="'/List/' + item.id">
+                    <div v-for="item, index in rlist[activeTab] || []" :key="item?.id || index" class="mw-col list-animation-leftIn delay-3">
+                      <nuxt-link v-if="item && item.id" :to="'/List/' + item.id">
                         <div v-if="!setting.imageFormat">
                           <div>
                             <div class="macwk-app border white cursor-pointer">

@@ -1,9 +1,9 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 
 /**
  * @description 获取所有标签
  * @returns Promise<Tag[]>
  */
 export const getAllTag = (): Promise<Tag[]> => {
-  return httpRequest.get<any>('Tag/getAllTag');
+  return useDollarGet('Tag/getAllTag');
 };

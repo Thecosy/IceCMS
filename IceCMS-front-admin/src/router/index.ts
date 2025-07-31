@@ -8,6 +8,7 @@ import remainingRouter from "./modules/remaining";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { usePermissionStoreHook } from "@/store/modules/permission";
 import { isUrl, openLink, storageLocal, isAllEmpty } from "@pureadmin/utils";
+import { checkAutoLogin } from "@/utils/autoLogin";
 import {
   ascending,
   getTopMenu,
@@ -192,11 +193,29 @@ router.beforeEach((to: ToRouteType, _from, next) => {
       if (whiteList.indexOf(to.path) !== -1) {
         next();
       } else {
-        removeToken();
-        next({ path: "/login" });
+        // 检查是否可以自动登录
+        checkAutoLogin().then(success => {
+          if (success) {
+            // 自动登录成功，跳转到首页
+            next(getTopMenu(true).path);
+          } else {
+            // 自动登录失败，清除token并跳转到登录页
+            removeToken();
+            next({ path: "/login" });
+          }
+        });
       }
     } else {
-      next();
+      // 如果访问的是登录页，先尝试自动登录
+      checkAutoLogin().then(success => {
+        if (success) {
+          // 自动登录成功，跳转到首页
+          next(getTopMenu(true).path);
+        } else {
+          // 自动登录失败，继续访问登录页
+          next();
+        }
+      });
     }
   }
 });

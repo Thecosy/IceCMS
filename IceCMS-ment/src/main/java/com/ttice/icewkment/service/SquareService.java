@@ -19,5 +19,5 @@ import java.util.List;
 @Repository
 public interface SquareService extends IService<Square> {
 
-  SquarePageVO VoList(Integer id, Integer page, Integer limit);
+  SquarePageVO VoList(Integer id, Integer page, Integer limit, String type);
 }

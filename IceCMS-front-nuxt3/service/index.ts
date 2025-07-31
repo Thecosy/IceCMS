@@ -17,7 +17,7 @@ class HttpRequest {
   ) {
     return new Promise((resolve, reject) => {
       const config = useRuntimeConfig();
-      const BASE_URL = "http://127.0.0.1:8181/";
+      const BASE_URL = config.public.apiBaseUrl;
       const newOptions: UseFetchOptions<T> = {
         
         baseURL: BASE_URL,

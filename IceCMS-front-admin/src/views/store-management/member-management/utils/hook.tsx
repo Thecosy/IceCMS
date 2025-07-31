@@ -15,7 +15,10 @@ import {
   getRoleIds,
   // getDeptList,
   getUserList,
-  getAllRoleList
+  getAllRoleList,
+  deleteUser,
+  updateUser,
+  updateUserStatus
 } from "@/api/system";
 import {
   ElForm,
@@ -147,6 +150,13 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         />
       )
     },
+    // {
+    //   label: "创建时间",
+    //   minWidth: 90,
+    //   prop: "createTime",
+    //   formatter: ({ createTime }) =>
+    //     dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+    // },
     {
       label: "创建时间",
       minWidth: 90,
@@ -192,10 +202,22 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   const curScore = ref();
   const roleOptions = ref([]);
 
-  function onChange({ row, index }) {
+    function onChange({ row, index }) {
+    // 打印完整的行数据，以便调试
+
+    // 使用toRaw获取原始值，避免响应式代理问题
+    const rawRow = toRaw(row);
+
+    // 保存当前状态，以便在确认对话框中显示正确的文本
+    const targetStatus= Number(rawRow.status);
+    // 计算目标状态（与当前状态相反）
+    const currentStatus = targetStatus === 0 ? 1 : 0;
+
+    // 根据开关组件的值确定操作类型
+    const actionType = currentStatus === 0 ? "启用" : "停用";
+
     ElMessageBox.confirm(
-      `确认要<strong>${row.status === 0 ? "停用" : "启用"
-      }</strong><strong style='color:var(--el-color-primary)'>${row.username
+      `确认要<strong>${actionType}</strong><strong style='color:var(--el-color-primary)'>${row.username
       }</strong>用户吗?`,
       "系统提示",
       {
@@ -206,7 +228,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         draggable: true
       }
     )
-      .then(() => {
+      .then(async () => {
         switchLoadMap.value[index] = Object.assign(
           {},
           switchLoadMap.value[index],
@@ -214,7 +236,59 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
             loading: true
           }
         );
-        setTimeout(() => {
+
+                // 使用前面保存的目标状态
+        console.log("当前状态类型:", typeof currentStatus, "值:", currentStatus);
+        console.log("目标状态类型:", typeof targetStatus, "值:", targetStatus);
+
+        // 更新UI状态为目标状态
+        row.status = targetStatus;
+
+        try {
+
+          // 调用后端API更新用户状态（使用完整的用户对象）
+          // 只发送必要的字段，避免发送多余的数据
+          const userData = {
+            userId: rawRow.userId,
+            username: rawRow.username,
+            name: rawRow.name,
+            gender: typeof rawRow.gender === 'string' ? (rawRow.gender === '男' ? 0 : rawRow.gender === '女' ? 1 : 2) : rawRow.gender,
+            email: rawRow.email,
+            // 确保状态是数字类型
+            status: targetStatus,
+            profile: rawRow.profile,
+            intro: rawRow.intro
+          };
+
+          // 打印请求数据，便于调试
+          console.log("更新用户状态请求数据:", userData);
+
+          const result = await updateUser(userData);
+          console.log("API响应:", result);
+
+          if (result.code === 200) {
+            // 更新成功，状态已经在前面更新为targetStatus
+            message("已成功修改用户状态", {
+              type: "success"
+            });
+            // 刷新列表，确保显示最新数据
+            setTimeout(() => {
+              onSearch();
+            }, 500);
+          } else {
+            // 更新失败，恢复原状态
+            message(`修改状态失败: ${result.msg || '未知错误'}`, {
+              type: "error"
+            });
+            row.status = currentStatus; // 恢复为保存的旧状态
+          }
+        } catch (error) {
+          // 发生错误，恢复原状态
+          message(`修改状态失败: ${error.message || '未知错误'}`, {
+            type: "error"
+          });
+          row.status = currentStatus; // 恢复为保存的旧状态
+        } finally {
           switchLoadMap.value[index] = Object.assign(
             {},
             switchLoadMap.value[index],
@@ -222,23 +296,40 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
               loading: false
             }
           );
-          message("已成功修改用户状态", {
-            type: "success"
-          });
-        }, 300);
+        }
       })
       .catch(() => {
-        row.status === 0 ? (row.status = 1) : (row.status = 0);
+        // 取消操作，恢复为原始状态
+        row.status = currentStatus;
       });
   }
 
   function handleUpdate(row) {
     console.log(row);
+    openDialog('修改', row);
   }
 
-  function handleDelete(row) {
-    message(`您删除了用户编号为${row.id}的这条数据`, { type: "success" });
-    onSearch();
+  async function handleDelete(row) {
+    try {
+      // 确保ID是数字类型
+      let id = row.userId;
+      if (typeof id === 'string') {
+        id = parseInt(id);
+      }
+
+      const result = await deleteUser(id);
+      if (result.code === 200) {
+        message(`已成功删除用户编号为${row.userId}的这条数据`, { type: "success" });
+        // 延迟刷新表格数据，避免频繁刷新
+        setTimeout(() => {
+          onSearch(); // 刷新表格数据
+        }, 500);
+      } else {
+        message(`删除失败: ${result.msg || '未知错误'}`, { type: "error" });
+      }
+    } catch (error) {
+      message(`删除失败: ${error.message || '未知错误'}`, { type: "error" });
+    }
   }
 
   function handleSizeChange(val: number) {
@@ -278,33 +369,49 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
 
   async function onSearch() {
     loading.value = true;
-    // console.log(toRaw(form))
-    const { data } = await getUserList(pagination.currentPage, pagination.pageSize);
-    dataList.value = data.records;
-    console.log(312, data)
-    pagination.total = data.total;
-    pagination.pageSize = data.size;
-    pagination.currentPage = data.current;
-
-    setTimeout(() => {
-      loading.value = false;
-    }, 500);
+    try {
+      const searchParams = {
+        username: form.username || undefined,
+        email: form.phone || undefined, // 注意：表单中用phone字段存储email
+        status: form.status || undefined
+      };
+      console.log("搜索参数:", searchParams);
+      const { data } = await getUserList(pagination.currentPage, pagination.pageSize, searchParams);
+      dataList.value = data.records;
+      console.log("搜索结果:", data);
+      pagination.total = data.total;
+      pagination.pageSize = data.size;
+      pagination.currentPage = data.current;
+    } catch (error) {
+      message(`获取用户列表失败: ${error.message || '未知错误'}`, { type: "error" });
+    } finally {
+      setTimeout(() => {
+        loading.value = false;
+      }, 500);
+    }
   }
 
   // 分页改变时获取文章
   async function fetchSearch(pageNum = 1, limit = pagination.pageSize) {
     loading.value = true;
-    // console.log(toRaw(form))
-    const { data } = await getUserList(pageNum, limit);
-    dataList.value = data.records;
-    console.log(312, data)
-    pagination.total = data.total;
-    pagination.pageSize = data.size;
-    pagination.currentPage = data.current;
-
-    setTimeout(() => {
-      loading.value = false;
-    }, 500);
+    try {
+      const searchParams = {
+        username: form.username || undefined,
+        email: form.phone || undefined, // 注意：表单中用phone字段存储email
+        status: form.status || undefined
+      };
+      const { data } = await getUserList(pageNum, limit, searchParams);
+      dataList.value = data.records;
+      pagination.total = data.total;
+      pagination.pageSize = data.size;
+      pagination.currentPage = data.current;
+    } catch (error) {
+      message(`获取用户列表失败: ${error.message || '未知错误'}`, { type: "error" });
+    } finally {
+      setTimeout(() => {
+        loading.value = false;
+      }, 500);
+    }
   }
 
   const resetForm = formEl => {
@@ -337,17 +444,16 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       title: `${title}用户`,
       props: {
         formInline: {
-          title,
-          higherDeptOptions: formatHigherDeptOptions(higherDeptOptions.value),
-          // parentId: row?.dept.id ?? 0,
-          nickname: row?.nickname ?? "",
+          userId: row?.userId ?? null,
           username: row?.username ?? "",
-          password: row?.password ?? "",
-          phone: row?.phone ?? "",
+          password: "",
+          name: row?.name ?? "",
+          gender: row?.gender ?? "",
           email: row?.email ?? "",
-          sex: row?.sex ?? "",
-          status: row?.status ?? 1,
-          remark: row?.remark ?? ""
+          status: row?.status ?? "正常",
+          profile: row?.profile ?? "",
+          intro: row?.intro ?? "",
+          deptId: row?.deptId ?? ""
         }
       },
       width: "46%",
@@ -355,26 +461,55 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(editForm, { ref: formRef }),
-      beforeSure: (done, { options }) => {
+      beforeSure: async (done, { options }) => {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
-        function chores() {
-          message(`您${title}了用户名称为${curData.username}的这条数据`, {
-            type: "success"
-          });
-          done(); // 关闭弹框
-          onSearch(); // 刷新表格数据
-        }
-        FormRef.validate(valid => {
+
+        FormRef.validate(async valid => {
           if (valid) {
-            console.log("curData", curData);
-            // 表单规则校验通过
-            if (title === "新增") {
-              // 实际开发先调用新增接口，再进行下面操作
-              chores();
-            } else {
-              // 实际开发先调用修改接口，再进行下面操作
-              chores();
+            try {
+              if (title === "新增") {
+                // 实际开发先调用新增接口，再进行下面操作
+                message(`您${title}了用户名称为${curData.username}的这条数据`, {
+                  type: "success"
+                });
+                done(); // 关闭弹框
+                onSearch(); // 刷新表格数据
+              } else {
+                // 转换性别和状态为数字格式
+                const userData = { ...curData };
+                // 转换性别: 男=0, 女=1, 保密=2
+                if (userData.gender === "男") userData.gender = 0;
+                else if (userData.gender === "女") userData.gender = 1;
+                else if (userData.gender === "保密") userData.gender = 2;
+
+                // 转换状态: 正常=1, 禁用=0
+                if (userData.status === "正常") userData.status = 1;
+                else if (userData.status === "禁用") userData.status = 0;
+
+                // 调用修改接口
+                const result = await updateUser(userData);
+                if (result.code === 200) {
+                  message(`您${title}了用户名称为${curData.username}的这条数据`, {
+                    type: "success"
+                  });
+                  done(); // 关闭弹框
+                  // 使用单独的变量控制搜索，避免循环刷新
+                  const timer = setTimeout(() => {
+                    loading.value = true;
+                    fetchSearch(pagination.currentPage, pagination.pageSize);
+                    clearTimeout(timer);
+                  }, 800);
+                } else {
+                  message(`修改失败: ${result.msg || '未知错误'}`, {
+                    type: "error"
+                  });
+                }
+              }
+            } catch (error) {
+              message(`操作失败: ${error.message || '未知错误'}`, {
+                type: "error"
+              });
             }
           }
         });
@@ -400,7 +535,10 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         console.log("裁剪后的图片信息：", avatarInfo.value);
         // 根据实际业务使用avatarInfo.value和row里的某些字段去调用上传头像接口即可
         done(); // 关闭弹框
-        onSearch(); // 刷新表格数据
+        // 延迟刷新表格数据，避免频繁刷新
+        setTimeout(() => {
+          onSearch(); // 刷新表格数据
+        }, 500);
       },
       closeCallBack: () => cropRef.value.hidePopover()
     });

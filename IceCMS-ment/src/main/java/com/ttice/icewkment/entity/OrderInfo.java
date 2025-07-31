@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,11 +16,14 @@ import java.util.Date;
 @TableName("t_order_info")
 public class OrderInfo implements Serializable {
 
+  /** 订单id */
+  @TableId(type = IdType.AUTO)
+  private Long id;
+
   /** 订单标题 */
   private String title;
 
   /** 商户订单编号 */
-  @TableId // 指定主键
   private String orderNo;
 
   /** 用户id */
@@ -40,19 +44,20 @@ public class OrderInfo implements Serializable {
   /** 订单状态 */
   private String orderStatus;
 
-  /** 更新注解::自动填充 */
+  /** 创建时间 */
+  @ApiModelProperty(value = "创建时间")
+  @TableField(fill = FieldFill.INSERT)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  private Date createTime;
+
+  /** 更新时间 */
   @ApiModelProperty(value = "更新时间")
   @TableField(fill = FieldFill.INSERT_UPDATE)
   @JsonFormat(
           shape = JsonFormat.Shape.STRING,
           pattern = "yyyy-MM-dd HH:mm:ss",
-          timezone = "GMT+8") // 返回前端自动把Data类型转换为json类型
+          timezone = "GMT+8")
   private Date updateTime;
-
-  /** 生成时间 */
-  @ApiModelProperty(value = "生成时间")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-  private Date createTime;
 
   /** 完成性判断 */
   private Boolean alreadyDone;

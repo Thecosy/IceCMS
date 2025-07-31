@@ -1,11 +1,11 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 
 /**
  * @description 获取全部公告列表
  * @return Promise<any>
  */
 export const getAnnouncementslist = () => {
-  return httpRequest.get<any>('/WebAnnouncements/getAnnouncementslist');
+  return useDollarGet('/WebAnnouncements/getAnnouncementslist');
 };
 
 /**
@@ -14,5 +14,5 @@ export const getAnnouncementslist = () => {
  * @return Promise<any>
  */
 export const getAnnouncementslistByNum = (num: number) => {
-  return httpRequest.get<any>(`/WebAnnouncements/getAnnouncementslistByNum/${num}`);
+  return useDollarGet(`/WebAnnouncements/getAnnouncementslistByNum/${num}`);
 };

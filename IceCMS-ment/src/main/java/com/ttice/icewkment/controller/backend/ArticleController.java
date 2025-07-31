@@ -185,6 +185,12 @@ public class ArticleController {
       String profile = users.getProfile();
       articleVO = new ArticleVO();
       articleVO.setProfile(profile);
+      
+      // 设置作者姓名
+      if (users != null) {
+        articleVO.setAuthorName(users.getName());
+      }
+      
       // 根据文章id获取对应的评论数
       Integer aid = article.getId();
       int acnum = articleCommentService.GetCommentNum(aid);

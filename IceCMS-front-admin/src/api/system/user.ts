@@ -177,5 +177,21 @@ export const updateCurrentUserPasswordApi = (data?: ResetPasswordRequest) => {
 
 /**  获取用户信息  */
 export const GetUserInfoByid = (id) => {
-  return http.request<ResponseData<[]>>("get",`/User/GetUserInfoByid/${id}`);
+  // 从本地存储中获取用户信息
+  const userKey = "user-info";
+  const userInfo = JSON.parse(localStorage.getItem(userKey) || "{}");
+  const token = userInfo?.accessToken || localStorage.getItem("token") || "";
+
+  console.log("发送请求头token:", token);
+
+  return http.request<ResponseData<[]>>("get",`/User/GetUserInfoByid/${id}`, {
+    headers: {
+      token: token
+    }
+  });
+};
+
+/**  获取所有用户  */
+export const getAllUsers = () => {
+  return http.request<ResponseData<[]>>("get",`/User/GetAllUser`);
 };

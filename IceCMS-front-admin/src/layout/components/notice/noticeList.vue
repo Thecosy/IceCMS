@@ -9,6 +9,13 @@ const props = defineProps({
     default: () => []
   }
 });
+
+const emit = defineEmits(['read']);
+
+// 处理通知已读事件
+const handleNoticeRead = (id: number) => {
+  emit('read', id);
+};
 </script>
 
 <template>
@@ -17,6 +24,7 @@ const props = defineProps({
       v-for="(item, index) in props.list"
       :key="index"
       :noticeItem="item"
+      @read="handleNoticeRead"
     />
   </div>
   <el-empty v-else description="暂无消息" />

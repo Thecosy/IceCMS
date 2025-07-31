@@ -6,6 +6,7 @@ export interface ListItem {
   description: string;
   status?: "" | "success" | "warning" | "info" | "danger";
   extra?: string;
+  id?: number; // 添加id字段
 }
 
 export interface TabItem {

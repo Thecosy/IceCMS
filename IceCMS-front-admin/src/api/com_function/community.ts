@@ -27,7 +27,7 @@ export const updateArticles = (data: object, id) => {
 
 // 删除文章
 export const deleteArticle = (id: string) => {
-  return http.request<ResponseData<[]>>("get", `/article/DelectArticleById/${id}`);
+  return http.request<ResponseData<[]>>("get", `/square/DelectSquareById/${id}`);
 };
 
 // 获取文章详情
@@ -35,7 +35,17 @@ export const getArticleDetail = (id: string) => {
   return http.request<ResponseData<[]>>("get", `/article/getArticleById/${id}`);
 };
 
+// 获取圈子详情 - 使用getAllSquare替代不存在的getSquareById
+export const getSquareDetail = (id: number) => {
+  return http.request<ResponseData<[]>>("get", `/square/getAllSquare/${id}/1/1`);
+};
+
 // 批量删除文章
 export const deleteArticlesBatch = (ids: number[]) => {
-  return http.request<ResponseData<[]>>("post", "/article/DeleteArticleBatch", { data: ids });
+  return http.request<ResponseData<[]>>("post", "/square/DeleteSquareBatch", { data: ids });
+};
+
+// 根据ID和内容修改圈子
+export const changeSquareContent = (id: number, content: string) => {
+  return http.request<ResponseData<[]>>("get", `/square/ChangeSquareById/${id}/${content}`);
 };

@@ -1,5 +1,5 @@
 import httpRequest from "../service/index";
-import { useDollarGet } from  "../service/useDollarFetchRequest";
+import { useDollarGet, useFetchPost } from  "../service/useDollarFetchRequest";
 
 /**
  * @description 创建广场
@@ -7,18 +7,9 @@ import { useDollarGet } from  "../service/useDollarFetchRequest";
  * @param SortName 分类名称
  * @return Promise<any>
  */
-export const createSquare = (data: any, SortName: string) => {
-  return httpRequest.post<any>('/Websquare/create/' + SortName, data, {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    params: {
-      dataType: 'json',
-      crossDomain: true,
-      processData: false,
-      contentType: false,
-    }
-  });
+export const createSquare = (data: any) => {
+  console.log("发送了1次")
+  return useFetchPost('/Websquare/create', data);
 };
 
 /**

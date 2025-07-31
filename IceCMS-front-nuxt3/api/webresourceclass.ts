@@ -1,11 +1,12 @@
 import httpRequest from "../service/index";
+import { useFetchGet } from "../service/useDollarFetchRequest";
 
 /**
  * @description 获取资源分类列表
  * @return Promise<any>
  */
 export const getResourceClasslist = () => {
-  return httpRequest.get<any>('/WebResourceClass/getResourceClasslist');
+  return useFetchGet('/WebResourceClass/getResourceClasslist');
 };
 
 /**
@@ -14,5 +15,5 @@ export const getResourceClasslist = () => {
  * @return Promise<any>
  */
 export const getResourceClassNameByid = (classid: string | number) => {
-  return httpRequest.get<any>(`/WebResourceClass/getResourceClassNameByid/${classid}`);
+  return useFetchGet(`/WebResourceClass/getResourceClassNameByid/${classid}`);
 };

@@ -178,7 +178,7 @@ public class MiniProgrammeController {
             @PathVariable("page") Integer page,
             @PathVariable("limit") Integer limit) {
 
-        return squareService.VoList(id, page, limit);
+        return squareService.VoList(id, page, limit, "all");
     }
 
     @ApiOperation(value = "获取全部分类列表")

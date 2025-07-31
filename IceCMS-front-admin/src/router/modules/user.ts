@@ -33,7 +33,7 @@ export default {
     {
       path: "/user-management/admin-info",
       name: "AdminInfo",
-      component: () => import("@/views/system/user/profile/index.vue"),
+      component: () => import("@/views/user-management/admin-info/index.vue"),
       meta: {
         icon: "admin",
         title: $t("menus.hsAdminInfo"),

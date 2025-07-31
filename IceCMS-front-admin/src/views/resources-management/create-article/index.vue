@@ -8,6 +8,7 @@ const route = useRoute();
 const articleId = ref(route.params.articleId);
 import { getAllClassName } from '@/api/res_function/res_category'; // 请确保路径正确
 import { getAllTag } from '@/api/common/tag'; // 请确保路径正确
+import { getAllUsers } from '@/api/system'; // 修改导入路径，使用正确的API
 import type { Tag } from './types';
 
 import { storageLocal } from "@pureadmin/utils";
@@ -28,6 +29,7 @@ let fetchId = articleId.value
 onMounted(() => {
   fetchClass();
   fetchTag();
+  fetchUsers(); // 获取所有用户
   if (articleId.value) {
     // 如果有 articleId，加载资源数据进行编辑
     console.log('articleId:', articleId.value);
@@ -76,6 +78,7 @@ const fetchData = async (articleId) => {
       form.value.category = res.sortClass
       form.value.summary = res.intro
       form.value.publishTime = res.createTime;
+      form.value.authorId = res.authorId ? Number(res.authorId) : null; // 添加作者ID并确保是数字类型
       // 更新 fileList 中对应文件的 URL
       fileList.value = [{ name: 'image', url: res.thumb }];
       // 将JSON数组转换为Json对象
@@ -89,6 +92,33 @@ const fetchData = async (articleId) => {
       form.value.resourceLink = res.resAddress;
       form.value.resourcePassword = res.resPassword;
       fileVideoList.value = [{ name: 'video', url: res.videoAddress }];
+      
+      // Parse download versions from resAddress
+      try {
+        if (res.resAddress && typeof res.resAddress === 'string') {
+          const downloadData = JSON.parse(res.resAddress);
+          if (downloadData.versions && Array.isArray(downloadData.versions)) {
+            downloadVersions.value = downloadData.versions.map(version => ({
+              ...version,
+              id: version.id || Date.now().toString()
+            }));
+          }
+        }
+      } catch (e) {
+        // If resAddress is not JSON, treat as single download link
+        if (res.resAddress) {
+          downloadVersions.value = [{
+            id: Date.now().toString(),
+            version: 'v1.0.0',
+            language: '简体中文',
+            system: 'All',
+            updateTime: dayjs(res.addTime).format('YYYY-MM-DD'),
+            size: '未知',
+            downloadLink: res.resAddress,
+            description: '默认下载'
+          }];
+        }
+      }
     }
   } catch (error) {
     console.error('Error fetching articles:', error);
@@ -238,7 +268,8 @@ const formRef = ref(null);
 // 表单数据对象
 const form = ref({
   title: '',      // 资源标题
-  author: '',     // 作者
+  authorId: null,   // 作者ID
+  authorName: '',   // 作者名称（手动输入）
   publishTime: '',// 发布时间
   summary: '',    // 资源简介
   category: '',   // 资源分类
@@ -248,6 +279,56 @@ const form = ref({
   resourceLink: '', // 资源地址
   resourcePassword: '', // 资源密码
 });
+
+// Download versions management
+const downloadVersions = ref([
+  {
+    id: Date.now().toString(),
+    version: '',
+    language: '简体中文',
+    system: 'All',
+    updateTime: '',
+    size: '',
+    downloadLink: '',
+    description: ''
+  }
+]);
+
+const systemOptions = [
+  { label: 'All', value: 'All' },
+  { label: 'Windows', value: 'Windows' },
+  { label: 'macOS', value: 'macOS' },
+  { label: 'Linux', value: 'Linux' },
+  { label: 'iOS', value: 'iOS' },
+  { label: 'Android', value: 'Android' }
+];
+
+const languageOptions = [
+  { label: '简体中文', value: '简体中文' },
+  { label: 'English', value: 'English' },
+  { label: '繁體中文', value: '繁體中文' },
+  { label: '日本語', value: '日本語' },
+  { label: '한국어', value: '한국어' }
+];
+
+const addDownloadVersion = () => {
+  downloadVersions.value.push({
+    id: Date.now().toString(),
+    version: '',
+    language: '简体中文',
+    system: 'All',
+    updateTime: dayjs().format('YYYY-MM-DD'),
+    size: '',
+    downloadLink: '',
+    description: ''
+  });
+};
+
+const removeDownloadVersion = (index) => {
+  if (downloadVersions.value.length > 1) {
+    downloadVersions.value.splice(index, 1);
+  }
+};
 // 规则
 const rules = ref({
   title: [
@@ -255,6 +336,9 @@ const rules = ref({
   ],
   category: [
     { required: true, message: '请输入分类', trigger: 'blur' }
+  ],
+  authorId: [
+    { required: true, message: '请选择作者', trigger: 'change' }
   ],
   // 其他规则...
 });
@@ -300,19 +384,28 @@ const confirmArticle = () => {
       const carouselJSON = JSON.stringify(urlListCarousel.value.map(url => ({ "url": url })));
       let videoAddress = fileVideoList.value[0] ? fileVideoList.value[0].response.url : "";
 
+      // Convert download versions to JSON for resAddress field
+      const downloadVersionsJSON = JSON.stringify({
+        versions: downloadVersions.value.filter(version => version.downloadLink && version.version)
+      });
+
       // 验证通过，执行提交逻辑
       fetchValueHtmlFromBase();
+
+      // 使用选择的作者ID
+      const authorInfo = { authorId: form.value.authorId };
+
       ArticleAPI.newAaticle({
         title: form.value.title,
         sortClass: form.value.category,
         content: content.value,
-        authorId: userid,
+        ...authorInfo, // 使用准备好的作者信息
         intro: form.value.summary,
         createTime: formData.publishTime,
         thumb: formData.thumb,
         keyword: tagsString,
         isFree: form.value.paymentType,
-        resAddress: form.value.resourceLink,
+        resAddress: downloadVersionsJSON,
         resPassword: form.value.resourcePassword,
         videoAddress: videoAddress || undefined,
         carousel: carouselJSON,
@@ -349,6 +442,30 @@ const fetchValueHtmlFromBase = () => {
     content.value = valueHtml; // Use .value to assign a new value
   }
 };
+
+// 添加获取用户列表的函数
+const userList = ref([]);
+const fetchUsers = async () => {
+  try {
+    console.log('开始获取用户列表...');
+    const response = await getAllUsers();
+    console.log('用户API响应:', response);
+    if (response && response.code === 200) {
+      console.log('用户数据:', response.data);
+      if (Array.isArray(response.data)) {
+        userList.value = response.data;
+        console.log('设置用户列表成功，长度:', userList.value.length);
+      } else {
+        console.error('用户数据不是数组:', response.data);
+        userList.value = [];
+      }
+    } else {
+      console.error('获取用户列表失败:', response);
+    }
+  } catch (error) {
+    console.error('获取用户列表出错:', error);
+  }
+};
 </script>
 
 <template>
@@ -365,6 +482,24 @@ const fetchValueHtmlFromBase = () => {
           <el-form-item label="标题" prop="title">
             <el-input v-model="form.title" placeholder="请输入标题"></el-input>
           </el-form-item>
+
+          <!-- 添加作者选择下拉框 -->
+          <el-form-item label="作者" prop="authorId">
+            <el-select
+              v-model="form.authorId"
+              placeholder="请选择作者"
+              filterable
+              :disabled="articleId !== undefined && articleId !== null"
+              required
+            >
+              <el-option v-for="user in userList" :key="user.id || user.userId" :label="user.username || user.name" :value="user.id || user.userId">
+              </el-option>
+            </el-select>
+            <div v-if="userList.length === 0" style="color: #f56c6c; font-size: 12px; margin-top: 5px;">
+              正在加载作者列表，请稍候...
+            </div>
+          </el-form-item>
+
           <el-form-item label="发布时间">
             <el-date-picker v-model="form.publishTime" type="datetime" placeholder="请选择发布时间"></el-date-picker>
           </el-form-item>
@@ -439,9 +574,99 @@ const fetchValueHtmlFromBase = () => {
               <el-radio :label="1">付费</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="资源链接">
-            <el-input v-model="form.resourceLink" placeholder="请输入资源链接"></el-input>
+          
+          <!-- Download Versions Management -->
+          <el-form-item label="下载版本">
+            <el-card shadow="never" style="width: 100%;">
+              <template #header>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>下载版本管理</span>
+                  <el-button type="primary" size="small" @click="addDownloadVersion">
+                    <i class="el-icon-plus"></i> 添加版本
+                  </el-button>
+                </div>
+              </template>
+              
+              <div v-for="(version, index) in downloadVersions" :key="version.id" style="margin-bottom: 20px; padding: 15px; border: 1px solid #ebeef5; border-radius: 4px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <span style="font-weight: bold;">版本 {{ index + 1 }}</span>
+                  <el-button 
+                    v-if="downloadVersions.length > 1" 
+                    type="danger" 
+                    size="small" 
+                    @click="removeDownloadVersion(index)"
+                  >
+                    删除
+                  </el-button>
+                </div>
+                
+                <el-row :gutter="20">
+                  <el-col :span="6">
+                    <el-form-item label="版本号" size="small">
+                      <el-input v-model="version.version" placeholder="如: v1.0.0"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label="语言" size="small">
+                      <el-select v-model="version.language" placeholder="选择语言">
+                        <el-option 
+                          v-for="lang in languageOptions" 
+                          :key="lang.value" 
+                          :label="lang.label" 
+                          :value="lang.value">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label="系统" size="small">
+                      <el-select v-model="version.system" placeholder="选择系统">
+                        <el-option 
+                          v-for="sys in systemOptions" 
+                          :key="sys.value" 
+                          :label="sys.label" 
+                          :value="sys.value">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-form-item label="更新时间" size="small">
+                      <el-date-picker 
+                        v-model="version.updateTime" 
+                        type="date" 
+                        placeholder="选择日期"
+                        value-format="YYYY-MM-DD">
+                      </el-date-picker>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                
+                <el-row :gutter="20">
+                  <el-col :span="8">
+                    <el-form-item label="文件大小" size="small">
+                      <el-input v-model="version.size" placeholder="如: 125MB"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="16">
+                    <el-form-item label="下载链接" size="small">
+                      <el-input v-model="version.downloadLink" placeholder="输入下载链接"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                
+                <el-form-item label="版本描述" size="small">
+                  <el-input 
+                    v-model="version.description" 
+                    type="textarea" 
+                    :rows="2" 
+                    placeholder="版本更新说明或其他描述信息">
+                  </el-input>
+                </el-form-item>
+              </div>
+            </el-card>
           </el-form-item>
+          
           <el-form-item label="资源密码">
             <el-input v-model="form.resourcePassword" placeholder="请输入资源密码"></el-input>
           </el-form-item>

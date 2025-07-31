@@ -1,4 +1,4 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 
 /**
  * @description 用户登录
@@ -6,7 +6,7 @@ import httpRequest from "../service/index";
  * @return Promise<any>
  */
 export const login = (data: any) => {
-  return httpRequest.post<any>('/Websuser/login', {
+  return useFetchPost('/Websuser/login', {
     params: data
   });
 };
@@ -17,7 +17,7 @@ export const login = (data: any) => {
  * @return Promise<any>
  */
 export const WeChatLogin = (data: any) => {
-  return httpRequest.post<any>('/Websuser/WeChatLogin', {
+  return useFetchPost('/Websuser/WeChatLogin', {
     params: data
   });
 };
@@ -28,7 +28,7 @@ export const WeChatLogin = (data: any) => {
  * @return Promise<any>
  */
 export const WeChatLoginCheck = (accountId: string) => {
-  return httpRequest.post<any>('Websuser/WeChatLoginCheck/' + accountId);
+  return useFetchPost('Websuser/WeChatLoginCheck/' + accountId);
 };
 
 /**
@@ -37,7 +37,7 @@ export const WeChatLoginCheck = (accountId: string) => {
  * @return Promise<any>
  */
 export const Messagelogin = (phone: string) => {
-  return httpRequest.post<any>('/Websuser/Messagelogin/' + phone);
+  return useFetchPost('/Websuser/Messagelogin/' + phone);
 };
 
 /**
@@ -47,5 +47,5 @@ export const Messagelogin = (phone: string) => {
  * @return Promise<any>
  */
 export const MessageloginCheck = (phone: string, code: string) => {
-  return httpRequest.post<any>('/Websuser/MessageloginCheck/' + phone + '/' + code);
+  return useFetchPost('/Websuser/MessageloginCheck/' + phone + '/' + code);
 };

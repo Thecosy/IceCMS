@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watchEffect } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import { GetArticleBtmatte, getAllArticle, getAllArticleNumber } from "../../../api/webarticle";
 import { getArticleClasslist } from "../../../api/webarticleclass";
 import { getNewArticleComment } from "../../../api/webarticleComment";
-import { formatDate } from "@/utils/date";
 
 // 读取路由参数
 const route = useRoute();
@@ -39,42 +38,50 @@ const listQuery = ref({
 const acticve = ref<string>("nav-link active");
 const setting = ref<any>({});
 
+// 新窗口打开相关变量
+const istarget = ref<string>("_self");
+const istargetjudje = ref<boolean>(false);
+
 import { useSettingStore } from '../../../stores/setting';
 const settingStore = useSettingStore();
 setting.value = settingStore.settings
+// 优化后的并行请求
+await Promise.all([
+  getArticleData(),
+  getList(),
+  getNumber()
+]);
 
 // **获取文章数据**
-await getArticleData();
 async function getArticleData() {
   try {
     const res = await GetArticleBtmatte({ page: Number(route.params.id) || 1 });
 
-    MatterArticleFirst.value = res.data.value[0];
-    MatterArticles.value = res.data.value;
+    MatterArticleFirst.value = res[0];
+    MatterArticles.value = res;
 
   } catch (error) {
     console.error("获取文章数据出错:", error);
   }
 }
 
-await getList();
 // **获取文章列表**
 async function getList() {
   listLoading.value = true;
   try {
     const res = await getAllArticle(listQuery.value, 0);
     if (res) {
-      list.value = addBackgroundStyles(res.data.value.data);
-      total.value = res.data.value.total;
+      list.value = addBackgroundStyles(res.data);
+      total.value = res.total;
     }
 
     const classRes = await getArticleClasslist();
 
-    if (classRes) classlist.value = classRes.data.value;
+    if (classRes) classlist.value = classRes;
 
     const commentRes = await getNewArticleComment(9);
 
-    if (commentRes) NewArticleComment.value = commentRes.data.value;
+    if (commentRes) NewArticleComment.value = commentRes;
     console.log( NewArticleComment)
 
   } catch (error) {
@@ -84,12 +91,11 @@ async function getList() {
   }
 }
 
-await getNumber();
 // **获取文章总数**
 async function getNumber() {
   try {
     const res = await getAllArticleNumber();
-    if (res) articleCount.value = res.data;
+    if (res) articleCount.value = res;
   } catch (error) {
     console.error("获取文章总数出错:", error);
   }
@@ -141,9 +147,34 @@ function addBackgroundStyles(items: any[]) {
   });
 }
 
+// **切换新窗口打开**
+function istargetJudje() {
+  if (!istargetjudje.value) {
+    istarget.value = "_self";
+  } else {
+    istarget.value = "_blank";
+  }
+}
+
 // **格式化时间**
-function formatDateWrapper(time: string) {
-  return formatDate(new Date(time), "yyyy-MM-dd hh:mm");
+function formatDate(time: string | Date): string {
+  if (!time) return '';
+  
+  const date = typeof time === 'string' ? new Date(time) : time;
+  
+  if (isNaN(date.getTime())) {
+    return '';
+  }
+  
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  
+  const formatNumber = (n: number) => n < 10 ? `0${n}` : `${n}`;
+  
+  return `${year}-${formatNumber(month)}-${formatNumber(day)} ${formatNumber(hours)}:${formatNumber(minutes)}`;
 }
 </script>
 
@@ -162,7 +193,7 @@ function formatDateWrapper(time: string) {
                   <div class="featured-posts mb-6">
                 
                   <div>
-                    <a :href="'post/'+MatterArticleFirst.id" target="_self" class="post-item post-item--featured"
+                    <NuxtLink :to="'/post/'+MatterArticleFirst.id" :target="istarget" class="post-item post-item--featured"
                       style="background:linear-gradient(#5aa94580,#59ab4e8f,#58ac569e,#57ad5dad,#57ae65bd,#57af6ccc);background-size:100%;">
                       <img
                         src="../../static/picture/jetbrains.svg"
@@ -195,10 +226,10 @@ function formatDateWrapper(time: string) {
                           </p> <button class="share"><i class="icon-share"></i></button>
                         </div>
                       </div>
-                    </a>
+                    </NuxtLink>
                   </div>
                   <div>
-                    <a :href="'post/'+MatterArticles[0].id" target="_self" class="post-item post-item--featured"
+                    <NuxtLink :to="'/post/'+MatterArticles[0].id" :target="istarget" class="post-item post-item--featured"
                       style="background:linear-gradient(#c956d880,#d94ec68f,#e547b49e,#ed43a1ad,#f2438fbd,#f3467ecc);">
                       <div class="post-item__content">
                         <h3 :title="MatterArticles[0].title">{{MatterArticles[0].title}}</h3>
@@ -228,8 +259,8 @@ function formatDateWrapper(time: string) {
                           </p> <button class="share"><i class="icon-share"></i></button>
                         </div>
                       </div>
-                    </a>
-                    <a :href="'post/'+MatterArticles[1].id" target="_self" class="post-item post-item--featured"
+                    </NuxtLink>
+                    <NuxtLink :to="'/post/'+MatterArticles[1].id" :target="istarget" class="post-item post-item--featured"
                       style="background:linear-gradient(#7470d180,#8368c78f,#8f60bd9e,#9858b1ad,#a051a5bd,#a64999cc);">
                       <div class="post-item__content">
                         <h3 :title="MatterArticles[1].title">{{MatterArticles[1].title}}</h3>
@@ -259,8 +290,8 @@ function formatDateWrapper(time: string) {
                           </p> <button class="share"><i class="icon-share"></i></button>
                         </div>
                       </div>
-                    </a>
-                    <a :href="'post/'+MatterArticles[2].id" target="_self" class="post-item post-item--featured"
+                    </NuxtLink>
+                    <NuxtLink :to="'/post/'+MatterArticles[2].id" :target="istarget" class="post-item post-item--featured"
                       style="background:linear-gradient(#8771e780,#c358c38f,#e144959e,#e84265ad,#dc5437bd,#c16a00cc);">
                       <div class="post-item__content">
                         <h3 :title="MatterArticles[2].title">{{MatterArticles[2].title}}</h3>
@@ -290,7 +321,7 @@ function formatDateWrapper(time: string) {
                           </p> <button class="share"><i class="icon-share"></i></button>
                         </div>
                       </div>
-                    </a>
+                    </NuxtLink>
                   </div>
                 </div>
                   <!-- /** */ -->
@@ -305,41 +336,42 @@ function formatDateWrapper(time: string) {
                             </span>
                           </h5>
                         </div>
-                        <nav class="menu menu--macwk——list article-menu flex">
-                          <ul class="menu__list">
-                            <li  @click="handleClickIndex()" class="menu__item" :class="{ 'menu__item--current': allIndex }">
-                              <a class="menu__link"> 全部文章 </a>
+                        <div class="menu menu--macwk——list article-menu flex">
+    <div class="menu__list">
+      <div @click="handleClickIndex()" class="menu__item" :class="{ 'menu__item--current': allIndex }">
+        <NuxtLink class="menu__link"> 全部文章 </NuxtLink>
+      </div>
+      <ClientOnly>
 
-                            </li>
-                 
-                            <div @click="handleNewarticleclass(item.id)" v-for="(item, id) in classlist" :key="id">
-                              <li class="menu__item "  :class="{ 'menu__item--current': item.id === clickIndex }">
-                                <a class="menu__link"> {{ item.name }} </a>
-                              </li>
-                            </div>
-                            <!-- <li class="menu__line"></li> -->
-                          </ul>
-                        </nav>
+
+   <div v-for="item in classlist" :key="item.id" @click="handleNewarticleclass(item.id)"
+          class="menu__item" :class="{ 'menu__item--current': item.id === clickIndex }">
+        <div class="menu__link"> {{ item.name }} </div>
+      </div>
+</ClientOnly>
+
+   
+    </div>
+  </div>
                         <div>
-                          <div role="switch" class="el-switch" style="margin-top: -3px">
-                            <input type="checkbox" name="" true-value="true" class="el-switch__input" />
-                            <!---->
-                            <div>
-                              <el-switch v-model="istargetjudje" @change="istargetJudje()" active-color="#13ce66"
-                                inactive-color="#ff4949">
-                              </el-switch>
-                            </div><span class="el-switch__label el-switch__label--right">
-                              <!----><span aria-hidden="true">新窗口打开</span>
-                            </span>
-                          </div>
+                          <ClientOnly>
+                            <div role="switch" class="el-switch" style="margin-top: -3px">
+                              <input type="checkbox" name="" true-value="true" class="el-switch__input" />
+                              <div>
+                                <el-switch v-model="istargetjudje" @change="istargetJudje()" active-color="#13ce66"
+                                  inactive-color="#ff4949">
+                                </el-switch>
+                              </div><span class="el-switch__label el-switch__label--right">
+                                <span aria-hidden="true">新窗口打开</span>
+                              </span>
+                            </div>
+                          </ClientOnly>
                         </div>
                       </div>
-                      <!---->
+                      
                       <div v-for="(item, id) in list" :key="id">
-                        <div v-if="item.status.includes('published')">
-                          <nuxt-link :target="istarget" :to="'/post/' + item.id">
-                            <!---->
-                            <a target="_self" class="
+                        <div v-if="item.status && item.status.includes('published')">
+                          <NuxtLink :target="istarget" :to="'/post/' + item.id" class="
                               post-item
                               white
                               delay-0
@@ -353,16 +385,21 @@ function formatDateWrapper(time: string) {
                                     src="../../static/image/loding.gif" />
                                 </div>
                               </el-image>
-                              <div v-else class="
-                                post-item__preview
-                                align-items-center
-                                d-flex
-                                delay-5
-                              " :style="item.backgroundStyle">
-                                <h3 class="flex text-center text-white opacity-50">
-                                  NOPIC
-                                </h3>
-                              </div>
+                              <template v-else>
+      <ClientOnly>
+        <div class="
+          post-item__preview
+          align-items-center
+          d-flex
+          delay-5
+        " :style="item.backgroundStyle">
+          <h3 class="flex text-center text-white opacity-50">
+            NOPIC
+          </h3>
+        </div>
+      </ClientOnly>
+    </template>
+
                               <div class="post-item__content">
                                 <h3 :title="item.title">{{ item.title }}</h3>
                                 <div class="post-meta">
@@ -393,8 +430,7 @@ function formatDateWrapper(time: string) {
                                   </button>
                                 </div>
                               </div>
-                            </a>
-                          </nuxt-link>
+                            </NuxtLink>
                         </div>
                       </div>
                       <el-pagination class="app-content-bottom" @size-change="handleSizeChange"
@@ -408,9 +444,15 @@ function formatDateWrapper(time: string) {
                         </div>
                         <!-- --------- -->
                         <div v-for="item in NewArticleComment" :key="item.id"
-                          class="siderbar-apps__body-item bg bt-1 pt-4 hover-shadow-5"><a target="_blank"
-                            :href="item.articleId"
-                            class="fs-14 opacity-50 text-truncate mb-3 d-block hover-opacity-normal">{{ item.articleName }}</a>
+                          class="siderbar-apps__body-item bg bt-1 pt-4 hover-shadow-5">
+                          
+                          <NuxtLink
+                            :to="`/article/${item.articleId}`"
+                            target="_blank"
+                            class="fs-14 opacity-50 text-truncate mb-3 d-block hover-opacity-normal"
+                          >
+                            {{ item.articleName }}
+                          </NuxtLink>
                           <p class="article-comment-quote fs-15"><span
                               style="display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; text-overflow: ellipsis; -webkit-line-clamp: 3;">
                               {{ item.content }}
@@ -741,8 +783,6 @@ export default {
       classlist: "",
       acticve: 'nav-link active',
       articleCount: "",
-      istarget: "_self",
-      istargetjudje: !true,
       list: null,
       total: 0,
       listLoading: true,

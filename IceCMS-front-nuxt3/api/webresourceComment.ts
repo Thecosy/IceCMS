@@ -1,4 +1,4 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 
 /**
  * @description 获取指定资源的所有评论
@@ -6,7 +6,7 @@ import httpRequest from "../service/index";
  * @return Promise<any>
  */
 export const getallResourceComment = (id: string | number) => {
-  return httpRequest.get<any>(`/WebResourceComment/getallResourceComment/${id}`);
+  return useDollarGet(`/WebResourceComment/getallResourceComment/${id}`);
 };
 
 /**
@@ -15,17 +15,7 @@ export const getallResourceComment = (id: string | number) => {
  * @return Promise<any>
  */
 export const addResourceComment = (data: any) => {
-  return httpRequest.post<any>('/WebResourceComment/addResourceComment', data, {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    params: {
-      dataType: 'json',
-      crossDomain: true,
-      processData: false,
-      contentType: false,
-    }
-  });
+  return useFetchPost('/WebResourceComment/addResourceComment', data);
 };
 
 /**
@@ -34,7 +24,7 @@ export const addResourceComment = (data: any) => {
  * @return Promise<any>
  */
 export const getResourceCommentnum = (id: string | number) => {
-  return httpRequest.get<any>(`/WebResourceComment/getResourceCommentnum/${id}`);
+  return useDollarGet(`/WebResourceComment/getResourceCommentnum/${id}`);
 };
 
 /**
@@ -43,5 +33,5 @@ export const getResourceCommentnum = (id: string | number) => {
  * @return Promise<any>
  */
 export const getNewResourceComment = (num: number) => {
-  return httpRequest.get<any>(`/WebResourceComment/getNewResourceComment/${num}`);
+  return useDollarGet(`/WebResourceComment/getNewResourceComment/${num}`);
 };

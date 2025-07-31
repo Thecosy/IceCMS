@@ -74,7 +74,7 @@
           <el-input v-model="editArticleForm.title"></el-input>
         </el-form-item>
         <el-form-item label="分类" prop="sortClass">
-          <el-select v-model="articleForm.sortClass" placeholder="请选择分类">
+          <el-select v-model="editArticleForm.sortClass" placeholder="请选择分类">
             <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
@@ -426,26 +426,40 @@ const updateArticle = async () => {
 // 删除文章
 const confirmDeleteArticle = async (articleId) => {
   // 弹出确认框
-  ElMessageBox.confirm('你确定要删除此文章吗?')
-    .then(() => {
+  ElMessageBox.confirm('你确定要删除此资源吗?')
+    .then(async () => {
       // 如果用户点击了确认按钮
       try {
-        deleteArticle(articleId);
-        fetchArticles(); // 重新获取文章列表
-        ElNotification({
-          title: '删除文章',
-          message: '文章删除成功',
-          type: 'success',
-        });
+        const response = await deleteArticle(articleId);
+        if (response && response.code === 200) {
+          // 等待删除操作完成后再刷新列表
+          await fetchArticles(); // 重新获取文章列表
+          ElNotification({
+            title: '删除资源',
+            message: '资源删除成功',
+            type: 'success',
+          });
+        } else {
+          ElNotification({
+            title: '删除失败',
+            message: '资源删除失败，请重试',
+            type: 'error',
+          });
+        }
       } catch (error) {
-        console.error('Error deleting article:', error);
+        console.error('Error deleting resource:', error);
+        ElNotification({
+          title: '删除失败',
+          message: '资源删除失败，请重试',
+          type: 'error',
+        });
       }
     })
     .catch(() => {
       // 如果用户点击了取消按钮
       ElNotification({
         title: '取消删除',
-        message: '文章未被删除',
+        message: '资源未被删除',
         type: 'info',
       });
     });
@@ -459,6 +473,7 @@ const editArticleForm = ref({
   addTime: '',
   className: '',
   thumb: '',
+  sortClass: '' as string | number // 修改类型为string|number
 });
 
 const articleForm = ref({
@@ -479,8 +494,56 @@ const handleCloseEdit = (done: () => void) => {
 const searchArticles = () => {
   // 搜索文章的逻辑
 }
+
+// 获取分类名称的计算属性
+const getCategoryName = (sortClassId: string | number) => {
+  if (!sortClassId) return '请选择分类';
+  const category = classList.value.find(item => item.id === sortClassId || item.id === Number(sortClassId));
+  return category ? category.name : '未知分类';
+};
+
 const editArticle = (article: Article) => {
-  editArticleForm.value = { ...article };
+  console.log('编辑的原始数据:', article);
+
+  // 根据className查找对应的分类ID
+  let foundSortClass = '';
+  if (article.className) {
+    const matchedClass = classList.value.find(item => item.name === article.className);
+    if (matchedClass) {
+      foundSortClass = matchedClass.id;
+      console.log('根据className找到的分类ID:', foundSortClass);
+    }
+  }
+
+  // 复制文章数据到编辑表单
+  editArticleForm.value = {
+    ...article,
+    id: article.id,
+    title: article.title || '',
+    author: article.author || '',
+    addTime: article.addTime || '',
+    className: article.className || '',
+    thumb: article.thumb || '',
+    // 优先级: 1.已有sortClass 2.根据className找到的ID 3.空字符串
+    sortClass: article.sortClass || String(foundSortClass) || ''
+  };
+
+  // 如果有分类ID，确保它是正确的格式
+  if (editArticleForm.value.sortClass) {
+    // 尝试找到对应的分类对象
+    const category = classList.value.find(item =>
+      item.id === editArticleForm.value.sortClass ||
+      item.id === Number(editArticleForm.value.sortClass)
+    );
+
+    if (category) {
+      // 直接使用分类对象的ID，确保类型正确
+      editArticleForm.value.sortClass = category.id;
+    }
+  }
+
+  console.log('编辑表单数据:', editArticleForm.value);
+  console.log('分类名称:', getCategoryName(editArticleForm.value.sortClass));
   editDialogVisible.value = true;
 };
 
@@ -506,15 +569,15 @@ const handleSelectionChange = (val: Article[]) => {
 const confirmDeleteSelected = async () => {
   if (selectedArticles.value.length === 0) {
     ElNotification({
-      title: '没有选择文章',
-      message: '请选择要删除的文章',
+      title: '没有选择资源',
+      message: '请选择要删除的资源',
       type: 'warning',
     });
     return;
   }
 
   try {
-    await ElMessageBox.confirm('你确定要删除此文章吗?');
+    await ElMessageBox.confirm('你确定要删除选中的资源吗?');
 
     // Extract IDs of selected articles
     const idsToDelete = selectedArticles.value.map(a => a.id);
@@ -523,27 +586,36 @@ const confirmDeleteSelected = async () => {
     const response = await deleteArticlesBatch(idsToDelete);
 
     // Check if deletion was successful based on your API response structure
-    if (response.code === 200) {
-      // Filter out deleted articles from the articles array
-      fetchArticles(); // 重新获取文章列表
+    if (response && response.code === 200) {
+      // 等待删除操作完成后再刷新列表
+      await fetchArticles(); // 重新获取文章列表
       selectedArticles.value = [];
 
       ElNotification({
         title: '删除成功',
-        message: '成功删除文章',
+        message: `成功删除${idsToDelete.length}个资源`,
         type: 'success',
       });
     } else {
       // Handle unsuccessful deletion
       ElNotification({
-        title: '失败',
-        message: '删除文章失败',
+        title: '删除失败',
+        message: '删除资源失败，请重试',
         type: 'error',
       });
     }
   } catch (error) {
     // Handle cancellation or error
     console.error('Deletion cancelled or failed:', error);
+
+    // 如果是用户取消操作，不显示错误提示
+    if (error !== 'cancel' && error !== 'close') {
+      ElNotification({
+        title: '删除失败',
+        message: '操作过程中发生错误，请重试',
+        type: 'error',
+      });
+    }
   }
 };
 </script>

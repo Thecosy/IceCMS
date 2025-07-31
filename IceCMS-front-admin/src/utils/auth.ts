@@ -34,26 +34,39 @@ export const sessionKey = "user-info";
 /**
  * 后端处理token
  */
-export function setTokenFromBackend(data): void {
+export function setTokenFromBackend(data, rememberMe = false, loginDays = 7): void {
+  const { isRemembered, loginDay } = useUserStoreHook();
+  const cookieOptions: Cookies.CookieAttributes = {
+    sameSite: 'None',
+    secure: true
+  };
+
+  // 如果勾选了记住登录，设置cookie过期时间
+  if (rememberMe || isRemembered) {
+    const days = Number(loginDays || loginDay);
+    console.log("设置Cookie过期时间:", days, "天");
+    cookieOptions.expires = days;
+  }
+
   const cookieString = JSON.stringify(data);
-  Cookies.set(TokenKey, cookieString, {
-    sameSite: 'None', // 添加这一行
-    secure: true // 和这一行
-  });
-  Cookies.set(multipleTabsKey, 'multiple-tabs');
+  Cookies.set(TokenKey, cookieString, cookieOptions);
+  Cookies.set(multipleTabsKey, 'multiple-tabs', cookieOptions);
+
   useUserStoreHook().SET_USERNAME(data.name);
-  // useUserStoreHook().SET_ROLES([data.currentUser.roleKey]);
+
   // 创建一个符合 DataInfo<number> 接口的对象
+  const days = Number(rememberMe || isRemembered ? loginDays || loginDay : 1);
   const userInfo: DataInfo<number> = {
     accessToken: data.token,
-    expires: Date.now() + 1000 * 60 * 60 * 24, // 过期时间为当前时间加一天
+    expires: Date.now() + 1000 * 60 * 60 * 24 * days, // 过期时间根据是否记住登录设置
     refreshToken: "your_refresh_token_here",
     username: data.name,
     avatar: data.profile,
     roles: ["user_role_1"],
     userId: data.userid
   };
-  // 使用 storageLocal().setItem 方法存储 userInfo 对象到本地存储
+
+  // 使用 localStorage 存储 userInfo 对象
   localStorage.setItem(userKey, JSON.stringify(userInfo));
 }
 
@@ -89,7 +102,7 @@ export function setToken(data: DataInfo<Date>) {
     "true",
     isRemembered
       ? {
-        expires: loginDay
+        expires: Number(loginDay)
       }
       : {}
   );

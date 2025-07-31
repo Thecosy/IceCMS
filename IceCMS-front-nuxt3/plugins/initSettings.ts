@@ -7,7 +7,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     if (!settingStore.settings) {
       try {
         const result = await getSetting("");
-        settingStore.$patch({ settings: result.data || null });
+        settingStore.$patch({ settings: result || null 
+        });
       } catch (err) {
         console.error('Failed to prefetch settings on server:', err);
       }

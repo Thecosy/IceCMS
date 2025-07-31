@@ -93,7 +93,7 @@ export function useNav() {
 
   /** 个人中心 */
   function userProfile() {
-    router.push("/global/user/profile");
+    router.push("/user-management/admin-info");
   }
 
   function backTopMenu() {

@@ -1,4 +1,4 @@
-import httpRequest from "../service/index";
+import { useDollarGet, useFetchPost } from "../service/useDollarFetchRequest";
 
 /**
  * @description 创建文章
@@ -6,7 +6,7 @@ import httpRequest from "../service/index";
  * @returns Promise<any>
  */
 export const createArticle = (data: any): Promise<any> => {
-  return httpRequest.post<any>('/article/create', data);
+  return useFetchPost('/article/create', data);
 };
 
 /**
@@ -15,7 +15,7 @@ export const createArticle = (data: any): Promise<any> => {
  * @returns Promise<any>
  */
 export const updateArticle = (id: number): Promise<any> => {
-  return httpRequest.post<any>(`/article/ReviseArticleById/${id}`, { id });
+  return useFetchPost(`/article/ReviseArticleById/${id}`, { id });
 };
 
 /**
@@ -24,7 +24,7 @@ export const updateArticle = (id: number): Promise<any> => {
  * @returns Promise<any>
  */
 export const getAllArticle = (query: { page: number, limit: number }): Promise<any> => {
-  return httpRequest.get<any>(`article/getAllArticle/${query.page}/${query.limit}`);
+  return useDollarGet(`article/getAllArticle/${query.page}/${query.limit}`);
 };
 
 /**
@@ -33,7 +33,7 @@ export const getAllArticle = (query: { page: number, limit: number }): Promise<a
  * @returns Promise<any>
  */
 export const getArticleById = (id: number): Promise<any> => {
-  return httpRequest.get<any>(`article/getArticleById/${id}`);
+  return useDollarGet(`article/getArticleById/${id}`);
 };
 
 /**
@@ -42,7 +42,7 @@ export const getArticleById = (id: number): Promise<any> => {
  * @returns Promise<any>
  */
 export const DelectArticleById = (id: number): Promise<any> => {
-  return httpRequest.get<any>(`article/DelectArticleById/${id}`);
+  return useDollarGet(`article/DelectArticleById/${id}`);
 };
 
 /**
@@ -51,7 +51,7 @@ export const DelectArticleById = (id: number): Promise<any> => {
  * @returns Promise<any>
  */
 export const newArticleClass = (data: any): Promise<any> => {
-  return httpRequest.post<any>('/articleClass/newArticleClass', data);
+  return useFetchPost('/articleClass/newArticleClass', data);
 };
 
 /**
@@ -60,7 +60,7 @@ export const newArticleClass = (data: any): Promise<any> => {
  * @returns Promise<any>
  */
 export const allArticleClass = (query: { page: number, limit: number }): Promise<any> => {
-  return httpRequest.post<any>(`articleClass/allArticleClass/${query.page}/${query.limit}`);
+  return useFetchPost(`articleClass/allArticleClass/${query.page}/${query.limit}`);
 };
 
 /**
@@ -69,7 +69,7 @@ export const allArticleClass = (query: { page: number, limit: number }): Promise
  * @returns Promise<any>
  */
 export const DeleteArticleClass = (id: number): Promise<any> => {
-  return httpRequest.get<any>(`articleClass/DeleteArticleClass/${id}`);
+  return useDollarGet(`articleClass/DeleteArticleClass/${id}`);
 };
 
 /**
@@ -78,7 +78,7 @@ export const DeleteArticleClass = (id: number): Promise<any> => {
  * @returns Promise<any>
  */
 export const getAllClassName = (data: any): Promise<any> => {
-  return httpRequest.get<any>('articleClass/getAllClassName', { params: data });
+  return useDollarGet('articleClass/getAllClassName', data);
 };
 
 /**
@@ -87,5 +87,5 @@ export const getAllClassName = (data: any): Promise<any> => {
  * @returns Promise<any>
  */
 export const getClassNameById = (id: number): Promise<any> => {
-  return httpRequest.get<any>(`articleClass/getClassNameById/${id}`);
+  return useDollarGet(`articleClass/getClassNameById/${id}`);
 };
