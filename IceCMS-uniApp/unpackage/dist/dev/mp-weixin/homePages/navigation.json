@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "全站导航",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "nav-index-button": "/libs/components/nav-index-button"
+  }
+}

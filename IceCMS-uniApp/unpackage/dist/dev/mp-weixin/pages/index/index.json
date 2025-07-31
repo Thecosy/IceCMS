@@ -1,0 +1,11 @@
+{
+  "disableScroll": true,
+  "usingComponents": {
+    "tn-tabbar": "/tuniao-ui/components/tn-tabbar/tn-tabbar",
+    "home": "/pages/home/home",
+    "circle-page": "/pages/circle/circle",
+    "activity": "/pages/activity/activity",
+    "preferred": "/pages/preferred/preferred",
+    "mine": "/pages/mine/mine"
+  }
+}

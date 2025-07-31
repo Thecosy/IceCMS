@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "历史订单",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-tabs-swiper": "/tuniao-ui/components/tn-tabs-swiper/tn-tabs-swiper",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button"
+  }
+}

@@ -1,0 +1,1 @@
+<view class="tn-swipe-action-class tn-swipe-action"><slot></slot></view>

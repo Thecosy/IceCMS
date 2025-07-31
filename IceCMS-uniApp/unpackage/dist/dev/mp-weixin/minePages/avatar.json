@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "头像上传",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-cropper": "/tuniao-ui/components/tn-cropper/tn-cropper",
+    "tn-popup": "/tuniao-ui/components/tn-popup/tn-popup",
+    "multiple-options-demo": "/libs/components/multiple-options-demo"
+  }
+}

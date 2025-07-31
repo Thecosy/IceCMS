@@ -1,0 +1,106 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-classify.data-v-f1e13f9c {
+  /* 搜索栏 start */
+  /* 搜索栏 end */
+  /* 分类列表和内容 strat */
+  /* 分类列表和内容 end */
+  /* 侧边导航 start */
+  /* 侧边导航 end */
+  /* 分类内容 start */
+  /* 分类内容 end */
+}
+.tn-classify__search--wrap.data-v-f1e13f9c {
+  height: 126rpx;
+}
+.tn-classify__search__box.data-v-f1e13f9c {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  margin: 0 30rpx;
+  border-radius: 60rpx;
+  font-size: 26rpx;
+}
+.tn-classify__search__icon.data-v-f1e13f9c {
+  padding-right: 10rpx;
+}
+.tn-classify__container.data-v-f1e13f9c {
+  padding-top: 10rpx;
+}
+.tn-classify__right-box.data-v-f1e13f9c {
+  background-color: #FFFFFF;
+}
+.tn-classify__tabbar__item.data-v-f1e13f9c {
+  height: 90rpx;
+}
+.tn-classify__tabbar__item.data-v-f1e13f9c:first-child {
+  border-top-right-radius: 0rpx;
+}
+.tn-classify__tabbar__item.data-v-f1e13f9c:last-child {
+  border-bottom-right-radius: 0rpx;
+}
+.tn-classify__tabbar__item--active.data-v-f1e13f9c {
+  background-color: #FFFFFF;
+  position: relative;
+  font-weight: bold;
+}
+.tn-classify__tabbar__item--active.data-v-f1e13f9c::before {
+  content: '';
+  position: absolute;
+  width: 12rpx;
+  height: 40rpx;
+  top: 50%;
+  left: 0;
+  background-color: #FBBD12;
+  border-radius: 12rpx;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+          transform: translateY(-50%) translateX(-50%);
+}
+.tn-classify__tabbar__item--active--prev.data-v-f1e13f9c {
+  border-bottom-right-radius: 26rpx;
+}
+.tn-classify__tabbar__item--active--next.data-v-f1e13f9c {
+  border-top-right-radius: 26rpx;
+}
+.tn-classify__content.data-v-f1e13f9c {
+  margin: 18rpx;
+  /* 推荐商品 start */
+  /* 推荐商品 end */
+  /* 子栏目 start */
+  /* 子栏目 end */
+}
+.tn-classify__content__recomm.data-v-f1e13f9c {
+  margin-bottom: 40rpx;
+}
+.tn-classify__content__sub-classify.data-v-f1e13f9c {
+  margin-bottom: 20rpx;
+}
+.tn-classify__content__sub-classify--title.data-v-f1e13f9c {
+  font-weight: bold;
+  margin-bottom: 18rpx;
+}
+.tn-classify__content__sub-classify__content__item.data-v-f1e13f9c {
+  width: 33%;
+}
+.tn-classify__content__sub-classify__content__image.data-v-f1e13f9c {
+  background-color: rgba(188, 188, 188, 0.1);
+  border-radius: 12rpx;
+  margin: 10rpx;
+  margin-left: 0;
+  width: 100%;
+  height: 160rpx;
+  overflow: hidden;
+  border: 1rpx solid rgba(0, 0, 0, 0.02);
+}
+.tn-classify__content__sub-classify__content__image image.data-v-f1e13f9c {
+  width: 100%;
+  height: 160rpx;
+}
+.tn-classify__content__sub-classify__content__title.data-v-f1e13f9c {
+  margin-right: 10rpx;
+}
+

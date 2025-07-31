@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "preferred-tn-waterfall-right": "/pages/preferred/preferred-tn-waterfall-right",
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-tabs": "/tuniao-ui/components/tn-tabs/tn-tabs",
+    "tn-waterfall": "/tuniao-ui/components/tn-waterfall/tn-waterfall",
+    "tn-lazy-load": "/tuniao-ui/components/tn-lazy-load/tn-lazy-load",
+    "tn-load-more": "/tuniao-ui/components/tn-load-more/tn-load-more",
+    "tn-scroll-list": "/tuniao-ui/components/tn-scroll-list/tn-scroll-list"
+  }
+}

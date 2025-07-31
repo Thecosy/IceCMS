@@ -1,0 +1,62 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-landscape.data-v-02ab2808 {
+  width: 100%;
+  overflow: hidden;
+}
+.tn-landscape__container.data-v-02ab2808 {
+  max-width: 100%;
+  position: fixed;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.tn-landscape__icon.data-v-02ab2808 {
+  position: absolute;
+  text-align: center;
+  font-size: 50rpx;
+  color: #FFFFFF;
+}
+.tn-landscape__icon--left-top.data-v-02ab2808 {
+  top: -40rpx;
+  left: 20rpx;
+}
+.tn-landscape__icon--right-top.data-v-02ab2808 {
+  top: -40rpx;
+  right: 40rpx;
+}
+.tn-landscape__icon--bottom.data-v-02ab2808 {
+  left: 50%;
+  bottom: -40rpx;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+.tn-landscape__mask.data-v-02ab2808 {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  -webkit-transform: scale3d(1, 1, 0);
+          transform: scale3d(1, 1, 0);
+  transition: all 0.25s ease-in;
+}
+.tn-landscape__mask--show.data-v-02ab2808 {
+  opacity: 1 !important;
+  -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+}
+

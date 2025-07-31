@@ -1,0 +1,95 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-image-upload.data-v-4c370648 {
+  position: relative;
+}
+.tn-image-upload__movable-area.data-v-4c370648 {
+  width: 100%;
+}
+.tn-image-upload__movable-view.data-v-4c370648 {
+  overflow: hidden;
+}
+.tn-image-upload__item.data-v-4c370648 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200rpx;
+  height: 200rpx;
+  background-color: transparent;
+  position: relative;
+  border-radius: 5rpx;
+  overflow: hidden;
+}
+.tn-image-upload__item-preview.data-v-4c370648 {
+  border: 1rpx solid #F8F7F8;
+}
+.tn-image-upload__item-preview__delete.data-v-4c370648 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  border-top: 60rpx solid;
+  border-left: 60rpx solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.1);
+  width: 0rpx;
+  height: 0rpx;
+}
+.tn-image-upload__item-preview__delete--icon.data-v-4c370648 {
+  position: absolute;
+  top: -50rpx;
+  right: 6rpx;
+  color: #FFFFFF;
+  font-size: 24rpx;
+  line-height: 1;
+}
+.tn-image-upload__item-preview__progress.data-v-4c370648 {
+  position: absolute;
+  width: auto;
+  bottom: 0rpx;
+  left: 0rpx;
+  right: 0rpx;
+  z-index: 9;
+  display: inline-flex;
+}
+.tn-image-upload__item-preview__error-btn.data-v-4c370648 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  padding: 8rpx 0;
+  text-align: center;
+  z-index: 9;
+  line-height: 1;
+}
+.tn-image-upload__item-preview__image.data-v-4c370648 {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.tn-image-upload__item-add.data-v-4c370648 {
+  flex-direction: column;
+  color: #838383;
+  font-size: 26rpx;
+}
+.tn-image-upload__item-add--icon.data-v-4c370648 {
+  font-size: 40rpx;
+}
+.tn-image-upload__item-add__tips.data-v-4c370648 {
+  margin-top: 20rpx;
+  line-height: 40rpx;
+}
+.tn-image-upload__add.data-v-4c370648 {
+  background-color: #F8F7F8;
+  position: absolute;
+}
+

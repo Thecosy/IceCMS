@@ -1,0 +1,157 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+/* .tn-custom-nav-bar__back {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+  
+  .icon {
+    display: block;
+    flex: 1;
+    margin: auto;
+    text-align: center;
+  }
+  
+  &:before {
+    content: " ";
+    width: 1rpx;
+    height: 110%;
+    position: absolute;
+    top: 22.5%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transform: scale(0.5);
+    transform-origin: 0 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    opacity: 0.7;
+    background-color: #FFFFFF;
+  }
+} */
+/* 轮播视觉差 start */
+.card-swiper.data-v-c9d84634 {
+  height: 100vh !important;
+}
+.card-swiper swiper-item.data-v-c9d84634 {
+  width: 750rpx !important;
+  left: 0rpx;
+  box-sizing: border-box;
+  overflow: initial;
+}
+.card-swiper swiper-item .swiper-item.data-v-c9d84634 {
+  width: 100%;
+  display: block;
+  height: 100%;
+  border-radius: 0rpx;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  transition: all 0.2s ease-in 0s;
+  will-change: transform;
+  overflow: hidden;
+}
+.card-swiper swiper-item.cur .swiper-item.data-v-c9d84634 {
+  -webkit-transform: none;
+          transform: none;
+  transition: all 0.2s ease-in 0s;
+  will-change: transform;
+}
+.card-swiper swiper-item .swiper-item-png.data-v-c9d84634 {
+  margin-top: -85vh;
+  display: block;
+  border-radius: 0rpx;
+  -webkit-transform: translate(40rpx, 20rpx) scale(0.8, 0.8);
+          transform: translate(40rpx, 20rpx) scale(0.8, 0.8);
+  transition: all 0.6s ease 0s;
+  will-change: transform;
+  overflow: hidden;
+}
+.card-swiper swiper-item.cur .swiper-item-png.data-v-c9d84634 {
+  margin-top: -85vh;
+  -webkit-transform: translate(0rpx, 0rpx) scale(1, 1);
+          transform: translate(0rpx, 0rpx) scale(1, 1);
+  transition: all 0.6s ease 0s;
+  will-change: transform;
+}
+.card-swiper swiper-item .swiper-item-text.data-v-c9d84634 {
+  margin-top: 0rpx;
+  text-align: center;
+  width: 100%;
+  display: block;
+  height: 50%;
+  border-radius: 10rpx;
+  -webkit-transform: translate(0rpx, -40rpx) scale(0.7, 0.7);
+          transform: translate(0rpx, -40rpx) scale(0.7, 0.7);
+  transition: all 0.6s ease 0s;
+  will-change: transform;
+  overflow: hidden;
+}
+.card-swiper swiper-item.cur .swiper-item-text.data-v-c9d84634 {
+  margin-top: -60rpx;
+  width: 100%;
+  -webkit-transform: translate(0rpx, 0rpx) scale(0.9, 0.9);
+          transform: translate(0rpx, 0rpx) scale(0.9, 0.9);
+  transition: all 0.6s ease 0s;
+  will-change: transform;
+}
+.image-banner.data-v-c9d84634 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-banner image.data-v-c9d84634 {
+  width: 100%;
+}
+/* 轮播指示点 start*/
+.indication.data-v-c9d84634 {
+  z-index: 9999;
+  width: 100%;
+  height: 36rpx;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.spot.data-v-c9d84634 {
+  background-color: #FFF;
+  opacity: 0.4;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 20rpx;
+  margin: 0 8rpx !important;
+  right: -270rpx;
+  top: -180rpx;
+  position: relative;
+}
+.spot.active.data-v-c9d84634 {
+  opacity: 1;
+  width: 30rpx;
+  background-color: #FFF;
+}
+/* 立即体验 start*/
+.go.data-v-c9d84634 {
+  z-index: 9999;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  bottom: 10vh;
+}
+

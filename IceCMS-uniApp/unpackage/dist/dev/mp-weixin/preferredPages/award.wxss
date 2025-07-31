@@ -1,0 +1,298 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-6e9f091f {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-6e9f091f {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-6e9f091f:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* 内容 */
+.adver-wrap.data-v-6e9f091f {
+  position: relative;
+  z-index: 1;
+  margin-top: 600rpx;
+  border-radius: 80rpx 80rpx 0 0;
+}
+/* 毛玻璃*/
+.dd-glass.data-v-6e9f091f {
+  width: 100%;
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+}
+/* 用户头像 start */
+.user-image.data-v-6e9f091f {
+  width: 90rpx;
+  height: 90rpx;
+  position: relative;
+}
+.user-pic.data-v-6e9f091f {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+/* 截图图片 start */
+.screenshot-img.data-v-6e9f091f {
+  z-index: -1;
+  padding: 20rpx;
+}
+.screenshot-img image.data-v-6e9f091f {
+  width: 100%;
+  display: block;
+}
+.banner.data-v-6e9f091f {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  transition: all 0.25s ease-out;
+  will-change: transform;
+  z-index: -1;
+}
+/* 轮播视觉差 start */
+.card-swiper.data-v-6e9f091f {
+  height: 654rpx !important;
+}
+.card-swiper swiper-item.data-v-6e9f091f {
+  width: 750rpx !important;
+  left: 0rpx;
+  box-sizing: border-box;
+  overflow: initial;
+}
+.card-swiper swiper-item .swiper-item.data-v-6e9f091f {
+  width: 100%;
+  display: block;
+  height: 100%;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  transition: all 0.2s ease-in 0s;
+  will-change: transform;
+  overflow: hidden;
+  border-radius: 0 0 60rpx 60rpx;
+}
+.card-swiper swiper-item.cur .swiper-item.data-v-6e9f091f {
+  -webkit-transform: none;
+          transform: none;
+  transition: all 0.2s ease-in 0s;
+  will-change: transform;
+  border-radius: 0 0 60rpx 60rpx;
+}
+.card-swiper swiper-item .swiper-item-text.data-v-6e9f091f {
+  margin-top: -235rpx;
+  width: 100%;
+  display: block;
+  height: 50%;
+  -webkit-transform: scale(0.8, 0.8);
+          transform: scale(0.8, 0.8);
+  transition: all 0.6s ease 0s;
+  will-change: transform;
+  overflow: hidden;
+}
+.card-swiper swiper-item.cur .swiper-item-text.data-v-6e9f091f {
+  margin-top: -230rpx;
+  margin-left: 10rpx;
+  width: 100%;
+  -webkit-transform: scale(0.9, 0.9);
+          transform: scale(0.9, 0.9);
+  transition: all 0.6s ease 0s;
+  will-change: transform;
+}
+.image-banner.data-v-6e9f091f {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-banner image.data-v-6e9f091f {
+  width: 100%;
+  height: 100%;
+}
+/* 轮播指示点 start*/
+.indication.data-v-6e9f091f {
+  z-index: 9999;
+  width: 100%;
+  height: 36rpx;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.spot.data-v-6e9f091f {
+  background-color: #FFFFFF;
+  opacity: 0.6;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 20rpx;
+  top: -50rpx;
+  margin: 0 8rpx !important;
+  position: relative;
+}
+.spot.active.data-v-6e9f091f {
+  opacity: 1;
+  width: 30rpx;
+  background-color: #FFFFFF;
+}
+/* 阴影 start*/
+.tn-shadow.data-v-6e9f091f {
+  border-radius: 15rpx;
+  box-shadow: 0rpx 0rpx 50rpx 0rpx rgba(0, 0, 0, 0.07);
+}
+/* 标题 start */
+.nav_title.data-v-6e9f091f {
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.nav_title--wrap.data-v-6e9f091f {
+  position: relative;
+  display: flex;
+  height: 120rpx;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background-image: url(https://resource.tuniaokj.com/images/title_bg/title44.png);
+  background-size: cover;
+}
+/* 标题 end */
+/* 标题2 start */
+.nav_title2.data-v-6e9f091f {
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.nav_title2--wrap.data-v-6e9f091f {
+  position: relative;
+  display: flex;
+  height: 120rpx;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background-size: cover;
+}
+/* 标题2 end */
+/* 优惠券 start */
+.tn-info__container.data-v-6e9f091f {
+  margin-top: 10rpx;
+  margin-bottom: 50rpx;
+}
+.tn-info__item.data-v-6e9f091f {
+  width: 100%;
+  margin: 15rpx 0rpx 50rpx 0rpx;
+  padding: 20rpx 30rpx;
+  border-radius: 10rpx;
+  position: relative;
+  z-index: 1;
+}
+.tn-info__item.data-v-6e9f091f::after {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  border-radius: inherit;
+  opacity: 1;
+  -webkit-transform: scale(1, 1);
+          transform: scale(1, 1);
+  background-size: 100% 100%;
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/2.png);
+}
+.tn-info__item__left--icon.data-v-6e9f091f {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+  font-size: 40rpx;
+  margin-right: 0rpx;
+  position: relative;
+  z-index: 1;
+}
+.tn-info__item__left--icon.data-v-6e9f091f::after {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  border-radius: inherit;
+  opacity: 1;
+  -webkit-transform: scale(1, 1);
+          transform: scale(1, 1);
+  background-size: 100% 100%;
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/icon_bg5.png);
+}
+.tn-info__item__left__content.data-v-6e9f091f {
+  font-size: 25rpx;
+}
+.tn-info__item__left__content--data.data-v-6e9f091f {
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 5rpx;
+}
+.tn-info__item__bottom.data-v-6e9f091f {
+  box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(0, 0, 0, 0.12);
+  border-radius: 0 0 10rpx 10rpx;
+  position: absolute;
+  width: 85%;
+  line-height: 36rpx;
+  left: 50%;
+  bottom: -36rpx;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  z-index: -1;
+  text-align: center;
+}
+/* 业务展示 end */
+/* 底部悬浮按钮 start*/
+.tn-tabbar-height.data-v-6e9f091f {
+  min-height: 120rpx;
+  height: calc(140rpx + env(safe-area-inset-bottom) / 2);
+}
+.tn-footerfixed.data-v-6e9f091f {
+  border-radius: 50rpx 50rpx 0 0;
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(0, 0, 0, 0.07);
+  bottom: 0;
+  width: 100%;
+  transition: all 0.25s ease-out;
+  will-change: transform;
+  z-index: 100;
+}
+

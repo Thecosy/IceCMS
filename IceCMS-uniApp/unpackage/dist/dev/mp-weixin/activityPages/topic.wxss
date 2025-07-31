@@ -1,0 +1,133 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-78dde3f7 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-78dde3f7 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-78dde3f7:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* 粒子背景 start*/
+.template-topic.data-v-78dde3f7 {
+  background: linear-gradient(90deg, #892FE8, #3D7EFF);
+  min-height: 100vh;
+}
+.mycanvas.data-v-78dde3f7 {
+  position: fixed;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+}
+.topic.data-v-78dde3f7 {
+  position: relative;
+  height: 100%;
+  z-index: 1;
+  margin-bottom: 120rpx;
+  /* 表单信息 start */
+  /* 表单信息 end */
+  /* 内容 end */
+}
+.topic__info.data-v-78dde3f7 {
+  margin: 105rpx 50rpx 0rpx 50rpx;
+  padding: 30rpx 50rpx 50rpx 50rpx;
+  border-radius: 20rpx;
+  background-color: white;
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0rpx 10rpx 50rpx 0rpx rgba(0, 3, 72, 0.1);
+}
+.topic__info__item__input.data-v-78dde3f7 {
+  margin-top: 59rpx;
+  width: 100%;
+  height: 77rpx;
+  border: 1rpx solid #C6D1D8;
+  border-radius: 39rpx;
+}
+.topic__info__item__input__left-icon.data-v-78dde3f7 {
+  width: 10%;
+  font-size: 44rpx;
+  margin-left: 20rpx;
+  color: #78909C;
+}
+.topic__info__item__input__content.data-v-78dde3f7 {
+  width: 80%;
+  padding-left: 10rpx;
+}
+.topic__info__item__input__content--verify-code.data-v-78dde3f7 {
+  width: 56%;
+}
+.topic__info__item__input__content input.data-v-78dde3f7 {
+  font-size: 30rpx;
+  color: #78909C;
+}
+.topic__info__item__input__right-icon.data-v-78dde3f7 {
+  width: 10%;
+  font-size: 34rpx;
+  margin-right: 20rpx;
+  color: #78909C;
+}
+.topic__info__item__input__right-verify-code.data-v-78dde3f7 {
+  width: 34%;
+  margin-right: 20rpx;
+}
+.topic__info__item__button.data-v-78dde3f7 {
+  margin-top: 59rpx;
+  width: 100%;
+  height: 77rpx;
+  text-align: center;
+  font-size: 31rpx;
+  font-weight: bold;
+  line-height: 77rpx;
+  border-radius: 100rpx;
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.topic__info__item__sure.data-v-78dde3f7 {
+  margin-top: 75rpx;
+  margin-bottom: 39rpx;
+  width: 100%;
+  letter-spacing: 0.5em;
+}
+.data-v-78dde3f7 .input-placeholder {
+  font-size: 30rpx;
+  color: #C6D1D8;
+}
+

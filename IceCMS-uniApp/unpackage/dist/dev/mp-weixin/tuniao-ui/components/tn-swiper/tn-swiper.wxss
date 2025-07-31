@@ -1,0 +1,96 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-swiper__wrap.data-v-4ba19b58 {
+  position: relative;
+  overflow: hidden;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+}
+.tn-swiper__item.data-v-4ba19b58 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+.tn-swiper__item__image.data-v-4ba19b58 {
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  display: block;
+}
+.tn-swiper__item__image__wrap.data-v-4ba19b58 {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  transition: all 0.5s;
+  overflow: hidden;
+  box-sizing: content-box;
+  position: relative;
+}
+.tn-swiper__item__image--scale.data-v-4ba19b58 {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+.tn-swiper__item__title.data-v-4ba19b58 {
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
+  bottom: 0;
+  left: 0;
+  font-size: 28rpx;
+  padding: 12rpx 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+.tn-swiper__indicator.data-v-4ba19b58 {
+  padding: 0 24rpx;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  z-index: 1;
+}
+.tn-swiper__indicator__rect.data-v-4ba19b58 {
+  width: 26rpx;
+  height: 8rpx;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: all 0.5s;
+}
+.tn-swiper__indicator__rect--active.data-v-4ba19b58 {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.tn-swiper__indicator__dot.data-v-4ba19b58 {
+  width: 14rpx;
+  height: 14rpx;
+  margin: 0 6rpx;
+  border-radius: 20rpx;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: all 0.5s;
+}
+.tn-swiper__indicator__dot--active.data-v-4ba19b58 {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.tn-swiper__indicator__round.data-v-4ba19b58 {
+  width: 14rpx;
+  height: 14rpx;
+  margin: 0 6rpx;
+  border-radius: 20rpx;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: all 0.5s;
+}
+.tn-swiper__indicator__round--active.data-v-4ba19b58 {
+  width: 34rpx;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.tn-swiper__indicator__number.data-v-4ba19b58 {
+  padding: 6rpx 16rpx;
+  line-height: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 100rpx;
+  font-size: 26rpx;
+}
+

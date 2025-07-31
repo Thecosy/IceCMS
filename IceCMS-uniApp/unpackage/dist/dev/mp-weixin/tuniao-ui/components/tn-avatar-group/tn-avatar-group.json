@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "tn-avatar": "/tuniao-ui/components/tn-avatar/tn-avatar"
+  }
+}

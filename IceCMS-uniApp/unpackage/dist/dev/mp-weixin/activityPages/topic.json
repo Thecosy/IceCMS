@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "快速答题",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-circle-progress": "/tuniao-ui/components/tn-circle-progress/tn-circle-progress"
+  }
+}

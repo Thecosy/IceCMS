@@ -1,0 +1,1 @@
+<block wx:if="{{show}}"><view class="{{['tn-loading-class','tn-loading','data-v-d9b3fcc8','tn-loading-'+mode,animation?'tn-loading-'+mode+'--animation':'']}}" style="{{$root.s0}}"></view></block>

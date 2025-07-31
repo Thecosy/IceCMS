@@ -1,0 +1,1 @@
+<view class="tn-sticky-class"><view class="{{['tn-sticky__wrap',stickyClass]}}" style="{{$root.s0}}"><view class="tn-sticky__item" style="{{'position:'+(fixed?'fixed':'static')+';'+('top:'+(stickyTop+'px')+';')+('left:'+(left+'px')+';')+('width:'+(width==='auto'?'auto':width+'px')+';')+('z-index:'+(elZIndex)+';')}}"><slot></slot></view></view></view>

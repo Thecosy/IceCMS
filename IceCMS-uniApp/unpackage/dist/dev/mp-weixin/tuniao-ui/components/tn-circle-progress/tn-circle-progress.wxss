@@ -1,0 +1,28 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-circle-progress.data-v-5206e2dc {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+.tn-circle-progress__canvas.data-v-5206e2dc {
+  position: absolute;
+}
+.tn-circle-progress__canvas-bg.data-v-5206e2dc {
+  position: absolute;
+}
+.tn-circle-progress__content.data-v-5206e2dc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tn-circle-progress__content__percent.data-v-5206e2dc {
+  font-size: 28rpx;
+}
+

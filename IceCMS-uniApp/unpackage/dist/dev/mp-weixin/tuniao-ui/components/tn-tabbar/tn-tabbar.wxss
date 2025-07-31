@@ -1,0 +1,184 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-tabbar__content.data-v-3972e4a0 {
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  z-index: 1024;
+}
+.tn-tabbar__content__out.data-v-3972e4a0 {
+  position: absolute;
+  z-index: 4;
+  border-radius: 100%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+.tn-tabbar__content__out--shadow.data-v-3972e4a0 {
+  box-shadow: 0rpx -10rpx 30rpx 0rpx rgba(0, 0, 0, 0.05);
+}
+.tn-tabbar__content__out--shadow.data-v-3972e4a0::before {
+  content: " ";
+  position: absolute;
+  width: 100%;
+  height: 50rpx;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: inherit;
+}
+.tn-tabbar__content__out--animation--scale.data-v-3972e4a0 {
+  -webkit-transform-origin: 50% 100%;
+          transform-origin: 50% 100%;
+  -webkit-animation: tabbar-content-out-click-data-v-3972e4a0 0.2s forwards 1 ease-in-out;
+          animation: tabbar-content-out-click-data-v-3972e4a0 0.2s forwards 1 ease-in-out;
+}
+.tn-tabbar__content__item.data-v-3972e4a0 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+.tn-tabbar__content__item__button.data-v-3972e4a0 {
+  margin-bottom: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.tn-tabbar__content__item__button--out.data-v-3972e4a0 {
+  margin-bottom: 10rpx;
+  border-radius: 50%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 6;
+}
+.tn-tabbar__content__item__button--out--animation--scale.data-v-3972e4a0 {
+  -webkit-transform-origin: 50% 100%;
+          transform-origin: 50% 100%;
+  -webkit-animation: tabbar-item-button-out-click-data-v-3972e4a0 0.2s forwards 1;
+          animation: tabbar-item-button-out-click-data-v-3972e4a0 0.2s forwards 1;
+}
+.tn-tabbar__content__item__button--animation--scale .tn-tabbar__content__item__icon.data-v-3972e4a0, .tn-tabbar__content__item__button--animation--scale .tn-tabbar__content__item__image.data-v-3972e4a0 {
+  -webkit-transform-origin: 50% 100%;
+          transform-origin: 50% 100%;
+  -webkit-animation: tabbar-item-button-click-data-v-3972e4a0 0.2s forwards 1;
+          animation: tabbar-item-button-click-data-v-3972e4a0 0.2s forwards 1;
+}
+.tn-tabbar__content__item__icon--clip.data-v-3972e4a0 {
+  -webkit-background-clip: text;
+  color: transparent !important;
+}
+.tn-tabbar__content__item__text.data-v-3972e4a0 {
+  width: 100%;
+  font-size: 26rpx;
+  line-height: 28rpx;
+  text-align: center;
+  margin-bottom: 10rpx;
+  z-index: 10;
+  transition: all 0.2s ease-in-out;
+}
+.tn-tabbar__content__item--out.data-v-3972e4a0 {
+  height: calc(100% - 1px);
+}
+.tn-tabbar--fixed.data-v-3972e4a0 {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.tn-tabbar--shadow.data-v-3972e4a0 {
+  box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(0, 0, 0, 0.07);
+}
+/* 点击动画 start */
+@-webkit-keyframes tabbar-item-button-click-data-v-3972e4a0 {
+from {
+    -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+}
+to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}
+@keyframes tabbar-item-button-click-data-v-3972e4a0 {
+from {
+    -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+}
+to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}
+@-webkit-keyframes tabbar-item-button-out-click-data-v-3972e4a0 {
+0% {
+    -webkit-transform: translateY(0) scale(1);
+            transform: translateY(0) scale(1);
+}
+50% {
+    -webkit-transform: translateY(-10rpx) scale(1.2);
+            transform: translateY(-10rpx) scale(1.2);
+}
+100% {
+    -webkit-transform: translateY(0) scale(1);
+            transform: translateY(0) scale(1);
+}
+}
+@keyframes tabbar-item-button-out-click-data-v-3972e4a0 {
+0% {
+    -webkit-transform: translateY(0) scale(1);
+            transform: translateY(0) scale(1);
+}
+50% {
+    -webkit-transform: translateY(-10rpx) scale(1.2);
+            transform: translateY(-10rpx) scale(1.2);
+}
+100% {
+    -webkit-transform: translateY(0) scale(1);
+            transform: translateY(0) scale(1);
+}
+}
+@-webkit-keyframes tabbar-content-out-click-data-v-3972e4a0 {
+0% {
+    -webkit-transform: translateX(-50%) translateY(0) scale(1);
+            transform: translateX(-50%) translateY(0) scale(1);
+}
+50% {
+    -webkit-transform: translateX(-50%) translateY(-10rpx) scale(1.1);
+            transform: translateX(-50%) translateY(-10rpx) scale(1.1);
+}
+100% {
+    -webkit-transform: translateX(-50%) translateY(0) scale(1);
+            transform: translateX(-50%) translateY(0) scale(1);
+}
+}
+@keyframes tabbar-content-out-click-data-v-3972e4a0 {
+0% {
+    -webkit-transform: translateX(-50%) translateY(0) scale(1);
+            transform: translateX(-50%) translateY(0) scale(1);
+}
+50% {
+    -webkit-transform: translateX(-50%) translateY(-10rpx) scale(1.1);
+            transform: translateX(-50%) translateY(-10rpx) scale(1.1);
+}
+100% {
+    -webkit-transform: translateX(-50%) translateY(0) scale(1);
+            transform: translateX(-50%) translateY(0) scale(1);
+}
+}
+/* 点击动画 end */
+

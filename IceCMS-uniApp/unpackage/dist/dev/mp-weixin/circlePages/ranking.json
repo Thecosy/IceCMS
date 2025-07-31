@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "积分排行",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar"
+  }
+}

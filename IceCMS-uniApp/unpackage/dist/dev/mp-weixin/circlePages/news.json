@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "资讯详情",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-avatar-group": "/tuniao-ui/components/tn-avatar-group/tn-avatar-group",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button"
+  }
+}

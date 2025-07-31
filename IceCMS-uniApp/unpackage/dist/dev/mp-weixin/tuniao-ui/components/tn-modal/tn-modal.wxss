@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-modal__box.data-v-3a2c8cbc {
+  position: relative;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  padding: 40rpx 64rpx;
+}
+.tn-modal__box__title.data-v-3a2c8cbc {
+  text-align: center;
+  font-size: 34rpx;
+  color: #333;
+  padding-top: 20rpx;
+  font-weight: bold;
+}
+.tn-modal__box__content.data-v-3a2c8cbc {
+  text-align: center;
+  padding-bottom: 30rpx;
+  color: #080808;
+  font-size: 28rpx;
+}
+.tn-modal__box__content--no-title.data-v-3a2c8cbc {
+  padding-bottom: 0rpx !important;
+}
+.tn-modal__box__btn-box.data-v-3a2c8cbc {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tn-modal__box__content ~ .tn-modal__box__btn-box.data-v-3a2c8cbc {
+  margin-top: 30rpx;
+}
+

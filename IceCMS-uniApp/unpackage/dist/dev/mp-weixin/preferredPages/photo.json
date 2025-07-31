@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "商家相册",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-lazy-load": "/tuniao-ui/components/tn-lazy-load/tn-lazy-load"
+  }
+}

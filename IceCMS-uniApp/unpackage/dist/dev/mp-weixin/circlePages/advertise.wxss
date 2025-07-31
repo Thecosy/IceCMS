@@ -1,0 +1,202 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-dcf42be4 {
+  width: 36%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-dcf42be4 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+/* 渐变*/
+.tn-navbg.data-v-dcf42be4 {
+  margin: 0;
+  color: #fff;
+  background: linear-gradient(-120deg, #F15BB5, #9A5CE5, #01BEFF, #00F5D4);
+  /* background: linear-gradient(-120deg,  #9A5CE5, #01BEFF, #00F5D4, #43e97b); */
+  /* background: linear-gradient(-120deg,#c471f5, #ec008c, #ff4e50,#f9d423); */
+  /* background: linear-gradient(-120deg, #0976ea, #c471f5, #f956b6, #ea7e0a); */
+  background-size: 500% 500%;
+  -webkit-animation: gradientBG-data-v-dcf42be4 15s ease infinite;
+          animation: gradientBG-data-v-dcf42be4 15s ease infinite;
+}
+@-webkit-keyframes gradientBG-data-v-dcf42be4 {
+0% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: 0% 50%;
+}
+}
+@keyframes gradientBG-data-v-dcf42be4 {
+0% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: 0% 50%;
+}
+}
+/* 内容 */
+.adver-wrap.data-v-dcf42be4 {
+  position: relative;
+  z-index: 1;
+  margin-top: 700rpx;
+  border-radius: 80rpx 80rpx 0 0;
+}
+/* 毛玻璃*/
+.dd-glass.data-v-dcf42be4 {
+  width: 100%;
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+}
+/* 用户头像 start */
+.user-image.data-v-dcf42be4 {
+  width: 90rpx;
+  height: 90rpx;
+  position: relative;
+}
+.user-pic.data-v-dcf42be4 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+/* 富文本图示意 start */
+.detail-img.data-v-dcf42be4 {
+  z-index: -1;
+  padding-bottom: 40rpx;
+}
+.detail-img image.data-v-dcf42be4 {
+  width: 100%;
+  margin: 20rpx 0;
+}
+.banner.data-v-dcf42be4 {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  transition: all 0.25s ease-out;
+  will-change: transform;
+  z-index: -1;
+}
+/* 轮播视觉差 start */
+.card-swiper.data-v-dcf42be4 {
+  height: 800rpx !important;
+}
+.card-swiper swiper-item.data-v-dcf42be4 {
+  width: 750rpx !important;
+  left: 0rpx;
+  box-sizing: border-box;
+  overflow: initial;
+}
+.card-swiper swiper-item .swiper-item.data-v-dcf42be4 {
+  width: 100%;
+  display: block;
+  height: 100%;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  transition: all 0.2s ease-in 0s;
+  will-change: transform;
+  overflow: hidden;
+}
+.card-swiper swiper-item.cur .swiper-item.data-v-dcf42be4 {
+  -webkit-transform: none;
+          transform: none;
+  transition: all 0.2s ease-in 0s;
+  will-change: transform;
+}
+.card-swiper swiper-item .swiper-item-text.data-v-dcf42be4 {
+  margin-top: -320rpx;
+  width: 100%;
+  display: block;
+  height: 50%;
+  border-radius: 10rpx;
+  -webkit-transform: translate(100rpx, -60rpx) scale(0.9, 0.9);
+          transform: translate(100rpx, -60rpx) scale(0.9, 0.9);
+  transition: all 0.6s ease 0s;
+  will-change: transform;
+  overflow: hidden;
+}
+.card-swiper swiper-item.cur .swiper-item-text.data-v-dcf42be4 {
+  margin-top: -380rpx;
+  width: 100%;
+  -webkit-transform: translate(0rpx, 0rpx) scale(0.9, 0.9);
+          transform: translate(0rpx, 0rpx) scale(0.9, 0.9);
+  transition: all 0.6s ease 0s;
+  will-change: transform;
+}
+.image-banner.data-v-dcf42be4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-banner image.data-v-dcf42be4 {
+  width: 100%;
+  height: 100%;
+}
+/* 轮播指示点 start*/
+.indication.data-v-dcf42be4 {
+  z-index: 9999;
+  width: 100%;
+  height: 36rpx;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.spot.data-v-dcf42be4 {
+  background-color: #FFFFFF;
+  opacity: 0.6;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 20rpx;
+  top: -150rpx;
+  margin: 0 8rpx !important;
+  position: relative;
+}
+.spot.active.data-v-dcf42be4 {
+  opacity: 1;
+  width: 30rpx;
+  background-color: #FFFFFF;
+}
+/* 底部悬浮按钮 start*/
+.tn-tabbar-height.data-v-dcf42be4 {
+  min-height: 120rpx;
+  height: calc(140rpx + env(safe-area-inset-bottom) / 2);
+}
+.tn-footerfixed.data-v-dcf42be4 {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(0, 0, 0, 0.07);
+  bottom: 0;
+  width: 100%;
+  transition: all 0.25s ease-out;
+  will-change: transform;
+  z-index: 100;
+}
+

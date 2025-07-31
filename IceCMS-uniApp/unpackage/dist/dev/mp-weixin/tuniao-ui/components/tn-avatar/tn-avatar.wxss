@@ -1,0 +1,77 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-avatar.data-v-27426dd6 {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: #E6E6E6;
+  white-space: nowrap;
+  position: relative;
+  width: 64rpx;
+  height: 64rpx;
+  z-index: 1;
+}
+.tn-avatar--sm.data-v-27426dd6 {
+  width: 48rpx;
+  height: 48rpx;
+}
+.tn-avatar--lg.data-v-27426dd6 {
+  width: 96rpx;
+  height: 96rpx;
+}
+.tn-avatar--xl.data-v-27426dd6 {
+  width: 128rpx;
+  height: 128rpx;
+}
+.tn-avatar--square.data-v-27426dd6 {
+  border-radius: 10rpx;
+}
+.tn-avatar--circle.data-v-27426dd6 {
+  border-radius: 5000rpx;
+}
+.tn-avatar--shadow.data-v-27426dd6 {
+  position: relative;
+}
+.tn-avatar--shadow.data-v-27426dd6::after {
+  content: " ";
+  display: block;
+  background: inherit;
+  -webkit-filter: blur(10rpx);
+          filter: blur(10rpx);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 10rpx;
+  left: 10rpx;
+  z-index: -1;
+  opacity: 0.4;
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  border-radius: inherit;
+  -webkit-transform: scale(1, 1);
+          transform: scale(1, 1);
+}
+.tn-avatar__img.data-v-27426dd6 {
+  width: 100%;
+  height: 100%;
+}
+.tn-avatar__img--square.data-v-27426dd6 {
+  border-radius: 10rpx;
+}
+.tn-avatar__img--circle.data-v-27426dd6 {
+  border-radius: 5000rpx;
+}
+.tn-avatar__text.data-v-27426dd6 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+

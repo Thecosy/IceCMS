@@ -1,0 +1,142 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-1c08cc7e {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-1c08cc7e {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-1c08cc7e:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+.tn-tabbar-height.data-v-1c08cc7e {
+  min-height: 100rpx;
+  height: calc(120rpx + env(safe-area-inset-bottom) / 2);
+}
+/* 用户头像 start */
+.logo-image.data-v-1c08cc7e {
+  width: 80rpx;
+  height: 80rpx;
+  position: relative;
+}
+.logo-pic.data-v-1c08cc7e {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  border-radius: 50%;
+}
+.bg-img-cont.data-v-1c08cc7e {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 260rpx;
+  width: 55vw;
+  margin: 10rpx 0 0 0;
+  border-radius: 12rpx;
+}
+/* 聊天*/
+.tnchat1.data-v-1c08cc7e {
+  border-style: solid;
+  border-width: 71rpx;
+  border-image-source: url(https://cdn.nlark.com/yuque/0/2022/png/280373/1656388937089-assets/web-upload/9d92dfd6-3486-4be9-a933-0ae160bdfc86.png);
+  border-image-slice: 71 71 71 71 fill;
+  border-image-repeat: repeat;
+  word-break: break-word;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+.tnchat2.data-v-1c08cc7e {
+  border-style: solid;
+  border-width: 26rpx 43rpx;
+  border-image-source: url(https://cdn.nlark.com/yuque/0/2022/png/280373/1656471916508-assets/web-upload/e2305ffa-d1c7-435c-adae-2b3f0bc0da41.png);
+  border-image-slice: 26 43 26 43 fill;
+  border-image-repeat: repeat;
+  word-break: break-word;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+.tnchat3.data-v-1c08cc7e {
+  border-style: solid;
+  border-width: 26rpx 43rpx;
+  border-image-source: url(https://cdn.nlark.com/yuque/0/2022/png/280373/1656562395500-assets/web-upload/2662c10c-061b-403d-9289-1165d9ee9e7b.png);
+  border-image-slice: 26 43 26 43 fill;
+  border-image-repeat: repeat;
+  word-break: break-word;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+.tnchat4.data-v-1c08cc7e {
+  border-style: solid;
+  border-width: 26rpx 43rpx;
+  border-image-source: url(https://cdn.nlark.com/yuque/0/2022/png/280373/1656562336904-assets/web-upload/ad050d7f-3bdd-4de5-9e67-500f778b20e4.png);
+  border-image-slice: 26 43 26 43 fill;
+  border-image-repeat: repeat;
+  word-break: break-word;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+.tnchat5.data-v-1c08cc7e {
+  border-style: solid;
+  border-width: 26rpx 43rpx;
+  border-image-source: url(https://cdn.nlark.com/yuque/0/2022/png/280373/1656562607434-assets/web-upload/cf008270-2a2c-4fac-82b1-b558d8a92230.png);
+  border-image-slice: 26 43 26 43 fill;
+  border-image-repeat: repeat;
+  word-break: break-word;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+.tnchat6.data-v-1c08cc7e {
+  border-style: solid;
+  border-width: 26rpx 43rpx;
+  border-image-source: url(https://cdn.nlark.com/yuque/0/2022/png/280373/1656598070402-assets/web-upload/e123a1e3-6235-4d39-81d5-33d221d7a960.png);
+  border-image-slice: 26 43 26 43 fill;
+  border-image-repeat: repeat;
+  word-break: break-word;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+.tnchat7.data-v-1c08cc7e {
+  border-style: solid;
+  border-width: 26rpx 43rpx;
+  border-image-source: url(https://cdn.nlark.com/yuque/0/2022/png/280373/1656602660855-assets/web-upload/9c698bba-af80-47bf-9ee4-3a78e0288fc4.png);
+  border-image-slice: 26 43 26 43 fill;
+  border-image-repeat: repeat;
+  word-break: break-word;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+

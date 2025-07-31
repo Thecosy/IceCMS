@@ -1,0 +1,362 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-0d60e3e3 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-0d60e3e3 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-0d60e3e3:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* 内容*/
+.reserve.data-v-0d60e3e3 {
+  position: relative;
+  z-index: 99;
+}
+.reserve-content.data-v-0d60e3e3 {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 30rpx;
+}
+/* 标签 */
+.blogger__item.data-v-0d60e3e3 {
+  padding: 30rpx;
+}
+.blogger__desc.data-v-0d60e3e3 {
+  line-height: 55rpx;
+}
+.blogger__desc__label.data-v-0d60e3e3 {
+  padding: 0 20rpx;
+  margin: 0rpx 18rpx 0 0;
+}
+.blogger__desc__label--prefix.data-v-0d60e3e3 {
+  color: #00FFC8;
+  padding-right: 10rpx;
+}
+/* 文字截取*/
+.clamp-text-1.data-v-0d60e3e3 {
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.clamp-text-2.data-v-0d60e3e3 {
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+/* 毛玻璃*/
+.dd-glass.data-v-0d60e3e3 {
+  width: 100%;
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+}
+/* 毛玻璃*/
+.dd-glass2.data-v-0d60e3e3 {
+  backdrop-filter: blur(8rpx);
+  -webkit-backdrop-filter: blur(8rpx);
+}
+/* 用户头像 start */
+.user-image.data-v-0d60e3e3 {
+  width: 70rpx;
+  height: 70rpx;
+  position: relative;
+}
+.user-pic.data-v-0d60e3e3 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  border-radius: 100rpx;
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+/* 底部悬浮按钮 start*/
+.tn-tabbar-height.data-v-0d60e3e3 {
+  min-height: 120rpx;
+  height: calc(140rpx + env(safe-area-inset-bottom) / 2);
+}
+.tn-footerfixed.data-v-0d60e3e3 {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(0, 0, 0, 0.07);
+  bottom: 0;
+  width: 100%;
+  transition: all 0.25s ease-out;
+  z-index: 100;
+}
+/* 相册 start*/
+.slideshow.data-v-0d60e3e3 {
+  top: 0;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+}
+.slideshow-image.data-v-0d60e3e3 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: no-repeat 50% 50%;
+  background-size: cover;
+  -webkit-animation-name: kenburns;
+  animation-name: kenburns;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-duration: 16s;
+  animation-duration: 16s;
+  opacity: 1;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+}
+.slideshow-image.data-v-0d60e3e3:nth-child(1) {
+  -webkit-animation-name: kenburns-1-data-v-0d60e3e3;
+  animation-name: kenburns-1-data-v-0d60e3e3;
+  z-index: 3;
+}
+.slideshow-image.data-v-0d60e3e3:nth-child(2) {
+  -webkit-animation-name: kenburns-2-data-v-0d60e3e3;
+  animation-name: kenburns-2-data-v-0d60e3e3;
+  z-index: 2;
+}
+.slideshow-image.data-v-0d60e3e3:nth-child(3) {
+  -webkit-animation-name: kenburns-3-data-v-0d60e3e3;
+  animation-name: kenburns-3-data-v-0d60e3e3;
+  z-index: 1;
+}
+.slideshow-image.data-v-0d60e3e3:nth-child(4) {
+  -webkit-animation-name: kenburns-4-data-v-0d60e3e3;
+  animation-name: kenburns-4-data-v-0d60e3e3;
+  z-index: 0;
+}
+@-webkit-keyframes kenburns-1-data-v-0d60e3e3 {
+0% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+1.5625% {
+    opacity: 1;
+}
+23.4375% {
+    opacity: 1;
+}
+26.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+98.4375% {
+    opacity: 0;
+    -webkit-transform: scale(1.21176);
+            transform: scale(1.21176);
+}
+100% {
+    opacity: 1;
+}
+}
+@keyframes kenburns-1-data-v-0d60e3e3 {
+0% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+1.5625% {
+    opacity: 1;
+}
+23.4375% {
+    opacity: 1;
+}
+26.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+98.4375% {
+    opacity: 0;
+    -webkit-transform: scale(1.21176);
+            transform: scale(1.21176);
+}
+100% {
+    opacity: 1;
+}
+}
+@-webkit-keyframes kenburns-2-data-v-0d60e3e3 {
+23.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+26.5625% {
+    opacity: 1;
+}
+48.4375% {
+    opacity: 1;
+}
+51.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+}
+@keyframes kenburns-2-data-v-0d60e3e3 {
+23.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+26.5625% {
+    opacity: 1;
+}
+48.4375% {
+    opacity: 1;
+}
+51.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+}
+@-webkit-keyframes kenburns-3-data-v-0d60e3e3 {
+48.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+51.5625% {
+    opacity: 1;
+}
+73.4375% {
+    opacity: 1;
+}
+76.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+}
+@keyframes kenburns-3-data-v-0d60e3e3 {
+48.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+51.5625% {
+    opacity: 1;
+}
+73.4375% {
+    opacity: 1;
+}
+76.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+}
+@-webkit-keyframes kenburns-4-data-v-0d60e3e3 {
+73.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+76.5625% {
+    opacity: 1;
+}
+98.4375% {
+    opacity: 1;
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}
+@keyframes kenburns-4-data-v-0d60e3e3 {
+73.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+76.5625% {
+    opacity: 1;
+}
+98.4375% {
+    opacity: 1;
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}
+/* 相册 end*/
+

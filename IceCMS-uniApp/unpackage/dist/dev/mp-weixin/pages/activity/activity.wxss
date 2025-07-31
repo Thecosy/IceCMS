@@ -1,0 +1,408 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.template-activity.data-v-00316766 {
+  max-height: 100vh;
+}
+.tn-tabbar-height.data-v-00316766 {
+  min-height: 120rpx;
+  height: calc(140rpx + env(safe-area-inset-bottom) / 2);
+}
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-00316766 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-00316766 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-00316766:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* .tnphone-white-min 细边框*/
+.tnphone-white-min.data-v-00316766 {
+  width: 380rpx;
+  height: 800rpx;
+  border-radius: 40rpx;
+  background: #E9E5F3;
+  padding: 7rpx;
+  display: table;
+  color: #333;
+  box-sizing: border-box;
+  box-shadow: 0rpx 10rpx 50rpx 0rpx rgba(0, 0, 0, 0.15);
+  margin: 70rpx auto;
+  cursor: default;
+  position: relative;
+}
+.tnphone-white-min .skin.data-v-00316766 {
+  width: 100%;
+  height: 100%;
+  border-radius: 40rpx;
+  background: #E9E5F3;
+  padding: 10rpx;
+}
+.tnphone-white-min .screen.data-v-00316766 {
+  width: 100%;
+  height: 100%;
+  border-radius: 30rpx;
+  background: #E9E5F3;
+  position: relative;
+  overflow: hidden;
+}
+.tnphone-white-min .head.data-v-00316766 {
+  width: 100%;
+  height: 90rpx;
+  text-align: center;
+  position: absolute;
+  padding: 45rpx 15rpx 10rpx 15rpx;
+}
+.tnphone-white-min .peak.data-v-00316766 {
+  left: 22%;
+  width: 56%;
+  height: 27rpx;
+  margin: -2rpx auto 0rpx;
+  border-radius: 0 0 20rpx 20rpx;
+  background: #E9E5F3;
+  position: absolute;
+}
+.tnphone-white-min .sound.data-v-00316766 {
+  width: 48rpx;
+  height: 6rpx;
+  border-radius: 15rpx;
+  background: #555;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -24rpx;
+  margin-top: -10rpx;
+  box-shadow: 0rpx 4rpx 4rpx 0rpx #444 inset;
+}
+.tnphone-white-min .lens.data-v-00316766 {
+  width: 6rpx;
+  height: 6rpx;
+  border-radius: 50%;
+  background: #2c5487;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: 34rpx;
+  margin-top: -10rpx;
+}
+.tnphone-white-min .talk.data-v-00316766 {
+  width: 50%;
+  height: 6rpx;
+  border-radius: 15rpx;
+  background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  bottom: 8rpx;
+  left: 50%;
+  margin-left: -25%;
+}
+.tnphone-white-min .area-l.data-v-00316766, .tnphone-white-min .area-r.data-v-00316766 {
+  width: 70rpx;
+  height: 16rpx;
+  position: absolute;
+  top: 6rpx;
+}
+.tnphone-white-min .area-l.data-v-00316766 {
+  left: 0;
+  text-align: center;
+  font-size: 12rpx;
+  line-height: 22rpx;
+  text-indent: 10rpx;
+  font-weight: 600;
+  padding-left: 20rpx;
+}
+.tnphone-white-min .area-r.data-v-00316766 {
+  right: 0;
+  text-align: center;
+  font-size: 12rpx;
+  line-height: 22rpx;
+  text-indent: 10rpx;
+  font-weight: 600;
+  padding-right: 20rpx;
+}
+.tnphone-white-min .fa-feed.data-v-00316766 {
+  float: left;
+  font-size: 12rpx !important;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  margin-top: 4rpx;
+  margin-right: 8rpx;
+}
+.tnphone-white-min .fa-battery-full.data-v-00316766 {
+  float: left;
+  font-size: 12rpx !important;
+  margin-top: 6rpx;
+}
+.tnphone-white-min .fa-chevron-left.data-v-00316766 {
+  float: left;
+  margin-top: 4rpx;
+}
+.tnphone-white-min .fa-cog.data-v-00316766 {
+  float: right;
+  margin-top: 4rpx;
+}
+.tnphone-white-min .btn01.data-v-00316766 {
+  width: 3rpx;
+  height: 28rpx;
+  border-radius: 3rpx 0 0 3rpx;
+  background: #222;
+  position: absolute;
+  top: 105rpx;
+  left: -3rpx;
+}
+.tnphone-white-min .btn02.data-v-00316766 {
+  width: 3rpx;
+  height: 54rpx;
+  border-radius: 3rpx 0 0 3rpx;
+  background: #222;
+  position: absolute;
+  top: 160rpx;
+  left: -3rpx;
+}
+.tnphone-white-min .btn03.data-v-00316766 {
+  width: 3rpx;
+  height: 54rpx;
+  border-radius: 3rpx 0 0 3rpx;
+  background: #222;
+  position: absolute;
+  top: 230rpx;
+  left: -3rpx;
+}
+.tnphone-white-min .btn04.data-v-00316766 {
+  width: 3rpx;
+  height: 86rpx;
+  border-radius: 0 3rpx 3rpx 0;
+  background: #222;
+  position: absolute;
+  top: 180rpx;
+  right: -3rpx;
+}
+/* 顶部背景图 start */
+.top-backgroup.data-v-00316766 {
+  height: 450rpx;
+  z-index: -1;
+}
+.top-backgroup .backgroud-image.data-v-00316766 {
+  width: 100%;
+  height: 667rpx;
+}
+/* 顶部背景图 end */
+/* 轮播样机样式 start*/
+.card-swiper.data-v-00316766 {
+  height: 830rpx !important;
+}
+.card-swiper swiper-item.data-v-00316766 {
+  width: 260rpx !important;
+  box-sizing: border-box;
+  padding: 0rpx 15rpx 90rpx 15rpx;
+  overflow: initial;
+}
+.card-swiper swiper-item .swiper-item.data-v-00316766 {
+  display: block;
+  -webkit-transform: scale(0.45);
+          transform: scale(0.45);
+  transition: all 0.2s ease-in 0s;
+  overflow: hidden;
+}
+.card-swiper swiper-item.cur .swiper-item.data-v-00316766 {
+  -webkit-transform: scale(0.65);
+          transform: scale(0.65);
+  transition: all 0.2s ease-in 0s;
+}
+.image-banner.data-v-00316766 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-banner image.data-v-00316766 {
+  width: 100%;
+  height: 770rpx;
+}
+/* 轮播指示点 start*/
+.indication.data-v-00316766 {
+  z-index: 9999;
+  width: 100%;
+  height: 36rpx;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.spot.data-v-00316766 {
+  background-color: #000;
+  opacity: 0;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 20rpx;
+  margin: 0 8rpx !important;
+  top: -80rpx;
+  position: relative;
+}
+.spot.active.data-v-00316766 {
+  opacity: 0;
+  width: 30rpx;
+  background-color: #000;
+}
+/* 图标容器4 start */
+.tn-cool-color-icon4.data-v-00316766 {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+}
+.icon4__item.data-v-00316766 {
+  width: 30%;
+  background-color: #FFFFFF;
+  border-radius: 10rpx;
+  padding: 30rpx;
+  margin: 20rpx 10rpx;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  transition: -webkit-transform 0.3s linear;
+  transition: transform 0.3s linear;
+  transition: transform 0.3s linear, -webkit-transform 0.3s linear;
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+.icon4__item--icon.data-v-00316766 {
+  width: 110rpx;
+  height: 110rpx;
+  font-size: 55rpx;
+  border-radius: 50%;
+  margin-bottom: 18rpx;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0px 10px 30px rgba(70, 23, 129, 0.12), 0px -8px 40px white, inset 0px -10px 10px rgba(70, 23, 129, 0.05), inset 0px 10px 20px white;
+}
+/* 标题 start */
+.nav_title.data-v-00316766 {
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.nav_title--wrap.data-v-00316766 {
+  position: relative;
+  display: flex;
+  height: 120rpx;
+  font-size: 42rpx;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background-image: url(https://resource.tuniaokj.com/images/title_bg/title44.png);
+  background-size: cover;
+}
+/* 标题 end */
+/* 组件导航列表 start*/
+.nav-list.data-v-00316766 {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0rpx 12rpx 0rpx;
+  justify-content: space-between;
+  /* 列表元素 start */
+  /* 列表元素 end */
+}
+.nav-list .nav-list-item.data-v-00316766 {
+  padding: 95rpx 30rpx 5rpx 30rpx;
+  border-radius: 12rpx;
+  width: 45%;
+  margin: 0 18rpx 40rpx;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 99;
+  /* 元素标题 start */
+  /* 元素标题 end */
+  /* 元素图标 start */
+  /* 元素图标 end */
+}
+.nav-list .nav-list-item .nav-link.data-v-00316766 {
+  font-size: 32rpx;
+  text-transform: capitalize;
+  padding: 0 0 10rpx 0;
+  position: relative;
+}
+.nav-list .nav-list-item .nav-link .title.data-v-00316766 {
+  color: #FFFFFF;
+  margin-top: 100rpx;
+  text-align: center;
+}
+.nav-list .nav-list-item .nav-link .join.data-v-00316766 {
+  color: #FFFFFF;
+  margin-top: 20rpx;
+  margin-bottom: 40rpx;
+  text-align: center;
+}
+.nav-list .nav-list-item .icon.data-v-00316766 {
+  font-variant: small-caps;
+  position: absolute;
+  top: 60rpx;
+  right: 50rpx;
+  left: 37%;
+  width: 90rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  text-align: center;
+  justify-content: center;
+  vertical-align: middle;
+  font-size: 50rpx;
+  color: #FFFFFF;
+  white-space: nowrap;
+  opacity: 0.9;
+  background-color: rgba(0, 0, 0, 0.05);
+  background-size: cover;
+  background-position: 50%;
+  border-radius: 5000rpx;
+}
+.nav-list .nav-list-item .icon.data-v-00316766::after {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  border-radius: inherit;
+  opacity: 1;
+  -webkit-transform: scale(1, 1);
+          transform: scale(1, 1);
+  background-size: 100% 100%;
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/icon_bg2.png);
+}
+/* 组件导航列表 end*/
+

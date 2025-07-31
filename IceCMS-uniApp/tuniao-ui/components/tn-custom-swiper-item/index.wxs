@@ -1,0 +1,288 @@
+
+function setTimeout(instance, cb, time) {
+  if (time > 0) {
+    var s = getDate().getTime()
+    var fn = function () {
+        if (getDate().getTime() - s > time) {
+            cb && cb()
+        } else
+            instance.requestAnimationFrame(fn)
+    }
+    fn()
+  }
+  else
+    cb && cb()
+}
+
+// 判断触摸的移动方向
+function decideSwiperDirection(startTouches, currentTouches, vertical) {
+  // 震动偏移容差
+  var toleranceShake = 150
+  // 移动容差
+  var toleranceTranslate = 10
+  
+  if (!vertical) {
+    // 水平方向移动
+    if (Math.abs(currentTouches.y - startTouches.y) <= toleranceShake) {
+      // console.log(currentTouches.x, startTouches.x);
+      if (Math.abs(currentTouches.x - startTouches.x) > toleranceTranslate) {
+        if (currentTouches.x - startTouches.x > 0) {
+          return 'right'
+        } else if (currentTouches.x - startTouches.x < 0) {
+          return 'left'
+        }
+      }
+    }
+  } else {
+    // 垂直方向移动
+    if (Math.abs(currentTouches.x - startTouches.x) <= toleranceShake) {
+      // console.log(currentTouches.x, startTouches.x);
+      if (Math.abs(currentTouches.y - startTouches.y) > toleranceTranslate) {
+        if (currentTouches.y - startTouches.y > 0) {
+          return 'down'
+        } else if (currentTouches.y - startTouches.y < 0) {
+          return 'up'
+        }
+      }
+    }
+  }
+  return ''
+}
+
+// swiperItem参数数据更新
+var itemDataObserver = function(newVal, oldVal, ownerInstance, instance) {
+  if (!newVal || newVal === 'undefined') return
+  var state = ownerInstance.getState()
+  state.itemData = newVal
+}
+
+// swiperIndex数据更新
+var currentIndexObserver = function(newVal, oldVal, ownerInstance, instance) {
+  if ((!newVal && newVal != 0) || newVal === 'undefined') return
+  var state = ownerInstance.getState()
+  state.currentIndex = newVal
+}
+
+// containerData数据更新
+var containerDataObserver = function(newVal, oldVal, ownerInstance, instance) {
+  if (!newVal || newVal === 'undefined') return
+  var state = ownerInstance.getState()
+  state.containerData = newVal
+}
+
+// 开始触摸
+var touchStart = function(event, ownerInstance) {
+  console.log('touchStart');
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  var state = ownerInstance.getState()
+  var itemData = state.itemData
+  var containerData = state.containerData
+  
+  // 由于当前SwiperIndex初始为0，可能会导致swiperIndex数据没有更新
+  if (!state.currentIndex || state.currentIndex === 'undefined') {
+    state.currentIndex = 0
+  }
+  
+  if (!containerData || containerData.circular === 'undefined') {
+    containerData.circular = false
+  }
+  state.containerData = containerData
+  
+  // 如果当前切换动画还没执行结束，再次触摸会重新加载对应的swiperContainer的信息
+  // console.log(containerData.animationFinish);
+  if (!containerData.animationFinish) {
+    ownerInstance.callMethod('changeParentSwiperContainerStyleStatus',{
+      status: 'reload'
+    })
+  }
+
+  // 判断是否为为当前显示的SwiperItem
+  if (itemData.index != state.currentIndex) return
+  
+  var touches = event.changedTouches[0]
+  if (!touches) return
+  
+  // 标记滑动开始时间
+  state.touchStartTime = getDate().getTime()
+  
+  // 记录当前滑动开始的x，y坐标
+  state.touchRelactive = {
+    x: touches.pageX,
+    y: touches.pageY
+  }
+  // 记录触摸id，用于处理多指的情况
+  state.touchId = touches.identifier
+  
+  // 标记开始触摸
+  state.touching = true
+  ownerInstance.callMethod('updateTouchingStatus', {
+    status: true
+  })
+}
+
+// 正在移动
+var touchMove = function(event, ownerInstance) {
+  console.log('touchMove');
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  var state = ownerInstance.getState()
+  var itemData = state.itemData
+  var containerData = state.containerData
+  
+  // 判断是否为为当前显示的SwiperItem
+  if (itemData.index != state.currentIndex) return
+  
+  // 判断是否开始触摸
+  if (!state.touching) return
+  
+  var touches = event.changedTouches[0]
+  if (!touches) return
+  // 判断是否为同一个触摸点
+  if (state.touchId != touches.identifier) return
+  
+  var currentTouchRelactive = {
+    x: touches.pageX,
+    y: touches.pageY
+  }
+  
+  // 计算相对位移比例
+  if (containerData.vertical) {
+    var touchDistance = currentTouchRelactive.y - state.touchRelactive.y
+    var itemHeight = itemData.itemHeight
+    var distanceRate = touchDistance / itemHeight
+    // console.log(currentTouchRelactive.y, touchDistance, itemHeight, distanceRate);
+    
+    // 判断是否为衔接轮播，如果不是衔接轮播，如果当前为第一个swiperItem并且向下滑、当前为最后一个swiperItem并且向上滑时不进行操作
+    if (!containerData.circular &&
+      ((state.currentIndex === 0 && touchDistance > 0) || (state.currentIndex === containerData.swiperItemLength - 1 && touchDistance < 0))
+    ) {
+      return
+    }
+    
+    // 如果超出了距离则不进行操作
+    if((Math.abs(touchDistance) > (itemData.itemTop + itemData.itemHeight))) {
+      ownerInstance.callMethod('updateParentSwiperContainerStyle', {
+        value: distanceRate < 0 ? -1 : 1
+      })
+      return
+    }
+  } else {
+    var touchDistance = currentTouchRelactive.x - state.touchRelactive.x
+    var itemWidth = itemData.itemWidth
+    var distanceRate = touchDistance / itemWidth
+    // console.log(currentTouchRelactive.x, touchDistance, itemWidth, distanceRate);
+    
+    // 判断是否为衔接轮播，如果不是衔接轮播，如果当前为第一个swiperItem并且向右滑、当前为最后一个swiperItem并且向左滑时不进行操作
+    if (!containerData.circular &&
+      ((state.currentIndex === 0 && touchDistance > 0) || (state.currentIndex === containerData.swiperItemLength - 1 && touchDistance < 0))
+    ) {
+      return
+    }
+    
+    // 如果超出了距离则不进行操作
+    if((Math.abs(touchDistance) > (itemData.itemLeft + itemData.itemWidth))) {
+      ownerInstance.callMethod('updateParentSwiperContainerStyle', {
+        value: distanceRate < 0 ? -1 : 1
+      })
+      return
+    }
+  }
+  
+  ownerInstance.callMethod('updateParentSwiperContainerStyle', {
+    value: distanceRate
+  })
+}
+
+// 移动结束
+var touchEnd = function(event, ownerInstance) {
+  console.log('touchEnd');
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  var state = ownerInstance.getState()
+  var itemData = state.itemData
+  var containerData = state.containerData
+  
+  // 判断是否为为当前显示的SwiperItem
+  if (itemData.index != state.currentIndex) return
+  
+  // 判断是否开始触摸
+  if (!state.touching) return
+  
+  var touches = event.changedTouches[0]
+  if (!touches) return
+  // 判断是否为同一个触摸点
+  if (state.touchId != touches.identifier) return
+  
+  
+  var currentTime = getDate().getTime()
+  var currentTouchRelactive = {
+    x: touches.pageX,
+    y: touches.pageY
+  }
+  
+  if (containerData.vertical) {
+    // 判断触摸移动方向
+    var direction = decideSwiperDirection(state.touchRelactive, currentTouchRelactive, true)
+    // 判断是否为衔接轮播，如果不是衔接轮播，如果当前为第一个swiperItem并且向下滑、当前为最后一个swiperItem并且向上滑时不进行操作
+    if (containerData.circular ||
+      !((state.currentIndex === 0 && direction === 'down') || (state.currentIndex === containerData.swiperItemLength - 1 && direction === 'up'))
+    ) {
+      // 判断触摸的时间和移动的距离是否超过了当前itemHeight的一半，如果是则执行切换操作
+      // console.log(currentTime - state.touchStartTime, Math.abs(currentTouchRelactive.y - state.touchRelactive.y));
+      if ((currentTime - state.touchStartTime) > 200 && Math.abs(currentTouchRelactive.y - state.touchRelactive.y) < itemData.itemHeight / 2) {
+        ownerInstance.callMethod('changeParentSwiperContainerStyleStatus',{
+          status: 'reset'
+        })
+      } else {
+        // console.log(direction, state.touchRelactive.y, currentTouchRelactive.y);
+        
+        ownerInstance.callMethod('updateParentSwiperContainerStyleWithDirection', {
+          direction: direction
+        })
+      }
+    }
+  } else {
+    // 判断触摸移动方向
+    var direction = decideSwiperDirection(state.touchRelactive, currentTouchRelactive, false)
+    // 判断是否为衔接轮播，如果不是衔接轮播，如果当前为第一个swiperItem并且向右滑、当前为最后一个swiperItem并且向左滑时不进行操作
+    if (containerData.circular ||
+      !((state.currentIndex === 0 && direction === 'right') || (state.currentIndex === containerData.swiperItemLength - 1 && direction === 'left'))
+    ) {
+      // 判断触摸的时间和移动的距离是否超过了当前itemWidth的一半，如果是则执行切换操作
+      // console.log(currentTime - state.touchStartTime, Math.abs(currentTouchRelactive.x - state.touchRelactive.x));
+      if ((currentTime - state.touchStartTime) > 200 && Math.abs(currentTouchRelactive.x - state.touchRelactive.x) < itemData.itemWidth / 2) {
+        ownerInstance.callMethod('changeParentSwiperContainerStyleStatus',{
+          status: 'reset'
+        })
+      } else {
+        // console.log(direction, state.touchRelactive.x, currentTouchRelactive.x);
+        
+        ownerInstance.callMethod('updateParentSwiperContainerStyleWithDirection', {
+          direction: direction
+        })
+      }
+    }
+  }
+  
+  // 清除标记
+  state.touchId = null
+  state.touchRelactive = null
+  state.touchStartTime = 0
+  
+  
+  // 标记停止触摸
+  state.touching = true
+  ownerInstance.callMethod('updateTouchingStatus', {
+    status: false
+  })
+}
+
+module.exports = {
+  itemDataObserver: itemDataObserver,
+  currentIndexObserver: currentIndexObserver,
+  containerDataObserver: containerDataObserver,
+  touchStart: touchStart,
+  touchMove: touchMove,
+  touchEnd: touchEnd
+}

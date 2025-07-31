@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "立即体验",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button"
+  }
+}

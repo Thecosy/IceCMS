@@ -1,0 +1,411 @@
+{
+  "easycom": {
+    "^tn-(.*)": "@/tuniao-ui/components/tn-$1/tn-$1.vue"
+  },
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index/index",
+      "style": {
+        "mp-weixin": {
+          "disableScroll": true
+        },
+        "app-plus": {
+          "bounce": "none"
+        },
+        "mp-alipay": {
+          "allowsBounceVertical": "NO"
+        },
+        "mp-baidu": {
+          "disableScroll": true
+        }
+      }
+    }
+  ],
+  "subPackages": [{
+    "root": "homePages",
+    "pages": [{
+        "path": "about",
+        "style": {
+          "navigationBarTitleText": "关于我们",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "search",
+        "style": {
+          "navigationBarTitleText": "全局搜索",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "hot",
+        "style": {
+          "navigationBarTitleText": "今日热榜",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "navigation",
+        "style": {
+          "navigationBarTitleText": "全站导航",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "profession",
+        "style": {
+          "navigationBarTitleText": "前端业务",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "loading",
+        "style": {
+          "navigationBarTitleText": "加载效果",
+          "enablePullDownRefresh": false
+        }
+      }
+    ]
+  }, {
+    "root": "circlePages",
+    "pages": [{
+        "path": "blogger",
+        "style": {
+          "navigationBarTitleText": "博主_Me",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "blogger_other",
+        "style": {
+          "navigationBarTitleText": "博主_Ta",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "edit",
+        "style": {
+          "navigationBarTitleText": "编辑发布",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "advertise",
+        "style": {
+          "navigationBarTitleText": "广告页",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "news",
+        "style": {
+          "navigationBarTitleText": "资讯详情",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "king",
+        "style": {
+          "navigationBarTitleText": "名片王者",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "business",
+        "style": {
+          "navigationBarTitleText": "智能名片",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "group",
+        "style": {
+          "navigationBarTitleText": "精选圈子",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "ranking",
+        "style": {
+          "navigationBarTitleText": "积分排行",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "details",
+        "style": {
+          "navigationBarTitleText": "圈子详情",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "reserve",
+        "style": {
+          "navigationBarTitleText": "预约接龙",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "create",
+        "style": {
+          "navigationBarTitleText": "活动创建",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "build",
+        "style": {
+          "navigationBarTitleText": "打造圈子",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "chat",
+        "style": {
+          "navigationBarTitleText": "一起群聊",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "chatting",
+        "style": {
+          "navigationBarTitleText": "对话聊天",
+          "enablePullDownRefresh": false
+        }
+      }
+    ]
+  }, {
+    "root": "activityPages",
+    "pages": [{
+        "path": "map",
+        "style": {
+          "navigationBarTitleText": "地图打卡",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "topic",
+        "style": {
+          "navigationBarTitleText": "快速答题",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "study",
+        "style": {
+          "navigationBarTitleText": "课程学习",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "project",
+        "style": {
+          "navigationBarTitleText": "开源项目",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "planet",
+        "style": {
+          "navigationBarTitleText": "活动星球",
+          "enablePullDownRefresh": false
+        }
+      }
+    ]
+  }, {
+    "root": "preferredPages",
+    "pages": [{
+        "path": "shop",
+        "style": {
+          "navigationBarTitleText": "优质商家",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "product",
+        "style": {
+          "navigationBarTitleText": "商品详情",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "order",
+        "style": {
+          "navigationBarTitleText": "历史订单",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "classify",
+        "style": {
+          "navigationBarTitleText": "商品分类",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "photo",
+        "style": {
+          "navigationBarTitleText": "商家相册",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "website",
+        "style": {
+          "navigationBarTitleText": "品牌官网",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "redeem",
+        "style": {
+          "navigationBarTitleText": "积分兑换",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "award",
+        "style": {
+          "navigationBarTitleText": "免单活动",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "awardget",
+        "style": {
+          "navigationBarTitleText": "免单获取",
+          "enablePullDownRefresh": false
+        }
+      }
+    ]
+  }, {
+    "root": "minePages",
+    "pages": [{
+        "path": "protocol",
+        "style": {
+          "navigationBarTitleText": "使用协议",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "login",
+        "style": {
+          "navigationBarTitleText": "授权登录",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "message",
+        "style": {
+          "navigationBarTitleText": "消息通知",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "set",
+        "style": {
+          "navigationBarTitleText": "全局设置",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "start",
+        "style": {
+          "navigationBarTitleText": "立即体验",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "thanks",
+        "style": {
+          "navigationBarTitleText": "感谢名单",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "version",
+        "style": {
+          "navigationBarTitleText": "版本更新",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "help",
+        "style": {
+          "navigationBarTitleText": "帮助中心",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "avatar",
+        "style": {
+          "navigationBarTitleText": "头像上传",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "integral",
+        "style": {
+          "navigationBarTitleText": "积分明细",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "signed",
+        "style": {
+          "navigationBarTitleText": "积分签到",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "collect",
+        "style": {
+          "navigationBarTitleText": "好物收藏",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "safety",
+        "style": {
+          "navigationBarTitleText": "账号安全",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "default",
+        "style": {
+          "navigationBarTitleText": "缺省页",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "reward",
+        "style": {
+          "navigationBarTitleText": "赞赏作者",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "content",
+        "style": {
+          "navigationBarTitleText": "富文本",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+      	"path" : "onlogin",
+      	"style" : 
+      	{
+      		"navigationBarTitleText" : ""
+      	}
+      }
+    ]
+  }],
+  "globalStyle": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "IceCMSUI+圈子",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  }
+}

@@ -1,0 +1,235 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-211b4888 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-211b4888 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-211b4888:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* 顶部渐变*/
+.tn-navbg.data-v-211b4888 {
+  background: linear-gradient(-120deg, #F15BB5, #9A5CE5, #01BEFF, #00F5D4);
+  /* background: linear-gradient(-120deg,  #9A5CE5, #01BEFF, #00F5D4, #43e97b); */
+  /* background: linear-gradient(-120deg,#c471f5, #ec008c, #ff4e50,#f9d423); */
+  /* background: linear-gradient(-120deg, #0976ea, #c471f5, #f956b6, #ea7e0a); */
+  background-size: 500% 500%;
+  -webkit-animation: gradientBG-data-v-211b4888 15s ease infinite;
+          animation: gradientBG-data-v-211b4888 15s ease infinite;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+@-webkit-keyframes gradientBG-data-v-211b4888 {
+0% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: 0% 50%;
+}
+}
+@keyframes gradientBG-data-v-211b4888 {
+0% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: 0% 50%;
+}
+}
+/* 标题 start */
+.nav_title.data-v-211b4888 {
+  margin-top: 80rpx;
+  padding: 81rpx;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.nav_title--wrap.data-v-211b4888 {
+  position: relative;
+  display: flex;
+  height: 120rpx;
+  font-size: 42rpx;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background-image: url(https://resource.tuniaokj.com/images/title_bg/title00.png);
+  background-size: cover;
+}
+/* 标题 end */
+/* 富文本图示意 start */
+.news-img.data-v-211b4888 {
+  z-index: -1;
+  padding-bottom: 40rpx;
+}
+.news-img image.data-v-211b4888 {
+  width: 100%;
+  margin: 20rpx 0;
+}
+/* 资讯主图 start*/
+.image-article.data-v-211b4888 {
+  border-radius: 8rpx;
+  border: 1rpx solid #F8F7F8;
+  width: 200rpx;
+  height: 200rpx;
+  position: relative;
+}
+.image-pic.data-v-211b4888 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  border-radius: 10rpx;
+}
+.article-shadow.data-v-211b4888 {
+  border-radius: 15rpx;
+  box-shadow: 0rpx 0rpx 50rpx 0rpx rgba(0, 0, 0, 0.07);
+}
+/* 文字截取*/
+.clamp-text-1.data-v-211b4888 {
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.clamp-text-2.data-v-211b4888 {
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+/* 标签内容 start*/
+.tn-tag-content__item.data-v-211b4888 {
+  display: inline-block;
+  line-height: 35rpx;
+  padding: 7rpx 25rpx 5rpx 25rpx;
+}
+.tn-tag-content__item--prefix.data-v-211b4888 {
+  padding-right: 10rpx;
+}
+/* 标签内容 end*/
+/* 底部悬浮按钮 start*/
+.tn-tabbar-height.data-v-211b4888 {
+  min-height: 100rpx;
+  height: calc(120rpx + env(safe-area-inset-bottom) / 2);
+}
+.tn-footerfixed.data-v-211b4888 {
+  position: fixed;
+  width: 100%;
+  bottom: calc(30rpx + env(safe-area-inset-bottom));
+  z-index: 1024;
+  box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0);
+}
+/* 底部悬浮按钮 end*/
+/* 查看*/
+.see.data-v-211b4888 {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10rpx;
+  border-radius: 6rpx;
+  color: #666;
+  line-height: 1.6;
+}
+/* 间隔线 start*/
+.tn-strip-bottom.data-v-211b4888 {
+  width: 100%;
+  border-bottom: 20rpx solid rgba(241, 241, 241, 0.8);
+}
+/* 间隔线 end*/
+.news-img.data-v-211b4888 {
+  padding: 16px;
+}
+.html-text-box ._p.data-v-211b4888 {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 16px;
+}
+.html-text-box ._h1.data-v-211b4888,
+.html-text-box ._h2.data-v-211b4888,
+.html-text-box ._h3.data-v-211b4888,
+.html-text-box ._h4.data-v-211b4888,
+.html-text-box ._h5.data-v-211b4888,
+.html-text-box ._h6.data-v-211b4888 {
+  font-weight: bold;
+  color: #333;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+.html-text-box ._h1.data-v-211b4888 {
+  font-size: 24px;
+}
+.html-text-box ._h2.data-v-211b4888 {
+  font-size: 20px;
+}
+.html-text-box ._h3.data-v-211b4888 {
+  font-size: 18px;
+}
+.html-text-box ._a.data-v-211b4888 {
+  color: #1e90ff;
+  text-decoration: underline;
+}
+.html-text-box ._img.data-v-211b4888 {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 16px;
+}
+.html-text-box ._ul.data-v-211b4888,
+.html-text-box ._ol.data-v-211b4888 {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+.html-text-box ._ul ._li.data-v-211b4888,
+.html-text-box ._ol ._li.data-v-211b4888 {
+  margin-bottom: 8px;
+}
+.html-text-box ._blockquote.data-v-211b4888 {
+  border-left: 4px solid #ddd;
+  padding-left: 16px;
+  color: #666;
+  margin: 16px 0;
+  font-style: italic;
+}
+

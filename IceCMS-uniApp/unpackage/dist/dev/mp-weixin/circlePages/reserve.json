@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "预约接龙",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-read-more": "/tuniao-ui/components/tn-read-more/tn-read-more",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button"
+  }
+}

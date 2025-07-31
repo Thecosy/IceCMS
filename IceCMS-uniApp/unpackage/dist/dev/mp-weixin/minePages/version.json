@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "版本更新",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-badge": "/tuniao-ui/components/tn-badge/tn-badge",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button"
+  }
+}

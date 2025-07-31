@@ -1,0 +1,1 @@
+<view data-event-opts="{{[['tap',[['handleClick',['$event']]]]]}}" class="{{['tn-badge-class','tn-badge','data-v-494ae17c',backgroundColorClass,fontColorClass,badgeClass]}}" style="{{$root.s0}}" bindtap="__e"><block wx:if="{{!dot}}"><slot></slot></block></view>

@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "免单活动",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button",
+    "tn-sticky": "/tuniao-ui/components/tn-sticky/tn-sticky",
+    "tn-tabs": "/tuniao-ui/components/tn-tabs/tn-tabs",
+    "tn-modal": "/tuniao-ui/components/tn-modal/tn-modal"
+  }
+}

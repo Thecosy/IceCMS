@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "tn-row-notice": "/tuniao-ui/components/tn-row-notice/tn-row-notice",
+    "tn-column-notice": "/tuniao-ui/components/tn-column-notice/tn-column-notice"
+  }
+}

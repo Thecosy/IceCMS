@@ -1,0 +1,58 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.list__item.data-v-9cf0154e {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 60rpx);
+  margin: 108rpx 30rpx 0rpx 30rpx;
+  box-shadow: 0rpx 10rpx 50rpx 0rpx rgba(0, 3, 72, 0.1);
+  border-radius: 20rpx;
+}
+.list__content.data-v-9cf0154e {
+  flex: 1;
+  margin: 34rpx 0rpx 27rpx 37rpx;
+}
+.list__content__title.data-v-9cf0154e {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 12rpx;
+}
+.list__content__desc.data-v-9cf0154e {
+  font-size: 28rpx;
+}
+.list__icon.data-v-9cf0154e {
+  flex: 1;
+  margin-right: 26rpx;
+  position: relative;
+}
+.list__icon__main.data-v-9cf0154e, .list__icon__sub.data-v-9cf0154e {
+  -webkit-background-clip: text;
+  color: transparent;
+  position: absolute;
+  transition: -webkit-transform 0.25s ease;
+  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, -webkit-transform 0.25s ease;
+}
+.list__icon__main.data-v-9cf0154e {
+  font-size: 200rpx;
+  width: 190rpx;
+  line-height: 200rpx;
+  top: 0;
+  right: 0rpx;
+  -webkit-transform: translateY(-60%);
+          transform: translateY(-60%);
+}
+.list__icon__sub.data-v-9cf0154e {
+  font-size: 70rpx;
+  top: 0;
+  right: 175rpx;
+  -webkit-transform: translateY(-5rpx);
+          transform: translateY(-5rpx);
+}
+

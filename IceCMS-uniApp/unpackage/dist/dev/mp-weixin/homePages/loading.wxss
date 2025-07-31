@@ -1,0 +1,159 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-2711cab4 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-2711cab4 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-2711cab4:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+@-webkit-keyframes img-data-v-2711cab4 {
+0% {
+    -webkit-transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(-360deg);
+}
+}
+@keyframes img-data-v-2711cab4 {
+0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+}
+}
+@-webkit-keyframes spin-data-v-2711cab4 {
+0% {
+    -webkit-transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(360deg);
+}
+}
+@keyframes spin-data-v-2711cab4 {
+0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+}
+@-webkit-keyframes spin-reverse-data-v-2711cab4 {
+0% {
+    -webkit-transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(0deg);
+}
+}
+@keyframes spin-reverse-data-v-2711cab4 {
+0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+}
+}
+.loader-wrapper.data-v-2711cab4 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  overflow: hidden;
+}
+.loader.data-v-2711cab4 {
+  display: flex;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #00FFC6;
+  -webkit-animation: spin-data-v-2711cab4 1.7s linear infinite;
+          animation: spin-data-v-2711cab4 1.7s linear infinite;
+  z-index: 11;
+}
+.loader.data-v-2711cab4:before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #FFF00D;
+  -webkit-animation: spin-reverse-data-v-2711cab4 5.6s linear infinite;
+          animation: spin-reverse-data-v-2711cab4 5.6s linear infinite;
+}
+.loader.data-v-2711cab4:after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #FBBD12;
+  -webkit-animation: spin-data-v-2711cab4 2.3s linear infinite;
+          animation: spin-data-v-2711cab4 2.3s linear infinite;
+}
+.logo-loading.data-v-2711cab4 {
+  font-size: 120rpx;
+  color: #01BEFF;
+  margin: auto;
+  align-items: center;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  -webkit-animation: img-data-v-2711cab4 1.7s linear infinite;
+          animation: img-data-v-2711cab4 1.7s linear infinite;
+}
+

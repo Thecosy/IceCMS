@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button",
+    "tn-list-cell": "/tuniao-ui/components/tn-list-cell/tn-list-cell"
+  }
+}

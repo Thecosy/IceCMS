@@ -1,0 +1,403 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-065a0148 {
+  width: 60%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-065a0148 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+/* 用户信息 start */
+.user-info__container.data-v-065a0148 {
+  position: absolute;
+  top: 25vh;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.user-info__avatar.data-v-065a0148 {
+  width: 200rpx;
+  height: 200rpx;
+  border: 8rpx solid rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0rpx 0rpx 80rpx 0rpx rgba(0, 0, 0, 0.15);
+}
+.user-info__nick-name.data-v-065a0148 {
+  color: #FFFFFF;
+  margin-top: 26rpx;
+  font-size: 36rpx;
+  text-align: center;
+}
+/* 用户信息 end */
+/* 流星*/
+.tn-satr.data-v-065a0148 {
+  position: fixed;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+  flex-shrink: 0;
+  z-index: 998;
+}
+.stars.data-v-065a0148 {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 400px;
+}
+.star.data-v-065a0148 {
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.8);
+}
+.small-stars .star.data-v-065a0148 {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+}
+.small-stars .star.data-v-065a0148:nth-child(2n) {
+  opacity: 0;
+  -webkit-animation: star-blink-data-v-065a0148 1.2s linear infinite alternate;
+  animation: star-blink-data-v-065a0148 1.2s linear infinite alternate;
+}
+.small-stars .star.data-v-065a0148:nth-child(1) {
+  left: 40px;
+  bottom: 50px;
+}
+.small-stars .star.data-v-065a0148:nth-child(2) {
+  left: 200px;
+  bottom: 40px;
+}
+.small-stars .star.data-v-065a0148:nth-child(3) {
+  left: 60px;
+  bottom: 120px;
+}
+.small-stars .star.data-v-065a0148:nth-child(4) {
+  left: 140px;
+  bottom: 250px;
+}
+.small-stars .star.data-v-065a0148:nth-child(5) {
+  left: 400px;
+  bottom: 300px;
+}
+.small-stars .star.data-v-065a0148:nth-child(6) {
+  left: 170px;
+  bottom: 80px;
+}
+.small-stars .star.data-v-065a0148:nth-child(7) {
+  left: 200px;
+  bottom: 360px;
+  -webkit-animation-delay: .2s;
+  animation-delay: .2s;
+}
+.small-stars .star.data-v-065a0148:nth-child(8) {
+  left: 250px;
+  bottom: 320px;
+}
+.small-stars .star.data-v-065a0148:nth-child(9) {
+  left: 300px;
+  bottom: 340px;
+}
+.small-stars .star.data-v-065a0148:nth-child(10) {
+  left: 130px;
+  bottom: 320px;
+  -webkit-animation-delay: .5s;
+  animation-delay: .5s;
+}
+.small-stars .star.data-v-065a0148:nth-child(11) {
+  left: 230px;
+  bottom: 330px;
+  -webkit-animation-delay: 7s;
+  animation-delay: 7s;
+}
+.small-stars .star.data-v-065a0148:nth-child(12) {
+  left: 300px;
+  bottom: 360px;
+  -webkit-animation-delay: .3s;
+  animation-delay: .3s;
+}
+@-webkit-keyframes star-blink-data-v-065a0148 {
+50% {
+    width: 3px;
+    height: 3px;
+    opacity: 1;
+}
+}
+@keyframes star-blink-data-v-065a0148 {
+50% {
+    width: 3px;
+    height: 3px;
+    opacity: 1;
+}
+}
+.medium-stars .star.data-v-065a0148 {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  opacity: 0;
+  -webkit-animation: star-blink-data-v-065a0148 1.2s ease-in infinite alternate;
+  animation: star-blink-data-v-065a0148 1.2s ease-in infinite alternate;
+}
+.medium-stars .star.data-v-065a0148:nth-child(1) {
+  left: 300px;
+  bottom: 50px;
+}
+.medium-stars .star.data-v-065a0148:nth-child(2) {
+  left: 400px;
+  bottom: 40px;
+  -webkit-animation-delay: .4s;
+  animation-delay: .4s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(3) {
+  left: 330px;
+  bottom: 300px;
+  -webkit-animation-delay: .2s;
+  animation-delay: .2s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(4) {
+  left: 460px;
+  bottom: 300px;
+  -webkit-animation-delay: .9s;
+  animation-delay: .9s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(5) {
+  left: 300px;
+  bottom: 150px;
+  -webkit-animation-delay: 1.2s;
+  animation-delay: 1.2s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(6) {
+  left: 440px;
+  bottom: 120px;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(7) {
+  left: 200px;
+  bottom: 140px;
+  -webkit-animation-delay: .8s;
+  animation-delay: .8s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(8) {
+  left: 30px;
+  bottom: 480px;
+  -webkit-animation-delay: .3s;
+  animation-delay: .3s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(9) {
+  left: 460px;
+  bottom: 400px;
+  -webkit-animation-delay: 1.2s;
+  animation-delay: 1.2s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(10) {
+  left: 150px;
+  bottom: 10px;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(11) {
+  left: 420px;
+  bottom: 450px;
+  -webkit-animation-delay: 1.2s;
+  animation-delay: 1.2s;
+}
+.medium-stars .star.data-v-065a0148:nth-child(12) {
+  left: 340px;
+  bottom: 180px;
+  -webkit-animation-delay: 1.1s;
+  animation-delay: 1.1s;
+}
+@keyframes star-blink-data-v-065a0148 {
+50% {
+    width: 4px;
+    height: 4px;
+    opacity: 1;
+}
+}
+.star-fall.data-v-065a0148 {
+  position: relative;
+  border-radius: 2px;
+  width: 80px;
+  height: 2px;
+  overflow: hidden;
+  -webkit-transform: rotate(-20deg);
+  transform: rotate(-20deg);
+}
+.star-fall.data-v-065a0148:after {
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.4) 100%);
+  left: 100%;
+  -webkit-animation: star-fall-data-v-065a0148 3.6s linear infinite;
+  animation: star-fall-data-v-065a0148 3.6s linear infinite;
+}
+.star-fall.data-v-065a0148:nth-child(1) {
+  left: 80px;
+  bottom: -100px;
+}
+.star-fall.data-v-065a0148:nth-child(1):after {
+  -webkit-animation-delay: 2.4s;
+  animation-delay: 2.4s;
+}
+.star-fall.data-v-065a0148:nth-child(2) {
+  left: 200px;
+  bottom: -200px;
+}
+.star-fall.data-v-065a0148:nth-child(2):after {
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+}
+.star-fall.data-v-065a0148:nth-child(3) {
+  left: 430px;
+  bottom: -50px;
+}
+.star-fall.data-v-065a0148:nth-child(3):after {
+  -webkit-animation-delay: 3.6s;
+  animation-delay: 3.6s;
+}
+.star-fall.data-v-065a0148:nth-child(4) {
+  left: 400px;
+  bottom: 100px;
+}
+.star-fall.data-v-065a0148:nth-child(4):after {
+  -webkit-animation-delay: .2s;
+  animation-delay: .2s;
+}
+@-webkit-keyframes star-fall-data-v-065a0148 {
+20% {
+    left: -100%;
+}
+100% {
+    left: -100%;
+}
+}
+@keyframes star-fall-data-v-065a0148 {
+20% {
+    left: -100%;
+}
+100% {
+    left: -100%;
+}
+}
+/* 波浪*/
+.template-version.data-v-065a0148 {
+  background-image: linear-gradient(to top, #4C3FAE 20%, #6E26BA 80%);
+  width: 100vw;
+  height: 100vh;
+}
+@-webkit-keyframes move_wave-data-v-065a0148 {
+0% {
+    -webkit-transform: translateX(0) translateZ(0) scaleY(1);
+            transform: translateX(0) translateZ(0) scaleY(1);
+}
+50% {
+    -webkit-transform: translateX(-25%) translateZ(0) scaleY(1);
+            transform: translateX(-25%) translateZ(0) scaleY(1);
+}
+100% {
+    -webkit-transform: translateX(-50%) translateZ(0) scaleY(1);
+            transform: translateX(-50%) translateZ(0) scaleY(1);
+}
+}
+@keyframes move_wave-data-v-065a0148 {
+0% {
+    -webkit-transform: translateX(0) translateZ(0) scaleY(1);
+            transform: translateX(0) translateZ(0) scaleY(1);
+}
+50% {
+    -webkit-transform: translateX(-25%) translateZ(0) scaleY(1);
+            transform: translateX(-25%) translateZ(0) scaleY(1);
+}
+100% {
+    -webkit-transform: translateX(-50%) translateZ(0) scaleY(1);
+            transform: translateX(-50%) translateZ(0) scaleY(1);
+}
+}
+.tnwave.data-v-065a0148 {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+}
+.waveWrapperInner.data-v-065a0148 {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+}
+.wave.data-v-065a0148 {
+  position: absolute;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-repeat: repeat no-repeat;
+  background-position: 0 bottom;
+  -webkit-transform-origin: center bottom;
+          transform-origin: center bottom;
+}
+.bgTop.data-v-065a0148 {
+  opacity: 0.4;
+}
+.waveTop.data-v-065a0148 {
+  background-size: 50% 45px;
+}
+.waveAnimation .waveTop.data-v-065a0148 {
+  -webkit-animation: move_wave-data-v-065a0148 4s linear infinite;
+          animation: move_wave-data-v-065a0148 4s linear infinite;
+}
+.bgMiddle.data-v-065a0148 {
+  opacity: 0.6;
+}
+.waveMiddle.data-v-065a0148 {
+  background-size: 50% 40px;
+}
+.waveAnimation .waveMiddle.data-v-065a0148 {
+  -webkit-animation: move_wave-data-v-065a0148 3.5s linear infinite;
+          animation: move_wave-data-v-065a0148 3.5s linear infinite;
+}
+.bgBottom.data-v-065a0148 {
+  opacity: 0.95;
+}
+.waveBottom.data-v-065a0148 {
+  background-size: 50% 35px;
+}
+.waveAnimation .waveBottom.data-v-065a0148 {
+  -webkit-animation: move_wave-data-v-065a0148 2s linear infinite;
+          animation: move_wave-data-v-065a0148 2s linear infinite;
+}
+/* 全新出发 start*/
+.go.data-v-065a0148 {
+  z-index: 9999;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  bottom: 10vh;
+}
+

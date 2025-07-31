@@ -1,0 +1,563 @@
+
+@mixin getColor($color: #FFFFFF, $light-color: #FFFFFF, $dark-color: #FFFFFF, $disabled-color: #FFFFFF) {
+  color: $color !important;
+  @if $color != #FFFFFF and $color != #000000 {
+    &--light {
+      color: $light-color !important;
+    }
+    &--dark {
+      color: $dark-color !important;
+    }
+    &--disabled {
+      color: $disabled-color !important;
+    }
+  }
+}
+
+@mixin getBorderColor($color: #FFFFFF, $light-color: #FFFFFF, $dark-color: #FFFFFF, $disabled-color: #FFFFFF) {
+  @if $color != #FFFFFF and $color != #000000 {
+    &--light {
+        border-color: $light-color !important;
+    }
+    &--dark {
+        border-color: $dark-color !important;
+    }
+    &--disabled {
+        border-color: $disabled-color !important;
+    }
+  }
+    border-color: $color !important;
+}
+
+@mixin getBackgroundColor($color: #FFFFFF, $light-color: #FFFFFF, $dark-color: #FFFFFF, $disabled-color: #FFFFFF) {
+  background-color: $color !important;
+  @if $color != #FFFFFF and $color != #000000 {
+    color: $tn-font-color;
+    &--light {
+      background-color: $light-color !important;
+    }
+    &--dark {
+      background-color: $dark-color !important;
+    }
+    &--disabled {
+      background-color: $disabled-color !important;
+    }
+  }
+  @else {
+    color: $tn-font-color;
+  }
+}
+
+@mixin getShadowColor($type: box, $color: #FFFFFF) {
+  @if $type == box {
+    box-shadow: 12rpx 12rpx 16rpx #{$color};
+  } @else if $type == text {
+    text-shadow: 6rpx 6rpx 8rpx #{$color};
+  }
+}
+
+@mixin getGradientColor($start-color, $end-color, $font-color: #FFFFFF) {
+  background-image: repeating-linear-gradient(45deg, $start-color, $end-color);
+  color: $font-color;
+  
+  &--reverse {
+    background-image: repeating-linear-gradient(-45deg, $start-color, $end-color);
+    color: $font-color;
+  }
+}
+
+@mixin getMainColorGradient($start-color, $start-color-light, $start-color-disabled, $end-color, $end-color-light) {
+  @include getGradientColor($start-color, $end-color);
+  
+  &--light {
+    @include getGradientColor($start-color-light, $end-color-light, $start-color);
+  }
+  
+  &--single {
+    @include getGradientColor($start-color, $start-color-disabled);
+  }
+}
+
+/* 颜色 start */
+.tn-color-red {
+  @include getColor($tn-color-red, $tn-color-red-light, $tn-color-red-dark, $tn-color-red-disabled);
+}
+.tn-color-purplered {
+  @include getColor($tn-color-purplered, $tn-color-purplered-light, $tn-color-purplered-dark, $tn-color-purplered-disabled);
+}
+.tn-color-purple {
+  @include getColor($tn-color-purple, $tn-color-purple-light, $tn-color-purple-dark, $tn-color-purple-disabled);
+}
+.tn-color-bluepurple {
+  @include getColor($tn-color-bluepurple, $tn-color-bluepurple-light, $tn-color-bluepurple-dark, $tn-color-bluepurple-disabled);
+}
+.tn-color-aquablue {
+  @include getColor($tn-color-aquablue, $tn-color-aquablue-light, $tn-color-aquablue-dark, $tn-color-aquablue-disabled);
+}
+.tn-color-blue {
+  @include getColor($tn-color-blue, $tn-color-blue-light, $tn-color-blue-dark, $tn-color-blue-disabled);
+}
+.tn-color-indigo {
+  @include getColor($tn-color-indigo, $tn-color-indigo-light, $tn-color-indigo-dark, $tn-color-indigo-disabled);
+}
+.tn-color-cyan {
+  @include getColor($tn-color-cyan, $tn-color-cyan-light, $tn-color-cyan-dark, $tn-color-cyan-disabled);
+}
+.tn-color-teal {
+  @include getColor($tn-color-teal, $tn-color-teal-light, $tn-color-teal-dark, $tn-color-teal-disabled);
+}
+.tn-color-green {
+  @include getColor($tn-color-green, $tn-color-green-light, $tn-color-green-dark, $tn-color-green-disabled);
+}
+.tn-color-yellowgreen {
+  @include getColor($tn-color-yellowgreen, $tn-color-yellowgreen-light, $tn-color-yellowgreen-dark, $tn-color-yellowgreen-disabled);
+}
+.tn-color-lime {
+  @include getColor($tn-color-lime, $tn-color-lime-light, $tn-color-lime-dark, $tn-color-lime-disabled);
+}
+.tn-color-yellow {
+  @include getColor($tn-color-yellow, $tn-color-yellow-light, $tn-color-yellow-dark, $tn-color-yellow-disabled);
+}
+.tn-color-orangeyellow {
+  @include getColor($tn-color-orangeyellow, $tn-color-orangeyellow-light, $tn-color-orangeyellow-dark, $tn-color-orangeyellow-disabled);
+}
+.tn-color-orange {
+  @include getColor($tn-color-orange, $tn-color-orange-light, $tn-color-orange-dark, $tn-color-orange-disabled);
+}
+.tn-color-orangered {
+  @include getColor($tn-color-orangered, $tn-color-orangered-light, $tn-color-orangered-dark, $tn-color-orangered-disabled);
+}
+.tn-color-brown {
+  @include getColor($tn-color-brown, $tn-color-brown-light, $tn-color-brown-dark, $tn-color-brown-disabled);
+}
+.tn-color-grey {
+  @include getColor($tn-color-grey, $tn-color-grey-light, $tn-color-grey-dark, $tn-color-grey-disabled);
+}
+.tn-color-gray {
+  @include getColor($tn-color-gray, $tn-color-gray-light, $tn-color-gray-dark, $tn-color-gray-disabled);
+}
+.tn-color-white {
+  @include getColor();
+}
+.tn-color-black {
+  @include getColor(#000000);
+}
+/* 颜色 end */
+
+/* 边框颜色 start */
+.tn-border-red {
+  @include getBorderColor($tn-color-red, $tn-color-red-light, $tn-color-red-dark, $tn-color-red-disabled);
+}
+.tn-border-purplered {
+  @include getBorderColor($tn-color-purplered, $tn-color-purplered-light, $tn-color-purplered-dark, $tn-color-purplered-disabled);
+}
+.tn-border-purple {
+  @include getBorderColor($tn-color-purple, $tn-color-purple-light, $tn-color-purple-dark, $tn-color-purple-disabled);
+}
+.tn-border-bluepurple {
+  @include getBorderColor($tn-color-bluepurple, $tn-color-bluepurple-light, $tn-color-bluepurple-dark, $tn-color-bluepurple-disabled);
+}
+.tn-border-aquablue {
+  @include getBorderColor($tn-color-aquablue, $tn-color-aquablue-light, $tn-color-aquablue-dark, $tn-color-aquablue-disabled);
+}
+.tn-border-blue {
+  @include getBorderColor($tn-color-blue, $tn-color-blue-light, $tn-color-blue-dark, $tn-color-blue-disabled);
+}
+.tn-border-indigo {
+  @include getBorderColor($tn-color-indigo, $tn-color-indigo-light, $tn-color-indigo-dark, $tn-color-indigo-disabled);
+}
+.tn-border-cyan {
+  @include getBorderColor($tn-color-cyan, $tn-color-cyan-light, $tn-color-cyan-dark, $tn-color-cyan-disabled);
+}
+.tn-border-teal {
+  @include getBorderColor($tn-color-teal, $tn-color-teal-light, $tn-color-teal-dark, $tn-color-teal-disabled);
+}
+.tn-border-green {
+  @include getBorderColor($tn-color-green, $tn-color-green-light, $tn-color-green-dark, $tn-color-green-disabled);
+}
+.tn-border-yellowgreen {
+  @include getBorderColor($tn-color-yellowgreen, $tn-color-yellowgreen-light, $tn-color-yellowgreen-dark, $tn-color-yellowgreen-disabled);
+}
+.tn-border-lime {
+  @include getBorderColor($tn-color-lime, $tn-color-lime-light, $tn-color-lime-dark, $tn-color-lime-disabled);
+}
+.tn-border-yellow {
+  @include getBorderColor($tn-color-yellow, $tn-color-yellow-light, $tn-color-yellow-dark, $tn-color-yellow-disabled);
+}
+.tn-border-orangeyellow {
+  @include getBorderColor($tn-color-orangeyellow, $tn-color-orangeyellow-light, $tn-color-orangeyellow-dark, $tn-color-orangeyellow-disabled);
+}
+.tn-border-orange {
+  @include getBorderColor($tn-color-orange, $tn-color-orange-light, $tn-color-orange-dark, $tn-color-orange-disabled);
+}
+.tn-border-orangered {
+  @include getBorderColor($tn-color-orangered, $tn-color-orangered-light, $tn-color-orangered-dark, $tn-color-orangered-disabled);
+}
+.tn-border-brown {
+  @include getBorderColor($tn-color-brown, $tn-color-brown-light, $tn-color-brown-dark, $tn-color-brown-disabled);
+}
+.tn-border-grey {
+  @include getBorderColor($tn-color-grey, $tn-color-grey-light, $tn-color-grey-dark, $tn-color-grey-disabled);
+}
+.tn-border-gray {
+  @include getBorderColor($tn-color-gray, $tn-color-gray-light, $tn-color-gray-dark, $tn-color-gray-disabled);
+}
+.tn-border-white {
+  @include getBorderColor();
+}
+.tn-border-black {
+  @include getBorderColor(#000000);
+}
+/* 边框颜色 end */
+
+/* 背景颜色 start */
+.tn-bg-red {
+  @include getBackgroundColor($tn-color-red, $tn-color-red-light, $tn-color-red-dark, $tn-color-red-disabled);
+}
+.tn-bg-purplered {
+  @include getBackgroundColor($tn-color-purplered, $tn-color-purplered-light, $tn-color-purplered-dark, $tn-color-purplered-disabled);
+}
+.tn-bg-purple {
+  @include getBackgroundColor($tn-color-purple, $tn-color-purple-light, $tn-color-purple-dark, $tn-color-purple-disabled);
+}
+.tn-bg-bluepurple {
+  @include getBackgroundColor($tn-color-bluepurple, $tn-color-bluepurple-light, $tn-color-bluepurple-dark, $tn-color-bluepurple-disabled);
+}
+.tn-bg-aquablue {
+  @include getBackgroundColor($tn-color-aquablue, $tn-color-aquablue-light, $tn-color-aquablue-dark, $tn-color-aquablue-disabled);
+}
+.tn-bg-blue {
+  @include getBackgroundColor($tn-color-blue, $tn-color-blue-light, $tn-color-blue-dark, $tn-color-blue-disabled);
+}
+.tn-bg-indigo {
+  @include getBackgroundColor($tn-color-indigo, $tn-color-indigo-light, $tn-color-indigo-dark, $tn-color-indigo-disabled);
+}
+.tn-bg-cyan {
+  @include getBackgroundColor($tn-color-cyan, $tn-color-cyan-light, $tn-color-cyan-dark, $tn-color-cyan-disabled);
+}
+.tn-bg-teal {
+  @include getBackgroundColor($tn-color-teal, $tn-color-teal-light, $tn-color-teal-dark, $tn-color-teal-disabled);
+}
+.tn-bg-green {
+  @include getBackgroundColor($tn-color-green, $tn-color-green-light, $tn-color-green-dark, $tn-color-green-disabled);
+}
+.tn-bg-yellowgreen {
+  @include getBackgroundColor($tn-color-yellowgreen, $tn-color-yellowgreen-light, $tn-color-yellowgreen-dark, $tn-color-yellowgreen-disabled);
+}
+.tn-bg-lime {
+  @include getBackgroundColor($tn-color-lime, $tn-color-lime-light, $tn-color-lime-dark, $tn-color-lime-disabled);
+}
+.tn-bg-yellow {
+  @include getBackgroundColor($tn-color-yellow, $tn-color-yellow-light, $tn-color-yellow-dark, $tn-color-yellow-disabled);
+}
+.tn-bg-orangeyellow {
+  @include getBackgroundColor($tn-color-orangeyellow, $tn-color-orangeyellow-light, $tn-color-orangeyellow-dark, $tn-color-orangeyellow-disabled);
+}
+.tn-bg-orange {
+  @include getBackgroundColor($tn-color-orange, $tn-color-orange-light, $tn-color-orange-dark, $tn-color-orange-disabled);
+}
+.tn-bg-orangered {
+  @include getBackgroundColor($tn-color-orangered, $tn-color-orangered-light, $tn-color-orangered-dark, $tn-color-orangered-disabled);
+}
+.tn-bg-brown {
+  @include getBackgroundColor($tn-color-brown, $tn-color-brown-light, $tn-color-brown-dark, $tn-color-brown-disabled);
+}
+.tn-bg-grey {
+  @include getBackgroundColor($tn-color-grey, $tn-color-grey-light, $tn-color-grey-dark, $tn-color-grey-disabled);
+}
+.tn-bg-gray {
+  @include getBackgroundColor($tn-color-gray, $tn-color-gray-light, $tn-color-gray-dark, $tn-color-gray-disabled);
+}
+.tn-bg-white {
+  @include getBackgroundColor();
+}
+.tn-bg-black {
+  @include getBackgroundColor(#000000);
+}
+/* 背景颜色 end */
+
+/* 阴影颜色 start */
+.tn-shadow-red {
+  @include getShadowColor(box, $tn-color-red-light);
+}
+.tn-shadow-purplered {
+  @include getShadowColor(box, $tn-color-purplered-light);
+}
+.tn-shadow-purple {
+  @include getShadowColor(box, $tn-color-purple-light);
+}
+.tn-shadow-bluepurple {
+  @include getShadowColor(box, $tn-color-bluepurple-light);
+}
+.tn-shadow-aquablue {
+  @include getShadowColor(box, $tn-color-aquablue-light);
+}
+.tn-shadow-blue {
+  @include getShadowColor(box, $tn-color-blue-light);
+}
+.tn-shadow-indigo {
+  @include getShadowColor(box, $tn-color-indigo-light);
+}
+.tn-shadow-cyan {
+  @include getShadowColor(box, $tn-color-cyan-light);
+}
+.tn-shadow-teal {
+  @include getShadowColor(box, $tn-color-teal-light);
+}
+.tn-shadow-green {
+  @include getShadowColor(box, $tn-color-green-light);
+}
+.tn-shadow-yellowgreen {
+  @include getShadowColor(box, $tn-color-yellowgreen-light);
+}
+.tn-shadow-lime {
+  @include getShadowColor(box, $tn-color-lime-light);
+}
+.tn-shadow-yellow {
+  @include getShadowColor(box, $tn-color-yellow-light);
+}
+.tn-shadow-orangeyellow {
+  @include getShadowColor(box, $tn-color-orangeyellow-light);
+}
+.tn-shadow-orange {
+  @include getShadowColor(box, $tn-color-orange-light);
+}
+.tn-shadow-orangered {
+  @include getShadowColor(box, $tn-color-orangered-light);
+}
+.tn-shadow-brown {
+  @include getShadowColor(box, $tn-color-brown-light);
+}
+.tn-shadow-grey {
+  @include getShadowColor(box, $tn-color-grey-light);
+}
+.tn-shadow-gray {
+  @include getShadowColor(box, $tn-color-gray-light);
+}
+
+.tn-text-shadow-red {
+  @include getShadowColor(text, $tn-color-red-light);
+}
+.tn-text-shadow-purplered {
+  @include getShadowColor(text, $tn-color-purplered-light);
+}
+.tn-text-shadow-purple {
+  @include getShadowColor(text, $tn-color-purple-light);
+}
+.tn-text-shadow-bluepurple {
+  @include getShadowColor(text, $tn-color-bluepurple-light);
+}
+.tn-text-shadow-aquablue {
+  @include getShadowColor(text, $tn-color-aquablue-light);
+}
+.tn-text-shadow-blue {
+  @include getShadowColor(text, $tn-color-blue-light);
+}
+.tn-text-shadow-indigo {
+  @include getShadowColor(text, $tn-color-indigo-light);
+}
+.tn-text-shadow-cyan {
+  @include getShadowColor(text, $tn-color-cyan-light);
+}
+.tn-text-shadow-teal {
+  @include getShadowColor(text, $tn-color-teal-light);
+}
+.tn-text-shadow-green {
+  @include getShadowColor(text, $tn-color-green-light);
+}
+.tn-text-shadow-yellowgreen {
+  @include getShadowColor(text, $tn-color-yellowgreen-light);
+}
+.tn-text-shadow-lime {
+  @include getShadowColor(text, $tn-color-lime-light);
+}
+.tn-text-shadow-yellow {
+  @include getShadowColor(text, $tn-color-yellow-light);
+}
+.tn-text-shadow-orangeyellow {
+  @include getShadowColor(text, $tn-color-orangeyellow-light);
+}
+.tn-text-shadow-orange {
+  @include getShadowColor(text, $tn-color-orange-light);
+}
+.tn-text-shadow-orangered {
+  @include getShadowColor(text, $tn-color-orangered-light);
+}
+.tn-text-shadow-brown {
+  @include getShadowColor(text, $tn-color-brown-light);
+}
+.tn-text-shadow-grey {
+  @include getShadowColor(text, $tn-color-grey-light);
+}
+.tn-text-shadow-gray {
+  @include getShadowColor(text, $tn-color-gray-light);
+}
+/* 阴影颜色 end */
+
+/* 主色渐变色 start */
+.tn-main-gradient-red {
+  @include getMainColorGradient($tn-color-red, $tn-color-red-light, $tn-color-red-disabled, $tn-color-purplered, $tn-color-purplered-light);
+}
+.tn-main-gradient-purplered {
+  @include getMainColorGradient($tn-color-purplered, $tn-color-purplered-light, $tn-color-purplered-disabled, $tn-color-purple, $tn-color-purple-light);
+}
+.tn-main-gradient-purple {
+  @include getMainColorGradient($tn-color-purple, $tn-color-purple-light, $tn-color-purple-disabled, $tn-color-bluepurple, $tn-color-bluepurple-light);
+}
+.tn-main-gradient-bluepurple {
+  @include getMainColorGradient($tn-color-bluepurple, $tn-color-bluepurple-light, $tn-color-bluepurple-disabled, $tn-color-aquablue, $tn-color-aquablue-light);
+}
+.tn-main-gradient-aquablue {
+  @include getMainColorGradient($tn-color-aquablue, $tn-color-aquablue-light, $tn-color-aquablue-disabled, $tn-color-blue, $tn-color-blue-light);
+}
+.tn-main-gradient-blue {
+  @include getMainColorGradient($tn-color-blue, $tn-color-blue-light, $tn-color-blue-disabled, $tn-color-indigo, $tn-color-indigo-light);
+}
+.tn-main-gradient-indigo {
+  @include getMainColorGradient($tn-color-indigo, $tn-color-indigo-light, $tn-color-indigo-disabled, $tn-color-cyan, $tn-color-cyan-light);
+}
+.tn-main-gradient-cyan {
+  @include getMainColorGradient($tn-color-cyan, $tn-color-cyan-light, $tn-color-cyan-disabled, $tn-color-teal, $tn-color-teal-light);
+}
+.tn-main-gradient-teal {
+  @include getMainColorGradient($tn-color-teal, $tn-color-teal-light, $tn-color-teal-disabled, $tn-color-green, $tn-color-green-light);
+}
+.tn-main-gradient-green {
+  @include getMainColorGradient($tn-color-green, $tn-color-green-light, $tn-color-green-disabled, $tn-color-yellowgreen, $tn-color-yellowgreen-light);
+}
+.tn-main-gradient-yellowgreen {
+  @include getMainColorGradient($tn-color-yellowgreen, $tn-color-yellowgreen-light, $tn-color-yellowgreen-disabled, $tn-color-lime, $tn-color-lime-light);
+}
+.tn-main-gradient-lime {
+  @include getMainColorGradient($tn-color-lime, $tn-color-lime-light, $tn-color-lime-disabled, $tn-color-yellow, $tn-color-yellow-light);
+}
+.tn-main-gradient-yellow {
+  @include getMainColorGradient($tn-color-yellow, $tn-color-yellow-light, $tn-color-yellow-disabled, $tn-color-orangeyellow, $tn-color-orangeyellow-light);
+}
+.tn-main-gradient-orangeyellow {
+  @include getMainColorGradient($tn-color-orangeyellow, $tn-color-orangeyellow-light, $tn-color-orangeyellow-disabled, $tn-color-orange, $tn-color-orange-light);
+}
+.tn-main-gradient-orange {
+  @include getMainColorGradient($tn-color-orange, $tn-color-orange-light, $tn-color-orange-disabled, $tn-color-orangered, $tn-color-orangered-light);
+}
+.tn-main-gradient-orangered {
+  @include getMainColorGradient($tn-color-orangered, $tn-color-orangered-light, $tn-color-orangered-disabled, $tn-color-red, $tn-color-red-light);
+}
+/* 主色渐变色 end */
+
+/* 动态背景颜色 start */
+
+.tn-dynamic-bg-1 {
+  color: #fff;
+  background: linear-gradient(45deg, #F15BB5, #9A5CE5, #01BEFF, #00F5D4);
+  background-size: 500% 500%;
+  animation: dynamicBg 15s ease infinite;
+}
+
+@keyframes dynamicBg {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 动态背景颜色 end */
+
+/* 酷炫背景颜色图片 start */
+
+.tn-cool-bg-color-1 {
+  @include getGradientColor($tn-cool-bg-color-1-start, $tn-cool-bg-color-1-end);
+}
+.tn-cool-bg-color-2 {
+  @include getGradientColor($tn-cool-bg-color-2-start, $tn-cool-bg-color-2-end);
+}
+.tn-cool-bg-color-3 {
+  @include getGradientColor($tn-cool-bg-color-3-start, $tn-cool-bg-color-3-end);
+}
+.tn-cool-bg-color-4 {
+  @include getGradientColor($tn-cool-bg-color-4-start, $tn-cool-bg-color-4-end);
+}
+.tn-cool-bg-color-5 {
+  @include getGradientColor($tn-cool-bg-color-5-start, $tn-cool-bg-color-5-end);
+}
+.tn-cool-bg-color-6 {
+  @include getGradientColor($tn-cool-bg-color-6-start, $tn-cool-bg-color-6-end);
+}
+.tn-cool-bg-color-7 {
+  @include getGradientColor($tn-cool-bg-color-7-start, $tn-cool-bg-color-7-end);
+}
+.tn-cool-bg-color-8 {
+  @include getGradientColor($tn-cool-bg-color-8-start, $tn-cool-bg-color-8-end);
+}
+.tn-cool-bg-color-9 {
+  @include getGradientColor($tn-cool-bg-color-9-start, $tn-cool-bg-color-9-end);
+}
+.tn-cool-bg-color-10 {
+  @include getGradientColor($tn-cool-bg-color-10-start, $tn-cool-bg-color-10-end);
+}
+.tn-cool-bg-color-11 {
+  @include getGradientColor($tn-cool-bg-color-11-start, $tn-cool-bg-color-11-end);
+}
+.tn-cool-bg-color-12 {
+  @include getGradientColor($tn-cool-bg-color-12-start, $tn-cool-bg-color-12-end);
+}
+.tn-cool-bg-color-13 {
+  @include getGradientColor($tn-cool-bg-color-13-start, $tn-cool-bg-color-13-end);
+}
+.tn-cool-bg-color-14 {
+  @include getGradientColor($tn-cool-bg-color-14-start, $tn-cool-bg-color-14-end);
+}
+.tn-cool-bg-color-15 {
+  @include getGradientColor($tn-cool-bg-color-15-start, $tn-cool-bg-color-15-end);
+}
+.tn-cool-bg-color-16 {
+  @include getGradientColor($tn-cool-bg-color-16-start, $tn-cool-bg-color-16-end);
+}
+
+.tn-cool-bg-image::after {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  border-radius: 10rpx;
+  opacity: 1;
+  transform: scale(1, 1);
+  background-size: 100% 100%;
+  background-image: inherit;
+}
+
+.tn-cool-bg-image:nth-of-type(1n)::after {
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/1.png);
+}
+
+.tn-cool-bg-image:nth-of-type(2n)::after {
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/2.png);
+}
+
+.tn-cool-bg-image:nth-of-type(3n)::after {
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/3.png);
+}
+
+.tn-cool-bg-image:nth-of-type(4n)::after {
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/4.png);
+}
+
+.tn-cool-bg-image:nth-of-type(5n)::after {
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/5.png);
+}
+
+.tn-cool-bg-image:nth-of-type(6n)::after {
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/6.png);
+}
+
+/* 酷炫背景颜色图片 end */

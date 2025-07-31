@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "商品详情",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-list-cell": "/tuniao-ui/components/tn-list-cell/tn-list-cell",
+    "tn-sticky": "/tuniao-ui/components/tn-sticky/tn-sticky",
+    "tn-tabs": "/tuniao-ui/components/tn-tabs/tn-tabs",
+    "tn-goods-nav": "/tuniao-ui/components/tn-goods-nav/tn-goods-nav"
+  }
+}

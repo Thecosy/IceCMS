@@ -1,0 +1,95 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "subPackages": [
+    {
+      "root": "homePages",
+      "pages": [
+        "about",
+        "search",
+        "hot",
+        "navigation",
+        "profession",
+        "loading"
+      ]
+    },
+    {
+      "root": "circlePages",
+      "pages": [
+        "blogger",
+        "blogger_other",
+        "edit",
+        "advertise",
+        "news",
+        "king",
+        "business",
+        "group",
+        "ranking",
+        "details",
+        "reserve",
+        "create",
+        "build",
+        "chat",
+        "chatting"
+      ]
+    },
+    {
+      "root": "activityPages",
+      "pages": [
+        "map",
+        "topic",
+        "study",
+        "project",
+        "planet"
+      ]
+    },
+    {
+      "root": "preferredPages",
+      "pages": [
+        "shop",
+        "product",
+        "order",
+        "classify",
+        "photo",
+        "website",
+        "redeem",
+        "award",
+        "awardget"
+      ]
+    },
+    {
+      "root": "minePages",
+      "pages": [
+        "protocol",
+        "login",
+        "message",
+        "set",
+        "start",
+        "thanks",
+        "version",
+        "help",
+        "avatar",
+        "integral",
+        "signed",
+        "collect",
+        "safety",
+        "default",
+        "reward",
+        "content",
+        "onlogin"
+      ]
+    }
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "IceCMSUI+圈子",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "requiredPrivateInfos": [
+    "chooseAddress"
+  ],
+  "usingComponents": {}
+}

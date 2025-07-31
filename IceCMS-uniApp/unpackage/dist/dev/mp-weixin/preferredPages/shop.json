@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "优质商家",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-notice-bar": "/tuniao-ui/components/tn-notice-bar/tn-notice-bar",
+    "tn-avatar-group": "/tuniao-ui/components/tn-avatar-group/tn-avatar-group",
+    "tn-modal": "/tuniao-ui/components/tn-modal/tn-modal",
+    "tn-landscape": "/tuniao-ui/components/tn-landscape/tn-landscape"
+  }
+}

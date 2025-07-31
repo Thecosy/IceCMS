@@ -1,0 +1,151 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-search-fixed.data-v-f6929940 {
+  position: fixed;
+  top: 50rpx;
+  width: 100%;
+  transition: all 0.25s ease-out;
+  z-index: 1;
+}
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-f6929940 {
+  width: 60%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-f6929940 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+/* 顶部渐变*/
+.tn-navbg.data-v-f6929940 {
+  background: linear-gradient(-120deg, #F15BB5, #9A5CE5, #01BEFF, #00F5D4);
+  /* background: linear-gradient(-120deg,  #9A5CE5, #01BEFF, #00F5D4, #43e97b); */
+  /* background: linear-gradient(-120deg,#c471f5, #ec008c, #ff4e50,#f9d423); */
+  /* background: linear-gradient(-120deg, #0976ea, #c471f5, #f956b6, #ea7e0a); */
+  background-size: 500% 500%;
+  -webkit-animation: gradientBG-data-v-f6929940 15s ease infinite;
+          animation: gradientBG-data-v-f6929940 15s ease infinite;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+@-webkit-keyframes gradientBG-data-v-f6929940 {
+0% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: 0% 50%;
+}
+}
+@keyframes gradientBG-data-v-f6929940 {
+0% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: 0% 50%;
+}
+}
+/* 搜索标签 start*/
+.tn-tag-search__item.data-v-f6929940 {
+  display: inline-block;
+  line-height: 45rpx;
+  padding: 10rpx 30rpx;
+  margin: 20rpx 20rpx 5rpx 0rpx;
+}
+.tn-tag-search__item--prefix.data-v-f6929940 {
+  padding-right: 10rpx;
+}
+/* 标签内容 end*/
+/* 标题 start */
+.nav_title.data-v-f6929940 {
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.nav_title--wrap.data-v-f6929940 {
+  position: relative;
+  display: flex;
+  height: 120rpx;
+  font-size: 42rpx;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background-image: url(https://resource.tuniaokj.com/images/title_bg/title00.png);
+  background-size: cover;
+}
+/* 标题 end */
+/* 富文本图示意 start */
+.news-img.data-v-f6929940 {
+  z-index: -1;
+  padding-bottom: 40rpx;
+}
+.news-img image.data-v-f6929940 {
+  width: 100%;
+  margin: 20rpx 0;
+}
+/* 资讯主图 start*/
+.image-article.data-v-f6929940 {
+  border-radius: 8rpx;
+  border: 1rpx solid #F8F7F8;
+  width: 200rpx;
+  height: 200rpx;
+  position: relative;
+}
+.image-pic.data-v-f6929940 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  border-radius: 10rpx;
+}
+.article-shadow.data-v-f6929940 {
+  border-radius: 15rpx;
+  box-shadow: 0rpx 0rpx 50rpx 0rpx rgba(0, 0, 0, 0.07);
+}
+/* 文字截取*/
+.clamp-text-1.data-v-f6929940 {
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.clamp-text-2.data-v-f6929940 {
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+/* 标签内容 start*/
+.tn-tag-content__item.data-v-f6929940 {
+  display: inline-block;
+  line-height: 35rpx;
+  padding: 7rpx 25rpx 5rpx 25rpx;
+}
+.tn-tag-content__item--prefix.data-v-f6929940 {
+  padding-right: 10rpx;
+}
+/* 标签内容 end*/
+

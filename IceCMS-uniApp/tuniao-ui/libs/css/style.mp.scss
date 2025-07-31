@@ -1,0 +1,52 @@
+::-webkit-scrollbar {
+	display: none;  
+	width: 0 !important;  
+	height: 0 !important;  
+	-webkit-appearance: none;  
+	background: transparent;  
+}
+/* 微信小程序编译后页面有组件名的元素，特别处理 start */
+/* #ifdef MP-WEIXIN || MP-QQ */
+// 各家小程序宫格组件外层设置为100%，避免受到父元素display: flex;的影响
+
+/* 双标签 start*/
+.capsule {
+  display: inline-flex;
+  vertical-align: middle;
+  width: 20%;
+  min-width: 136rpx;
+  height: 45rpx;
+  
+  tn-tag {
+    margin: 0;
+    width: 100%;
+    
+    &:first-child {
+      .tn-tag {
+        border-top-right-radius: 0rpx;
+        border-bottom-right-radius: 0rpx;
+      }
+    }
+    
+    &:last-child {
+      .tn-tag {
+        &::after {
+          border-top-left-radius: 0rpx;
+          border-bottom-left-radius: 0rpx;
+        }
+      }
+      
+      
+    }
+  }
+}
+/* 双标签 end*/
+
+/* #endif */
+/* 微信小程序编译后页面有组件名的元素，特别处理 end */
+
+/* 头条小程序编译后页面有组件名的元素，特别处理 start */
+/* #ifdef MP-TOUTIAO */
+// 各家小程序宫格组件外层设置为100%，避免受到父元素display: flex;的影响
+/* #endif */
+/* 头条小程序编译后页面有组件名的元素，特别处理 end */

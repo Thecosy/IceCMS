@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "地图打卡",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-modal": "/tuniao-ui/components/tn-modal/tn-modal",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button"
+  }
+}

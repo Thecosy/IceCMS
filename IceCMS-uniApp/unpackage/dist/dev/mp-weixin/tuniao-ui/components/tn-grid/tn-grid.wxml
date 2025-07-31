@@ -1,0 +1,1 @@
+<view class="tn-grid-class tn-grid data-v-7a8d5220" style="{{'justify-content:'+(gridAlignStyle)+';'}}"><slot></slot></view>

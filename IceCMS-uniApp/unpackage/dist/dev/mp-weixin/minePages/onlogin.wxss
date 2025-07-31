@@ -1,0 +1,120 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.dp-c {
+  display: flex;
+  flex-direction: column;
+}
+.dp-a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  background-color: #fff;
+  height: 100vh;
+}
+.back-button {
+  display: flex;
+  padding-top: 54px;
+  padding-left: 14px;
+}
+.phone-number {
+  margin-top: 15%;
+  text-align: center;
+}
+.masked-number {
+  font-size: 68rpx;
+  font-weight: 400;
+}
+.login-old {
+  color: #888;
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+}
+.verification-info {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #888;
+  font-weight: 400;
+}
+.button-container {
+  margin-top: 80rpx;
+  margin-left: 80rpx;
+  margin-right: 80rpx;
+  margin-bottom: 40rpx;
+}
+.login-button {
+  background-color: #08A0F7;
+  color: white;
+  /* padding: 24rpx 0; */
+  border-radius: 20rpx;
+  text-align: center;
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-weight: bold;
+}
+.other-login-button {
+  border: 2rpx solid #888;
+  border-radius: 20rpx;
+  text-align: center;
+  font-size: 32rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  background-color: #fff;
+}
+.agreement {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #888;
+  padding-left: 80rpx;
+}
+.agreement .link {
+  color: #007aff;
+  margin: 0 10rpx;
+}
+.agreement .custom-checkbox {
+  width: 30rpx;
+  /* 设置复选框宽度 */
+  height: 30rpx;
+  /* 设置复选框高度 */
+  border-radius: 50%;
+  /* 使复选框圆形 */
+  border: 2rpx solid #888;
+  /* 边框颜色 */
+  background-color: transparent;
+  /* 默认背景透明 */
+  cursor: pointer;
+  /* 鼠标指针样式 */
+  transition: background-color 0.3s;
+  /* 背景颜色过渡效果 */
+}
+.agreement .custom-checkbox.checked {
+  background-color: #333;
+  /* 选中时的背景颜色 */
+}
+.icon-container {
+  width: 100%;
+  position: fixed;
+  bottom: 100rpx;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: auto;
+  padding-bottom: 40rpx;
+}
+.icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin: 0 20rpx;
+  border: 2rpx solid #ececec;
+  border-radius: 90rpx;
+}
+

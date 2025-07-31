@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "活动创建",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-image-upload-drag": "/tuniao-ui/components/tn-image-upload-drag/tn-image-upload-drag",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button"
+  }
+}

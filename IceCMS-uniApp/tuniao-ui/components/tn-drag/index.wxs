@@ -1,0 +1,265 @@
+// 判断是否出界
+var isOutRange = function(x1, y1, x2, y2, x3, y3) {
+  return x1 < 0 || x1 >= y1 || x2 < 0 || x2 >= y2 || x3 < 0 || x3 >= y3
+}
+var edit = false
+
+function bool(str) {
+  return str === 'true' || str === true
+}
+/**
+ * 排序核心
+ * @param {Object} startKey 开始时位置
+ * @param {Object} endKey 结束时位置
+ * @param {Object} instance wxs内的局部变量快照
+ */
+var sortCore = function(startKey, endKey, state) {
+  var basedata = state.basedata
+  var excludeFix = function(sortKey, type) {
+    // fixed 元素位置不会变化, 这里直接用 sortKey 获取，更加便捷
+    if (state.list[sortKey].fixed) {
+      var _sortKey = type ? --sortKey : ++sortKey
+      return excludeFix(sortKey, type)
+    }
+    return sortKey
+  }
+  
+  // 先获取到 endKey 对应的 realKey, 防止下面排序过程中该 realKey 被修改
+  var endRealKey = -1
+  state.list.forEach(function(item) {
+    if (item.sortKey === endKey) endRealKey = item.realKey
+  })
+  
+  return state.list.map(function(item) {
+    if (item.fixed) return item
+    var sortKey = item.sortKey
+    var realKey = item.realKey
+    
+    if (startKey < endKey) {
+      // 正序拖动
+      if (sortKey > startKey && sortKey <= endKey) {
+        --realKey
+        sortKey =  excludeFix(--sortKey, true)
+      } else if (sortKey === startKey) {
+        realKey = endRealKey
+        sortKey = endKey
+      }
+    } else if (startKey > endKey) {
+      // 倒序拖动
+      if (sortKey >= endKey && sortKey < startKey) {
+        ++realKey
+        sortKey = excludeFix(++sortKey, false)
+      } else if (sortKey === startKey) {
+        realKey = endRealKey
+        sortKey = endKey
+      }
+    }
+    
+    if (item.sortKey != sortKey) {
+      item.translateX = (sortKey % basedata.columns) * 100 + '%'
+      item.translateY = Math.floor(sortKey / basedata.columns) * 100 + '%'
+      item.sortKey = sortKey
+      item.realKey = realKey
+    }
+    return item
+  })
+}
+
+var triggerCustomEvent = function(list, type, instance) {
+  if (!instance) return
+  var _list = [],
+    listData = [];
+    
+  list.forEach(function(item) {
+    _list[item.sortKey] = item
+  })
+  _list.forEach(function(item) {
+    listData.push(item.data)
+  })
+  
+  // 编译到小程序 funcName作为参数传递导致事件不执行
+  switch(type) {
+    case 'change':
+      instance.callMethod('change', {data: listData})
+      break
+    case 'sortEnd':
+      instance.callMethod('sortEnd', {data: listData})
+      break
+  }
+}
+
+var listObserver = function(newVal, oldVal, ownerInstance, instance) {
+  var state = ownerInstance.getState()
+  state.itemsInstance = ownerInstance.selectAllComponents('.tn-drag__item')
+  
+  state.list = newVal || []
+  
+  state.list.forEach(function(item, index) {
+    var itemInstance = state.itemsInstance[index]
+    if (item && itemInstance) {
+      itemInstance.setStyle({
+        'transform': 'translate3d('+ item.translateX + ',' + item.translateY +', 0)'
+      })
+      if (item.fixed) itemInstance.addClass('tn-drag__fixed')
+    }
+  })
+}
+
+var baseDataObserver = function(newVal, oldVal, ownerInstance, instance) {
+  var state = ownerInstance.getState()
+  state.basedata = newVal
+}
+
+var longPress = function(event, ownerInstance) {
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  var state = ownerInstance.getState()
+  
+  edit = bool(dataset.edit)
+  if (!edit) return
+  if (!state.basedata || state.basedata === 'undefined') {
+    state.basedata = JSON.parse(dataset.basedata)
+  }
+  var basedata = state.basedata
+  var touches = event.changedTouches[0]
+  if (!touches) return
+  
+  state.current = +dataset.index
+  
+  // 初始项是固定项则返回
+  var item = state.list[state.current]
+  if (item && item.fixed) return
+  
+  // 如果已经在 drag 中则返回, 防止多指触发 drag 动作, touchstart 事件中有效果
+  if (state.dragging) return
+  
+  ownerInstance.callMethod("drag", {
+    dragging: true
+  })
+  
+  // 计算X, Y轴初始位移，使item中心移动到点击处，单列的时候X轴初始不做位移
+  state.translateX = basedata.columns === 1 ? 0 : touches.pageX - (basedata.itemWidth / 2 + basedata.left)
+  state.translateY = touches.pageY - (basedata.itemHeight / 2 + basedata.top)
+  state.touchId = touches.identifier
+  
+  instance.setStyle({
+    'transform': 'translate3d(' + state.translateX + 'px,' + state.translateY +'px, 0)'
+  })
+  state.itemsInstance.forEach(function(item, index) {
+    item.removeClass("tn-drag__transition").removeClass("tn-drag__current")
+    item.addClass(index === state.current ? "tn-drag__current" : "tn-drag__transition")
+  })
+  
+  ownerInstance.callMethod("vibrate")
+  state.dragging = true
+}
+
+var touchStart = function(event, ownerInstance) {
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  edit = bool(dataset.edit)
+}
+
+var touchMove = function(event, ownerInstance) {
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  var state = ownerInstance.getState()
+  var basedata = state.basedata
+  
+  if (!state.dragging || !edit) return
+  var touches = event.changedTouches[0]
+  if (!touches) return
+  
+  // 如果不是同一个触发点则返回
+  if (state.touchId !== touches.identifier) return
+  
+  // 计算X,Y轴位移, 单列时候X轴初始不做位移
+  var translateX = basedata.columns === 1 ? 0 : touches.pageX - (basedata.itemWidth / 2 + basedata.left)
+  var translateY = touches.pageY - (basedata.itemHeight / 2 + basedata.top)
+  
+  // 到顶到低自动滑动
+  if (touches.clientY > basedata.windowHeight - basedata.itemHeight - basedata.realBottomSize) {
+    // 当前触摸点pageY + item高度 - (屏幕高度 - 底部固定区域高度)
+    ownerInstance.callMethod('pageScroll', {
+      scrollTop: touches.pageY + basedata.itemHeight - (basedata.windowHeight - basedata.realBottomSize)
+    })
+  } else if (touches.clientY < basedata.itemHeight + basedata.realTopSize) {
+    // 当前触摸点pageY - item高度 - 顶部固定区域高
+    ownerInstance.callMethod('pageScroll', {
+      scrollTop: touches.pageY - basedata.itemHeight - basedata.realTopSize
+    })
+  }
+  
+  // 设置当前激活元素的偏移量
+  instance.setStyle({
+    'transform': 'translate3d('+ translateX + 'px,' + translateY + 'px, 0)'
+  })
+  
+  var startKey = state.list[state.current].sortKey
+  var currentX = Math.round(translateX / basedata.itemWidth)
+  var currentY = Math.round(translateY / basedata.itemHeight)
+  var endKey = currentX + basedata.columns * currentY
+  
+  // 目标项时固定项则返回
+  var item = state.list[endKey]
+  if (item && item.fixed) return
+  
+  // X轴或者Y轴超出范围则返回
+  if (isOutRange(currentX, basedata.columns, currentY, basedata.rows, endKey, state.list.length)) return
+  
+  // 防止拖拽过程中发生乱序问题
+  if (startKey === endKey || startKey === state.preStartKey) return
+  state.preStartKey = startKey
+  
+  var list = sortCore(startKey, endKey, state)
+  state.itemsInstance.forEach(function(itemInstance, index) {
+    var item = list[index]
+    if (index !== state.current) {
+      itemInstance.setStyle({
+        'transform': 'translate3d('+ item.translateX + ',' + item.translateY +', 0)'
+      })
+    }
+  })
+  
+  // ownerInstance.callMethod('vibrate')
+  ownerInstance.callMethod('listDataChange', {
+    data: list
+  })
+  triggerCustomEvent(list, "change", ownerInstance)
+}
+
+var touchEnd = function(event, ownerInstance) {
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  var state = ownerInstance.getState()
+  var basedata = state.basedata
+  
+  if (!state.dragging || !edit) return
+  triggerCustomEvent(state.list, "sortEnd", ownerInstance)
+  
+  instance.addClass('tn-drag__transition')
+  instance.setStyle({
+    'transform': 'translate3d('+ state.list[state.current].translateX + ',' + state.list[state.current].translateY + ', 0)'
+  })
+  state.itemsInstance.forEach(function(item, index) {
+    item.removeClass('tn-drag__transition')
+  })
+  
+  state.preStartKey = -1
+  state.dragging = false
+  ownerInstance.callMethod('drag', {
+    dragging: false
+  })
+  state.current = -1
+  state.translateX = 0
+  state.translateY = 0
+}
+
+module.exports = {
+	longPress: longPress,
+	touchStart: touchStart,
+	touchMove: touchMove,
+	touchEnd: touchEnd,
+	baseDataObserver: baseDataObserver,
+	listObserver: listObserver
+}

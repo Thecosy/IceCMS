@@ -1,0 +1,183 @@
+// 此文件为TuniaoUI的主题变量，这些变量目前只能通过uni.scss引入才有效，另外由于
+// uni.scss中引入的样式会同时混入到全局样式文件和单独每一个页面的样式中，造成微信程序包太大，
+// 故uni.scss只建议放scss变量名相关样式，其他的样式可以通过main.js或者App.vue引入
+
+// 组件配置
+$tn-form-item-height: 70rpx;
+
+
+// 主颜色
+$tn-main-color: #01BEFF;
+$tn-main-orange: #FBBD12;
+$tn-embellished-green: #00FFC6;
+$tn-embellished-yellow: #FFF00D;
+$tn-auxiliary-powder: #FF71D2;
+$tn-auxiliary-blue: #82B2FF;
+$tn-bg-color: #FFFFFF;
+$tn-bg-gray-color: #F4F4F4;
+$tn-space-color: #F8F7F8;
+
+// 边框颜色
+$tn-border-solid-color: rgba(0, 0, 0, 0.1);
+$tn-border-solids-color: #eee;
+$tn-border-dashed-color: #ddd;
+
+// 阴影颜色
+$tn-shadow-color: rgba(0, 0, 0, 0.1);
+$tn-box-shadow-color: rgba(0, 0, 0, 0.2);
+
+// 字体颜色
+$tn-font-color: #080808;
+$tn-font-sub-color: #AAAAAA;
+$tn-content-color: #838383;
+$tn-font-holder-color: #E6E6E6;
+
+$tn-mask-bg-color: rgba(0, 0, 0, 0.4);
+
+$tn-progress-bg-color: #f0f0f0;
+
+
+$tn-color-red: #E83A30;
+$tn-color-red-dark: #BA2E26;
+$tn-color-red-disabled: #F39C97;
+$tn-color-red-light: #FAD8D6;
+
+$tn-color-purplered: #E72F8C;
+$tn-color-purplered-dark: #B9266F;
+$tn-color-purplered-disabled: #F397C5;
+$tn-color-purplered-light: #FAD5E8;
+
+$tn-color-purple: #892FE8;
+$tn-color-purple-dark: #6E26BA;
+$tn-color-purple-disabled: #C497F3;
+$tn-color-purple-light: #E7D5FA;
+
+$tn-color-bluepurple: #5F4FD9;
+$tn-color-bluepurple-dark: #4C3FAE;
+$tn-color-bluepurple-disabled: #AFA7EC;
+$tn-color-bluepurple-light: #DFDCF7;
+
+$tn-color-aquablue: #3646FF;
+$tn-color-aquablue-dark: #2B38CC;
+$tn-color-aquablue-disabled: #9AA2FF;
+$tn-color-aquablue-light: #D7DAFF;
+
+$tn-color-blue: #3D7EFF;
+$tn-color-blue-dark: #3165CC;
+$tn-color-blue-disabled: #9EBEFF;
+$tn-color-blue-light: #D8E5FF;
+
+$tn-color-indigo: #31C9E8;
+$tn-color-indigo-dark: #27A1BA;
+$tn-color-indigo-disabled: #98E4F3;
+$tn-color-indigo-light: #D6F4FA;
+
+$tn-color-cyan: #2DE8BD;
+$tn-color-cyan-dark: #24BA97;
+$tn-color-cyan-disabled: #96F3DE;
+$tn-color-cyan-light: #D5FAF2;
+
+$tn-color-teal: #24F083;
+$tn-color-teal-dark: #1DC069;
+$tn-color-teal-disabled: #91F7C1;
+$tn-color-teal-light: #D3FCE6;
+
+$tn-color-green: #31E749;
+$tn-color-green-dark: #27B93A;
+$tn-color-green-disabled: #98F3A4;
+$tn-color-green-light: #D6FADB;
+
+$tn-color-yellowgreen: #A4E82F;
+$tn-color-yellowgreen-dark: #82BA26;
+$tn-color-yellowgreen-disabled: #D1F397;
+$tn-color-yellowgreen-light: #EDFAD5;
+
+$tn-color-lime: #D5EB00;
+$tn-color-lime-dark: #AABC00;
+$tn-color-lime-disabled: #E9F57F;
+$tn-color-lime-light: #F7FBCC;
+
+$tn-color-yellow: #FFF420;
+$tn-color-yellow-dark: #CCC21A;
+$tn-color-yellow-disabled: #FFF88F;
+$tn-color-yellow-light: #FFFDD2;
+
+$tn-color-orangeyellow: #FFCA28;
+$tn-color-orangeyellow-dark: #CCA220;
+$tn-color-orangeyellow-disabled: #FFE493;
+$tn-color-orangeyellow-light: #FFF4D4;
+
+$tn-color-orange: #FFA726;
+$tn-color-orange-dark: #CC851E;
+$tn-color-orange-disabled: #FFD392;
+$tn-color-orange-light: #FFEDD4 ;
+
+$tn-color-orangered: #FF7043;
+$tn-color-orangered-dark: #CC5A36;
+$tn-color-orangered-disabled: #FFB7A1;
+$tn-color-orangered-light: #FFE2D9;
+
+$tn-color-brown: #914F2C;
+$tn-color-brown-dark: #743F23;
+$tn-color-brown-disabled: #C8A795;
+$tn-color-brown-light: #E9DCD5;
+
+$tn-color-grey: #78909C;
+$tn-color-grey-dark: #5F7E8B;
+$tn-color-grey-disabled: #C6D1D8;
+$tn-color-grey-light: #E4E9EC;
+
+$tn-color-gray: #AAAAAA;
+$tn-color-gray-dark: #838383;
+$tn-color-gray-disabled: #E6E6E6;
+$tn-color-gray-light: #F8F7F8;
+
+$tn-cool-bg-color-1-start: #F5317F;
+$tn-cool-bg-color-1-end: #FF7C6E;
+
+$tn-cool-bg-color-2-start: #CA26FF;
+$tn-cool-bg-color-2-end: #F360A7;
+
+$tn-cool-bg-color-3-start: #A26FFC;
+$tn-cool-bg-color-3-end: #9D12FF;
+
+$tn-cool-bg-color-4-start: #AA77F0;
+$tn-cool-bg-color-4-end: #E871E5;
+
+$tn-cool-bg-color-5-start: #40A0F7;
+$tn-cool-bg-color-5-end: #4866E6;
+
+$tn-cool-bg-color-6-start: #209CFF;
+$tn-cool-bg-color-6-end: #68E0CF;
+
+$tn-cool-bg-color-7-start: #00C3FF;
+$tn-cool-bg-color-7-end: #58FFF5;
+
+$tn-cool-bg-color-8-start: #00d1FF;
+$tn-cool-bg-color-8-end: #69FF97;
+
+$tn-cool-bg-color-9-start: #0FD893;
+$tn-cool-bg-color-9-end: #29ECBF;
+
+$tn-cool-bg-color-10-start: #0FD850;
+$tn-cool-bg-color-10-end: #F9F047;
+
+$tn-cool-bg-color-11-start: #24FE41;
+$tn-cool-bg-color-11-end: #F7FD47;
+
+$tn-cool-bg-color-12-start: #D6FF7F;
+$tn-cool-bg-color-12-end: #00F657;
+
+$tn-cool-bg-color-13-start: #FA709A;
+$tn-cool-bg-color-13-end: #FEE140;
+
+$tn-cool-bg-color-14-start: #FE5E9C;
+$tn-cool-bg-color-14-end: #F1AA76;
+
+$tn-cool-bg-color-15-start: #FF3181;
+$tn-cool-bg-color-15-end: #FF8331;
+
+$tn-cool-bg-color-16-start: #ED1C24;
+$tn-cool-bg-color-16-end: #FECE12;
+
+

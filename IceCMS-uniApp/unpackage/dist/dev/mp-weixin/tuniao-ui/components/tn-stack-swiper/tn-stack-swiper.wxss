@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-stack-swiper.data-v-b333bfc4 {
+  position: relative;
+}
+.tn-stack-swiper__item.data-v-b333bfc4 {
+  position: absolute;
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+.tn-stack-swiper__item--horizontal.data-v-b333bfc4 {
+  width: 88%;
+  height: 100%;
+  -webkit-transform-origin: left center;
+          transform-origin: left center;
+}
+.tn-stack-swiper__item--vertical.data-v-b333bfc4 {
+  width: 100%;
+  height: 88%;
+  -webkit-transform-origin: top center;
+          transform-origin: top center;
+}
+.tn-stack-swiper__item__transition.data-v-b333bfc4 {
+  transition-property: opacity,-webkit-transform;
+  transition-property: transform,opacity;
+  transition-property: transform,opacity,-webkit-transform;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+}
+.tn-stack-swiper__image.data-v-b333bfc4 {
+  width: 100%;
+  height: 100%;
+}
+

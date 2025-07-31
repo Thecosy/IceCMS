@@ -1,0 +1,59 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-list-cell.data-v-5ba5bbbc {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  color: #080808;
+  font-size: 28rpx;
+  padding: 26rpx 30rpx;
+}
+.tn-list-cell--radius.data-v-5ba5bbbc {
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+.tn-list-cell--arrow.data-v-5ba5bbbc::before {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 30rpx;
+  width: 20rpx;
+  height: 20rpx;
+  margin-top: -12rpx;
+  border-width: 4rpx 4rpx 0 0;
+  border-color: #E6E6E6;
+  border-style: solid;
+  -webkit-transform: matrix(0.5, 0.5, -0.5, 0.5, 0, 0);
+          transform: matrix(0.5, 0.5, -0.5, 0.5, 0, 0);
+}
+.tn-list-cell--arrow--none-right.data-v-5ba5bbbc::before {
+  right: 0 !important;
+}
+.tn-list-cell.data-v-5ba5bbbc::after {
+  content: " ";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  pointer-events: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  -webkit-transform: scaleY(0.5) translateZ(0);
+          transform: scaleY(0.5) translateZ(0);
+  -webkit-transform-origin: 0 100%;
+          transform-origin: 0 100%;
+}
+.tn-list-cell--line-left.data-v-5ba5bbbc::after {
+  left: 30rpx !important;
+}
+.tn-list-cell--line-right.data-v-5ba5bbbc::after {
+  right: 30rpx !important;
+}
+.tn-list-cell--unlined.data-v-5ba5bbbc::after {
+  border-bottom: 0 !important;
+}
+

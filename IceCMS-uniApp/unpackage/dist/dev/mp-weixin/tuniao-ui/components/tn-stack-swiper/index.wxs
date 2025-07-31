@@ -1,0 +1,657 @@
+
+function setTimeout(instance, cb, time) {
+  if (time > 0) {
+    var s = getDate().getTime()
+    var fn = function () {
+        if (getDate().getTime() - s > time) {
+            cb && cb()
+        } else
+            instance.requestAnimationFrame(fn)
+    }
+    fn()
+  }
+  else
+    cb && cb()
+}
+
+// 判断触摸的移动方向
+function decideSwiperDirection(startTouches, currentTouches, direction) {
+  // 震动偏移容差
+  var toleranceShake = 30
+  // 移动容差
+  var toleranceTranslate = 10
+  
+  if (direction === 'horizontal') {
+    // 水平方向移动
+    if (Math.abs(currentTouches.y - startTouches.y) <= toleranceShake) {
+      // console.log(currentTouches.x, startTouches.x);
+      if (Math.abs(currentTouches.x - startTouches.x) > toleranceTranslate) {
+        if (currentTouches.x - startTouches.x > 0) {
+          return 'right'
+        } else if (currentTouches.x - startTouches.x < 0) {
+          return 'left'
+        }
+      }
+    }
+  } else if (direction === 'vertical') {
+    // 垂直方向移动
+    if (Math.abs(currentTouches.x - startTouches.x) <= toleranceShake) {
+      // console.log(currentTouches.x, startTouches.x);
+      if (Math.abs(currentTouches.y - startTouches.y) > toleranceTranslate) {
+        if (currentTouches.y - startTouches.y > 0) {
+          return 'down'
+        } else if (currentTouches.y - startTouches.y < 0) {
+          return 'up'
+        }
+      }
+    }
+  }
+  return ''
+}
+
+// 更新轮播样式信息
+function updateSwiperStyle(currentTouches, instance, state) {
+  var itemData = state.itemData
+  var itemsInstance = state.itemsInstance
+  var list = state.list
+  var currentIndex = state.currentIndex
+  var touchRelactive = state.touchRelactive
+  // console.log(itemAnimationWidth);
+  
+  if (itemData.direction === 'horizontal') {
+    // 水平方向
+    var itemAnimationWidth = state.itemAnimationWidth
+    // 偏移的x轴距离
+    var translateX = currentTouches.x - touchRelactive.x
+    if (currentTouches.x > itemData.windowWidth || currentTouches.x < 0) return
+    // console.log(translateX);
+    // 更新其他轮播样式
+    if (state.direction == 'left') {
+      // 设置当前激活元素的偏移量
+      instance.setStyle({
+        'transform': 'translate3d('+ translateX + 'px, 0px, 0px)',
+        'z-index': list[currentIndex].zIndex + 1,
+        'opacity': list[currentIndex].opacity
+      })
+      // 移动距离是否超过了指定的容器宽度
+      if (Math.abs(translateX) > itemAnimationWidth) {
+        state.itemsInstance.forEach( function(itemInstance, index) {
+          if (index != currentIndex) {
+            var preIndex = (index == 0) ? list.length - 1 : index - 1
+            var distanceRate = (Math.abs(translateX) - itemAnimationWidth) / (itemData.itemWidth - itemAnimationWidth)
+            var itemTranslateX = list[index].translateX - (list[index].translateX - list[preIndex].translateX) * distanceRate
+            var itemScale = list[index].scale + (list[preIndex].scale - list[index].scale) * distanceRate
+            var itemOpacity = list[index].opacity + (list[preIndex].opacity - list[index].opacity) * distanceRate
+            // console.log(preIndex);
+            // console.log(list[index]);
+            // console.log(distanceRate);
+            // console.log(itemTranslateX);
+            // console.log(itemScale);
+            // console.log(itemOpacity);
+            // console.log('-----------------------------------------------------------');
+            itemInstance.setStyle({
+              'transform': 'translate3d(' + itemTranslateX + 'px, 0px, 0px) scale(' + itemScale + ')',
+              'z-index': list[index].zIndex,
+              'opacity': itemOpacity
+            })
+          }
+        })
+      }
+    } else if (state.direction == 'right') {
+      var preIndex = (currentIndex == 0) ? list.length - 1 : currentIndex - 1
+      // 右滑的时候把最底部的取出，并放到最高层级
+      state.itemsInstance[preIndex].setStyle({
+        'transform': 'translate3d(-' + (itemData.itemWidth - translateX) + 'px, 0px, 0px) scale(1)',
+        'z-index': list[currentIndex].zIndex + 1,
+        'opacity': list[currentIndex].opacity
+      })
+      // 当前轮播逐渐缩小
+      if (Math.abs(translateX) < itemAnimationWidth) {
+        state.itemsInstance.forEach( function(itemInstance, index) {
+          if (index != preIndex) {
+            var replaceIndex = index == list.length - 1 ? 0 : index + 1
+            var distanceRate = Math.abs(translateX) / itemAnimationWidth
+            var itemTranslateX = list[index].translateX + (list[replaceIndex].translateX - list[index].translateX) * distanceRate
+            var itemScale = list[index].scale - (list[index].scale - list[replaceIndex].scale) * distanceRate
+            var itemOpacity = list[index].opacity - (list[index].opacity - list[replaceIndex].opacity) * distanceRate
+            // console.log(preIndex);
+            // console.log(index);
+            // console.log(replaceIndex);
+            // console.log(list[index]);
+            // console.log(list[replaceIndex].translateX - list[index].translateX);
+            // console.log(distanceRate);
+            // console.log(itemTranslateX);
+            // console.log(itemScale);
+            // console.log('-----------------------------------------------------------');
+            itemInstance.setStyle({
+              'transform': 'translate3d(' + itemTranslateX + 'px, 0px, 0px) scale(' + itemScale + ')',
+              'z-index': list[index].zIndex,
+              'opacity': itemOpacity
+            })
+          }
+        })
+      }
+    }
+  } else if (itemData.direction === 'vertical') {
+    // 垂直方向
+    var itemAnimationHeight = state.itemAnimationHeight
+    // 偏移的y轴距离
+    var translateY = currentTouches.y - touchRelactive.y
+    if (currentTouches.y > itemData.windowHeight || currentTouches.y < 0) return
+    // console.log(translateX);
+    // 更新其他轮播样式
+    if (state.direction == 'up') {
+      // 设置当前激活元素的偏移量
+      instance.setStyle({
+        'transform': 'translate3d(0px, '+ translateY + 'px, 0px)',
+        'z-index': list[currentIndex].zIndex + 1,
+        'opacity': list[currentIndex].opacity
+      })
+      // 移动距离是否超过了指定的容器宽度
+      if (Math.abs(translateY) > itemAnimationHeight) {
+        state.itemsInstance.forEach( function(itemInstance, index) {
+          if (index != currentIndex) {
+            var preIndex = (index == 0) ? list.length - 1 : index - 1
+            var distanceRate = (Math.abs(translateY) - itemAnimationHeight) / (itemData.itemHeight - itemAnimationHeight)
+            var itemTranslateY = list[index].translateY - (list[index].translateY - list[preIndex].translateY) * distanceRate
+            var itemScale = list[index].scale + (list[preIndex].scale - list[index].scale) * distanceRate
+            var itemOpacity = list[index].opacity + (list[preIndex].opacity - list[index].opacity) * distanceRate
+            // console.log(preIndex);
+            // console.log(list[index]);
+            // console.log(distanceRate);
+            // console.log(itemTranslateX);
+            // console.log(itemScale);
+            // console.log('-----------------------------------------------------------');
+            itemInstance.setStyle({
+              'transform': 'translate3d(0px, ' + itemTranslateY + 'px, 0px) scale(' + itemScale + ')',
+              'z-index': list[index].zIndex,
+              'opacity': itemOpacity
+              
+            })
+          }
+        })
+      }
+    } else if (state.direction == 'down') {
+      var preIndex = (currentIndex == 0) ? list.length - 1 : currentIndex - 1
+      // 下滑的时候把最底部的取出，并放到最高层级
+      state.itemsInstance[preIndex].setStyle({
+        'transform': 'translate3d(0px, -' + (itemData.itemHeight - translateY) + 'px, 0px) scale(1)',
+        'z-index': list[currentIndex].zIndex + 1,
+        'opacity': list[currentIndex].opacity
+      })
+      // 当前轮播逐渐缩小
+      if (Math.abs(translateY) < itemAnimationHeight) {
+        state.itemsInstance.forEach( function(itemInstance, index) {
+          if (index != preIndex) {
+            var replaceIndex = index == list.length - 1 ? 0 : index + 1
+            var distanceRate = Math.abs(translateY) / itemAnimationHeight
+            var itemTranslateY = list[index].translateY + (list[replaceIndex].translateY - list[index].translateY) * distanceRate
+            var itemScale = list[index].scale - (list[index].scale - list[replaceIndex].scale) * distanceRate
+            var itemOpacity = list[index].opacity - (list[index].opacity - list[replaceIndex].opacity) * distanceRate
+            // console.log(preIndex);
+            // console.log(index);
+            // console.log(replaceIndex);
+            // console.log(list[index]);
+            // console.log(list[replaceIndex].translateX - list[index].translateX);
+            // console.log(distanceRate);
+            // console.log(itemTranslateX);
+            // console.log(itemScale);
+            // console.log('-----------------------------------------------------------');
+            itemInstance.setStyle({
+              'transform': 'translate3d(0px, ' + itemTranslateY + 'px, 0px) scale(' + itemScale + ')',
+              'z-index': list[index].zIndex,
+              'opacity': itemOpacity
+            })
+          }
+        })
+      }
+    }
+  }
+}
+
+// 更新当前轮播序号
+function updateCurrentSwiperIndex(index, ownerInstance, state) {
+  state.currentIndex = index
+  ownerInstance.callMethod('changeSwiperIndex', {
+    index: index
+  })
+}
+
+// 切换到下一个轮播
+function switchNextSwiper(newIndex, touches, instance, state) {
+  var currentIndex = state.currentIndex
+  var list = state.list
+  var direction = state.itemData.direction
+  var touchRelactive = state.touchRelactive || {x: 0, y: 0}
+  
+  // 已经完成轮播切换
+  var currentListItemData = JSON.parse(JSON.stringify(list))
+  
+  if (direction === 'horizontal') {
+    // 水平方向移动
+    var itemWidth = state.itemData.itemWidth
+    // 当前轮播移动到最左边
+    instance.setStyle({
+      'transform': 'translate3d(-'+ itemWidth + 'px, 0px, 0px) scale(1)',
+      'z-index': list[currentIndex].zIndex + 1,
+      'opacity': list[currentIndex].opacity
+    })
+    // 计算当前移动需要的剩余时间
+    var time = Math.floor((itemWidth - Math.abs(touches.pageX - touchRelactive.x)) / itemWidth * 250)
+    
+    setTimeout(instance, function() {
+      for (var i = list.length - 1; i >= 0; i--) {
+        var replaceIndex = i - 1 < 0 ? list.length - 1 : i - 1
+        // console.log(i);
+        // console.log(replaceIndex);
+        state.itemsInstance[i].setStyle({
+          'transform': 'translate3d('+ currentListItemData[replaceIndex].translateX + 'px, 0px, 0px) scale(' + currentListItemData[replaceIndex].scale + ')',
+          'z-index': currentListItemData[replaceIndex].zIndex,
+          'opacity': currentListItemData[replaceIndex].opacity
+        })
+        state.list[i] = currentListItemData[replaceIndex]
+      }
+    }, time)
+  } else if (direction === 'vertical') {
+    // 垂直方向移动
+    var itemHeight = state.itemData.itemHeight
+    // 当前轮播移动到最上边
+    instance.setStyle({
+      'transform': 'translate3d(0px, -'+ itemHeight + 'px, 0px) scale(1)',
+      'z-index': list[currentIndex].zIndex + 1,
+      'opacity': list[currentIndex].opacity
+    })
+    // 计算当前移动需要的剩余时间
+    var time = Math.floor((itemHeight - Math.abs(touches.pageY - touchRelactive.y)) / itemHeight * 250)
+    
+    setTimeout(instance, function() {
+      for (var i = list.length - 1; i >= 0; i--) {
+        var replaceIndex = i - 1 < 0 ? list.length - 1 : i - 1
+        // console.log(i);
+        // console.log(replaceIndex);
+        state.itemsInstance[i].setStyle({
+          'transform': 'translate3d(0px, '+ currentListItemData[replaceIndex].translateY + 'px, 0px) scale(' + currentListItemData[replaceIndex].scale + ')',
+          'z-index': currentListItemData[replaceIndex].zIndex,
+          'opacity': currentListItemData[replaceIndex].opacity
+        })
+        state.list[i] = currentListItemData[replaceIndex]
+      }
+    }, time)
+  }
+}
+
+// 切换到上一个轮播
+function switchPrevSwiper(newIndex, touches, instance, state) {
+  var currentIndex = state.currentIndex
+  var list = state.list
+  var direction = state.itemData.direction
+  var touchRelactive = state.touchRelactive || {x: 0, y: 0}
+  
+  var currentListItemData = JSON.parse(JSON.stringify(list))
+  
+  if (direction === 'horizontal') {
+    // 水平方向移动
+    var itemWidth = state.itemData.itemWidth
+    // 当前上一个轮播移动到正常位置
+    state.itemsInstance[newIndex].setStyle({
+      'transform': 'translate3d(0px, 0px, 0px) scale(1)',
+      'z-index': list[currentIndex].zIndex + 1,
+      'opacity': list[currentIndex].opacity
+    })
+    // 计算当前移动需要的剩余时间
+    var time = Math.floor((itemWidth - Math.abs(touches.pageX - touchRelactive.x)) / itemWidth * 250)
+    // 更新除当前上一个轮播外的其他轮播，向后移动一个层级
+    // 更新列表位置相关数据
+    setTimeout(instance, function() {
+      for (var i = 0; i < list.length; i++) {
+        var replaceIndex = (i + 1 > list.length - 1) ? 0 : i + 1
+        state.itemsInstance[i].setStyle({
+          'transform': 'translate3d('+ currentListItemData[replaceIndex].translateX + 'px, 0px, 0px) scale(' + currentListItemData[replaceIndex].scale + ')',
+          'z-index': currentListItemData[replaceIndex].zIndex,
+          'opacity': currentListItemData[replaceIndex].opacity
+        })
+        state.list[i] = currentListItemData[replaceIndex]
+      }
+    }, time)
+  } else if (direction === 'vertical') {
+    // 垂直方向移动
+    var itemHeight = state.itemData.itemHeight
+    // 当前上一个轮播移动到正常位置
+    state.itemsInstance[newIndex].setStyle({
+      'transform': 'translate3d(0px, 0px, 0px) scale(1)',
+      'z-index': list[currentIndex].zIndex + 1,
+      'opacity': list[currentIndex].opacity
+    })
+    // 计算当前移动需要的剩余时间
+    var time = Math.floor((itemHeight - Math.abs(touches.pageY - touchRelactive.y)) / itemHeight * 250)
+    // 更新除当前上一个轮播外的其他轮播，向后移动一个层级
+    // 更新列表位置相关数据
+    setTimeout(instance, function() {
+      for (var i = 0; i < list.length; i++) {
+        var replaceIndex = (i + 1 > list.length - 1) ? 0 : i + 1
+        state.itemsInstance[i].setStyle({
+          'transform': 'translate3d(0px, '+ currentListItemData[replaceIndex].translateY + 'px, 0px) scale(' + currentListItemData[replaceIndex].scale + ')',
+          'z-index': currentListItemData[replaceIndex].zIndex,
+          'opacity': currentListItemData[replaceIndex].opacity
+        })
+        state.list[i] = currentListItemData[replaceIndex]
+      }
+    }, time)
+  }
+}
+
+// 反转动画
+function toggleSwiperAnimation(state, add) {
+  if (!state.itemsInstance) return
+  if (add === true) {
+    state.itemsInstance.forEach(function(item, index) {
+      if (!item.hasClass('tn-stack-swiper__item__transition')) {
+        item.addClass('tn-stack-swiper__item__transition')
+      }
+    })
+  } else {
+    state.itemsInstance.forEach(function(item, index) {
+      if (item.hasClass('tn-stack-swiper__item__transition')) {
+        item.removeClass('tn-stack-swiper__item__transition')
+      }
+    })
+  }
+}
+
+// 更新数据
+var itemDataObserver = function (newVal, oldVal, ownerInstance, instance) {
+  var state = ownerInstance.getState()
+  state.itemData = newVal
+}
+
+// 列表初始化
+var listObserver = function(newVal, oldVal, ownerInstance, instance) {
+  var state = ownerInstance.getState()
+  var itemData = state.itemData
+  state.itemsInstance = ownerInstance.selectAllComponents('.tn-stack-swiper__item')
+  
+  state.list = newVal || []
+  
+  state.list.forEach(function(item, index) {
+    var itemInstance = state.itemsInstance[index]
+    if (item && itemInstance) {
+      if (itemData.direction === 'horizontal') {
+        itemInstance.setStyle({
+          'transform': 'translate3d('+ item.translateX + 'px, 0px, 0px) scale(' + item.scale + ')',
+          'z-index': item.zIndex,
+          'opacity': item.opacity
+        })
+      } else if (itemData.direction === 'vertical') {
+        itemInstance.setStyle({
+          'transform': 'translate3d(0px, '+ item.translateY + 'px, 0px) scale(' + item.scale + ')',
+          'z-index': item.zIndex,
+          'opacity': item.opacity
+        })
+      }
+    }
+  })
+}
+
+// 切换轮播位置
+var swiperIndexChange = function(newVal, oldVal, ownerInstance, instance) {
+  var state = ownerInstance.getState()  
+  // console.log(newVal);
+  // ownerInstance.callMethod('printLog', newVal)
+  // console.log(oldVal);
+  // ownerInstance.callMethod('printLog', oldVal)
+  // 排除第一次初始化和手动切换的情况
+  if (oldVal < 0 || typeof oldVal == 'undefined' || state.currentIndex == newVal) {
+    if (oldVal < 0 || typeof oldVal == 'undefined') {
+      state.currentIndex = 0
+    }
+    return
+  }
+  state.currentIndex = newVal
+  // console.log(state.currentIndex);
+  if (newVal > oldVal || (oldVal == state.list.length - 1 && newVal == 0)) {
+    // console.log("next");
+    // state.itemsInstance.forEach(function(item, index) {
+    //   item.addClass("tn-stack-swiper__item__transition")
+    // })
+    switchNextSwiper(newVal, {
+      pageX: 0
+    }, state.itemsInstance[oldVal], state)
+  } else if (newVal < oldVal || (oldVal == 0 && newVal == state.list.length - 1)) {
+    // console.log("prev");
+  }
+}
+
+// 自动轮播切换状态
+var autoplayFlagChange = function(newVal, oldVal, ownerInstance, instance) {
+  var state = ownerInstance.getState()
+  
+  if (newVal === true) {
+    toggleSwiperAnimation(state, true)
+  } else {
+    toggleSwiperAnimation(state, false)
+  }
+}
+
+// 开始触摸
+var touchStart = function (event, ownerInstance) {
+  // console.log('touchStart');
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  var state = ownerInstance.getState()
+  
+  var itemData = state.itemData
+  
+  // 判断是否为为当前显示的轮播
+  if (dataset.index != state.currentIndex) return
+  
+  var touches = event.changedTouches[0]
+  if (!touches) return
+  
+  // 记录当前滑动开始的x，y坐标
+  state.touchRelactive = {
+    x: touches.pageX,
+    y: touches.pageY
+  }
+  // 记录触摸id，用于处理多指的情况
+  state.touchId = touches.identifier
+  
+  if (itemData.direction === 'horizontal') {
+    // 水平方向移动
+    // 设置左右滑动时相对偏移距离
+    state.itemAnimationWidth = itemData.itemWidth * (dataset.switchrate / 100)
+  } else if (itemData.direction === 'vertical') {
+    // 垂直方向移动
+    // 设置上下滑动时相对偏移距离
+    state.itemAnimationHeight = itemData.itemHeight * (dataset.switchrate / 100)
+  }
+  
+  // 移除运动动画时间
+  toggleSwiperAnimation(state, false)
+  
+  // 标记开始触摸
+  state.touching = true
+  ownerInstance.callMethod('changeTouchState', {
+    touching: true
+  })
+  // 停止执行自动轮播
+  ownerInstance.callMethod('clearAutoPlayTimer')
+}
+
+// 开始移动
+var touchMove = function (event, ownerInstance) {
+  // console.log('touchMove');
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  var state = ownerInstance.getState()
+  var itemData = state.itemData
+  
+  // 判断是否为为当前显示的轮播
+  if (dataset.index != state.currentIndex) return
+  
+  // 还没开始触摸直接返回
+  if (!state.touching) return
+  
+  var touches = event.changedTouches[0]
+  if (!touches) return
+  
+  // 判断是否为同一个触摸点
+  if (state.touchId != touches.identifier) return
+  
+  var currentTouchRelactive = {
+    x: touches.pageX,
+    y: touches.pageY
+  }
+  // 是否已经确定了移动方向
+  if (!state.direction) {
+    state.direction = decideSwiperDirection(state.touchRelactive, currentTouchRelactive, itemData.direction)
+  }
+  // console.log(decideSwiperDirection(state.touchRelactive, currentTouchRelactive));
+  updateSwiperStyle(currentTouchRelactive, instance, state)
+}
+
+// 移动结束
+var touchEnd = function (event, ownerInstance) {
+  // console.log('touchEnd');
+  var instance = event.instance
+  var dataset = instance.getDataset()
+  var state = ownerInstance.getState()
+  var itemData = state.itemData
+  var list = state.list
+  var touchRelactive = state.touchRelactive
+  
+  // 判断是否为为当前显示的轮播
+  if (dataset.index != state.currentIndex) return
+  
+  // 还没开始触摸直接返回
+  if (!state.touching) return
+  
+  var touches = event.changedTouches[0]
+  if (!touches) return
+  
+  // 判断是否为同一个触摸点
+  if (state.touchId != touches.identifier) return
+  
+  // 添加运动动画时间
+  toggleSwiperAnimation(state, true)
+  
+  if (itemData.direction === 'horizontal') {
+    // 水平方向移动
+    var itemAnimationWidth = state.itemAnimationWidth
+    // 判断时左滑还是右滑
+    // 判断是否超过自动滚动到下一页还是回滚
+    if (state.direction == 'left') {
+      if (Math.abs(touches.pageX - touchRelactive.x) < itemAnimationWidth) {
+        list.forEach(function(item, index) {
+          var itemInstance = state.itemsInstance[index]
+          if (item && itemInstance) {
+            itemInstance.setStyle({
+              'transform': 'translate3d('+ item.translateX + 'px, 0px, 0px) scale(' + item.scale + ')',
+              'z-index': item.zIndex
+            })
+          }
+        })
+      } else {
+        var newIndex = state.currentIndex + 1 > list.length - 1 ? 0 : state.currentIndex + 1
+        switchNextSwiper(newIndex, touches, instance, state)
+        
+        updateCurrentSwiperIndex(newIndex, ownerInstance, state)
+      }
+    } else if (state.direction == 'right') {
+      if (Math.abs(touches.pageX - touchRelactive.x) < itemAnimationWidth) {
+        // 滑动显示图片回滚
+        var preIndex = (state.currentIndex == 0) ? list.length - 1 : state.currentIndex - 1
+        state.itemsInstance[preIndex].setStyle({
+          'transform': 'translate3d(-' + itemData.itemWidth + 'px, 0px, 0px) scale(1)',
+          'z-index': list[state.currentIndex].zIndex + 1,
+          'opacity': list[state.currentIndex].opacity
+        })
+        list.forEach(function(item, index) {
+          var itemInstance = state.itemsInstance[index]
+          if (item && itemInstance) {
+            itemInstance.setStyle({
+              'transform': 'translate3d('+ item.translateX + 'px, 0px, 0px) scale(' + item.scale + ')',
+              'z-index': item.zIndex,
+              'opacity': item.opacity
+            })
+          }
+        })
+      } else {
+        var newIndex = (state.currentIndex - 1 < 0) ? list.length - 1 : state.currentIndex - 1
+        switchPrevSwiper(newIndex, touches, instance, state)
+        
+        updateCurrentSwiperIndex(newIndex, ownerInstance, state)
+      }
+    }
+  } else if (itemData.direction === 'vertical') {
+    // 垂直方向移动
+    var itemAnimationHeight = state.itemAnimationHeight
+    // 判断时上滑还是下滑
+    // 判断是否超过自动滚动到下一页还是回滚
+    if (state.direction == 'up') {
+      if (Math.abs(touches.pageY - touchRelactive.y) < itemAnimationHeight) {
+        list.forEach(function(item, index) {
+          var itemInstance = state.itemsInstance[index]
+          if (item && itemInstance) {
+            itemInstance.setStyle({
+              'transform': 'translate3d(0px, '+ item.translateY + 'px, 0px) scale(' + item.scale + ')',
+              'z-index': item.zIndex,
+              'opacity': item.opacity
+            })
+          }
+        })
+      } else {
+        var newIndex = state.currentIndex + 1 > list.length - 1 ? 0 : state.currentIndex + 1
+        switchNextSwiper(newIndex, touches, instance, state)
+        
+        updateCurrentSwiperIndex(newIndex, ownerInstance, state)
+      }
+    } else if (state.direction == 'down') {
+      if (Math.abs(touches.pageY - touchRelactive.y) < itemAnimationHeight) {
+        // 滑动显示图片回滚
+        var preIndex = (state.currentIndex == 0) ? list.length - 1 : state.currentIndex - 1
+        state.itemsInstance[preIndex].setStyle({
+          'transform': 'translate3d(0px, -' + itemData.itemHeight + 'px, 0px) scale(1)',
+          'z-index': list[state.currentIndex].zIndex + 1,
+          'opacity': list[state.currentIndex].opacity
+        })
+        list.forEach(function(item, index) {
+          var itemInstance = state.itemsInstance[index]
+          if (item && itemInstance) {
+            itemInstance.setStyle({
+              'transform': 'translate3d(0px, '+ item.translateY + 'px, 0px) scale(' + item.scale + ')',
+              'z-index': item.zIndex,
+              'opacity': item.opacity
+            })
+          }
+        })
+      } else {
+        var newIndex = (state.currentIndex - 1 < 0) ? list.length - 1 : state.currentIndex - 1
+        switchPrevSwiper(newIndex, touches, instance, state)
+        
+        updateCurrentSwiperIndex(newIndex, ownerInstance, state)
+      }
+    }
+  }
+  
+  // 清除对应的标志位
+  state.touchRelactive = null
+  state.touching = false
+  state.direction = null
+  state.touchId = null
+  
+  ownerInstance.callMethod('changeTouchState', {
+    touching: false
+  })
+  // 重新开始执行自动轮播
+  ownerInstance.callMethod('setAutoPlay')
+}
+
+module.exports = {
+  itemDataObserver: itemDataObserver,
+  listObserver: listObserver,
+  swiperIndexChange: swiperIndexChange,
+  autoplayFlagChange: autoplayFlagChange,
+  touchStart: touchStart,
+  touchMove: touchMove,
+  touchEnd: touchEnd
+}

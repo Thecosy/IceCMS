@@ -1,0 +1,187 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.template-planet.data-v-0e5c7a80 {
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  color: #fff;
+  overflow: hidden;
+  -webkit-animation: color-loop-data-v-0e5c7a80 18s infinite;
+          animation: color-loop-data-v-0e5c7a80 18s infinite;
+}
+@-webkit-keyframes color-loop-data-v-0e5c7a80 {
+0% {
+    background: #F15BB5;
+}
+25% {
+    background: #00F5D4;
+}
+50% {
+    background: #01BEFF;
+}
+75% {
+    background: #9A5CE5;
+}
+100% {
+    background: #F15BB5;
+}
+}
+@keyframes color-loop-data-v-0e5c7a80 {
+0% {
+    background: #F15BB5;
+}
+25% {
+    background: #00F5D4;
+}
+50% {
+    background: #01BEFF;
+}
+75% {
+    background: #9A5CE5;
+}
+100% {
+    background: #F15BB5;
+}
+}
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-0e5c7a80 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-0e5c7a80 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-0e5c7a80:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* 视觉差轮播*/
+.card-swiper.data-v-0e5c7a80 {
+  height: 80vh !important;
+}
+.card-swiper swiper-item.data-v-0e5c7a80 {
+  width: 750rpx !important;
+  left: 0rpx;
+  box-sizing: border-box;
+  overflow: initial;
+}
+.card-swiper swiper-item .swiper-item.data-v-0e5c7a80 {
+  margin-top: 15vh;
+  width: 750rpx;
+  height: 750rpx;
+  border-radius: 0rpx;
+  -webkit-transform: translate(0rpx, 0rpx) scale(0.8);
+          transform: translate(0rpx, 0rpx) scale(0.8);
+  transition: all 0.2s ease-in 0s;
+  will-change: transform;
+  overflow: hidden;
+  opacity: 1;
+}
+.card-swiper swiper-item.cur .swiper-item.data-v-0e5c7a80 {
+  -webkit-transform: translate(0rpx, 0rpx) scale(1, 1);
+          transform: translate(0rpx, 0rpx) scale(1, 1);
+  transition: all 0.2s ease-in 0s;
+  will-change: transform;
+  opacity: 1;
+}
+.card-swiper swiper-item .swiper-item-text.data-v-0e5c7a80 {
+  margin-top: -5vh;
+  width: 100%;
+  display: block;
+  border-radius: 10rpx;
+  -webkit-transform: scale(0.7, 0.7);
+          transform: scale(0.7, 0.7);
+  transition: all 0.4s ease 0s;
+  will-change: transform;
+  overflow: hidden;
+  opacity: 0;
+}
+.card-swiper swiper-item.cur .swiper-item-text.data-v-0e5c7a80 {
+  padding-left: 30rpx;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  transition: all 0.4s ease 0s;
+  will-change: transform;
+  opacity: 1;
+}
+.image-banner.data-v-0e5c7a80 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-banner image.data-v-0e5c7a80 {
+  width: 100%;
+}
+/* 轮播指示点 start*/
+.indication.data-v-0e5c7a80 {
+  z-index: 9999;
+  width: 100%;
+  height: 36rpx;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.spot.data-v-0e5c7a80 {
+  opacity: 1;
+  width: 100rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  margin: 20rpx 15rpx !important;
+  left: 0rpx;
+  right: 0;
+  top: -65vh;
+  position: relative;
+}
+.spot.active .icon-text.data-v-0e5c7a80 {
+  -webkit-transform: scale(1.6);
+          transform: scale(1.6);
+  margin-bottom: 20rpx;
+  opacity: 1;
+}
+/* 底部悬浮按钮 start*/
+.tn-tabbar-height.data-v-0e5c7a80 {
+  min-height: 100rpx;
+  height: calc(120rpx + env(safe-area-inset-bottom) / 2);
+}
+.tn-footerfixed.data-v-0e5c7a80 {
+  position: fixed;
+  width: 100%;
+  bottom: calc(30rpx + env(safe-area-inset-bottom));
+  z-index: 1024;
+  box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0);
+}
+/* 底部悬浮按钮 end*/
+

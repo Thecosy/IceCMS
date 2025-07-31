@@ -1,0 +1,179 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-22088efe {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-22088efe {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-22088efe:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+.login.data-v-22088efe {
+  position: relative;
+  height: 100%;
+  z-index: 1;
+  /* 背景图片 start */
+  /* 背景图片 end */
+  /* 内容 start */
+  /* 切换 start */
+  /* 切换 end */
+  /* 登录注册信息 start */
+  /* 登录注册信息 end */
+  /* 内容 end */
+}
+.login__bg.data-v-22088efe {
+  z-index: -1;
+  position: fixed;
+}
+.login__bg--top.data-v-22088efe {
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+.login__bg--top .bg.data-v-22088efe {
+  width: 750rpx;
+  will-change: transform;
+}
+.login__bg--bottom.data-v-22088efe {
+  bottom: -10rpx;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+.login__bg--bottom image.data-v-22088efe {
+  width: 750rpx;
+  will-change: transform;
+}
+.login__wrapper.data-v-22088efe {
+  margin-top: 300rpx;
+  width: 100%;
+}
+.login__mode.data-v-22088efe {
+  position: relative;
+  margin: 0 auto;
+  width: 476rpx;
+  height: 77rpx;
+  margin-top: 100rpx;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0rpx 10rpx 50rpx 0rpx rgba(0, 3, 72, 0.1);
+  border-radius: 39rpx;
+}
+.login__mode__item.data-v-22088efe {
+  height: 77rpx;
+  width: 100%;
+  line-height: 77rpx;
+  text-align: center;
+  font-size: 31rpx;
+  color: #78909C;
+  letter-spacing: 1em;
+  text-indent: 1em;
+  z-index: 2;
+  transition: all 0.4s;
+}
+.login__mode__item--active.data-v-22088efe {
+  font-weight: bold;
+  color: #FFFFFF;
+}
+.login__mode__slider.data-v-22088efe {
+  position: absolute;
+  height: inherit;
+  width: calc(476rpx / 2);
+  border-radius: inherit;
+  box-shadow: 0rpx 18rpx 72rpx 18rpx rgba(0, 195, 255, 0.1);
+  z-index: 1;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.login__info.data-v-22088efe {
+  margin: 80rpx 30rpx 10rpx 30rpx;
+  padding-bottom: 0;
+  border-radius: 20rpx;
+}
+.login__info__item__input.data-v-22088efe {
+  margin-top: 59rpx;
+  width: 100%;
+  height: 77rpx;
+  border: 1rpx solid #C6D1D8;
+  border-radius: 39rpx;
+}
+.login__info__item__input__left-icon.data-v-22088efe {
+  width: 10%;
+  font-size: 44rpx;
+  margin-left: 20rpx;
+  color: #78909C;
+}
+.login__info__item__input__content.data-v-22088efe {
+  width: 80%;
+  padding-left: 10rpx;
+}
+.login__info__item__input__content--verify-code.data-v-22088efe {
+  width: 56%;
+}
+.login__info__item__input__content input.data-v-22088efe {
+  font-size: 30rpx;
+  color: #78909C;
+}
+.login__info__item__input__right-icon.data-v-22088efe {
+  width: 10%;
+  font-size: 44rpx;
+  margin-right: 20rpx;
+  color: #78909C;
+}
+.login__info__item__input__right-verify-code.data-v-22088efe {
+  width: 34%;
+  margin-right: 20rpx;
+}
+.login__info__item__button.data-v-22088efe {
+  margin-top: 75rpx;
+  margin-bottom: 39rpx;
+  width: 100%;
+  height: 77rpx;
+  text-align: center;
+  font-size: 31rpx;
+  font-weight: bold;
+  line-height: 77rpx;
+  letter-spacing: 1em;
+  text-indent: 1em;
+  border-radius: 39rpx;
+  box-shadow: 1rpx 10rpx 24rpx 0rpx rgba(60, 129, 254, 0.35);
+}
+.data-v-22088efe .input-placeholder {
+  font-size: 30rpx;
+  color: #C6D1D8;
+}
+

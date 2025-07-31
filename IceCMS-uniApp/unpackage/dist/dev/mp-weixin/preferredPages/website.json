@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "品牌官网",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-sticky": "/tuniao-ui/components/tn-sticky/tn-sticky",
+    "tn-tabs": "/tuniao-ui/components/tn-tabs/tn-tabs"
+  }
+}

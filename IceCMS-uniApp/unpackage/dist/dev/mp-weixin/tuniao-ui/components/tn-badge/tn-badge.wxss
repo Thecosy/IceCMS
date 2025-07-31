@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-badge.data-v-494ae17c {
+  width: auto;
+  height: auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  font-size: 20rpx;
+  background-color: #FFFFFF;
+  border-radius: 100rpx;
+  padding: 4rpx 8rpx;
+  line-height: initial;
+}
+.tn-badge--dot.data-v-494ae17c {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  padding: 0;
+}
+.tn-badge--absolute.data-v-494ae17c {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.tn-badge--center-position.data-v-494ae17c {
+  -webkit-transform: translate(50%, -50%);
+          transform: translate(50%, -50%);
+}
+

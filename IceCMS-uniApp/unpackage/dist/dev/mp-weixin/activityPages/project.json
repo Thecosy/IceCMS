@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "开源项目",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-notice-bar": "/tuniao-ui/components/tn-notice-bar/tn-notice-bar"
+  }
+}

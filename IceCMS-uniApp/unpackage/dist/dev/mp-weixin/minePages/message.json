@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "消息通知",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-badge": "/tuniao-ui/components/tn-badge/tn-badge",
+    "tn-modal": "/tuniao-ui/components/tn-modal/tn-modal",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button",
+    "tn-swipe-action": "/tuniao-ui/components/tn-swipe-action/tn-swipe-action",
+    "tn-swipe-action-item": "/tuniao-ui/components/tn-swipe-action-item/tn-swipe-action-item"
+  }
+}

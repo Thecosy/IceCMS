@@ -1,0 +1,20 @@
+{
+    "id": "tuniao-circle-template",
+    "name": "IceCMS模板-圈子",
+    "displayName": "IceCMS模板-圈子",
+    "version": "1.3.1",
+    "description": "圈子商圈，是基于 IceCMSUI 进行开发的纯前端模板，支持微信小程序、APP和H5。",
+    "keywords": [
+        "IceCMS",
+        "模板",
+        "酷炫",
+        "前端",
+        "页面模板"
+    ],
+    "dcloudext": {
+        "category": [
+            "uni-app前端模板",
+            "前端页面模板"
+        ]
+    }
+}

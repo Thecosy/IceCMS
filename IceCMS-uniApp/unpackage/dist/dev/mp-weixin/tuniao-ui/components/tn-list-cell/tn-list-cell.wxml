@@ -1,0 +1,1 @@
+<view class="{{['tn-list-cell-class','tn-list-cell','data-v-5ba5bbbc',backgroundColorClass,fontColorClass,cellClass]}}" style="{{$root.s0}}" hover-class="{{hover?'tn-hover':''}}" hover-stay-time="{{150}}" data-event-opts="{{[['tap',[['handleClick',['$event']]]]]}}" bindtap="__e"><slot></slot></view>

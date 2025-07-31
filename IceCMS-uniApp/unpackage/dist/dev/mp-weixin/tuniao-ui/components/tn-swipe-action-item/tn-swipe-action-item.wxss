@@ -1,0 +1,47 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-swipe-action-item.data-v-6d4b5f08 {
+  position: relative;
+  overflow: hidden;
+}
+.tn-swipe-action-item__right.data-v-6d4b5f08 {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.tn-swipe-action-item__right__button.data-v-6d4b5f08 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.tn-swipe-action-item__right__button__wrapper.data-v-6d4b5f08 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 30rpx;
+}
+.tn-swipe-action-item__right__button__text.data-v-6d4b5f08 {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 30rpx;
+}
+.tn-swipe-action-item__content.data-v-6d4b5f08 {
+  background-color: #FFFFFF;
+  -webkit-transform: translateX(0px);
+          transform: translateX(0px);
+}
+

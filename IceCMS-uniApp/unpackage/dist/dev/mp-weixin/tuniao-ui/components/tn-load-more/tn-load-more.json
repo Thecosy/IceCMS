@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "tn-loading": "/tuniao-ui/components/tn-loading/tn-loading"
+  }
+}

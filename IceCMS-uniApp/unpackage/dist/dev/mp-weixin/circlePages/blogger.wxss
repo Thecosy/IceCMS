@@ -1,0 +1,549 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-ecce9ece {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-ecce9ece {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-ecce9ece:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* 立体头像 start*/
+.cube.data-v-ecce9ece {
+  background: #fff;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 550rpx;
+  display: flex;
+  justify-content: center;
+  padding-top: 40rpx;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 300;
+}
+.cube__container.data-v-ecce9ece {
+  margin-top: 180rpx;
+  position: relative;
+  width: 120rpx;
+  height: 120rpx;
+  -webkit-perspective: 500px;
+  perspective: 500px;
+}
+.cube__container.data-v-ecce9ece:before {
+  content: '';
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  background-color: #3c6496;
+  -webkit-filter: blur(60px);
+          filter: blur(60px);
+  opacity: .8;
+}
+.cube__container__body.data-v-ecce9ece {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transform: translateZ(-75px);
+          transform: translateZ(-75px);
+  -webkit-animation: cubeFrame-data-v-ecce9ece 35s cubic-bezier(0.36, -0.03, 0.46, 0.95) infinite alternate;
+          animation: cubeFrame-data-v-ecce9ece 35s cubic-bezier(0.36, -0.03, 0.46, 0.95) infinite alternate;
+  will-change: transform;
+}
+.cube__container__body__item.data-v-ecce9ece {
+  position: absolute;
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120rpx;
+  height: 120rpx;
+  font-size: 30px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.cube__container__body__item--front.data-v-ecce9ece {
+  -webkit-transform: rotateY(0deg) translateZ(60rpx);
+          transform: rotateY(0deg) translateZ(60rpx);
+  background-color: #BEEBFF;
+}
+.cube__container__body__item--back.data-v-ecce9ece {
+  -webkit-transform: rotateX(180deg) translateZ(60rpx);
+          transform: rotateX(180deg) translateZ(60rpx);
+  background-color: #BEEBFF;
+}
+.cube__container__body__item--right.data-v-ecce9ece {
+  -webkit-transform: rotateY(90deg) translateZ(60rpx);
+          transform: rotateY(90deg) translateZ(60rpx);
+  background-color: #BEEBFF;
+}
+.cube__container__body__item--left.data-v-ecce9ece {
+  -webkit-transform: rotateY(-90deg) translateZ(60rpx);
+          transform: rotateY(-90deg) translateZ(60rpx);
+  background-color: #BEEBFF;
+}
+.cube__container__body__item--top.data-v-ecce9ece {
+  -webkit-transform: rotateX(90deg) translateZ(60rpx);
+          transform: rotateX(90deg) translateZ(60rpx);
+  background-color: #BEEBFF;
+}
+.cube__container__body__item--bottom.data-v-ecce9ece {
+  -webkit-transform: rotateX(-90deg) translateZ(60rpx);
+          transform: rotateX(-90deg) translateZ(60rpx);
+  background-color: #BEEBFF;
+}
+@-webkit-keyframes cubeFrame-data-v-ecce9ece {
+10% {
+    -webkit-transform: translateZ(-75px) rotateX(40deg) rotateY(60deg);
+            transform: translateZ(-75px) rotateX(40deg) rotateY(60deg);
+}
+15% {
+    -webkit-transform: translateZ(-75px) rotateX(80deg) rotateY(20deg);
+            transform: translateZ(-75px) rotateX(80deg) rotateY(20deg);
+}
+20% {
+    -webkit-transform: translateZ(-75px) rotateX(-180deg) rotateY(-70deg);
+            transform: translateZ(-75px) rotateX(-180deg) rotateY(-70deg);
+}
+30% {
+    -webkit-transform: translateZ(-75px) rotateX(90deg) rotateY(180deg);
+            transform: translateZ(-75px) rotateX(90deg) rotateY(180deg);
+}
+40% {
+    -webkit-transform: translateZ(-75px) rotateX(-10deg) rotateY(-140deg);
+            transform: translateZ(-75px) rotateX(-10deg) rotateY(-140deg);
+}
+45% {
+    -webkit-transform: translateZ(-75px) rotateX(-100deg) rotateY(20deg);
+            transform: translateZ(-75px) rotateX(-100deg) rotateY(20deg);
+}
+55% {
+    -webkit-transform: translateZ(-75px) rotateX(-10deg) rotateY(-35deg);
+            transform: translateZ(-75px) rotateX(-10deg) rotateY(-35deg);
+}
+60% {
+    -webkit-transform: translateZ(-75px) rotateX(180deg) rotateY(360deg);
+            transform: translateZ(-75px) rotateX(180deg) rotateY(360deg);
+}
+70% {
+    -webkit-transform: translateZ(-75px) rotateX(-180deg) rotateY(-360deg);
+            transform: translateZ(-75px) rotateX(-180deg) rotateY(-360deg);
+}
+80% {
+    -webkit-transform: translateZ(-75px) rotateX(45deg) rotateY(-70deg);
+            transform: translateZ(-75px) rotateX(45deg) rotateY(-70deg);
+}
+90% {
+    -webkit-transform: translateZ(-75px) rotateX(-45deg) rotateY(70deg);
+            transform: translateZ(-75px) rotateX(-45deg) rotateY(70deg);
+}
+100% {
+    -webkit-transform: translateZ(-75px) rotateX(-360deg) rotateY(360deg);
+            transform: translateZ(-75px) rotateX(-360deg) rotateY(360deg);
+}
+}
+@keyframes cubeFrame-data-v-ecce9ece {
+10% {
+    -webkit-transform: translateZ(-75px) rotateX(40deg) rotateY(60deg);
+            transform: translateZ(-75px) rotateX(40deg) rotateY(60deg);
+}
+15% {
+    -webkit-transform: translateZ(-75px) rotateX(80deg) rotateY(20deg);
+            transform: translateZ(-75px) rotateX(80deg) rotateY(20deg);
+}
+20% {
+    -webkit-transform: translateZ(-75px) rotateX(-180deg) rotateY(-70deg);
+            transform: translateZ(-75px) rotateX(-180deg) rotateY(-70deg);
+}
+30% {
+    -webkit-transform: translateZ(-75px) rotateX(90deg) rotateY(180deg);
+            transform: translateZ(-75px) rotateX(90deg) rotateY(180deg);
+}
+40% {
+    -webkit-transform: translateZ(-75px) rotateX(-10deg) rotateY(-140deg);
+            transform: translateZ(-75px) rotateX(-10deg) rotateY(-140deg);
+}
+45% {
+    -webkit-transform: translateZ(-75px) rotateX(-100deg) rotateY(20deg);
+            transform: translateZ(-75px) rotateX(-100deg) rotateY(20deg);
+}
+55% {
+    -webkit-transform: translateZ(-75px) rotateX(-10deg) rotateY(-35deg);
+            transform: translateZ(-75px) rotateX(-10deg) rotateY(-35deg);
+}
+60% {
+    -webkit-transform: translateZ(-75px) rotateX(180deg) rotateY(360deg);
+            transform: translateZ(-75px) rotateX(180deg) rotateY(360deg);
+}
+70% {
+    -webkit-transform: translateZ(-75px) rotateX(-180deg) rotateY(-360deg);
+            transform: translateZ(-75px) rotateX(-180deg) rotateY(-360deg);
+}
+80% {
+    -webkit-transform: translateZ(-75px) rotateX(45deg) rotateY(-70deg);
+            transform: translateZ(-75px) rotateX(45deg) rotateY(-70deg);
+}
+90% {
+    -webkit-transform: translateZ(-75px) rotateX(-45deg) rotateY(70deg);
+            transform: translateZ(-75px) rotateX(-45deg) rotateY(70deg);
+}
+100% {
+    -webkit-transform: translateZ(-75px) rotateX(-360deg) rotateY(360deg);
+            transform: translateZ(-75px) rotateX(-360deg) rotateY(360deg);
+}
+}
+/* 立体头像 end*/
+/* 信息提示 start */
+.blogger-tips-data.data-v-ecce9ece {
+  background-color: #F8F7F3;
+}
+.blogger-tips-data__wrap.data-v-ecce9ece {
+  border-radius: 60rpx 60rpx 0 0;
+}
+.blogger-tips-data__message.data-v-ecce9ece {
+  padding-top: 60rpx;
+}
+.blogger-tips-data__message__container.data-v-ecce9ece {
+  padding: 5rpx;
+  border-radius: 100rpx;
+}
+.blogger-tips-data__message__avatar.data-v-ecce9ece {
+  margin: 6rpx 0 0 6rpx;
+}
+.blogger-tips-data__info.data-v-ecce9ece {
+  padding: 40rpx 0 0 0;
+}
+/* 信息提示 end */
+/* 文章内容 start*/
+.blogger__item.data-v-ecce9ece {
+  padding: 30rpx;
+}
+.blogger__author__btn.data-v-ecce9ece {
+  margin-right: -12rpx;
+  opacity: 0.5;
+}
+.blogger__desc.data-v-ecce9ece {
+  line-height: 55rpx;
+}
+.blogger__desc__label.data-v-ecce9ece {
+  padding: 0 20rpx;
+  margin: 0rpx 18rpx 0 0;
+}
+.blogger__desc__label--prefix.data-v-ecce9ece {
+  color: #00FFC8;
+  padding-right: 10rpx;
+}
+.blogger__content.data-v-ecce9ece {
+  margin-top: 18rpx;
+  padding-right: 18rpx;
+}
+.blogger__content__data.data-v-ecce9ece {
+  line-height: 46rpx;
+  text-align: justify;
+  overflow: hidden;
+  transition: all 0.25s ease-in-out;
+}
+.blogger__content__status.data-v-ecce9ece {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #82B2FF;
+}
+.blogger__main-image.data-v-ecce9ece {
+  border-radius: 16rpx;
+}
+.blogger__main-image--1.data-v-ecce9ece {
+  max-width: 80%;
+  max-height: 300rpx;
+}
+.blogger__main-image--2.data-v-ecce9ece {
+  max-width: 260rpx;
+  max-height: 260rpx;
+}
+.blogger__main-image--3.data-v-ecce9ece {
+  height: 212rpx;
+  width: 100%;
+}
+.blogger__count-icon.data-v-ecce9ece {
+  font-size: 40rpx;
+  padding-right: 5rpx;
+}
+.blogger__ad.data-v-ecce9ece {
+  width: 100%;
+  height: 500rpx;
+  -webkit-transform: translate3d(0px, 0px, 0px) !important;
+          transform: translate3d(0px, 0px, 0px) !important;
+}
+.blogger__ad.data-v-ecce9ece  .uni-swiper-slide-frame {
+  -webkit-transform: translate3d(0px, 0px, 0px) !important;
+          transform: translate3d(0px, 0px, 0px) !important;
+}
+.blogger__ad .uni-swiper-slide-frame.data-v-ecce9ece {
+  -webkit-transform: translate3d(0px, 0px, 0px) !important;
+          transform: translate3d(0px, 0px, 0px) !important;
+}
+.blogger__ad__item.data-v-ecce9ece {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-transform-origin: left center;
+          transform-origin: left center;
+  -webkit-transform: translate3d(100%, 0px, 0px) scale(1) !important;
+          transform: translate3d(100%, 0px, 0px) scale(1) !important;
+  transition: -webkit-transform 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out, -webkit-transform 0.25s ease-in-out;
+  z-index: 1;
+}
+.blogger__ad__item--0.data-v-ecce9ece {
+  -webkit-transform: translate3d(0%, 0px, 0px) scale(1) !important;
+          transform: translate3d(0%, 0px, 0px) scale(1) !important;
+  z-index: 4;
+}
+.blogger__ad__item--1.data-v-ecce9ece {
+  -webkit-transform: translate3d(13%, 0px, 0px) scale(0.9) !important;
+          transform: translate3d(13%, 0px, 0px) scale(0.9) !important;
+  z-index: 3;
+}
+.blogger__ad__item--2.data-v-ecce9ece {
+  -webkit-transform: translate3d(26%, 0px, 0px) scale(0.8) !important;
+          transform: translate3d(26%, 0px, 0px) scale(0.8) !important;
+  z-index: 2;
+}
+.blogger__ad__content.data-v-ecce9ece {
+  border-radius: 40rpx;
+  width: 640rpx;
+  height: 500rpx;
+  overflow: hidden;
+}
+.blogger__ad__image.data-v-ecce9ece {
+  width: 100%;
+  height: 100%;
+}
+/* 文章内容 end*/
+/* 间隔线 start*/
+.tn-strip-bottom.data-v-ecce9ece {
+  width: 100%;
+  border-bottom: 20rpx solid rgba(241, 241, 241, 0.8);
+}
+/* 间隔线 end*/
+/* 底部悬浮按钮 start*/
+.tn-tabbar-height.data-v-ecce9ece {
+  min-height: 100rpx;
+  height: calc(120rpx + env(safe-area-inset-bottom) / 2);
+}
+.tn-footerfixed.data-v-ecce9ece {
+  position: fixed;
+  width: 100%;
+  bottom: calc(30rpx + env(safe-area-inset-bottom));
+  z-index: 1024;
+  box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0);
+}
+/* 底部悬浮按钮 end*/
+/* 广告内容 start */
+.ad-image.data-v-ecce9ece {
+  width: 80rpx;
+  height: 80rpx;
+  position: relative;
+}
+.ad-pic.data-v-ecce9ece {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  border-radius: 20%;
+}
+/* 自定义导航栏内容 end */
+/* 悬浮 */
+.tnxuanfu.data-v-ecce9ece {
+  -webkit-animation: suspension-data-v-ecce9ece 3s ease-in-out infinite;
+          animation: suspension-data-v-ecce9ece 3s ease-in-out infinite;
+}
+@-webkit-keyframes suspension-data-v-ecce9ece {
+0%, 100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+}
+50% {
+    -webkit-transform: translateY(-0.8rem);
+            transform: translateY(-0.8rem);
+}
+}
+@keyframes suspension-data-v-ecce9ece {
+0%, 100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+}
+50% {
+    -webkit-transform: translateY(-0.8rem);
+            transform: translateY(-0.8rem);
+}
+}
+/* 悬浮按钮 */
+.button-shop.data-v-ecce9ece {
+  width: 90rpx;
+  height: 90rpx;
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  /* bottom:200rpx;
+    right: 20rpx; */
+  left: 5rpx;
+  top: 5rpx;
+  z-index: 1001;
+  border-radius: 100px;
+  opacity: 0.9;
+}
+/* 按钮 */
+.edit.data-v-ecce9ece {
+  bottom: 300rpx;
+  right: 75rpx;
+  position: fixed;
+  z-index: 9999;
+}
+.pa.data-v-ecce9ece,
+.pa0.data-v-ecce9ece {
+  position: absolute;
+}
+.pa0.data-v-ecce9ece {
+  left: 0;
+  top: 0;
+}
+.bg0.data-v-ecce9ece {
+  width: 100rpx;
+  height: 100rpx;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.bg1.data-v-ecce9ece {
+  width: 100%;
+  height: 100%;
+}
+.hx-box.data-v-ecce9ece {
+  top: 50%;
+  left: 50%;
+  width: 100rpx;
+  height: 100rpx;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transform: translate(-50%, -50%) rotateY(75deg) rotateZ(10deg);
+          transform: translate(-50%, -50%) rotateY(75deg) rotateZ(10deg);
+}
+.hx-box .pr.data-v-ecce9ece {
+  width: 100rpx;
+  height: 100rpx;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-animation: hxz-data-v-ecce9ece 20s linear infinite;
+          animation: hxz-data-v-ecce9ece 20s linear infinite;
+}
+@-webkit-keyframes hxz-data-v-ecce9ece {
+0% {
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+}
+100% {
+    -webkit-transform: rotateX(-360deg);
+            transform: rotateX(-360deg);
+}
+}
+@keyframes hxz-data-v-ecce9ece {
+0% {
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+}
+100% {
+    -webkit-transform: rotateX(-360deg);
+            transform: rotateX(-360deg);
+}
+}
+.hx-box .pr .pa0.data-v-ecce9ece {
+  width: 100rpx;
+  height: 100rpx;
+  /* border: 4px solid #5ec0ff; */
+  border-radius: 1000px;
+}
+.hx-box .pr .pa0 .span.data-v-ecce9ece {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url(https://resource.tuniaokj.com/images/cool_bg_image/arc4.png) no-repeat center center;
+  background-size: 100% 100%;
+  -webkit-animation: hx-data-v-ecce9ece 4s linear infinite;
+          animation: hx-data-v-ecce9ece 4s linear infinite;
+}
+@-webkit-keyframes hx-data-v-ecce9ece {
+to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+}
+}
+@keyframes hx-data-v-ecce9ece {
+to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+}
+}
+.hx-k1.data-v-ecce9ece {
+  -webkit-transform: rotateX(-60deg) rotateZ(-60deg);
+          transform: rotateX(-60deg) rotateZ(-60deg);
+}
+.hx-k2.data-v-ecce9ece {
+  -webkit-transform: rotateX(-30deg) rotateZ(-30deg);
+          transform: rotateX(-30deg) rotateZ(-30deg);
+}
+.hx-k3.data-v-ecce9ece {
+  -webkit-transform: rotateX(0deg) rotateZ(0deg);
+          transform: rotateX(0deg) rotateZ(0deg);
+}
+.hx-k4.data-v-ecce9ece {
+  -webkit-transform: rotateX(30deg) rotateZ(30deg);
+          transform: rotateX(30deg) rotateZ(30deg);
+}
+.hx-k5.data-v-ecce9ece {
+  -webkit-transform: rotateX(60deg) rotateZ(60deg);
+          transform: rotateX(60deg) rotateZ(60deg);
+}
+.hx-k6.data-v-ecce9ece {
+  -webkit-transform: rotateX(90deg) rotateZ(90deg);
+          transform: rotateX(90deg) rotateZ(90deg);
+}
+

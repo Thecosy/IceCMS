@@ -1,0 +1,328 @@
+var cropper = {
+  // 画布x轴起点
+  cutX: 0,
+  // 画布y轴起点
+  cutY: 0,
+  // 触摸点信息(手指与图片中心点的相对位置)
+  touchRelactive: [{
+    x: 0,
+    y: 0
+  }],
+  // 双指触摸时斜边的长度
+  hypotenuseLength:0,
+  // 是否结束触摸
+  touchEndFlag: false,
+  // 画布宽高
+  canvasWidth: 0,
+  canvasHeight: 0,
+  // 图片宽高
+  imgWidth: 0,
+  imgHeight: 0,
+  // 图片缩放比例
+  scale: 1,
+  // 图片旋转角度
+  angle: 0,
+  // 图片上边距
+  imgTop: 0,
+  // 图片左边距
+  imgLeft: 0,
+  // 窗口宽高
+  windowWidth: 0,
+  windowHeight: 0,
+  init: true
+}
+
+function bool(str) {
+  return str === 'true' || str === true
+}
+
+function propsChange(prop, oldProp, ownerInstance, instance) {
+  if (prop && prop !== 'null') {
+    var params = prop.split(',')
+    var type = +params[0]
+    var dataset = instance.getDataset()
+    if (cropper.init || type == 4) {
+      cropper.canvasWidth = +dataset.width
+      cropper.canvasHeight = +dataset.height
+      cropper.imgTop = +dataset.windowheight / 2
+      cropper.imgLeft = +dataset.windowwidth / 2
+      cropper.imgWidth = +dataset.imgwidth
+      cropper.imgHeight = +dataset.imgheight
+      cropper.windowHeight = +dataset.windowheight
+      cropper.windowWidth = +dataset.windowwidth
+      cropper.init = false
+    } else if (type == 2 || type == 3) {
+      cropper.imgWidth = +dataset.imgwidth
+      cropper.imgHeight = +dataset.imgheight
+    }
+    cropper.angle = +dataset.angle
+    if (type == 3) {
+      imgTransform(ownerInstance)
+    }
+    switch(type) {
+      case 1:
+        setCutCenter(ownerInstance)
+        // 设置裁剪框大小
+        computeCutSize(ownerInstance)
+        // 检查裁剪框是否在范围内
+        cutDetectionPosition(ownerInstance)
+        break
+      case 2:
+        setCutCenter(ownerInstance)
+        break
+      case 3:
+        imgMarginDetectionScale(ownerInstance)
+        break
+      case 4:
+        imageReset(ownerInstance)
+        break
+      case 5:
+        setCutCenter(ownerInstance)
+        break
+      default:
+        break
+    }
+  }
+}
+
+function touchStart(event, ownerInstance) {
+  var touch = event.touches || event.changedTouches
+  cropper.touchEndFlag = false
+  if (touch.length === 1) {
+    cropper.touchRelactive[0] = {
+      x: touch[0].pageX - cropper.imgLeft,
+      y: touch[0].pageY - cropper.imgTop
+    }
+  } else {
+    var width = Math.abs(touch[0].pageX - touch[1].pageX)
+    var height = Math.abs(touch[0].pageY - touch[1].pageY)
+    cropper.touchRelactive = [{
+      x: touch[0].pageX - cropper.imgLeft,
+      y: touch[0].pageY - cropper.imgTop
+    },{
+      x: touch[1].pageX - cropper.imgLeft,
+      y: touch[1].pageY - cropper.imgTop
+    }]
+    cropper.hypotenuseLength = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2))
+  }
+}
+
+function touchMove(event, ownerInstance) {
+  var touch = event.touches || event.changedTouches
+  if (cropper.touchEndFlag) return
+  moveDuring(ownerInstance)
+  if (event.touches.length === 1) {
+    var left = touch[0].pageX - cropper.touchRelactive[0].x,
+      top = touch[0].pageY - cropper.touchRelactive[0].y;
+    cropper.imgLeft = left
+    cropper.imgTop = top
+    imgTransform(ownerInstance)
+    imgMarginDetectionPosition(ownerInstance)
+  } else {
+    var dataset = event.instance.getDataset()
+    var minScale = +dataset.minscale
+    var maxScale = +dataset.maxscale
+    var width = Math.abs(touch[0].pageX - touch[1].pageX),
+      height = Math.abs(touch[0].pageY - touch[1].pageY),
+      hypotenuse = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)),
+      scale = cropper.scale * (hypotenuse / cropper.hypotenuseLength),
+      current_deg = 0;
+    scale = scale <= minScale ? minScale : scale
+    scale = scale >= maxScale ? maxScale : scale
+    cropper.scale = scale
+    imgMarginDetectionScale(ownerInstance, true)
+    var touchRelative = [{
+      x: touch[0].pageX - cropper.imgLeft,
+      y: touch[0].pageY - cropper.imgTop
+    }, {
+      x: touch[1].pageX - cropper.imgLeft,
+      y: touch[1].pageY - cropper.imgTop
+    }]
+    cropper.touchRelactive = touchRelative
+    cropper.hypotenuseLength = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2))
+    // 更新视图
+    cropper.angle = cropper.angle + current_deg
+    imgTransform(ownerInstance)
+  }
+}
+
+function touchEnd(event, ownerInstance) {
+  cropper.touchEndFlag = true
+  moveStop(ownerInstance)
+  updateData(ownerInstance)
+}
+
+function moveDuring(ownerInstance) {
+  if (!ownerInstance) return
+  ownerInstance.callMethod('moveDuring')
+}
+
+function moveStop(ownerInstance) {
+  if (!ownerInstance) return
+  ownerInstance.callMethod('moveStop')
+}
+
+function setCutCenter(ownerInstance) {
+  var cutX = (cropper.windowWidth - cropper.canvasWidth) * 0.5
+  var cutY = (cropper.windowHeight - cropper.canvasHeight) * 0.5
+  
+  cropper.imgTop = cropper.imgTop - cropper.cutY + cutY
+  cropper.cutY = cutY
+  cropper.imgLeft = cropper.imgLeft - cropper.cutX + cutX
+  cropper.cutX = cutX
+  cutDetectionPosition(ownerInstance)
+  imgTransform(ownerInstance)
+  updateData(ownerInstance)
+}
+
+// 检测剪裁框位置是否在允许的范围内（屏幕内）
+function cutDetectionPosition(ownerInstance) {
+  var windowHeight = cropper.windowHeight,
+    windowWidth = cropper.windowWidth;
+  
+  // 检测上边距是否在范围内
+  var cutDetectionPositionTop = function() {
+    if (cropper.cutY < 0) {
+      cropper.cutY = 0
+    }
+    if (cropper.cutY > windowHeight - cropper.canvasHeight) {
+      cropper.cutY = windowHeight - cropper.canvasHeight
+    }
+  }
+  
+  // 检测左边距是否在范围内
+  var cutDetectionPositionLeft = function() {
+    if (cropper.cutX < 0) {
+      cropper.cutX = 0
+    }
+    if (cropper.cutX > windowWidth - cropper.canvasWidth) {
+      cropper.cutX = windowWidth - cropper.canvasWidth
+    }
+  }
+  
+  // 裁剪框坐标处理（如果只写一个参数则另一个默认为0，都不写默认为居中）
+  if (cropper.cutX === null && cropper.cutY === null) {
+    var cutX = (windowWidth - cropper.canvasWidth) * 0.5,
+      cutY = (windowHeight - cropper.canvasHeight) * 0.5;
+    cropper.cutX = cutX
+    cropper.cutY = cutY
+  } else if (cropper.cutX !== null && cropper.cutX !== null) {
+    cutDetectionPositionTop()
+    cutDetectionPositionLeft()
+  } else if (cropper.cutX !== null && cropper.cutY === null) {
+    cutDetectionPositionLeft()
+    cropper.cutY = (windowHeight - cropper.canvasHeight) / 2
+  } else if (cropper.cutX === null && cropper.cutY !== null) {
+    cutDetectionPositionTop()
+    cropper.cutX = (windowWidth - cropper.canvasWidth) / 2
+  }
+}
+
+// 图片边缘检测-缩放
+function imgMarginDetectionScale(ownerInstance, delay) {
+  var scale = cropper.scale,
+    imgWidth = cropper.imgWidth,
+    imgHeight = cropper.imgHeight;
+  if ((cropper.angle / 90) % 2) {
+    imgWidth = cropper.imgHeight
+    imgHeight = cropper.imgWidth
+  }
+  if (imgWidth * scale < cropper.canvasWidth) {
+    scale = cropper.canvasWidth / imgWidth
+  }
+  if (imgHeight * scale < cropper.canvasHeight) {
+    scale = Math.max(scale, cropper.canvasHeight / imgHeight)
+  }
+  imgMarginDetectionPosition(ownerInstance, scale, delay)
+}
+
+// 图片边缘检测-位置
+function imgMarginDetectionPosition(ownerInstance, scale, delay) {
+  var left = cropper.imgLeft,
+    top = cropper.imgTop,
+    imgWidth = cropper.imgWidth,
+    imgHeight = cropper.imgHeight;
+  scale = scale || cropper.scale
+  if ((cropper.angle / 90) % 2) {
+    imgWidth = cropper.imgHeight
+    imgHeight = cropper.imgWidth
+  }
+  
+  left = cropper.cutX + (imgWidth * scale) / 2 >= left ? left : cropper.cutX + (imgWidth * scale) / 2
+  left = cropper.cutX + cropper.canvasWidth - (imgWidth * scale) / 2 <= left ? left : cropper.cutX + cropper.canvasWidth - (imgWidth * scale) / 2
+  top = cropper.cutY + (imgHeight * scale) / 2 >= top ? top : cropper.cutY + (imgHeight * scale) / 2
+  top = cropper.cutY + cropper.canvasHeight - (imgHeight * scale) / 2 <= top ? top : cropper.cutY + cropper.canvasHeight - (imgHeight * scale) / 2
+  
+  cropper.imgLeft = left
+  cropper.imgTop = top
+  cropper.scale = scale
+  if (!delay || delay === 'null') {
+    imgTransform(ownerInstance)
+  }
+}
+
+// 改变截取值大小
+function computeCutSize(ownerInstance) {
+  if (cropper.canvasWidth > cropper.windowWidth) {
+    cropper.canvasWidth = cropper.windowWidth
+  } else if (cropper.canvasWidth + cropper.cutX > cropper.windowWidth) {
+    cropper.cutX = cropper.windowWidth - cropper.cutX
+  }
+  if (cropper.canvasHeight > cropper.windowHeight) {
+    cropper.canvasHeight = cropper.windowHeight
+  } else if (cropper.canvasHeight + cropper.cutY > cropper.windowHeight) {
+    cropper.cutY = cropper.windowHeight - cropper.cutY
+  }
+}
+
+// 图片动画
+function imgTransform(ownerInstance) {
+  var image = ownerInstance.selectComponent('.tn-cropper__image')
+  if (!image) return
+  var x = cropper.imgLeft - cropper.imgWidth / 2,
+    y = cropper.imgTop - cropper.imgHeight / 2;
+  image.setStyle({
+    'transform': 'translate3d('+ x + 'px,' + y + 'px,0) scale(' + cropper.scale +') rotate(' + cropper.angle + 'deg)'
+  })
+}
+
+// 图片重置
+function imageReset(ownerInstance) {
+  cropper.scale = 1
+  cropper.angle = 0
+  imgTransform(ownerInstance)
+}
+
+// 高度变化
+function canvasHeight(ownerInstance) {
+  if (!ownerInstance) return
+  computeCutSize(ownerInstance)
+}
+
+// 宽度变化
+function canvasWidth(ownerInstance) {
+  if (!ownerInstance) return
+  computeCutSize(ownerInstance)
+}
+
+// 更新数据
+function updateData(ownerInstance) {
+  if (!ownerInstance) return
+  ownerInstance.callMethod('change', {
+    cutX: cropper.cutX,
+    cutY: cropper.cutY,
+    imgWidth: cropper.imgWidth,
+    imgHeight: cropper.imgHeight,
+    scale: cropper.scale,
+    angle: cropper.angle,
+    imgTop: cropper.imgTop,
+    imgLeft: cropper.imgLeft
+  })
+}
+
+module.exports = {
+  touchStart: touchStart,
+  touchMove: touchMove,
+  touchEnd: touchEnd,
+  propsChange: propsChange
+}

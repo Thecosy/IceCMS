@@ -1,0 +1,258 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.template-about.data-v-10923485 {
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  color: #fff;
+  background: linear-gradient(-120deg, #F15BB5, #9A5CE5, #01BEFF, #00F5D4);
+  /* background: linear-gradient(-120deg,  #9A5CE5, #01BEFF, #00F5D4, #43e97b); */
+  /* background: linear-gradient(-120deg,#c471f5, #ec008c, #ff4e50,#f9d423); */
+  /* background: linear-gradient(-120deg, #0976ea, #c471f5, #f956b6, #ea7e0a); */
+  background-size: 500% 500%;
+  -webkit-animation: gradientBG-data-v-10923485 15s ease infinite;
+          animation: gradientBG-data-v-10923485 15s ease infinite;
+  position: relative;
+}
+.template-about .bubble.data-v-10923485 {
+  position: fixed;
+  bottom: -10vh;
+  right: 0;
+  z-index: 1024;
+  pointer-events: none;
+}
+.about-bg.data-v-10923485 {
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+}
+@-webkit-keyframes gradientBG-data-v-10923485 {
+0% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: 0% 50%;
+}
+}
+@keyframes gradientBG-data-v-10923485 {
+0% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: 0% 50%;
+}
+}
+.container.data-v-10923485 {
+  width: 100%;
+  position: absolute;
+  text-align: center;
+}
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-10923485 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-10923485 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-10923485:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* 悬浮 */
+.tnxuanfu.data-v-10923485 {
+  -webkit-animation: suspension-data-v-10923485 3s ease-in-out infinite;
+          animation: suspension-data-v-10923485 3s ease-in-out infinite;
+}
+@-webkit-keyframes suspension-data-v-10923485 {
+0%, 100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+}
+50% {
+    -webkit-transform: translateY(-0.8rem);
+            transform: translateY(-0.8rem);
+}
+}
+@keyframes suspension-data-v-10923485 {
+0%, 100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+}
+50% {
+    -webkit-transform: translateY(-0.8rem);
+            transform: translateY(-0.8rem);
+}
+}
+/* 悬浮按钮 */
+.button-shop.data-v-10923485 {
+  width: 90rpx;
+  height: 90rpx;
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  /* bottom:200rpx;
+    right: 20rpx; */
+  left: 5rpx;
+  top: 5rpx;
+  z-index: 1001;
+  border-radius: 100px;
+  opacity: 0.9;
+}
+/* 按钮 */
+.wechat.data-v-10923485 {
+  bottom: 300rpx;
+  right: 75rpx;
+  position: fixed;
+  z-index: 9999;
+}
+.pa.data-v-10923485,
+.pa0.data-v-10923485 {
+  position: absolute;
+}
+.pa0.data-v-10923485 {
+  left: 0;
+  top: 0;
+}
+.bg0.data-v-10923485 {
+  width: 100rpx;
+  height: 100rpx;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.bg1.data-v-10923485 {
+  width: 100%;
+  height: 100%;
+}
+.hx-box.data-v-10923485 {
+  top: 50%;
+  left: 50%;
+  width: 100rpx;
+  height: 100rpx;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transform: translate(-50%, -50%) rotateY(75deg) rotateZ(10deg);
+          transform: translate(-50%, -50%) rotateY(75deg) rotateZ(10deg);
+}
+.hx-box .pr.data-v-10923485 {
+  width: 100rpx;
+  height: 100rpx;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-animation: hxz-data-v-10923485 20s linear infinite;
+          animation: hxz-data-v-10923485 20s linear infinite;
+}
+@-webkit-keyframes hxz-data-v-10923485 {
+0% {
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+}
+100% {
+    -webkit-transform: rotateX(-360deg);
+            transform: rotateX(-360deg);
+}
+}
+@keyframes hxz-data-v-10923485 {
+0% {
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+}
+100% {
+    -webkit-transform: rotateX(-360deg);
+            transform: rotateX(-360deg);
+}
+}
+.hx-box .pr .pa0.data-v-10923485 {
+  width: 100rpx;
+  height: 100rpx;
+  /* border: 4px solid #5ec0ff; */
+  border-radius: 1000px;
+}
+.hx-box .pr .pa0 .span.data-v-10923485 {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url(https://resource.tuniaokj.com/images/cool_bg_image/arc4.png) no-repeat center center;
+  background-size: 100% 100%;
+  -webkit-animation: hx-data-v-10923485 4s linear infinite;
+          animation: hx-data-v-10923485 4s linear infinite;
+}
+@-webkit-keyframes hx-data-v-10923485 {
+to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+}
+}
+@keyframes hx-data-v-10923485 {
+to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+}
+}
+.hx-k1.data-v-10923485 {
+  -webkit-transform: rotateX(-60deg) rotateZ(-60deg);
+          transform: rotateX(-60deg) rotateZ(-60deg);
+}
+.hx-k2.data-v-10923485 {
+  -webkit-transform: rotateX(-30deg) rotateZ(-30deg);
+          transform: rotateX(-30deg) rotateZ(-30deg);
+}
+.hx-k3.data-v-10923485 {
+  -webkit-transform: rotateX(0deg) rotateZ(0deg);
+          transform: rotateX(0deg) rotateZ(0deg);
+}
+.hx-k4.data-v-10923485 {
+  -webkit-transform: rotateX(30deg) rotateZ(30deg);
+          transform: rotateX(30deg) rotateZ(30deg);
+}
+.hx-k5.data-v-10923485 {
+  -webkit-transform: rotateX(60deg) rotateZ(60deg);
+          transform: rotateX(60deg) rotateZ(60deg);
+}
+.hx-k6.data-v-10923485 {
+  -webkit-transform: rotateX(90deg) rotateZ(90deg);
+          transform: rotateX(90deg) rotateZ(90deg);
+}
+

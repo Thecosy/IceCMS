@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "授权登录",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-button": "/tuniao-ui/components/tn-button/tn-button",
+    "tn-verification-code": "/tuniao-ui/components/tn-verification-code/tn-verification-code"
+  }
+}

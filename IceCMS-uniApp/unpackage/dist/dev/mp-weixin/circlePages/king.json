@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "名片王者",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tn-nav-bar": "/tuniao-ui/components/tn-nav-bar/tn-nav-bar",
+    "tn-avatar-group": "/tuniao-ui/components/tn-avatar-group/tn-avatar-group"
+  }
+}

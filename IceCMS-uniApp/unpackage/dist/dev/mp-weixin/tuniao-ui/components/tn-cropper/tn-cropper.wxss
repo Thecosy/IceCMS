@@ -1,0 +1,93 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+.tn-cropper.data-v-f1f47608 {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(-120deg, #F15BB5, #9A5CE5, #01BEFF, #00F5D4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.tn-cropper__image.data-v-f1f47608 {
+  width: 100%;
+  border-style: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-origin: center;
+          transform-origin: center;
+}
+.tn-cropper__canvas.data-v-f1f47608 {
+  position: fixed;
+  z-index: 10;
+  left: -2000px;
+  top: -2000px;
+  pointer-events: none;
+}
+.tn-cropper__wrapper.data-v-f1f47608 {
+  position: fixed;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  border: 3000px solid rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  box-sizing: content-box;
+}
+.tn-cropper__border.data-v-f1f47608 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.tn-cropper__tabbar.data-v-f1f47608 {
+  width: 100%;
+  height: 120rpx;
+  padding: 0 40rpx;
+  box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #FFFFFF;
+  font-size: 32rpx;
+}
+.tn-cropper__tabbar.data-v-f1f47608::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.2);
+  -webkit-transform: scaleY(0.5) translateZ(0);
+  transform: scaleY(0.5) translateZ(0);
+  -webkit-transform-origin: 0 100%;
+          transform-origin: 0 100%;
+}
+.tn-cropper__tabbar__btn.data-v-f1f47608 {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+}
+.tn-cropper__tabbar__rotate.data-v-f1f47608 {
+  width: 44rpx;
+  height: 44rpx;
+  font-size: 40rpx;
+  text-align: center;
+}
+

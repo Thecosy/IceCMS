@@ -1,0 +1,240 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-98f7a726 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-98f7a726 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-98f7a726:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* 悬浮 */
+.rocket-sussuspension.data-v-98f7a726 {
+  -webkit-animation: suspension-data-v-98f7a726 3s ease-in-out infinite;
+          animation: suspension-data-v-98f7a726 3s ease-in-out infinite;
+}
+@-webkit-keyframes suspension-data-v-98f7a726 {
+0%,
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+}
+50% {
+    -webkit-transform: translate(-0.8rem, 1rem);
+            transform: translate(-0.8rem, 1rem);
+}
+}
+@keyframes suspension-data-v-98f7a726 {
+0%,
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+}
+50% {
+    -webkit-transform: translate(-0.8rem, 1rem);
+            transform: translate(-0.8rem, 1rem);
+}
+}
+.login.data-v-98f7a726 {
+  position: relative;
+  height: 100%;
+  z-index: 1;
+  /* 背景图片 start */
+  /* 背景图片 end */
+  /* 内容 start */
+  /* 切换 start */
+  /* 切换 end */
+  /* 登录注册信息 start */
+  /* 登录注册信息 end */
+  /* 登录方式切换 start */
+  /* 登录方式切换 end */
+  /* 内容 end */
+}
+.login__bg.data-v-98f7a726 {
+  z-index: -1;
+  position: fixed;
+}
+.login__bg--top.data-v-98f7a726 {
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+.login__bg--top .bg.data-v-98f7a726 {
+  width: 750rpx;
+  will-change: transform;
+}
+.login__bg--top .rocket.data-v-98f7a726 {
+  margin: 50rpx 28%;
+  width: 400rpx;
+  will-change: transform;
+}
+.login__bg--bottom.data-v-98f7a726 {
+  bottom: -10rpx;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+.login__bg--bottom image.data-v-98f7a726 {
+  width: 750rpx;
+  will-change: transform;
+}
+.login__wrapper.data-v-98f7a726 {
+  margin-top: 403rpx;
+  width: 100%;
+}
+.login__mode.data-v-98f7a726 {
+  position: relative;
+  margin: 0 auto;
+  width: 476rpx;
+  height: 77rpx;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0rpx 10rpx 50rpx 0rpx rgba(0, 3, 72, 0.1);
+  border-radius: 39rpx;
+}
+.login__mode__item.data-v-98f7a726 {
+  height: 77rpx;
+  width: 100%;
+  line-height: 77rpx;
+  text-align: center;
+  font-size: 31rpx;
+  color: #78909C;
+  letter-spacing: 1em;
+  text-indent: 1em;
+  z-index: 2;
+  transition: all 0.4s;
+}
+.login__mode__item--active.data-v-98f7a726 {
+  font-weight: bold;
+  color: #FFFFFF;
+}
+.login__mode__slider.data-v-98f7a726 {
+  position: absolute;
+  height: inherit;
+  width: calc(476rpx / 2);
+  border-radius: inherit;
+  box-shadow: 0rpx 18rpx 72rpx 18rpx rgba(0, 195, 255, 0.1);
+  z-index: 1;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.login__info.data-v-98f7a726 {
+  margin: 0 30rpx;
+  margin-top: 105rpx;
+  padding: 30rpx 51rpx;
+  padding-bottom: 0;
+  border-radius: 20rpx;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0rpx 0rpx 80rpx 0rpx rgba(0, 0, 0, 0.07);
+}
+.login__info__item__input.data-v-98f7a726 {
+  margin-top: 59rpx;
+  width: 100%;
+  height: 77rpx;
+  border: 1rpx solid #C6D1D8;
+  border-radius: 39rpx;
+}
+.login__info__item__input__left-icon.data-v-98f7a726 {
+  width: 10%;
+  font-size: 44rpx;
+  margin-left: 20rpx;
+  color: #78909C;
+}
+.login__info__item__input__content.data-v-98f7a726 {
+  width: 80%;
+  padding-left: 10rpx;
+}
+.login__info__item__input__content--verify-code.data-v-98f7a726 {
+  width: 56%;
+}
+.login__info__item__input__content input.data-v-98f7a726 {
+  font-size: 30rpx;
+  color: #78909C;
+}
+.login__info__item__input__right-icon.data-v-98f7a726 {
+  width: 10%;
+  font-size: 44rpx;
+  margin-right: 20rpx;
+  color: #78909C;
+}
+.login__info__item__input__right-verify-code.data-v-98f7a726 {
+  width: 34%;
+  margin-right: 20rpx;
+}
+.login__info__item__button.data-v-98f7a726 {
+  margin-top: 75rpx;
+  margin-bottom: 39rpx;
+  width: 100%;
+  letter-spacing: 0.5em;
+}
+.login__info__item__tips.data-v-98f7a726 {
+  margin: 30rpx 0;
+  color: #AAAAAA;
+}
+.login__way.data-v-98f7a726 {
+  margin: 0 auto;
+  margin-top: 110rpx;
+}
+.login__way__item--icon.data-v-98f7a726 {
+  width: 77rpx;
+  height: 77rpx;
+  font-size: 50rpx;
+  border-radius: 100rpx;
+  margin-bottom: 18rpx;
+  position: relative;
+  z-index: 1;
+}
+.login__way__item--icon.data-v-98f7a726::after {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  border-radius: inherit;
+  opacity: 1;
+  -webkit-transform: scale(1, 1);
+          transform: scale(1, 1);
+  background-size: 100% 100%;
+  background-image: url(https://resource.tuniaokj.com/images/cool_bg_image/icon_bg5.png);
+}
+.data-v-98f7a726 .input-placeholder {
+  font-size: 30rpx;
+  color: #C6D1D8;
+}
+

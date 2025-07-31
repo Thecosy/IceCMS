@@ -1,0 +1,409 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-7b630a80 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-7b630a80 {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+.tn-custom-nav-bar__back.data-v-7b630a80:before {
+  content: " ";
+  width: 1rpx;
+  height: 110%;
+  position: absolute;
+  top: 22.5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0.7;
+  background-color: #FFFFFF;
+}
+/* 主图固定 */
+.beibei.data-v-7b630a80 {
+  width: 100%;
+  height: 1000rpx;
+}
+.beibei2.data-v-7b630a80 {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background-position: center center;
+  background-size: cover;
+}
+/* 相册 */
+.slideshow.data-v-7b630a80 {
+  top: 0;
+  position: absolute;
+  width: 100vw;
+  height: 1000rpx;
+  overflow: hidden;
+}
+.slideshow-image.data-v-7b630a80 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: no-repeat 50% 50%;
+  background-size: cover;
+  -webkit-animation-name: kenburns;
+  animation-name: kenburns;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-duration: 16s;
+  animation-duration: 16s;
+  opacity: 1;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+}
+.slideshow-image.data-v-7b630a80:nth-child(1) {
+  -webkit-animation-name: kenburns-1-data-v-7b630a80;
+  animation-name: kenburns-1-data-v-7b630a80;
+  z-index: 3;
+}
+.slideshow-image.data-v-7b630a80:nth-child(2) {
+  -webkit-animation-name: kenburns-2-data-v-7b630a80;
+  animation-name: kenburns-2-data-v-7b630a80;
+  z-index: 2;
+}
+.slideshow-image.data-v-7b630a80:nth-child(3) {
+  -webkit-animation-name: kenburns-3-data-v-7b630a80;
+  animation-name: kenburns-3-data-v-7b630a80;
+  z-index: 1;
+}
+.slideshow-image.data-v-7b630a80:nth-child(4) {
+  -webkit-animation-name: kenburns-4-data-v-7b630a80;
+  animation-name: kenburns-4-data-v-7b630a80;
+  z-index: 0;
+}
+@-webkit-keyframes kenburns-1-data-v-7b630a80 {
+0% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+1.5625% {
+    opacity: 1;
+}
+23.4375% {
+    opacity: 1;
+}
+26.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+98.4375% {
+    opacity: 0;
+    -webkit-transform: scale(1.21176);
+            transform: scale(1.21176);
+}
+100% {
+    opacity: 1;
+}
+}
+@keyframes kenburns-1-data-v-7b630a80 {
+0% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+1.5625% {
+    opacity: 1;
+}
+23.4375% {
+    opacity: 1;
+}
+26.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+98.4375% {
+    opacity: 0;
+    -webkit-transform: scale(1.21176);
+            transform: scale(1.21176);
+}
+100% {
+    opacity: 1;
+}
+}
+@-webkit-keyframes kenburns-2-data-v-7b630a80 {
+23.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+26.5625% {
+    opacity: 1;
+}
+48.4375% {
+    opacity: 1;
+}
+51.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+}
+@keyframes kenburns-2-data-v-7b630a80 {
+23.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+26.5625% {
+    opacity: 1;
+}
+48.4375% {
+    opacity: 1;
+}
+51.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+}
+@-webkit-keyframes kenburns-3-data-v-7b630a80 {
+48.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+51.5625% {
+    opacity: 1;
+}
+73.4375% {
+    opacity: 1;
+}
+76.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+}
+@keyframes kenburns-3-data-v-7b630a80 {
+48.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+51.5625% {
+    opacity: 1;
+}
+73.4375% {
+    opacity: 1;
+}
+76.5625% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+}
+@-webkit-keyframes kenburns-4-data-v-7b630a80 {
+73.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+76.5625% {
+    opacity: 1;
+}
+98.4375% {
+    opacity: 1;
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}
+@keyframes kenburns-4-data-v-7b630a80 {
+73.4375% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+}
+76.5625% {
+    opacity: 1;
+}
+98.4375% {
+    opacity: 1;
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}
+/* 简历内容 */
+.king-list.data-v-7b630a80 {
+  display: block;
+  background-color: #ffffff;
+}
+.king-list .king-icon.data-v-7b630a80 {
+  width: 100%;
+  text-align: left;
+  padding: 20rpx 0 20rpx 37rpx;
+  font-size: 26rpx;
+  color: #888;
+  display: block;
+}
+.king-list > .king-item.data-v-7b630a80 {
+  padding: 30rpx 30rpx 30rpx 120rpx;
+  position: relative;
+  display: block;
+  z-index: 0;
+}
+.king-list > .king-item.data-v-7b630a80::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 1rpx;
+  background-color: #E6E6E6;
+  left: 60rpx;
+  height: 100%;
+  top: 0;
+  z-index: 8;
+}
+.king-list > .king-item.data-v-7b630a80::before {
+  display: block;
+  position: absolute;
+  top: 36rpx;
+  z-index: 9;
+  background-color: #ffffff;
+  width: 50rpx;
+  height: 50rpx;
+  text-align: center;
+  border: none;
+  line-height: 50rpx;
+  left: 36rpx;
+}
+/* 名片微调 */
+.img-solid.data-v-7b630a80 {
+  border: 2rpx solid #eee;
+}
+.share-img.data-v-7b630a80 {
+  position: fixed;
+  /* padding: 10rpx; */
+  width: 100rpx;
+  height: 100rpx;
+  /* top: 680rpx; */
+  bottom: 200rpx;
+  right: 20rpx;
+  z-index: 1024;
+  opacity: 0.8;
+  box-shadow: 0rpx 8rpx 30rpx 0rpx rgba(0, 0, 0, 0.3);
+  border: none;
+  border: 6rpx solid rgba(255, 255, 255, 0);
+}
+.resume.data-v-7b630a80 {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10rpx;
+  border-radius: 6rpx;
+  color: #666;
+  line-height: 1.6;
+}
+.resume + .resume.data-v-7b630a80 {
+  margin-top: 20rpx;
+}
+.resume2.data-v-7b630a80 {
+  padding-top: 10rpx;
+  border-radius: 6rpx;
+  display: block;
+  color: #666;
+  line-height: 1.6;
+  text-align: justify;
+}
+/* 间隔线 start*/
+.tn-strip-bottom.data-v-7b630a80 {
+  width: 100%;
+  border-bottom: 20rpx solid rgba(241, 241, 241, 0.8);
+}
+/* 间隔线 end*/
+.bg-img-cont.data-v-7b630a80 {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 350rpx;
+  margin: 20rpx 0;
+  border-radius: 8rpx;
+}
+/* 标签内容 start*/
+.tn-tag-content__item.data-v-7b630a80 {
+  display: inline-block;
+  line-height: 45rpx;
+  padding: 10rpx 30rpx;
+  margin: 0rpx 20rpx 25rpx 0rpx;
+}
+.tn-tag-content__item--prefix.data-v-7b630a80 {
+  padding-right: 10rpx;
+}
+/* 标签内容 end*/
+.see.data-v-7b630a80 {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10rpx;
+  border-radius: 6rpx;
+  color: #666;
+  line-height: 1.6;
+}
+

@@ -1,0 +1,1 @@
+<view class="{{['tn-grid-item-class','tn-grid-item','data-v-f814fb48',backgroundColorClass]}}" style="{{'background-color:'+(backgroundColorStyle)+';'+('width:'+(gridWidth)+';')}}" hover-class="{{hoverClass}}" hover-stay-time="{{150}}" data-event-opts="{{[['tap',[['click',['$event']]]]]}}" bindtap="__e"><view class="tn-grid-item__box data-v-f814fb48"><slot></slot></view></view>

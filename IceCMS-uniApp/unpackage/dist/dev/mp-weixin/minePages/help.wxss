@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为Tuniao UI的集成样式文件，为scss预处理器，其中包含了一些"tn-"开头的自定义变量
+ * 使用的时候，请将下面的一行复制到您的uniapp项目根目录的uni.scss中即可
+ * Tuniao UI自定义的css类名和scss变量，均以"tn-"开头，不会造成冲突，请放心使用 
+ */
+/* 胶囊*/
+.tn-custom-nav-bar__back.data-v-3d0e04ed {
+  width: 60%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1000rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 18px;
+}
+.tn-custom-nav-bar__back .icon.data-v-3d0e04ed {
+  display: block;
+  flex: 1;
+  margin: auto;
+  text-align: center;
+}
+/* 间隔线 start*/
+.tn-strip-bottom-min.data-v-3d0e04ed {
+  width: 100%;
+  border-bottom: 1rpx solid #F8F9FB;
+}
+.tn-strip-top.data-v-3d0e04ed {
+  width: 100%;
+  border-top: 20rpx solid rgba(241, 241, 241, 0.8);
+}
+/* 间隔线 end*/
+
