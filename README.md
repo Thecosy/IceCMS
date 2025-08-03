@@ -148,30 +148,14 @@ Docker部署方式(推荐,可用于快速上线或测试)
     # 重启docker服务
     sudo systemctl restart docker
     
-    main-命令执行
-    Ps:按顺序执行
+  ### Docker 一键启动命令
 
-    1.运行Mysql容器
-    docker run -d -p 0:3389 \
-    --name ice-sql \
-    --restart always \
-    thecosy/icemysql:v2.2.0
-    
-    2.运行Spring容器
-    docker run -d -p 8181:8181 \
-    --name ice-api \
-    --restart always \
-    --link ice-sql:db \
-    thecosy/icecms:v2.2.0
-    
-    3.运行Vue容器
-    docker run -d -p 3000:80 \
-    --name ice-vue \
-    --restart always \
-    --link  ice-api:iceApi \
-    thecosy/icevue:v2.2.0
-    
-    #访问前端地址http://ip:3000
+  以下命令用于一次性创建 Docker 网络，并依次启动 `icecms-sql` 和 `icecms-fullstack` 两个容器。
+
+  ```bash
+  docker network create icecms-network && \
+  docker run -d --name icecms-sql --network icecms-network -p 3306:3306 --restart always ttice/icecms-sql:latest && \
+  docker run -d --name icecms-fullstack --network icecms-network --restart always -p 3001:3000 -p 2580:2580 -p 8181:8181 --link icecms-sql:db ttice/icecms-fullstack:latest
 
 ## 目录结构
     iceCMS/
