@@ -147,26 +147,28 @@ Docker部署方式(推荐,可用于快速上线或测试)
     # 重启docker服务
     sudo systemctl restart docker
     
-  ### Docker 一键启动命令
+    ### Docker 一键启动命令
 
-  以下命令用于一次性创建 Docker 网络，并依次启动 `icecms-sql` 和 `icecms-fullstack` 两个容器。
+    以下命令用于一次性创建 Docker 网络，并依次启动 `icecms-sql` 和 `icecms-fullstack` 两个容器。
 
-  ```bash
-  docker run -d \
-  --name icecms-sql \
-  -p 3306:3306 \
-  --restart always \
-  ttice/icecms-sql:latest && \
-  docker run -d \
-    --name icecms-fullstack \
+    ```bash
+    docker run -d \
+    --name icecms-sql \
+    -p 3306:3306 \
     --restart always \
-    -p 3001:3000 \
-    -p 2580:2580 \
-    -p 8181:8181 \
-    --link icecms-sql:db \
-    ttice/icecms-fullstack:latest
+    ttice/icecms-sql:latest && \
+    docker run -d \
+      --name icecms-fullstack \
+      --restart always \
+      -p 3001:3000 \
+      -p 2580:2580 \
+      -p 8181:8181 \
+      --link icecms-sql:db \
+      ttice/icecms-fullstack:latest
 
-## 目录结构
+
+# 目录结构
+
   IceCMS-Pro/
   ├── LICENSE.md
   ├── README.md
@@ -437,12 +439,6 @@ GPL-3.0 license © pipipi-pikachu
 * 你提交的 PR 被本项目合并（仅限有价值的，不包括简单的错别字或拼写错误修改等）；
 * 你参与过本项目的设计、实现（也包括对各种功能/模块的实现或Bug的修复提供了有价值的思路）；
 * 联系作者付费商用
-
-
-## Thanks
-
-感谢 [JetBrains](https://www.jetbrains.com/) 提供的非商业开源软件 License
-
 
 ## Star History
 
