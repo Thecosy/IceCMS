@@ -12,7 +12,6 @@
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/MyBatis-3.5.5-red">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/Vue-2.6.11-brightgreen">
 	<img style="padding: 4px;" alt="Label" src="https://img.shields.io/badge/license-MIT-blue">
-	<img style="padding: 4px;" alt="Label" src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FNaccl%2FNBlog&count_bg=%2344CC11&title_bg=%23555555&icon=notist.svg&icon_color=%231296DB&title=hits&edge_flat=false">
 </p>
 
 
@@ -25,7 +24,7 @@
 
 官网: （[www.icecms.cn](https://doc.icecms.cn)）
 
-IceCMS 文档： （[http://www.icecms.cn](https://www.icecms.cn)）
+IceCMS 文档： （[https://www.icecms.cn/docs/](https://www.icecms.cn/docs/)）
 
 内容管理：文章、图片、资源等多种类型的内容管理；
 
@@ -84,7 +83,7 @@ API文档：[api.icecmspro.com/doc.html](https://api.icecmspro.com/doc.html)
 5. 分页插件：[PageHelper](https://github.com/pagehelper/Mybatis-PageHelper)
 6. NoSQL缓存：[Redis](https://github.com/redis/redis)
 7. Markdown 转 HTML：[commonmark-java](https://github.com/commonmark/commonmark-java)
-8. 离线 IP 地址库：[ip2region](https://github.com/lionsoul2014/ip2region)
+
 
 基于 JDK8 开发，8以上要添加依赖：
 
@@ -153,80 +152,162 @@ Docker部署方式(推荐,可用于快速上线或测试)
   以下命令用于一次性创建 Docker 网络，并依次启动 `icecms-sql` 和 `icecms-fullstack` 两个容器。
 
   ```bash
-  docker network create icecms-network && \
-  docker run -d --name icecms-sql --network icecms-network -p 3306:3306 --restart always ttice/icecms-sql:latest && \
-  docker run -d --name icecms-fullstack --network icecms-network --restart always -p 3001:3000 -p 2580:2580 -p 8181:8181 --link icecms-sql:db ttice/icecms-fullstack:latest
+  docker run -d \
+  --name icecms-sql \
+  -p 3306:3306 \
+  --restart always \
+  ttice/icecms-sql:latest && \
+  docker run -d \
+    --name icecms-fullstack \
+    --restart always \
+    -p 3001:3000 \
+    -p 2580:2580 \
+    -p 8181:8181 \
+    --link icecms-sql:db \
+    ttice/icecms-fullstack:latest
 
 ## 目录结构
-    iceCMS/
-    ├── HELP.md
-    ├── IceCMS-java.iml
-    ├── IceCMS-main             --java主程序启动入口
-    │   ├── IceCMS-main.iml
-    │   ├── main.iml
-    │   ├── pom.xml
-    │   ├── src
-    │   └── target
-    ├── IcePay-ment             --java支付模块
-    │   ├── IcePay-ment.iml
-    │   ├── pom.xml
-    │   ├── src
-    │   └── target
-    ├── IceWk-ment              --java前端api模块
-    │   ├── IceWk-ment.iml
-    │   ├── pom.xml
-    │   ├── src
-    │   └── target
-    ├── IceWk-uniApp            --h5Uniapp模块
-    │   ├── App.vue
-    │   ├── LICENSE
-    │   ├── components
-    │   ├── main.js
-    │   ├── manifest.json
-    │   ├── nPro
-    │   ├── package-lock.json
-    │   ├── package.json
-    │   ├── pages
-    │   ├── pages.json
-    │   ├── static
-    │   ├── store
-    │   ├── subPage
-    │   ├── template.h5.html
-    │   ├── theme
-    │   ├── uni.scss
-    │   ├── uni_modules
-    │   ├── utils
-    │   └── vue.config.js
-    ├── IceWk-vues                --前端vue模块
-    │   ├── LICENSE
-    │   ├── README.md
-    │   ├── babel.config.js
-    │   ├── build
-    │   ├── dist
-    │   ├── jest.config.js
-    │   ├── jsconfig.json
-    │   ├── node_modules
-    │   ├── package-lock.json
-    │   ├── package.json
-    │   ├── postcss.config.js
-    │   ├── public
-    │   ├── serverless.yml
-    │   ├── src
-    │   ├── vue.config.js
-    │   └── yarn.lock
-    ├── README.md
-    ├── bin
-    │   ├── clean.bat
-    │   ├── package.bat
-    │   └── run.bat
-    ├── doc
-    │   └── IceCMS环境使用手册.docx
-    ├── mvnw
-    ├── mvnw.cmd
-    ├── pom.xml
-    └── sql                        --项目sql文件
-    ├── icecms5.6.sql
-    └── icecms8.0.sql
+  IceCMS-Pro/
+  ├── LICENSE.md
+  ├── README.md
+  ├── README_en.md
+  ├── pom.xml                     --主项目Maven配置文件
+  ├── mvnw
+  ├── mvnw.cmd
+  ├── bin/                        --项目脚本文件
+  ├── sql/                        --项目SQL文件
+  │   ├── icecms5.7.sql
+  │   ├── icecms8.0.sql
+  │   ├── notification_table.sql
+  │   ├── qiniu_cos_update.sql
+  │   └── tag_update.sql
+  ├── IceCMS-main/               --Java主程序启动入口
+  │   ├── IceCMS-main.iml
+  │   ├── main.iml
+  │   ├── pom.xml
+  │   ├── src/
+  │   │   ├── main/
+  │   │   │   ├── java/
+  │   │   │   └── resources/
+  │   │   │       ├── application.yml
+  │   │   │       └── banner.txt
+  │   │   └── test/
+  │   │       └── java/
+  │   └── target/
+  ├── IceCMS-ment/               --Java后端API模块
+  │   ├── pom.xml
+  │   ├── src/
+  │   │   ├── main/
+  │   │   │   ├── java/
+  │   │   │   └── resources/
+  │   │   └── test/
+  │   │       └── java/
+  │   └── target/
+  ├── IcePay-ment/               --Java支付模块
+  │   ├── pom.xml
+  │   ├── src/
+  │   │   ├── main/
+  │   │   └── test/
+  │   │       └── test3.iml
+  │   └── target/
+  ├── IceCMS-front-admin/        --管理后台前端(Vue3)
+  │   ├── Dockerfile
+  │   ├── LICENSE
+  │   ├── README.md
+  │   ├── package.json
+  │   ├── pnpm-lock.yaml
+  │   ├── vite.config.ts
+  │   ├── tsconfig.json
+  │   ├── tailwind.config.ts
+  │   ├── index.html
+  │   ├── build/
+  │   ├── dist/
+  │   ├── node_modules/
+  │   ├── public/
+  │   ├── src/
+  │   │   ├── App.vue
+  │   │   ├── main.ts
+  │   │   ├── api/
+  │   │   ├── assets/
+  │   │   ├── components/
+  │   │   ├── config/
+  │   │   ├── directives/
+  │   │   ├── layout/
+  │   │   ├── plugins/
+  │   │   ├── router/
+  │   │   ├── store/
+  │   │   ├── style/
+  │   │   ├── utils/
+  │   │   └── views/
+  │   ├── types/
+  │   ├── locales/
+  │   ├── mock/
+  │   ├── commitlint.config.js
+  │   ├── eslint.config.js
+  │   ├── postcss.config.js
+  │   └── stylelint.config.js
+  ├── IceCMS-front-nuxt/         --前端用户界面(Nuxt4)
+  │   ├── README.md
+  │   ├── package.json
+  │   ├── pnpm-lock.yaml
+  │   ├── nuxt.config.ts
+  │   ├── tsconfig.json
+  │   ├── main.ts
+  │   ├── node_modules/
+  │   ├── public/
+  │   ├── api/
+  │   ├── constants/
+  │   ├── middleware/
+  │   ├── plugins/
+  │   ├── service/
+  │   ├── src/
+  │   │   ├── components/
+  │   │   ├── error.vue
+  │   │   ├── hooks/
+  │   │   ├── pages/
+  │   │   ├── static/
+  │   │   └── utils/
+  │   ├── stores/
+  │   └── types/
+  ├── IceCMS-uniApp/             --移动端H5/小程序(UniApp)
+  │   ├── App.vue
+  │   ├── package.json
+  │   ├── manifest.json
+  │   ├── pages.json
+  │   ├── main.js
+  │   ├── uni.scss
+  │   ├── index.html
+  │   ├── template.h5.html
+  │   ├── pages/
+  │   ├── activityPages/
+  │   ├── circlePages/
+  │   ├── homePages/
+  │   ├── minePages/
+  │   ├── preferredPages/
+  │   ├── common/
+  │   ├── libs/
+  │   ├── static/
+  │   ├── store/
+  │   ├── tuniao-ui/
+  │   └── unpackage/
+  │       └── dist/
+  └── IceCMS-Docker/             --Docker容器化部署
+      ├── Makefile
+      ├── build.sh
+      ├── docker-compose.yml
+      ├── icecms-fullstack/
+      │   ├── Dockerfile
+      │   ├── default.conf
+      │   ├── ecosystem.config.js
+      │   ├── main.jar
+      │   ├── package.json
+      │   ├── output/
+      │   └── vue-app/
+      └── icecms-sql/
+          ├── Dockerfile
+          ├── IceCMS.sql
+          ├── privileges.sql
+          └── setup.sh
 
 ## <strong>配置最小开发环境</strong>
 
