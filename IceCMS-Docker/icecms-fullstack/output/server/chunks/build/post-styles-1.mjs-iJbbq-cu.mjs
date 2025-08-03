@@ -1,0 +1,4 @@
+const post_vue_vue_type_style_index_0_scoped_4b9e6e28_lang = ".works-view[data-v-4b9e6e28]{background-color:#fff;border-radius:12px;padding:20px}.work-card[data-v-4b9e6e28]{margin-bottom:20px}.work-info[data-v-4b9e6e28]{align-items:center;display:flex;flex-direction:column}.work-cover[data-v-4b9e6e28]{border-radius:8px;height:200px;margin-bottom:10px;-o-object-fit:cover;object-fit:cover;width:100%}.work-details[data-v-4b9e6e28]{text-align:center}.work-title[data-v-4b9e6e28]{font-weight:700;margin:10px 0}.work-description[data-v-4b9e6e28]{color:#888;font-size:14px}.no-works-msg[data-v-4b9e6e28]{color:#888;text-align:center}.view-btn[data-v-4b9e6e28]{margin-top:10px;width:100%}.homeContent[data-v-4b9e6e28]{margin-top:40px}.home[data-v-4b9e6e28]{background-color:#fff;border-radius:13px;padding:22px;width:100%}";
+
+export { post_vue_vue_type_style_index_0_scoped_4b9e6e28_lang as p };
+//# sourceMappingURL=post-styles-1.mjs-iJbbq-cu.mjs.map

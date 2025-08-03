@@ -9,33 +9,55 @@ services:
     restart: always
     ports:
         - "0:3306"
-  #后台服务
-  icecms-api:
+    networks:
+        - icecms-network
+  # 合并后的前后端服务
+  icecms-fullstack:
+    # 假设你的 Dockerfile 位于项目的根目录，
+    # 且已配置好同时构建和运行 Nuxt.js 和 Java API
     build:
-        context: ./icecms-api
-    # environment:
-        # MYSQL_SERVER: renren-mysql:3306
-        # MYSQL_USER: root
-        # MYSQL_PASSWORD: avit123
-        # JAVA_OPTS: "-server -XX:+UseG1GC -Xmx2g -XX:MaxGCPauseMillis=200 -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=logs/java_heapdump.hprof -XX:-UseLargePages -Xloggc:logs/gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M"
+      context: ./icecms-fullstack
     links:
-      - "icecms-sql:db"
-    container_name: icecms-api
-    image: icecms-api
+        - "icecms-sql:db"
+    container_name: icecms-fullstack
+    image: icecms-fullstack
     restart: always
+    # 确保数据库服务启动后再启动此服务
+    depends_on:
+      icecms-sql:
+        condition: service_started
+    environment:
+      # --- Nuxt.js 和 Java API 的所有环境变量都合并到这里 ---
+      # Java API 环境变量
+      SERVER_PORT: 8181
+      # CORS 设置现在可以简化，因为前端和后端在同一个容器内，可以通过 localhost 访问
+      CORS_ENABLED: "true"
+      CORS_ALLOWED_ORIGINS: "http://localhost:3001"
+      MYSQL_SERVER: icecms-sql:3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: my-secure-password
+      JAVA_OPTS: "-server -XX:+UseG1GC -Xmx2g -XX:MaxGCPauseMillis=200 -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=logs/java_heapdump.hprof -XX:-UseLargePages -Xloggc:logs/gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M"
+      
+      # Nuxt.js 环境变量
+      NUXT_HOST: 0.0.0.0
+      NUXT_PORT: 3000
+      # 在单个容器中，API 地址都指向 localhost
+      API_BASE_URL: "http://localhost:8181"
+      NUXT_PUBLIC_API_BASE: "http://localhost:8181"
     ports:
-        - "8181:8181"
-  # 前端UI
-  icecms-vue:
-    build:
-        context: ./icecms-vue
-    links:
-      - "icecms-api:iceApi"
-    restart: always
-    container_name: icecms-vue
-    image: icecms-vue
-    ports:
-      - "3000:80"
+      # Nuxt.js 使用 3000 端口
+      # Java API 使用 8181 端口 
+      # Vue 应用使用 2580 端口
+      - "3001:3000"
+      - "2580:2580"
+      - "8181:8181"
+    networks:
+      - icecms-network
+
+networks:
+  icecms-network:
+    driver: bridge
+    name: icecms-network
 #   me_traefik:
 #     restart: always
 #     image: traefik:1.7.4

@@ -1,10 +1,10 @@
-FROM mysql:8.0
-MAINTAINER BolingCavalry <zq2599@gmail.com>
+FROM mysql:8.4
+LABEL maintainer="BolingCavalry <23339097@qq.com>"
 
 ENV WORK_PATH /usr/local/work
 ENV AUTO_RUN_DIR /docker-entrypoint-initdb.d
 
-ENV MYSQL_ROOT_PASSWORD 123456789
+ENV MYSQL_ROOT_PASSWORD 12345678
 
 ENV FILE_0  IceCMS.sql
 ENV INSTALL_DATA_SHELL setup.sh

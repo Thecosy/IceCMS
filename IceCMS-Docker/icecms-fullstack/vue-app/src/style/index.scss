@@ -1,0 +1,73 @@
+@import "./transition";
+@import "./element-plus";
+@import "./sidebar";
+@import "./dark";
+
+/* 自定义全局 CssVar */
+:root {
+  /* 左侧菜单展开、收起动画时长 */
+  --pure-transition-duration: 0.3s;
+
+  /* 常用border-color 需要时可取用 */
+  --pure-border-color: rgb(5 5 5 / 6%);
+
+  /* switch关闭状态下的color 需要时可取用 */
+  --pure-switch-off-color: #a6a6a6;
+}
+
+/* 灰色模式 */
+.html-grey {
+  filter: grayscale(100%);
+}
+
+/* 色弱模式 */
+.html-weakness {
+  filter: invert(80%);
+}
+
+
+// /* 样式 */
+// .gradient-total-sales {
+//   background: linear-gradient(to right, #ff9a9e, #fad0c4);
+//   color: #fff;
+// }
+
+// .gradient-today-sales {
+//   background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+//   color: #fff;
+// }
+
+// .gradient-user-count {
+//   background: linear-gradient(to right, #b6d66c, #85d18f);
+//   color: #fff;
+// }
+
+// .gradient-new-orders {
+//   background: linear-gradient(to right, #f9d423, #ff4e50);
+//   color: #fff;
+// }
+
+// .recent-orders,
+// .user-list {
+//   margin-top: 20px;
+// }
+
+// .el-card {
+//   background-color: #fff;
+//   border-radius: 10px;
+//   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+// }
+
+// .el-card__header {
+//   background-color: #f3f4f6;
+//   border-bottom: none;
+//   border-radius: 10px 10px 0 0;
+// }
+
+// .el-card__body {
+//   padding: 20px;
+// }
+
+// .el-table {
+//   border-radius: 10px;
+// }

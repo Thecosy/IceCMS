@@ -1,0 +1,5 @@
+ports:
+  - port: 3344
+    onOpen: open-preview
+tasks:
+  - init: pnpm install && pnpm serve

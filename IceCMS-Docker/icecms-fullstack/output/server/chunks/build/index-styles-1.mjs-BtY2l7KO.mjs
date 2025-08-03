@@ -1,0 +1,4 @@
+const index_vue_vue_type_style_index_0_scoped_e9458166_lang = ".site-content[data-v-e9458166]{display:flex;margin-left:43px;margin-right:43px;padding:20px}.usertopName[data-v-e9458166]{display:flex}.home[data-v-e9458166]{background-color:#fff;border-radius:13px;padding:22px;width:100%}.homeContent[data-v-e9458166]{margin-top:40px}.login-prompt[data-v-e9458166]{align-items:center;display:flex;justify-content:center;min-height:300px}";
+
+export { index_vue_vue_type_style_index_0_scoped_e9458166_lang as i };
+//# sourceMappingURL=index-styles-1.mjs-BtY2l7KO.mjs.map
