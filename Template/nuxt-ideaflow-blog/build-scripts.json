@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "build:dev": "cp .env .env.backup && pnpm build",
+    "build:prod": "cp .env .env.backup && cp .env.production .env && pnpm build && mv .env.backup .env",
+    "preview:prod": "cp .env .env.backup && cp .env.production .env && pnpm build && pnpm preview && mv .env.backup .env"
+  }
+}
