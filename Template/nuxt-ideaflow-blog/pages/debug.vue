@@ -111,7 +111,8 @@
             <pre v-if="results.hotPosts.data" class="text-xs bg-gray-100 dark:bg-gray-700 p-2 rounded mt-2 overflow-auto max-h-32">{{ JSON.stringify(results.hotPosts.data, null, 2) }}</pre>
           </div>
         </div>
-      <!-- 文章详情测试 -->
+
+        <!-- 文章详情测试 -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
           <h3 class="text-lg font-semibold mb-4">文章详情 API</h3>
           <div class="flex items-center gap-2 mb-4">
