@@ -297,30 +297,18 @@ watch(loginDay, value => {
             <Motion :delay="250">
               <el-form-item>
                 <div class="w-full flex justify-between items-center">
-                  <el-checkbox v-model="checked">
-                    <div class="flex items-center flex-wrap" :class="{'remember-login-en': locale === 'en'}">
-                      <el-select
-                        v-model="loginDay"
-                        size="small"
-                        class="remember-select mr-1"
-                        :class="{'w-16': locale === 'zh', 'w-20': locale === 'en'}"
-                        :disabled="!checked"
-                        @change="handleLoginDayChange"
-                      >
-                        <el-option :value="1" :label="'1'" />
-                        <el-option :value="7" :label="'7'" />
-                        <el-option :value="30" :label="'30'" />
-                      </el-select>
-                      <span class="text-sm remember-text">{{ t("login.remember") }}</span>
-                      <el-tooltip
-                        effect="dark"
-                        placement="top"
-                        :content="t('login.rememberInfo')"
-                      >
-                        <IconifyIconOffline :icon="Info" class="ml-1 text-gray-400" />
-                      </el-tooltip>
-                    </div>
-                  </el-checkbox>
+                  <div class="flex items-center">
+                    <el-checkbox v-model="checked">
+                      <span class="text-sm">{{ t("login.remember") }}</span>
+                    </el-checkbox>
+                    <el-tooltip
+                      effect="dark"
+                      placement="top"
+                      :content="t('login.rememberInfo')"
+                    >
+                      <IconifyIconOffline :icon="Info" class="ml-1 text-gray-400" />
+                    </el-tooltip>
+                  </div>
                   <el-button
                     link
                     type="primary"

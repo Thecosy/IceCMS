@@ -37,8 +37,8 @@ export const sessionKey = "user-info";
 export function setTokenFromBackend(data, rememberMe = false, loginDays = 7): void {
   const { isRemembered, loginDay } = useUserStoreHook();
   const cookieOptions: Cookies.CookieAttributes = {
-    sameSite: 'None',
-    secure: true
+    sameSite: location.protocol === 'https:' ? 'None' : 'Lax',
+    secure: location.protocol === 'https:'
   };
 
   // 如果勾选了记住登录，设置cookie过期时间

@@ -24,7 +24,7 @@ export async function checkAutoLogin(): Promise<boolean> {
     const tokenData = JSON.parse(tokenCookie);
 
     // 检查token是否过期
-    if (tokenData.expires && new Date(tokenData.expires).getTime() < Date.now()) {
+    if (tokenData.expires && tokenData.expires < Date.now()) {
       // token已过期，清除cookie
       Cookies.remove(TokenKey);
       Cookies.remove(multipleTabsKey);
