@@ -1,0 +1,87 @@
+﻿.timeline {
+    width: 100%;
+    height: 20px;
+    background-color: var(--heo-background);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-radius: 0.5rem;
+    height: 2.5rem;
+}
+
+.progress {
+    width: 0;
+    height: 100%;
+    background-color: var(--heo-main);
+    position: absolute;
+    animation: progressAnimation 2s linear forwards;
+    animation-delay: -0.1s;
+    border-radius: 0.5rem
+}
+
+.past-time {
+    width: 2px;
+    height: 20px;
+    background-color: #3498db;
+    position: absolute;
+    transform-origin: left;
+    animation: pastTimeAnimation 3s linear forwards;
+}
+
+.percentage-label {
+    position: absolute;
+    left: 0;
+    font-size: 14px;
+    color: var(--heo-card-bg);
+    font-weight: bold;
+    top: 10px;
+    white-space: nowrap;
+    transition: left 0.5s linear;
+    visibility: hidden;
+}
+
+.time-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.time-labels>div {
+    font-size: 14px;
+    color: var(--heo-fontcolor);
+}
+
+@keyframes progressAnimation {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: var(--progress-percentage, 0);
+    }
+}
+
+@keyframes pastTimeAnimation {
+    0% {
+        transform: scaleX(0);
+    }
+    100% {
+        transform: scaleX(var(--past-time-percentage, 0));
+    }
+}
+
+.timeline:hover {
+    animation: btn31-eff 3s linear infinite;
+    cursor: pointer;
+}
+
+@keyframes btn31-eff {
+    0% {
+        box-shadow: 0 0 2px var(--heo-main);
+    }
+    50% {
+        box-shadow: 0 0 40px var(--heo-main);
+    }
+    100% {
+        box-shadow: 0 0 2px var(--heo-main);
+    }
+}

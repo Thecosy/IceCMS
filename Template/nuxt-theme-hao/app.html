@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html {{ HTML_ATTRS }}>
+<head {{ HEAD_ATTRS }}>
+  {{ HEAD }}
+  
+  <!-- 导入所有CSS文件 -->
+  <link rel="stylesheet" href="/static/css/zhheoblog.css">
+  <link rel="stylesheet" href="/static/css/custom.css">
+  <link rel="stylesheet" href="/static/css/commentBarrage.css">
+  <link rel="stylesheet" href="/static/css/swiper-bundle.min.css">
+  <link href="/static/css/snackbar.min.css" media="print" onload='this.media="all"' rel="stylesheet">
+  <link rel="preload" as="style" onload="this.rel='stylesheet'" href="/static/css/prism.min.css">
+  <link rel="preload" as="style" onload="this.rel='stylesheet'" href="/static/css/code.css">
+  <link rel="preload" as="style" onload="this.rel='stylesheet'" data-code-theme="light" href="/static/css/prism-dracula.css">
+  <link rel="preload" as="style" onload="this.rel='stylesheet'" data-code-theme="dark" href="/static/css/prism-base16-ateliersulphurpool.light.css">
+  <link rel="stylesheet" href="/static/css/iconfont.css">
+  <link rel="stylesheet" href="/static/css/font_4593626_exv885sf1q5.css">
+  <link rel="stylesheet" href="/static/css/likcc-notification.css">
+  <link rel="stylesheet" href="/static/css/var-1.5.1.css">
+  <link rel="stylesheet" href="/static/css/katex.min.css">
+  <link rel="stylesheet" href="/static/css/style-1.7.0.css">
+  <link rel="stylesheet" href="/static/css/index-3.0.0.css">
+  <link rel="stylesheet" href="/static/css/var-1.5.2.css">
+  <link rel="stylesheet" href="/static/css/fullPage.css">
+  <link rel="stylesheet" href="/static/css/APlayer.min.css">
+  <link href="/static/css/tocbot.css" rel="stylesheet">
+
+  <style>
+    *::-webkit-scrollbar-thumb {
+      background-color: var(--heo-main);
+      background-image: -webkit-linear-gradient(45deg,rgba(255,255,255,.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.4) 75%,transparent 75%,transparent);
+      border-radius: 2em
+    }
+
+    #article-container .code-toolbar pre.close{
+      overflow: hidden;
+      height: 300px;
+    }
+
+    .ali_icon {
+      width: 1.2em;
+      height: 1.2em;
+      vertical-align: -0.15em;
+      fill: currentColor;
+      overflow: hidden;
+      right: 0;
+    }
+
+    /* 主题色设置 */
+    [data-theme=light] {
+      --heo-theme: #425AEF !important;
+      --heo-theme-op: #425AEF23 !important;
+      --heo-theme-op-deep: #425AEFdd !important;
+      --heo-theme-none: #425AEF00 !important;
+    }
+
+    [data-theme=dark] {
+      --heo-theme: #f2b94b !important;
+      --heo-theme-op: #f2b94b23 !important;
+      --heo-theme-op-deep: #f2b94bdd !important;
+      --heo-theme-none: #f2b94b00 !important;
+    }
+
+    :root {
+      --halo-comment-widget-component-card-bg: var(--heo-card-bg);
+      --halo-comment-widget-component-theme-op: var(--heo-theme-op);
+      --halo-comment-widget-component-card-border: var(--heo-card-border);
+      --halo-comment-widget-component-shadow-border: var(--heo-shadow-border);
+      --halo-comment-widget-component-secondtext: var(--heo-secondtext);
+      --halo-comment-widget-component-lighttext: var(--heo-lighttext);
+      --halo-comment-widget-component-secondbg: var(--heo-secondbg);
+      --halo-comment-widget-component-fontcolor: var(--heo-fontcolor);
+      --halo-comment-widget-component-main: var(--heo-main);
+      --halo-comment-widget-component-background: var(--heo-background);
+      --halo-comment-widget-component-white: var(--heo-white);
+      --halo-comment-widget-component-shadow-black: var(--heo-shadow-black);
+      
+      /* 主色调变量 */
+      --heo-main: var(--heo-theme);
+      --heo-card-bg: #fff;
+      --heo-background: #f7f9fe;
+      --heo-white: #fff;
+    }
+    
+    /* 暗色模式变量 */
+    [data-theme=dark] {
+      --heo-card-bg: #1d1b26;
+      --heo-background: #0d0d0d;
+      --heo-white: #fff;
+    }
+  </style>
+
+  <!-- 全局配置脚本 -->
+  <script id="site-config">
+    var GLOBAL_CONFIG = {
+      htmlType: "index",
+      postTitle: "",
+      isPost: false,
+      isHome: true,
+      copyright: undefined,
+      lightbox: 'fancybox',
+      lazyload: {
+        enable: false,
+        error: "https://api.minio.xindu.site/blog.cnkj.site/backup/2380880178-5c3f060768f92_fix732.webp"
+      },
+      isFriendLinksInFooter: false,
+      loadingBox: true,
+      loadProgressBar: true,
+      navMusicEnable: false,
+      isMusic: false,
+      helloText: ["🤖️ 数码科技爱好者"," 🔍 分享与热心帮助"," 🏠 智能家居小能手"," 🔨 设计开发一条龙"," 🤝 专修交互与设计"," 🏃 脚踏实地行动派"," 🧱 团队小组发动机"," 💢 壮汉人狠话不多"],
+      profileStyle: "default",
+      rightMenuEnable: false,
+      date_suffix: {
+        just: '刚刚',
+        min: '分钟前',
+        hour: '小时前',
+        day: '天前',
+        month: '个月前'
+      },
+      Snackbar: {
+        chs_to_cht: "你已切换为繁体",
+        cht_to_chs: "你已切换为简体",
+        day_to_night: "你已切换为深色模式",
+        night_to_day: "你已切换为浅色模式",
+        bgLight: "#425AEF",
+        bgDark: "#f2b94b",
+        position: "top-center",
+      },
+      translate: {
+        defaultEncoding: 2,
+        translateDelay: 0,
+        msgToTraditionalChinese: "繁",
+        msgToSimplifiedChinese: "简",
+        rightMenuMsgToTraditionalChinese: "轉為繁體",
+        rightMenuMsgToSimplifiedChinese: "转为简体"
+      },
+      prism: {
+        enable: true,
+        enable_title: true,
+        enable_hr: true,
+        enable_line: true,
+        enable_copy: true,
+        enable_expander: true,
+        prism_limit: Number(300) + 30,
+        enable_height_limit: true
+      }
+    };
+
+    // 主题初始化脚本
+    (win => {
+      win.saveToLocal = {
+        set: function setWithExpiry(key, value, ttl) {
+          if (ttl === 0) return
+          const now = new Date()
+          const expiryDay = ttl * 86400000
+          const item = {
+            value: value,
+            expiry: now.getTime() + expiryDay,
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+        get: function getWithExpiry(key) {
+          const itemStr = localStorage.getItem(key)
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = new Date()
+          if (now.getTime() > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+
+      win.getScript = url => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function () {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(script)
+      })
+
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        document.documentElement.classList.add('color-scheme-dark')
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        document.documentElement.classList.remove('color-scheme-dark')
+      }
+
+      const t = saveToLocal.get('theme')
+      const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+      const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+      const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+      const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+      if (t === undefined) {
+        if (isLightMode) activateLightMode()
+        else if (isDarkMode) activateDarkMode()
+        else if (isNotSpecified || hasNoSupport) {
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          isNight ? activateDarkMode() : activateLightMode()
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+          if (saveToLocal.get('theme') === undefined) {
+            e.matches ? activateDarkMode() : activateLightMode()
+          }
+        })
+      } else if (t === 'light') activateLightMode()
+      else activateDarkMode()
+
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)
+  </script>
+</head>
+<body {{ BODY_ATTRS }}>
+  {{ APP }}
+  
+  <!-- 图标字体 -->
+  <script src="/static/js/font_4593626_exv885sf1q5.js"></script>
+  
+  <!-- 核心JS库 -->
+  <script defer src="/static/js/katex.min.js"></script>
+  <script src="/static/js/custom.js"></script>
+  <script src="/static/js/likcc-notification.js"></script>
+  <script src="/static/js/search-widget.iife.js" defer></script>
+  <script data-pjax type="text/javascript" src="/static/js/prism.min.js"></script>
+
+  <!-- 统计和分析 -->
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5781469f1812e609cdf046b56bd389dc";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <script defer src="/static/js/script.js" data-website-id="20c61635-9223-4acf-ba11-646c447f9c11"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6457521502877971" crossorigin="anonymous"></script>
+
+  <!-- 公告通知脚本 -->
+  <script>
+    function showLikccNotification() {
+      LikccNotification.create({
+        title: '新都 · 在 - 公告',
+        content: `💐1. 本站提供商品购买，详情可点击 <a href="https://blog.xindu.site/product" target="_blank"><span style="color:red;">商品</span></a> 查看 <br> 💰2. 本站大部分文章均为免费文章，但为了保证站点的可持续发展，新发文章将会采用部分内容付费阅读的模式用于支付服务器费用和电费，敬请理解～～<br> 🎉3. 博主提供远程服务部署业务，详情可查看 <a href="https://www.goofish.com/personal?spm=a21ybx.item.itemHeader.1.59d33da6AnsFgX&userId=1030797366" target="_blank"><span style="color:red;">咸鱼</span></a><br>`,
+        position: 'center',
+        urlPatterns: ["/","/archives/*"],
+        mainButton: {
+          text: '联系博主',
+          color: '#165DFF',
+          popupContent: '即将跳转博主咸鱼主页',
+          url: 'https://www.goofish.com/personal?spm=a21ybx.item.itemHeader.1.59d33da6AnsFgX&userId=1030797366',
+          alertMessage: '即将跳转博主咸鱼主页',
+          callbackFunction: LikccNotification.openNewWindowWithAlert
+        },
+        secondaryButton: {
+          text: '关闭公告',
+          color: '#86909C',
+          popupContent: 'https://www.lik.cc',
+          url: 'https://www.lik.cc',
+          alertMessage: 'https://www.lik.cc',
+          callbackFunction: null
+        },
+        autoClose: 0,
+        closeOnClickOutside: false,
+        showOnLoad: true,
+        popupInterval: 4,
+        confettiEnable: true
+      });
+    }
+    document.addEventListener('DOMContentLoaded', showLikccNotification, { once: true });
+  </script>
+
+  <!-- 动态标题 -->
+  <script>
+    var leaveTitle = 'w(ﾟДﾟ)w 不要走！再看看嘛！';
+    var backTitle = '♪(^∇^*)欢迎肥来！';
+    var OriginTitile = "IceCMS - Carol 小屋"
+    var titleTime
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        document.title = leaveTitle
+        clearTimeout(titleTime)
+      } else {
+        document.title = backTitle + OriginTitile
+        titleTime = setTimeout(function () {
+          document.title = OriginTitile
+        }, 2000)
+      }
+    })
+  </script>
+</body>
+</html> 

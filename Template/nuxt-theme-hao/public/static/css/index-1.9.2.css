@@ -1,0 +1,309 @@
+﻿.halo-render {
+  margin: 5px;
+}
+.halo-render .btn {
+  background-color: #3478CD;
+  color: #ffffff;
+  padding: 5px 8px;
+  text-align: center;
+  border-radius: 3px;
+  font-size: 14px;
+  min-width: 80px;
+  text-decoration: none;
+}
+.halo-render .error {
+  text-align: center;
+  color: #C31919;
+}
+.halo-render .invalid-type {
+  color: red;
+  font-size: 20px;
+  text-align: center;
+  padding: 10px;
+  background-color: lightpink;
+  border-radius: 3px;
+}
+.halo-render .iconfont {
+  font-family: iconfont, sans-serif;
+  font-size: 16px;
+}
+.halo-render img,
+.halo-render a {
+  width: initial;
+  height: initial;
+  min-width: initial;
+  min-height: initial;
+  max-width: initial;
+  max-height: initial;
+  border-radius: initial;
+  border: initial;
+  margin: initial;
+  padding: initial;
+}
+.halo-render-wrapper {
+  margin: 20px 15px;
+}
+
+.halo-render.tips {
+  position: relative;
+  padding: 15px 15px;
+  border-left-style: solid;
+  border-left-width: 6px;
+  border-radius: 3px;
+  color: #333333;
+  border-left-color: #818181;
+  background-color: #F4F4F4;
+}
+.halo-render.tips.halo-render.tips:after {
+  font-family: "iconfont", serif !important;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border-radius: 50%;
+  color: #F4F4F4;
+  background-color: #818181;
+  display: block;
+  position: absolute;
+  left: calc(-10px - 6px / 2);
+  top: 4px;
+  content: "\e77e";
+}
+.halo-render.tips.halo-render.tips-warn {
+  background-color: #FFFAED;
+  color: #FF8C00;
+  border-left-color: #FF8C00;
+}
+.halo-render.tips.halo-render.tips-warn.halo-render.tips.halo-render.tips-warn:after {
+  color: #FFFAED;
+  background-color: #FF8C00;
+  content: "\e671";
+}
+.halo-render.tips.halo-render.tips-danger {
+  background-color: #FFEDED;
+  color: #C31919;
+  border-left-color: #C31919;
+}
+.halo-render.tips.halo-render.tips-danger.halo-render.tips.halo-render.tips-danger:after {
+  background-color: #C31919;
+  color: #FFEDED;
+  content: "\e671";
+}
+.halo-render.tips.halo-render.tips-success {
+  background-color: #F2FFED;
+  color: #05B800;
+  border-left-color: #05B800;
+}
+.halo-render.tips.halo-render.tips-success.halo-render.tips.halo-render.tips-success:after {
+  background-color: #05B800;
+  color: #F2FFED;
+}
+.halo-render.tips.halo-render.tips-info {
+  background-color: #F1F7FF;
+  color: #3478CD;
+  border-left-color: #3478CD;
+}
+.halo-render.tips.halo-render.tips-info.halo-render.tips.halo-render.tips-info:after {
+  color: #F1F7FF;
+  background-color: #3478CD;
+}
+
+.halo-render.git {
+  display: flex;
+  gap: 10px;
+  border: 1px solid #ececec;
+  padding: 10px;
+  border-radius: 3px;
+}
+.halo-render.git .information {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.halo-render.git .information .info {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.halo-render.git .information .info .topics {
+  position: relative;
+  display: flex;
+  gap: 5px;
+  color: #ffffff;
+  font-size: 12px;
+  max-width: 30%;
+  overflow: hidden;
+  transition: max-width 0.2s;
+  cursor: pointer;
+}
+.halo-render.git .information .info .topics:after {
+  position: absolute;
+  display: block;
+  width: 20px;
+  height: 30px;
+  right: 0;
+  background: linear-gradient(to right, transparent, #ffffff);
+  content: '';
+  transition: width 0.2s;
+}
+.halo-render.git .information .info .topics:hover:after {
+  width: 0;
+}
+.halo-render.git .information .info .topics:hover {
+  max-width: 70%;
+}
+.halo-render.git .information .info .topics .topic {
+  background-color: #3478CD;
+  padding: 3px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.halo-render.git .information .info .language {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.halo-render.git .information .info .language .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+.halo-render.git .information .info .count {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.halo-render.git .information .info .count .count-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.halo-render.git .information .info .count .icon {
+  font-size: 18px;
+  color: #818181;
+}
+.halo-render.git .information .description {
+  font-size: 14px;
+}
+.halo-render.git .information .info {
+  font-size: 14px;
+  color: #999999;
+}
+.halo-render.git .error {
+  color: darkred;
+  text-align: center;
+}
+.halo-render.git .repo-name a {
+  font-size: 18px;
+  color: #3478CD;
+  text-decoration: none;
+}
+.halo-render.git .icon {
+  font-family: "iconfont", serif;
+  font-size: 24px;
+  color: #333333;
+}
+
+.halo-render.drive {
+  border: 1px solid #F4F4F4;
+  border-radius: 3px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+.halo-render.drive .drive-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.halo-render.drive .drive-info .platform {
+  display: flex;
+  align-items: center;
+}
+.halo-render.drive .drive-info .platform .drive-icon {
+  width: 25px;
+}
+.halo-render.drive .drive-info .platform span {
+  font-size: 16px;
+  margin-left: 3px;
+  color: #3478CD;
+}
+.halo-render.drive .download-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.halo-render.drive .download-info .drive-password {
+  color: #818181;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.halo-render.gallery {
+  border: 1px solid #F4F4F4;
+  border-radius: 3px;
+  padding: 10px 15px;
+}
+.halo-render.gallery .title {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.halo-render.gallery .title .iconfont {
+  font-size: 30px;
+  margin-right: 5px;
+}
+.halo-render.gallery .image-list {
+  display: flex;
+  width: 100%;
+}
+.halo-render.gallery .image-list .vditor--gallery-container .img {
+  border-radius: 3px !important;
+}
+.halo-render.gallery.halo-render.gallery.grid .image-list {
+  flex-wrap: wrap;
+  column-gap: 2%;
+  row-gap: 10px;
+}
+.halo-render.gallery.halo-render.gallery.grid .image-list .vditor--gallery-container {
+  width: 32%;
+  height: 0;
+  position: relative;
+  padding-bottom: 32%;
+}
+.halo-render.gallery.halo-render.gallery.grid .image-list .vditor--gallery-container .img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media screen and (min-width: 1400px) {
+  .halo-render.gallery.halo-render.gallery.grid .image-list .container {
+    width: 23%;
+    padding-bottom: 23%;
+  }
+}
+.halo-render.gallery.halo-render.gallery.linear .image-list {
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: auto;
+  width: 100%;
+  gap: 10px;
+}
+.halo-render.gallery.halo-render.gallery.linear .image-list .vditor--gallery-container {
+  height: 300px;
+}
+.halo-render.gallery.halo-render.gallery.linear .image-list .vditor--gallery-container .img {
+  height: 99%;
+  width: auto!important;
+  max-width: unset!important;
+}
+

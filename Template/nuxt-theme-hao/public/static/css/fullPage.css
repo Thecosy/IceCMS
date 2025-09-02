@@ -1,0 +1,145 @@
+﻿:root {
+    --light-grey: rgba(255, 255, 255, 0.7);
+    --white: rgba(255, 255, 255, 0.9);
+}
+
+@media screen and (max-width: 768px) {
+    #page-header #nav {
+        background: 0%;
+        transition: 0s;
+    }
+
+}
+
+.page .back-home-button {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.page #nav #site-name span {
+    color: var(--light-grey);
+}
+
+.nav-fixed #nav #site-name span{
+    color: var(--heo-fontcolor);
+}
+
+#nav .site-page {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#page-header.full_page {
+    height: 100vh;
+    background-attachment: fixed;
+    border-radius: 0;
+}
+
+#page-header.full_page #site-info {
+    position: absolute;
+    top: 43%;
+    padding: 0 10px;
+    width: 100%;
+}
+
+#page-header #scroll-down {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    cursor: pointer;
+    z-index: 1;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: box;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -o-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -o-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+#page-header #scroll-down .scroll-down-effects {
+    position: relative;
+    width: 100%;
+    color: var(--light-grey);
+    font-size: 30px;
+}
+
+/* 首页头图加载 */
+.pl-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+    /* 添加性能优化 */
+    animation: blur-to-clear 2s cubic-bezier(.62, .21, .25, 1) 0s 1 normal backwards running, scale 1.5s cubic-bezier(.62, .21, .25, 1) 0s 1 both;
+}
+
+.pl-img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+@keyframes blur-to-clear {
+    0% {
+        filter: blur(50px);
+        opacity: 1;
+    }
+
+    100% {
+        filter: blur(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scale {
+    0% {
+        transform: scale(1.5) translateZ(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) translateZ(0);
+        opacity: 1;
+    }
+}
+
+.pl-visible {
+    opacity: 1;
+}
+
+/* 为首页图片加上遮罩 */
+.video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAKUlEQVQImU3IMREAIAgAwJfNkQCEsH8cijjpMf6vnXlQaIiJFx+omEBfmqIEZLe2jzcAAAAASUVORK5CYII=);
+}
+
+.pl-blur {
+    /* 小图锯齿多，增加高斯模糊 */
+    filter: blur(50px);
+}
+
+#nav a {
+    color: var(--light-grey);
+}

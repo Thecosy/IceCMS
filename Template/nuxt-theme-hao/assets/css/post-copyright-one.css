@@ -1,0 +1,317 @@
+﻿
+#post .post-copyright {
+    background: var(--heo-secondbg);
+    border-width: 1px;
+    transition: 0.3s;
+    position: relative;
+    margin: 80px 0px 30px;
+    border-radius: 12px;
+    padding: 34px 0 20px 0;
+    border: var(--style-border-always);
+}
+
+@media screen and (max-width: 768px) {
+    #post .post-copyright {
+        padding: 1rem 1.3rem;
+    }
+}
+
+.post-tools {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    -webkit-user-select: none;
+}
+
+.post-copyright__author_img {
+    width: 66px;
+    height: 66px;
+    margin: auto;
+    border-radius: 66px;
+    overflow: hidden;
+    position: absolute;
+    left: calc(50% - 33px);
+    top: -33px;
+    border: var(--style-border-always);
+    box-shadow: var(--heo-shadow-main);
+}
+
+.post-copyright__author_img img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+
+img.post-copyright__author_img_back {
+    border-radius: 66px;
+    z-index: 10;
+}
+
+img.post-copyright__author_img_front {
+    z-index: 20;
+    transform: scale(1.2) translateY(6px);
+}
+
+.post-copyright__author_img:hover img.post-copyright__author_img_front {
+    transform: scale(1) translateY(3px);
+}
+
+.post-copyright__author_img:hover img.post-copyright__author_img_back {
+    transform: scale(0.8);
+}
+
+.post-copyright__author_name {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 16px;
+    color: var(--heo-fontcolor);
+    line-height: 1;
+}
+
+.post-copyright__author_desc {
+    text-align: center;
+    font-size: 14px;
+    color: var(--heo-secondtext);
+    margin-top: 4px;
+}
+
+.post-copyright__author {
+    display: flex;
+    align-items: center;
+}
+
+/* 提示 */
+#post>div.post-copyright>div.post-copyright__notice {
+    font-size: 12px;
+    margin: 0.5rem 0;
+}
+
+#post .post-copyright .post-copyright-info {
+    padding-left: 0;
+    color: var(--heo-secondtext);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-align: center;
+}
+
+
+/* 作者名 */
+#post .post-copyright .post-copyright-info a {
+    padding: 0;
+    color: var(--heo-fontcolor);
+    font-weight: bold;
+}
+
+
+.post-reward {
+    margin-top: 0rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* 打赏作者按钮 */
+.post-reward .reward-button {
+    background: var(--heo-red);
+    color: var(--heo-white);
+    padding: 0 16px;
+    height: 40px;
+    line-height: 39px;
+    box-shadow: var(--heo-shadow-red);
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.4s ease 0s;
+}
+
+.post-reward:hover .reward-button {
+    color: var(--heo-white);
+    background: var(--heo-theme);
+    box-shadow: none;
+}
+
+.reward-link.mode {
+    background: var(--heo-green);
+    color: var(--heo-white);
+    padding: 0 16px;
+    height: 40px;
+    line-height: 39px;
+    box-shadow: var(--heo-shadow-green);
+    border-radius: 8px;
+    margin-left: 0.5rem;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.reward-link.mode a {
+    color: var(--heo-white);
+}
+
+.reward-link.mode i {
+    margin-right: 4px;
+}
+
+.reward-link.mode:hover {
+    background: var(--heo-theme);
+    box-shadow: none;
+}
+
+/* 捐助工具栏 */
+.post-tools-left {
+    white-space: nowrap;
+    display: flex;
+    text-overflow: ellipsis;
+    flex-wrap: wrap;
+}
+
+.post-tools-right {
+    padding-right: 0px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: auto;
+}
+
+@media screen and (max-width: 768px) {
+
+    .post-tools-left>div {
+        margin: 8px;
+    }
+
+    .post-tools-left {
+        white-space: nowrap;
+        display: flex;
+        text-overflow: ellipsis;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .post-tools-right {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+#post .post-copyright .post-copyright-info a:hover {
+    text-decoration: none;
+    background-color: var(--heo-main);
+    color: var(--heo-white);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#post .tag_share .post-meta__tag-list {
+    display: flex;
+    padding: 0;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#post .tag_share .post-meta__tag-list a {
+    margin-bottom: 8px;
+    margin-right: 8px;
+}
+
+/* 文章标签 */
+#post .tag_share .post-meta__tags {
+    background: var(--heo-card-bg);
+    border: var(--style-border-always);
+    color: var(--heo-fontcolor);
+    border-radius: 8px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    height: 40px;
+    padding: 0px 0.6rem;
+    width: fit-content;
+    font-size: 0.85em;
+    transition: all 0.2s ease-in-out 0s;
+}
+
+#post .tag_share .post-meta__tags:hover {
+    background: var(--heo-lighttext);
+    box-shadow: var(--heo-shadow-main);
+    color: var(--heo-white);
+}
+
+@media screen and (min-width: 1300px) {
+    #post .tag_share .post-meta__tags {
+        background: var(--heo-card-bg);
+        border: var(--style-border);
+    }
+
+    #post .tag_share .post-meta__tags:hover {
+        border: var(--style-border-hover);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #post .post-copyright {
+        background: var(--heo-card-bg);
+        box-shadow: var(--heo-shadow-border);
+    }
+
+    .post-copyright .post-meta-original {
+        display: none;
+    }
+
+    .post-copyright__original {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #post>div.post-copyright>div.post-copyright__author>span>span {
+        -webkit-line-clamp: 3;
+    }
+
+    #post .post-copyright .post-copyright-info {
+        -webkit-line-clamp: 2;
+    }
+
+    #post .post-copyright .post-copyright-title {
+        -webkit-line-clamp: 3;
+        line-height: 1.2;
+    }
+}
+
+.post-reward .reward-main {
+    left: -96px;
+    width: fit-content;
+}
+
+@media screen and (max-width: 768px) {
+    .post-reward .reward-main {
+        justify-content: center !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 102;
+        width: 100%;
+        margin: auto;
+        padding: 0;
+    }
+}
+
+.post-reward .reward-main .reward-all {
+    background:var(--heo-card-bg);
+}
+
+.post-tools .post-tools-left .rewardLeftButton,.post-tools .post-tools-left .shareRight {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 10px
+}
+

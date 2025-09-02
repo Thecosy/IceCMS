@@ -1,0 +1,26 @@
+﻿@media (prefers-color-scheme: dark) {
+  .color-scheme-auto,
+  [data-color-scheme='auto'] content-restrict-widget {
+    color-scheme: dark;
+    --halo-restrict-widget-primary-color: #1e40af; 
+    --halo-restrict-widget-primary-subtle-color: #3b82f6;
+    --halo-restrict-widget-secondary-color: #3f3f46;
+    --halo-restrict-widget-light-color: #18181b;
+    --halo-restrict-widget-title-color: #e5e5e5;
+    --halo-restrict-widget-title-subtle-color: #a1a1aa;
+    --halo-restrict-widget-modal-bg-color: #27272a;
+  }
+}
+
+.color-scheme-dark,
+.dark,
+[data-color-scheme='dark'] content-restrict-widget {
+  color-scheme: dark;
+  --halo-restrict-widget-primary-color: #1e40af;
+  --halo-restrict-widget-primary-subtle-color: #3b82f6;
+  --halo-restrict-widget-secondary-color: #3f3f46;
+  --halo-restrict-widget-light-color: #18181b;
+  --halo-restrict-widget-title-color: #e5e5e5;
+  --halo-restrict-widget-title-subtle-color: #a1a1aa;
+  --halo-restrict-widget-modal-bg-color: #27272a;
+}

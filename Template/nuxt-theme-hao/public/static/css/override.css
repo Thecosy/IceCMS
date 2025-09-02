@@ -1,0 +1,22 @@
+﻿.hljs-copy-button[data-copied="true"] {
+  padding: 0 0.5em;
+}
+
+.hljs-copy-button {
+  transform: translateX(0) !important;
+  display: none;
+}
+
+.hljs-copy-wrapper:hover .hljs-copy-button,
+.hljs-copy-button:focus {
+  display: block;
+}
+
+.hljs-copy-button:hover {
+  background-color: var(--hljs-theme-background) !important;
+  filter: brightness(1.1);
+}
+
+.hljs-copy-alert {
+  display: none;
+}

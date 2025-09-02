@@ -1,0 +1,1718 @@
+<template>
+  <div>
+    <!-- head 中自定义的内容在Vue中通过mounted钩子处理 -->
+    
+    <!-- loading 页面 -->
+    <div id="loading-box" :class="{ loaded: !isLoading }" @click="hideLoading">
+      <div class="loading-bg">
+        <img class="loading-img" style="border-radius: 50%;" src="/static/picture/logo-doiw.png">
+        <div class="loading-image-dot"></div>
+      </div>
+    </div>
+
+    <!-- 网站背景 -->
+    <div id="web_bg">
+      <div>
+        <img class="global_background_img" src="/static/picture/656d71d4dd672.webp">
+      </div>
+    </div>
+
+    <!-- 网站背景 -->
+    <div id="an_music_bg"></div>
+
+    <!-- 控制台 -->
+    <div id="console">
+      <div class="close-btn" @click="hideConsole">
+        <i class="haofont hao-icon-circle-xmark"></i>
+      </div>
+      <div class="console-card-group">
+        <!-- 评论，需要使用评论插件，获取最近评论 -->
+        <div class="console-card-group-left">
+          <div class="console-card" id="card-newest-comments" @click="hideConsole">
+            <div class="card-content">
+              <div class="author-content-item-tips">互动</div>
+              <span class="author-content-item-title">最近评论</span>
+            </div>
+            <div class="aside-list">
+              <div class="aside-list-item">
+                <a href="content.html#comment-7e09107e-3316-498c-96e4-47c0491a84ba" class="thumbnail" data-pjax-state="">
+                  <img src="https://redirect.cnkj.site:8099/lpOl0F.webp?type=blog" alt="Zyx-2012">
+                  <div class="name"><span>stonewu</span></div>
+                </a>
+                <div class="content">
+                  <a class="comment" href="content.html#comment-7e09107e-3316-498c-96e4-47c0491a84ba" title="昵称：折腾日记" data-pjax-state="">昵称：折腾日记
+网站地址：https://blog.zyx-2012.cn/
+头像图片url：https://blog.zyx-2012.cn/upload/450afd2435d73f8b0dd3fce81b64b913.jpeg
+描述：专注于笔记、分享的博客</a>
+                  <time datetime="2025-07-10 10:49:20"></time>
+                </div>
+              </div>
+              <!-- 更多评论项... -->
+            </div>
+          </div>
+        </div>
+        <!-- 右侧展示 tag -->
+        <div class="console-card-group-right">
+          <div class="console-card tags" @click="hideConsole">
+            <div class="card-content">
+              <div class="author-content-item-tips">标签</div>
+              <span class="author-content-item-title">寻找感兴趣的领域</span>
+            </div>
+            <div class="card-tag-cloud">
+              <a style="font-size:1em;color:#d3d3d3" href="jian-kong.html">监控<sup>1</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="rss.html">rss<sup>1</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="docker.html">docker<sup>6</sup></a>
+              <!-- 更多标签... -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+     <!-- 中控台面板 -->
+    <div id="console" class="show" >
+      <div class="close-btn" @click="hideConsole">
+        <i class="haofont hao-icon-circle-xmark"></i>
+      </div>
+      <div class="console-card-group" style="display: flex">
+        <!-- 评论，需要使用评论插件，获取最近评论 -->
+        <div class="console-card-group-left">
+          <div class="console-card" id="card-newest-comments" @click="hideConsole">
+            <div class="card-content">
+              <div class="author-content-item-tips">互动</div>
+              <span class="author-content-item-title">最近评论</span>
+            </div>
+            <div class="aside-list">
+              <div class="aside-list-item">
+                <a href="content.html#comment-7e09107e-3316-498c-96e4-47c0491a84ba" class="thumbnail">
+                  <img src="https://redirect.cnkj.site:8099/lpOl0F.webp?type=blog" alt="Zyx-2012">
+                  <div class="name"><span>stonewu</span></div>
+                </a>
+                <div class="content">
+                  <a class="comment" href="content.html#comment-7e09107e-3316-498c-96e4-47c0491a84ba">昵称：折腾日记 网站地址：https://blog.zyx-2012.cn/ 描述：专注于笔记、分享的博客</a>
+                  <time datetime="2025-07-10 10:49:20">2025-7-10</time>
+                </div>
+              </div>
+              <div class="aside-list-item">
+                <a href="content.html#comment-b718e36d-70aa-43ef-91e5-adc4743b049d" class="thumbnail">
+                  <img src="https://redirect.cnkj.site:8099/KgHICK.webp?type=blog" alt="故河">
+                  <div class="name"><span>stonewu</span></div>
+                </a>
+                <div class="content">
+                  <a class="comment" href="content.html#comment-b718e36d-70aa-43ef-91e5-adc4743b049d">昵称：故河TTL 网站地址：https://blog.beyondsky.site 描述：故河TTL - 分享技术与生活</a>
+                  <time datetime="2025-07-04 10:56:06">2025-7-4</time>
+                </div>
+              </div>
+              <div class="aside-list-item">
+                <a href="1750037206574.html#comment-e4703467-924f-46cb-99ba-588f615c631d" class="thumbnail">
+                  <img src="/static/picture/picture.webp" alt="James">
+                  <div class="name"><span>stonewu</span></div>
+                </a>
+                <div class="content">
+                  <a class="comment" href="1750037206574.html#comment-e4703467-924f-46cb-99ba-588f615c631d">我也是用NAS搭建的WP博客，看你在博客里做了些 赚钱的阅读方式。想了解下，真的有人会花钱么，你赚到钱了么</a>
+                  <time datetime="2025-07-01 11:19:35">2025-7-1</time>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 右侧展示 tag -->
+        <div class="console-card-group-right">
+          <div class="console-card tags" @click="hideConsole">
+            <div class="card-content">
+              <div class="author-content-item-tips">标签</div>
+              <span class="author-content-item-title">寻找感兴趣的领域</span>
+            </div>
+            <div class="card-tag-cloud">
+              <a style="font-size:1em;color:#d3d3d3" href="jian-kong.html">监控<sup>1</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="rss.html">rss<sup>1</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="docker.html">docker<sup>6</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="homepage.html">homepage<sup>4</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="reader.html">reader<sup>1</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="twikoo.html">twikoo<sup>1</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="linux.html">linux<sup>6</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="fu-fei-wen-zhang.html">付费文章<sup>8</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="nginx.html">nginx<sup>3</sup></a>
+              <a style="font-size:1em;color:#d3d3d3" href="ssl.html">ssl<sup>3</sup></a>
+            </div>
+          </div>
+          <!-- 底部展示时间归档 -->
+          <div class="console-card history" @click="hideConsole">
+            <div class="item-headline"><i class="fas fa-archive"></i><span>文章</span></div>
+            <ul class="card-archive-list">
+              <li class="card-archive-list-item">
+                <a class="card-archive-list-link" href="08.html">
+                  <span class="card-archive-list-date">八月 2025</span>
+                  <div class="card-archive-list-count-group">
+                    <span class="card-archive-list-count">1</span>
+                    <span class="card-archive-list-count-unit">篇</span>
+                  </div>
+                </a>
+              </li>
+              <li class="card-archive-list-item">
+                <a class="card-archive-list-link" href="07.html">
+                  <span class="card-archive-list-date">七月 2025</span>
+                  <div class="card-archive-list-count-group">
+                    <span class="card-archive-list-count">2</span>
+                    <span class="card-archive-list-count-unit">篇</span>
+                  </div>
+                </a>
+              </li>
+              <li class="card-archive-list-item">
+                <a class="card-archive-list-link" href="06.html">
+                  <span class="card-archive-list-date">六月 2025</span>
+                  <div class="card-archive-list-count-group">
+                    <span class="card-archive-list-count">5</span>
+                    <span class="card-archive-list-count-unit">篇</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      
+      
+      <div class="button-group">
+        <div class="console-btn-item">
+          <a class="darkmode_switchbutton" href="javascript:void(0);" @click="switchDarkMode" rel="external nofollow" title="显示模式切换">
+            <i class="haofont hao-icon-moon-clear-fill" style="font-size:1rem"></i>
+          </a>
+        </div>
+        <div class="console-btn-item on" id="consoleHideAside" @click="hideAsideBtn" title="边栏显示控制">
+          <a class="asideSwitch"><i class="haofont hao-icon-arrows-left-right"></i></a>
+        </div>
+        <div class="console-btn-item on" id="consoleCommentBarrage" @click="switchCommentBarrage" title="热评开关">
+          <a class="commentBarrage"><i class="haofont hao-icon-chat--fill"></i></a>
+        </div>
+      </div>
+      
+      <div class="console-mask" @click="hideConsole"></div>
+    </div>
+      
+      <div class="button-group">
+        <div class="console-btn-item">
+          <a class="darkmode_switchbutton" href="javascript:void(0);" @click="switchDarkMode" rel="external nofollow" title="显示模式切换">
+            <i class="haofont hao-icon-moon-clear-fill" style="font-size:1rem"></i>
+          </a>
+        </div>
+        <!-- 更多按钮... -->
+      </div>
+      
+      <div class="console-mask" @click="hideConsole"></div>
+    </div>
+
+    <!-- 侧栏，主要是手机端时会使用 -->
+    <div id="sidebar">
+      <div id="menu-mask"></div>
+      <div id="sidebar-menus">
+        <span class="sidebar-menu-item-title">功能</span>
+        <div class="sidebar-menu-item">
+          <a class="darkmode_switchbutton menu-child" href="javascript:void(0);" @click="switchDarkMode" rel="external nofollow" title="显示模式切换">
+            <i class="haofont hao-icon-moon" style="font-size: 0.9rem;"></i>
+            <span>显示模式</span>
+          </a>
+        </div>
+        <!-- 菜单项... -->
+      </div>
+    </div>
+
+    <!-- 内容 -->
+    <div class="page" id="body-wrap">
+      <!-- 头部导航栏组件 -->
+      <header class="full_page" id="page-header">
+        <HeaderNavigation 
+          @random-post="toRandomPost"
+          @open-search="openSearch"
+          @redirect-login="redirectToLogin"
+          @show-console="showConsole"
+          @scroll-to-top="scrollToTop"
+        />
+        
+        <!-- 问候语 -->
+        <div id="greetingBox"></div>
+        
+                 <!-- 第一屏 -->
+         <div class="pl-container" :class="{ 'start-animation': !isLoading }">
+           <div class="pl-img pl-blur pl-visible"></div>
+           <div class="pl-img pl-visible"></div>
+           <video class="video"></video>
+         </div>
+
+        <div id="site-info">
+          <h1 id="site-title">IceCMS</h1>
+          <div id="site-subtitle">
+            <span id="subtitle"></span>
+            <span class="typed-cursor" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div id="scroll-down"><i class="haofont hao-icon-angle-down scroll-down-effects"></i></div>
+      </header>
+      
+      <div id="home_top">
+        <!-- 每日说说 -->
+        <div class="bbTimeList container" id="bbTimeList">
+          <i class="haofont hao-icon-logo-moment" style="font-size: 1.3rem;" title="瞬间"></i>
+          <div class="swiper-container swiper-no-swiping" id="bbtalk" tabindex="-1">
+            <div class="swiper-wrapper" id="bber-talk" @click="goToMoments">
+              <div class="li-style swiper-slide" v-for="(moment, index) in moments" :key="index">
+                <p>{{ moment.content }}</p>
+              </div>
+            </div>
+          </div>
+          <i class="bber-gotobb haofont hao-icon-circle-arrow-right" @click="goToMoments" title="查看全文"></i>
+        </div>
+
+        <!-- 置顶内容 -->
+        <div class="recent-top-post-group" id="recent-top-post-group">
+          <div class="recent-post-top" id="recent-post-top">
+            <!-- banner -->
+            <div id="bannerGroup">
+              <div id="banners">
+                <div class="tags-group-all">
+                  <div class="tags-group-wrapper">
+                    <!-- 技术图标组 -->
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#989bf8">
+                        <img src="/static/picture/AfterEffect.png" title="AfterEffect">
+                      </div>
+                      <div class="tags-group-icon" style="background:#fff">
+                        <img src="/static/picture/Sketch.png" title="Sketch">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#57b6e6">
+                        <img src="/static/picture/Docker.png" title="Docker">
+                      </div>
+                      <div class="tags-group-icon" style="background:#4082c3">
+                        <img src="/static/picture/Photoshop.png" title="Photoshop">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#fff">
+                        <img src="/static/picture/FinalCutPro.png" title="FinalCutPro">
+                      </div>
+                      <div class="tags-group-icon" style="background:#fff">
+                        <img src="/static/picture/Python.png" title="Python">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#eb6840">
+                        <img src="/static/picture/Swift.png" title="Swift">
+                      </div>
+                      <div class="tags-group-icon" style="background:#8f55ba">
+                        <img src="/static/picture/Principle.png" title="Principle">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#f29e39">
+                        <img src="/static/picture/illustrator.png" title="illustrator">
+                      </div>
+                      <div class="tags-group-icon" style="background:#2c51db">
+                        <img src="/static/picture/CSS3.png" title="CSS3">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#f7cb4f">
+                        <img src="/static/picture/JS.png" title="JS">
+                      </div>
+                      <div class="tags-group-icon" style="background:#e9572b">
+                        <img src="/static/picture/HTML.png" title="HTML">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#df5b40">
+                        <img src="/static/picture/Git.webp" title="Git">
+                      </div>
+                      <div class="tags-group-icon" style="background:#e65164">
+                        <img src="/static/picture/Apifox.webp" title="Apifox">
+                      </div>
+                    </div>
+                    <!-- 重复图标组用于无缝循环 -->
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#989bf8">
+                        <img src="/static/picture/AfterEffect.png" title="AfterEffect">
+                      </div>
+                      <div class="tags-group-icon" style="background:#fff">
+                        <img src="/static/picture/Sketch.png" title="Sketch">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#57b6e6">
+                        <img src="/static/picture/Docker.png" title="Docker">
+                      </div>
+                      <div class="tags-group-icon" style="background:#4082c3">
+                        <img src="/static/picture/Photoshop.png" title="Photoshop">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#fff">
+                        <img src="/static/picture/FinalCutPro.png" title="FinalCutPro">
+                      </div>
+                      <div class="tags-group-icon" style="background:#fff">
+                        <img src="/static/picture/Python.png" title="Python">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#eb6840">
+                        <img src="/static/picture/Swift.png" title="Swift">
+                      </div>
+                      <div class="tags-group-icon" style="background:#8f55ba">
+                        <img src="/static/picture/Principle.png" title="Principle">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#f29e39">
+                        <img src="/static/picture/illustrator.png" title="illustrator">
+                      </div>
+                      <div class="tags-group-icon" style="background:#2c51db">
+                        <img src="/static/picture/CSS3.png" title="CSS3">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#f7cb4f">
+                        <img src="/static/picture/JS.png" title="JS">
+                      </div>
+                      <div class="tags-group-icon" style="background:#e9572b">
+                        <img src="/static/picture/HTML.png" title="HTML">
+                      </div>
+                    </div>
+                    <div class="tags-group-icon-pair">
+                      <div class="tags-group-icon" style="background:#df5b40">
+                        <img src="/static/picture/Git.webp" title="Git">
+                      </div>
+                      <div class="tags-group-icon" style="background:#e65164">
+                        <img src="/static/picture/Apifox.webp" title="Apifox">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="banners-title">
+                  <div class="banners-title-big">Carol 小屋</div>
+                  <div class="banners-title-small">更多信息请关注 <a href='https://github.com/carolcoral'>GitHub</a></div>
+                </div>
+                
+                <div class="banners-link">
+                  <div>
+                    <a class="banners-link-btn blb-hot" href="tags.html">
+                      <i class="haofont hao-icon-book"></i>
+                      <div class="banners-link-title">文章标签</div>
+                    </a>
+                  </div>
+                  <div>
+                    <a class="banners-link-btn blb-top" href="archives.html">
+                      <i class="haofont hao-icon-fire"></i>
+                      <div class="banners-link-title">最新文章</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+             <!-- 今日推荐 -->
+          <div class="todayCard" id="todayCard" @click="window.open('/')">
+            <div class="todayCard-info">
+              <div class="todayCard-tips"></div>
+              <div class="todayCard-title"></div>
+            </div>
+            <div class="todayCard-cover" style="background:url(/static/image/6572722f229c4.webp) no-repeat center/cover">
+            </div>
+            <div class="banner-button-group">
+              <a class="banner-button" @click.stop="hideTodayCard()">
+                <i class="haofont hao-icon-circle-plus"></i>
+                <span class="banner-button-text">更多推荐</span>
+              </a>
+            </div>
+          </div>
+          </div>
+          
+         
+        </div>
+      </div>
+      
+      <main class="layout right-aside" id="content-inner">
+        <div class="recent-posts" id="recent-posts">
+          <!-- 分类导航栏 -->
+          <div id="category-bar">
+            <div class="category-bar-items" id="category-bar-items">
+              <div class="category-bar-item select" id="category-bar-home">
+                <a href="">首页</a>
+              </div>
+              <div class="category-bar-item" id="杂文选集">
+                <a href="za-wen-xuan-ji.html">杂文选集</a>
+              </div>
+              <div class="category-bar-item" id="付费阅读">
+                <a href="fu-fei-yue-du.html">付费阅读</a>
+              </div>
+              <!-- 更多分类... -->
+            </div>
+            <a class="category-bar-more" href="categories.html">更多</a>
+          </div>
+          
+          <!-- 文章列表 -->
+          <div class="recent-post-item col1 left odd" @click="goToPost('/archives/1755138269134')">
+            <div class="post_cover left_radius">
+              <a href="1755138269134.html" title="家庭影院再升级-MOONTV">
+                <img class="post_bg" alt="家庭影院再升级-MOONTV" src="/static/picture/tJBqDI.webp">
+              </a>
+            </div>
+            <div class="recent-post-info">
+              <div class="recent-post-info-top">
+                <div class="recent-post-info-top-tips">
+                  <span href="/categories/shi-yong-jiao-cheng" title="精选教程" class="original">精选教程</span>
+                  <span href="/categories/tools" title="常用工具" class="original">常用工具</span>
+                  <span href="/categories/fu-fei-yue-du" title="付费阅读" class="original">付费阅读</span>
+                  <a class="unvisited-post" href="1755138269134.html" title="家庭影院再升级-MOONTV" data-pjax-state="">未读</a>
+                </div>
+                <a class="article-title" href="1755138269134.html" title="家庭影院再升级-MOONTV">家庭影院再升级-MOONTV</a>
+                <div class="content">厌倦了繁琐的家庭影院搭建？这里有个轻松享受海量影视的新选择——无需折腾片源与下载，画质和广告要求不高的话，这款灵活部署的服务能让你的电视秒变在线影院，即刻开启观影自由！</div>
+              </div>
+              <div class="article-meta-wrap">
+                <span class="article-meta tags">
+                  <a class="article-meta__tags" @click.stop="goToTag('tv')" href="tv.html" title="tv">
+                    <span class="tags-punctuation">tv</span>
+                  </a>
+                </span>
+                <span class="post-meta-date">
+                  <i class="far fa-calendar-alt"></i>
+                  <time style="display: inline;" datetime="2025-08-14T03:19:39.429351314Z" title="2025-08-14创建">12天前</time>
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 更多文章项... -->
+          
+          <!-- 分页 -->
+          <nav id="pagination">
+            <div class="pagination">
+              <span class="page-number current">1</span>
+              <a class="page-number" href="2.html" @click="scrollToPost">2</a>
+              <a class="page-number" href="3.html" @click="scrollToPost">3</a>
+              <span class="space">…</span>
+              <a class="page-number" href="19.html" @click="scrollToPost">19</a>
+              <a class="extend next" rel="next" href="2.html" @click="scrollToPost">
+                <div class="pagination_tips_next">下页</div>
+                <i class="haofont hao-icon-chevron-right fa-fw"></i>
+              </a>
+              <div class="toPageGroup">
+                <input id="toPageText" maxlength="3" title="跳转到指定页面" @input="validatePageInput" @keyup="checkPageJump">
+                <a id="toPageButton" @click="jumpToPage">
+                  <i class="haofont hao-icon-angles-right"></i>
+                </a>
+              </div>
+            </div>
+          </nav>
+        </div>
+        
+        <div class="aside-content" id="aside-content">
+          <!-- 侧边栏自我介绍 -->
+          <div class="card-widget card-info">
+            <div class="card-content" style="background-image: url();">
+              <div class="card-info-avatar is-center">
+                <div class="author-info__top-group">
+                  <div class="author-info__sayhi" id="author-info__sayhi" @click="changeSayHelloText">你好啊！我是</div>
+                  <img class="avatar-img" src="/static/picture/logo-zark.png">
+                </div>
+                <div class="author-info__name">IceCMS</div>
+                <div class="author-info__description">🤖️ 数码科技爱好者, 🔍 分享与热心帮助, 🏠 智能家居小能手, 🔨 设计开发一条龙, 🤝 专修交互与设计, 🏃 脚踏实地行动派, 🧱 团队小组发动机, 💢 壮汉人狠话不多</div>
+              </div>
+            </div>
+            <div class="banner-button-group">
+              <a class="banner-button" href="about.html">
+                <i class="haofont hao-icon-circle-arrow-right"></i>
+                <span class="banner-button-text">了解更多</span>
+              </a>
+            </div>
+            <div class="card-info-social-icons is-center">
+              <a class="social-icon" rel="external nofollow" target="_blank" href="https://github.com/carolcoral" title="GitHub">
+                <i class="iconfont icon-github"></i>
+              </a>
+              <a class="social-icon" rel="external nofollow" target="_blank" href="https://blog.csdn.net/carolcoral" title="CSDN">
+                <i class="iconfont icon-csdn"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- 标签云 -->
+          <div class="card-widget card-tags">
+            <div class="item-headline"></div>
+            <div class="card-tag-cloud">
+              <a class="tag-item" style="font-size:1em" href="jian-kong.html" title="监控">监控<sup>1</sup></a>
+              <a class="tag-item" style="font-size:1em" href="rss.html" title="rss">rss<sup>1</sup></a>
+              <a class="tag-item" style="font-size:1em" href="docker.html" title="docker">docker<sup>6</sup></a>
+              <!-- 更多标签... -->
+            </div>
+                    </div>
+          
+          <!-- 最新评论 -->
+          <div class="card-widget card-recent-post">
+            <a title="查看更多" class="card-more-btn" style="cursor:pointer" draggable="false">
+              <i class="haofont hao-icon-chevron-right"></i>
+            </a>
+            <div class="item-headline">
+              <i class="haofont hao-icon-chat--fill" style="font-size: 19px;"></i>
+              <span>最新评论</span>
+            </div>
+            <div class="aside-list" id="newcomm">
+              <div class="aside-list-item">
+                <span></span>
+                <a class="thumbnail" href="content.html#comment-7e09107e-3316-498c-96e4-47c0491a84ba">
+                  <img alt="头像" src="https://redirect.cnkj.site:8099/lpOl0F.webp?type=blog">
+                </a>
+                <div class="content">
+                  <a class="comment" style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;" href="content.html#comment-7e09107e-3316-498c-96e4-47c0491a84ba">昵称：折腾日记 网站地址：https://blog.zyx-2012.cn/ 描述：专注于笔记、分享的博客</a>
+                  <div class="name">
+                    <span>Zyx-2012 / </span>
+                    <time datetime="2025-07-10 10:49:20">2025-7-10</time>
+                  </div>
+                </div>
+              </div>
+              <div class="aside-list-item">
+                <span></span>
+                <a class="thumbnail" href="content.html#comment-b718e36d-70aa-43ef-91e5-adc4743b049d">
+                  <img alt="头像" src="https://redirect.cnkj.site:8099/KgHICK.webp?type=blog">
+                </a>
+                <div class="content">
+                  <a class="comment" style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;" href="content.html#comment-b718e36d-70aa-43ef-91e5-adc4743b049d">昵称：故河TTL 网站地址：https://blog.beyondsky.site 描述：故河TTL - 分享技术与生活</a>
+                  <div class="name">
+                    <span>故河 / </span>
+                    <time datetime="2025-07-04 10:56:06">2025-7-4</time>
+                  </div>
+                </div>
+              </div>
+              <div class="aside-list-item">
+                <span></span>
+                <a class="thumbnail" href="1750037206574.html#comment-e4703467-924f-46cb-99ba-588f615c631d">
+                  <img alt="头像" src="/static/picture/6640face352a720c4552ff8d60d0d0ecca12f901740e174b77b2940618d5a4d1.webp">
+                </a>
+                <div class="content">
+                  <a class="comment" style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;" href="1750037206574.html#comment-e4703467-924f-46cb-99ba-588f615c631d">我也是用NAS搭建的WP博客，看你在博客里做了些 赚钱的阅读方式。想了解下，真的有人会花钱么，你赚到钱了么</a>
+                  <div class="name">
+                    <span>James / </span>
+                    <time datetime="2025-07-01 11:19:35">2025-7-1</time>
+                  </div>
+                </div>
+              </div>
+              <div class="aside-list-item">
+                <span></span>
+                <a class="thumbnail" href="content.html#comment-35d5c92a-c4a0-4803-aec1-99914da3f28c">
+                  <img alt="头像" src="/static/picture/6640face352a720c4552ff8d60d0d0ecca12f901740e174b77b2940618d5a4d1.webp">
+                </a>
+                <div class="content">
+                  <a class="comment" style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;" href="content.html#comment-35d5c92a-c4a0-4803-aec1-99914da3f28c">大佬，可以回复一下我的邮件吗？找你有事情，在线等，急</a>
+                  <div class="name">
+                    <span>Temp Mail / </span>
+                    <time datetime="2025-06-25 22:39:58">2025-6-25</time>
+                  </div>
+                </div>
+              </div>
+              <div class="aside-list-item">
+                <span></span>
+                <a class="thumbnail" href="content.html#comment-4ab75282-c81e-4cc3-9222-19b8dba4130d">
+                  <img alt="头像" src="https://redirect.cnkj.site:8099/lpOl0F.webp?type=blog">
+                </a>
+                <div class="content">
+                  <a class="comment" style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;" href="content.html#comment-4ab75282-c81e-4cc3-9222-19b8dba4130d">我的主页的个人卡片部分的社交链接的icon图标显示不出，是什么问题，求大佬回答</a>
+                  <div class="name">
+                    <span>Zyx-2012 / </span>
+                    <time datetime="2025-06-16 20:49:09">2025-6-16</time>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 公告卡片 -->
+          <div class="card-widget card-announcement">
+            <div class="item-headline">
+              <div style='display: inline-flex; padding-bottom:0.5em;'>
+                <svg t="1745395900406" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em">
+                  <path d="M0 488.96v-30.72C2.56 430.08 7.68 404.48 15.36 378.88c20.48-66.56 53.76-122.88 99.84-171.52C179.2 138.24 256 94.72 340.48 66.56c48.64-15.36 97.28-23.04 145.92-25.6 40.96-2.56 79.36 0 120.32 7.68 33.28 5.12 64 12.8 97.28 25.6 79.36 28.16 148.48 71.68 207.36 133.12 7.68 7.68 12.8 15.36 20.48 23.04-2.56 0-2.56 2.56-5.12 2.56-20.48 10.24-40.96 20.48-61.44 28.16-143.36 66.56-286.72 133.12-430.08 197.12-28.16 12.8-56.32 10.24-81.92-5.12-20.48-12.8-38.4-25.6-58.88-38.4-12.8-10.24-25.6-17.92-40.96-28.16-12.8-7.68-20.48-2.56-20.48 12.8v2.56c2.56 12.8 5.12 25.6 10.24 38.4 25.6 61.44 51.2 120.32 76.8 181.76 7.68 17.92 20.48 25.6 35.84 23.04 10.24 0 20.48-2.56 28.16-7.68 30.72-15.36 58.88-33.28 87.04-51.2 156.16-92.16 309.76-184.32 465.92-276.48 10.24-7.68 23.04-12.8 33.28-20.48 0 2.56 2.56 2.56 2.56 5.12 5.12 10.24 10.24 17.92 12.8 28.16 28.16 61.44 40.96 125.44 35.84 192-2.56 28.16-7.68 56.32-15.36 84.48-17.92 61.44-48.64 115.2-92.16 163.84-51.2 56.32-115.2 99.84-184.32 128-40.96 15.36-81.92 28.16-122.88 35.84-28.16 5.12-56.32 7.68-81.92 7.68h-46.08c-20.48-2.56-40.96-2.56-58.88-5.12-30.72-5.12-61.44-12.8-89.6-23.04H322.56c-12.8 7.68-23.04 15.36-35.84 23.04-28.16 17.92-53.76 33.28-81.92 48.64-5.12 2.56-12.8 5.12-17.92 5.12s-10.24-2.56-10.24-10.24c0-5.12 0-12.8 2.56-17.92 5.12-38.4 12.8-74.24 20.48-112.64 0-5.12 0-7.68-5.12-10.24-15.36-12.8-30.72-23.04-46.08-38.4-51.2-46.08-92.16-102.4-117.76-166.4C20.48 599.04 12.8 568.32 7.68 537.6c-2.56-12.8-2.56-25.6-2.56-40.96-5.12 0-5.12-2.56-5.12-7.68z" fill="#6BCC03"></path>
+                </svg>
+                <span style='align-items: center;'>微信赞赏</span>
+              </div>
+            </div>
+            <img src="/static/picture/vZWztN.webp" alt="667a746b11da6.webp">
+          </div>
+        </div>
+      </main>
+      
+      <!-- Footer 组件 -->
+      <Footer @scroll-to-top="scrollToTop" />
+      
+ 
+    </div>
+
+  
+
+    <!-- 右下角悬浮操作按钮 -->
+    <div id="rightside">
+      <div id="rightside-config-hide">
+        <button id="translateLink" type="button" title="简繁转换">繁</button>
+        <button id="darkmode" type="button" title="浅色和深色模式转换" @click="switchDarkMode">
+          <i class="haofont hao-icon-circle-half-stroke"></i>
+        </button>
+        <button id="hide-aside-btn" type="button" title="单栏和双栏切换" @click="toggleAside">
+          <i class="haofont hao-icon-arrows-left-right"></i>
+        </button>
+      </div>
+      <div id="rightside-config-show">
+        <button id="rightside-config" type="button" title="设置">
+          <i class="haofont hao-icon-gear"></i>
+        </button>
+        <a id="to_comment" href="#post-comment" title="直达评论">
+          <i class="haofont hao-icon-chat--fill" style="font-size: 17px;"></i>
+        </a>
+        <button id="go-up" type="button" title="回到顶部" @click="scrollToTop">
+          <i class="haofont hao-icon-arrow-up"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import HeaderNavigation from '../components/HeaderNavigation.vue'
+import Footer from '../components/Footer.vue'
+
+export default {
+  name: 'IndexPage',
+  components: {
+    HeaderNavigation,
+    Footer
+  },
+  data() {
+    return {
+      isLoading: true,
+      darkMode: false,
+      moments: [
+        { content: "目前近200篇文章仅6篇为付费阅读，考虑是否增加一些付费阅读文章~~~~看各位对哪方面的内容比较感兴趣" },
+        { content: "没人爱发电和赞赏，都没钱吃饭啦/(ㄒoㄒ)/~~" },
+        { content: "最近在研究Vue3的新特性，感觉很有意思！" },
+        { content: "今天天气不错，适合写代码～" },
+        { content: "分享一些实用的开发技巧，希望对大家有帮助" },
+        { content: "目前近200篇文章仅6篇为付费阅读，考虑是否增加一些付费阅读文章~~~~看各位对哪方面的内容比较感兴趣" }
+      ]
+    }
+  },
+  mounted() {
+    this.initApp()
+  },
+  methods: {
+    initApp() {
+      // 初始化应用
+      this.initTheme()
+      this.initGreeting()
+      this.initSubtitle()
+      this.endLoading()
+    },
+    
+    initTheme() {
+      const savedTheme = localStorage.getItem('theme')
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme)
+        this.darkMode = savedTheme === 'dark'
+      } else {
+        // 根据系统偏好设置主题
+        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const theme = isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', theme)
+        this.darkMode = isDarkMode
+      }
+    },
+    
+    initGreeting() {
+      // 初始化问候语
+      setTimeout(() => {
+        const greetingBox = document.getElementById('greetingBox')
+        if (greetingBox) {
+          const greeting = document.createElement('div')
+          greeting.id = 'greeting'
+          greeting.innerHTML = this.getGreetingText()
+          greetingBox.appendChild(greeting)
+          
+          setTimeout(() => {
+            greeting.classList.add('shown')
+          }, 1000)
+          
+          setTimeout(() => {
+            greeting.classList.remove('shown')
+            setTimeout(() => {
+              greetingBox.remove()
+            }, 500)
+          }, 3000)
+        }
+      }, 100)
+    },
+    
+    getGreetingText() {
+      const hour = new Date().getHours()
+      const greetings = [
+        { start: 0, end: 5, text: "晚安😴" },
+        { start: 6, end: 9, text: "早上好鸭👋, 祝你一天好心情！" },
+        { start: 10, end: 10, text: "上午好👋, 状态很好，鼓励一下～" },
+        { start: 11, end: 11, text: "11点多啦, 在坚持一下就吃饭啦～" },
+        { start: 12, end: 14, text: "午安👋, 宝贝" },
+        { start: 14, end: 18, text: "🌈充实的一天辛苦啦！" },
+        { start: 19, end: 19, text: "19点喽, 奖励一顿丰盛的大餐吧🍔。" },
+        { start: 20, end: 24, text: "晚上好👋, 在属于自己的时间好好放松😌~" }
+      ]
+      
+      for (let greeting of greetings) {
+        if (hour >= greeting.start && hour <= greeting.end) {
+          return greeting.text
+        }
+      }
+      return "晚上好👋"
+    },
+    
+    initSubtitle() {
+      // 初始化打字机效果
+      setTimeout(() => {
+        if (window.Typed) {
+          this.startTyped()
+        } else {
+          this.loadTypedJS().then(() => {
+            this.startTyped()
+          })
+        }
+      }, 1800)
+    },
+    
+    loadTypedJS() {
+      return new Promise((resolve) => {
+        const script = document.createElement('script')
+        script.src = 'https://npm.elemecdn.com/typed.js@2.0.12/lib/typed.min.js'
+        script.onload = resolve
+        document.head.appendChild(script)
+      })
+    },
+    
+    startTyped() {
+      fetch("https://v1.hitokoto.cn")
+        .then(response => response.json())
+        .then(data => {
+          const strings = [
+            "Welcome to IceCMS ～",
+            data.hitokoto,
+            "出自 " + data.from
+          ]
+          
+          new window.Typed("#subtitle", {
+            strings: strings,
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50
+          })
+        })
+        .catch(() => {
+          new window.Typed("#subtitle", {
+            strings: ["Welcome to IceCMS ～"],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50
+          })
+        })
+    },
+    
+    endLoading() {
+      setTimeout(() => {
+        this.isLoading = false
+      }, 3000)
+    },
+    
+    hideLoading() {
+      this.isLoading = false
+    },
+    
+    hideConsole() {
+      // 隐藏控制台
+      const console = document.getElementById('console')
+      if (console) {
+        console.style.display = 'none'
+      }
+    },
+    
+    switchDarkMode() {
+      this.darkMode = !this.darkMode
+      const theme = this.darkMode ? 'dark' : 'light'
+      document.documentElement.setAttribute('data-theme', theme)
+      localStorage.setItem('theme', theme)
+    },
+    
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    },
+    
+    toRandomPost() {
+      // 随机跳转到一篇文章
+      const permalink = "/archives/1718891841850"
+      window.location.href = permalink
+    },
+    
+    openSearch() {
+      // 打开搜索
+      if (window.SearchWidget) {
+        window.SearchWidget.open()
+      }
+    },
+    
+    goToMoments() {
+      window.location.href = '/moments'
+    },
+    
+    goToPost(url) {
+      window.location.href = url
+    },
+    
+    goToTag(tag) {
+      window.location.href = `/${tag}.html`
+    },
+    
+    scrollToPost() {
+      if (document.querySelector(".pl-container")) {
+        setTimeout(() => {
+          window.scrollTo({
+            top: window.innerHeight,
+            behavior: 'smooth'
+          })
+        }, 1000)
+      }
+    },
+    
+    validatePageInput(event) {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '')
+      if (event.target.value === '0') {
+        event.target.value = ''
+      }
+    },
+    
+    checkPageJump(event) {
+      if (event.key === 'Enter') {
+        this.jumpToPage()
+      }
+    },
+    
+    jumpToPage() {
+      const pageInput = document.getElementById('toPageText')
+      const page = pageInput.value
+      if (page && parseInt(page) > 0 && parseInt(page) <= 19) {
+        window.location.href = `/${page}.html`
+      }
+    },
+    
+    changeSayHelloText() {
+      const sayHi = document.getElementById('author-info__sayhi')
+      const texts = ['你好啊！我是', '欢迎来到我的博客', '很高兴认识你', '一起来学习吧']
+      const currentIndex = texts.indexOf(sayHi.textContent)
+      const nextIndex = (currentIndex + 1) % texts.length
+      sayHi.textContent = texts[nextIndex]
+    },
+    
+    toggleAside() {
+      document.documentElement.classList.toggle('hide-aside')
+    },
+    hideTodayCard() {
+      const todayCard = document.getElementById('todayCard')
+      if (todayCard) {
+        todayCard.style.display = 'none'
+      }
+    },
+    redirectToLogin() {
+      const currentUrl = encodeURIComponent(window.location.href)
+      window.location.href = `/login?redirect_uri=${currentUrl}`
+    },
+    showConsole() {
+      // 显示中控台的功能
+      const console = document.getElementById('console')
+      if (console) {
+        console.style.display = 'block'
+        console.classList.add('show')
+      }
+    },
+    hideConsole() {
+      // 隐藏中控台
+      const console = document.getElementById('console')
+      if (console) {
+        console.style.display = 'none'
+        console.classList.remove('show')
+      }
+    },
+    hideAsideBtn() {
+      // 边栏显示控制
+      document.documentElement.classList.toggle('hide-aside')
+    },
+    switchCommentBarrage() {
+      // 热评开关功能
+      console.log('切换热评开关')
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* Vue组件特定样式，其他样式已通过index.html导入 */
+
+/* Loading 页面样式 */
+#loading-box {
+  -webkit-user-select: none;
+}
+
+#loading-box .loading-bg {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: var(--heo-card-bg);
+  z-index: 1999;
+  opacity: 1;
+  transition: 0.2s;
+  pointer-events: all;
+  animation: showLoading 0.3s 0s backwards;
+}
+
+#loading-box.loaded .loading-bg {
+  pointer-events: none;
+  transition: 0.2s;
+  animation: hideLoading 0.3s 0s forwards;
+}
+
+#loading-box .loading-img {
+  width: 100px;
+  margin: auto;
+  animation-duration: 0.2s;
+  animation-name: loadingAction;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#loading-box .loading-image-dot {
+  width: 30px;
+  height: 30px;
+  background: #6bdf8f;
+  position: absolute;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(18px, 24px);
+}
+
+@keyframes loadingAction {
+  from { opacity: 1; }
+  to { opacity: 0.6; }
+}
+
+@keyframes hideLoading {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes showLoading {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 背景图片样式 */
+@media screen and (min-width: 1300px) {
+  .global_background_img {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    position: fixed;
+    z-index: -999;
+    background: var(--heo-background);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .global_background_img {
+    display: none;
+  }
+}
+
+/* 问候语样式 */
+#greetingBox {
+  position: fixed;
+  top: 10px;
+  left: 15%;
+  width: 400px;
+  text-align: center;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+#greeting {
+  display: inline-block;
+  position: relative;
+  opacity: 0;
+  top: -110px;
+  padding: 5px 40px;
+  border-radius: 50px;
+  background-color: #fff;
+  color: #000;
+  font-size: small;
+  transition: .5s;
+  box-shadow: rgb(0 0 0 / 5%) 0 10px 20px;
+}
+
+#greeting.shown {
+  opacity: 1;
+  top: 0;
+}
+
+/* 首屏样式 */
+#site-title {
+  width: max-content;
+  max-width: 100%;
+  position: relative;
+  color: rgba(255, 255, 255, 0);
+  animation: 1.5s linear 1s 1 normal both running show;
+  margin: 0px auto !important;
+}
+
+#site-title::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  margin: auto;
+  border-radius: 12px;
+  top: 11px;
+  height: 55px;
+  width: 110%;
+  animation: 2s cubic-bezier(0.62, 0.21, 0.25, 1) 1.5s 1 normal both running color_change, 
+             2s cubic-bezier(0.62, 0.21, 0.25, 1) 1.5s 1 normal both running swipe_box;
+}
+
+
+/* pl-container 首屏容器样式 */
+
+
+.pl-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(/static/image/6572722f229c4.webp);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* 默认状态：不播放动画 */
+  filter: blur(20px);
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.pl-img.pl-blur {
+  filter: blur(20px);
+  transform: scale(1.1);
+}
+
+.pl-img.pl-visible {
+  opacity: 1;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+/* 只有在loading完成后才开始动画 */
+.pl-container.start-animation .pl-img {
+  animation: blur-to-clear 2s cubic-bezier(.62, .21, .25, 1) 0s 1 normal forwards, 
+             scale 1.5s cubic-bezier(.62, .21, .25, 1) 0s 1 forwards;
+}
+
+@media screen and (max-width: 768px) {
+  .pl-img {
+    background-image: url(/static/image/6572b1468f937.webp);
+  }
+}
+
+/* 打字机效果 */
+.typed-cursor {
+  opacity: 1;
+}
+
+.typed-cursor.typed-cursor--blink {
+  animation: typedjsBlink 0.7s infinite;
+}
+
+@keyframes typedjsBlink {
+  50% { opacity: 0.0; }
+}
+
+/* 各种动画关键帧 */
+@keyframes color_change {
+  0% { background: rgb(255, 255, 255); }
+  100% { background: var(--xlfd-main); }
+}
+
+@keyframes swipe_box {
+  0% { left: 0px; width: 0%; }
+  50% { left: 0px; width: 100%; }
+  100% { left: 100%; width: 0%; }
+}
+
+@keyframes show {
+  0% { color: rgba(255, 255, 255, 0); }
+  81% { color: rgba(255, 255, 255, 0); }
+  100% { color: rgb(255, 255, 255); }
+}
+
+@keyframes blur-to-clear {
+  0% { 
+    filter: blur(20px);
+    opacity: 0.8;
+  }
+  100% { 
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes scale {
+  0% { 
+    transform: scale(1.1);
+  }
+  100% { 
+    transform: scale(1);
+  }
+}
+
+/* Banner链接按钮样式 */
+.banners-link {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.banners-link-btn {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background-size: 200%;
+  background-position: 0% 0;
+}
+
+.banners-link-btn:hover {
+  background-position: 100% 0;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.banners-link-btn i {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.banners-link-title {
+  font-size: 0.9rem;
+}
+
+/* 文章标签按钮 - 蓝色渐变 */
+.banners-link-btn.blb-hot {
+  background: linear-gradient(to right, #358bff, #15c6ff);
+  background-size: 200%;
+}
+
+/* 最新文章按钮 - 橙色渐变 */
+.banners-link-btn.blb-top {
+  background: linear-gradient(to right, #ff6655, #ffbf37);
+  background-size: 200%;
+}
+
+/* 暗色模式下的按钮样式 */
+[data-theme=dark] .banners-link-btn.blb-hot {
+  background: linear-gradient(to right, #0653b8, #2fcbff);
+  background-size: 200%;
+}
+
+[data-theme=dark] .banners-link-btn.blb-top {
+  background: linear-gradient(to right, #e22a16, #da980c);
+  background-size: 200%;
+}
+
+/* 移动端按钮适配 */
+@media screen and (max-width: 768px) {
+  .banners-link {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .banners-link-btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* 今日推荐卡片样式 */
+.todayCard {
+  width: calc(50% - .5rem);
+  height: calc(328px + .5rem);
+  background: var(--heo-card-bg);
+  border: var(--style-border);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.todayCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.todayCard-info {
+  padding: 1rem;
+  z-index: 2;
+  position: relative;
+}
+
+.todayCard-tips {
+  font-size: 0.8rem;
+  color: var(--heo-fontcolor);
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+}
+
+.todayCard-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--heo-fontcolor);
+  line-height: 1.4;
+}
+
+.todayCard-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+.todayCard .banner-button-group {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 3;
+}
+
+.todayCard .banner-button {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  color: var(--heo-theme);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.todayCard .banner-button:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+}
+
+.todayCard .banner-button i {
+  margin-right: 6px;
+  font-size: 1rem;
+}
+
+/* 大屏幕显示布局 - banner和todayCard左右排列 */
+@media screen and (min-width: 1200px) {
+  .recent-post-top {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  #bannerGroup {
+    width: calc(50% - .5rem);
+    margin-right: 0;
+  }
+  
+  .todayCard {
+    display: flex;
+    flex-shrink: 0;
+  }
+}
+
+/* 小屏幕隐藏今日推荐 */
+@media screen and (max-width: 1199px) {
+  .todayCard {
+    display: none;
+  }
+}
+
+/* 底部徽章样式 */
+#ghbdages {
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 1rem;
+}
+
+.github-badge {
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.github-badge:hover {
+  transform: translateY(-2px);
+  opacity: 0.8;
+}
+
+.github-badge img {
+  height: 20px;
+  border-radius: 4px;
+}
+
+/* 导航栏下拉菜单样式 */
+.menus_item {
+  position: relative;
+}
+
+.menus_item_child {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--heo-card-bg);
+  border: var(--style-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  margin: 0;
+  list-style: none;
+  min-width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.menus_item:hover .menus_item_child {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.menus_item_child li {
+  margin: 0;
+  padding: 0;
+}
+
+.menus_item_child .site-page.child {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: #333 !important;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  margin: 2px 8px;
+}
+
+.menus_item_child .site-page.child:hover {
+  background: #8e44ad !important;
+  color: #fff !important;
+}
+
+/* 暗色模式下的二级菜单 */
+[data-theme=dark] .menus_item_child .site-page.child {
+  color: #fff !important;
+}
+
+[data-theme=dark] .menus_item_child .site-page.child:hover {
+  background: #8e44ad !important;
+  color: #fff !important;
+}
+
+.menus_item_child .ali_icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  fill: currentColor;
+}
+
+.menus_item_child span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* 主导航菜单图标与文字间距 */
+.menus_item .site-page {
+  display: flex;
+  align-items: center;
+}
+
+.menus_item .site-page .ali_icon {
+  margin-right: 8px;
+}
+
+.menus_item .site-page span {
+  margin-left: 4px;
+}
+
+/* 说说滚动动画 */
+.bbTimeList {
+  position: relative;
+  overflow: hidden;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.swiper-container {
+  height: 50px;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.swiper-wrapper {
+  display: flex;
+  flex-direction: column;
+  animation: momentScroll 18s linear infinite;
+  width: 100%;
+}
+
+.li-style.swiper-slide {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 100%;
+  padding: 8px 0;
+  margin: 4px 0;
+}
+
+.li-style.swiper-slide p {
+  margin: 0;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 20px;
+}
+
+/* 滚动动画关键帧 - 无缝循环显示 */
+@keyframes momentScroll {
+  0% {
+    transform: translateY(0);
+  }
+  16% {
+    transform: translateY(0);
+  }
+  17% {
+    transform: translateY(-58px);
+  }
+  33% {
+    transform: translateY(-58px);
+  }
+  34% {
+    transform: translateY(-116px);
+  }
+  50% {
+    transform: translateY(-116px);
+  }
+  51% {
+    transform: translateY(-174px);
+  }
+  67% {
+    transform: translateY(-174px);
+  }
+  68% {
+    transform: translateY(-232px);
+  }
+  84% {
+    transform: translateY(-232px);
+  }
+  85% {
+    transform: translateY(-290px);
+  }
+  100% {
+    transform: translateY(-290px);
+  }
+}
+
+/* 鼠标悬停暂停动画 */
+.bbTimeList:hover .swiper-wrapper {
+  animation-play-state: paused;
+}
+
+/* 技术图标组样式和动画 */
+#bannerGroup {
+  display: flex;
+}
+
+div#banners {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: var(--heo-card-bg);
+  border: var(--style-border);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+@media screen and (min-width: 1200px) {
+  div#bannerGroup {
+    height: calc(328px + .5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  div#banners {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: var(--heo-card-bg);
+    border: var(--style-border);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+.tags-group-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 66px;
+  font-weight: 700;
+  box-shadow: var(--heo-shadow-blackdeep);
+}
+
+.tags-group-all {
+  display: flex;
+  transform: rotate(0);
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.tags-group-all.nowrapMove {
+  transform: rotate(0);
+  padding-bottom: 2rem;
+}
+
+#bannerGroup .tags-group-wrapper {
+  margin-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  animation: rowup 120s linear infinite;
+  width: 320px;
+  margin-left: auto;
+  flex-direction: column;
+  /* 确保有足够的高度来实现循环 */
+  height: 200%;
+}
+
+.nowrapMove .tags-group-wrapper {
+  margin-top: 7rem;
+  animation: rowleft 120s linear infinite;
+  display: flex;
+}
+
+.tags-group-icon-pair .tags-group-icon:nth-child(even) {
+  margin-top: 1rem;
+  transform: translate(-60px);
+}
+
+#bannerGroup .tags-group-icon-pair {
+  display: flex;
+}
+
+#bannerGroup .tags-group-icon-pair .tags-group-icon:nth-child(even) {
+  margin-left: 4rem;
+}
+
+.tags-group-icon-pair {
+  margin-left: 1rem;
+  user-select: none;
+}
+
+.tags-group-icon-pair a img {
+  border-radius: 50%!important;
+}
+
+.nowrapMove .tags-group-icon {
+  border-radius: 50%;
+}
+
+.tags-group-icon img {
+  width: 60%;
+}
+
+.nowrapMove .tags-group-icon img {
+  min-width: 100%;
+  min-height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* rowup 动画 - 技术图标向上移动，无缝循环 */
+@keyframes rowup {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* rowleft 动画 - 技术图标向左移动 */
+@keyframes rowleft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+</style>

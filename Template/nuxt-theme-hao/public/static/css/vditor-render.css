@@ -1,0 +1,39 @@
+﻿.vditor-reset--anchor {
+    padding-left: 20px;
+}
+.vditor-reset--error {
+    color: #d23f31;
+    font-size: 12px;
+    display: block;
+    line-height: 16px;
+}
+
+.vditor-reset .language-math,
+.vditor-reset .language-echarts,
+.vditor-reset .language-mindmap,
+.vditor-reset .language-plantuml,
+.vditor-reset .language-mermaid,
+.vditor-reset .language-markmap,
+.vditor-reset .language-abc,
+.vditor-reset .language-flowchart,
+.vditor-reset .language-graphviz {
+    margin-bottom: 16px;
+}
+.vditor-reset .language-math mjx-container:focus {
+    outline: none;
+    cursor: context-menu;
+}
+.vditor-reset .language-echarts,
+.vditor-reset .language-mindmap {
+    overflow: hidden;
+    height: 420px;
+}
+.vditor-reset .language-mermaid,
+.vditor-reset .language-markmap,
+.vditor-reset .language-flowchart,
+.vditor-reset .language-graphviz {
+    text-align: center;
+}
+.vditor-reset .language-graphviz parsererror {
+    overflow: auto;
+}

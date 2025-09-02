@@ -1,0 +1,186 @@
+﻿.comment-barrage {
+    position: fixed;
+    bottom: 0;
+    right: 60px;
+    padding: 0 0 20px 10px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: flex-end;
+    z-index: 999;
+    transition: 0.3s;
+    -webkit-user-select: none;
+}
+
+@media screen and (max-width: 768px) {
+    .comment-barrage {
+        display: none !important;
+    }
+}
+
+.comment-barrage-item {
+    min-width: 300px;
+    max-width: 300px;
+    width: fit-content;
+    min-height: 80px;
+    max-height: 150px;
+    margin: 4px;
+    padding: 8px 14px;
+    background: var(--heo-maskbgdeep);
+    border-radius: 8px;
+    color: var(--heo-fontcolor);
+    animation: barrageIn 0.6s cubic-bezier(0.42, 0, 0.3, 1.11);
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    border: var(--style-border);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transform: translateZ(0);
+    position: fixed;
+    box-shadow: var(--heo-shadow-border);
+}
+
+.comment-barrage-item:hover {
+    border: 1px solid var(--heo-main);
+    box-shadow: var(--heo-shadow-main);
+}
+
+.comment-barrage-item.out {
+    opacity: 0;
+    animation: barrageOut 0.6s cubic-bezier(0.42, 0, 0.3, 1.11);
+}
+
+.comment-barrage-item.hovered {
+    opacity: 0;
+}
+
+.comment-barrage-item .comment-barrage-close {
+    color: var(--heo-secondtext);
+    cursor: pointer;
+    line-height: 1;
+    margin: 4px;
+}
+
+.comment-barrage-item .comment-barrage-close:hover {
+    color: var(--heo-lighttext);
+}
+
+.comment-barrage-item .comment-barrage-close .haofont {
+    color: var(--heo-fontcolor);
+    transition: all 0.3s ease 0s;
+    font-size: 18px !important;
+}
+
+.comment-barrage-item .comment-barrage-close:hover .haofont {
+    color: var(--heo-main);
+}
+
+
+.comment-barrage-item pre {
+    display: none;
+}
+
+.comment-barrage-item li {
+    display: none;
+}
+
+.comment-barrage-item p img:not(.tk-owo-emotion) {
+    display: none;
+}
+
+.comment-barrage-item p img.tk-owo-emotion {
+    width: 16px;
+    padding: 0;
+    margin: 0;
+    transform: translateY(2px);
+}
+
+.comment-barrage-item blockquote {
+    display: none;
+}
+
+.comment-barrage-item br {
+    display: none;
+}
+
+.comment-barrage-item .barrageHead {
+    height: 30px;
+    padding: 0;
+    line-height: 30px;
+    font-size: 12px;
+    border-bottom: var(--style-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    padding-bottom: 6px;
+}
+
+.comment-barrage-item .barrageHead .barrageTitle {
+    color: var(--heo-card-bg);
+    margin-right: 8px;
+    background: var(--heo-fontcolor);
+    line-height: 1;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.comment-barrage-item .barrageHead .barrageTitle:hover {
+    background: var(--heo-main);
+    color: var(--heo-white);
+}
+
+.comment-barrage-item .barrageAvatar {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    margin-left: auto;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: var(--heo-secondbg);
+}
+
+.comment-barrage-item .barrageContent {
+    font-size: 14px !important;
+    font-weight: normal !important;
+    height: calc(100% - 30px);
+    overflow: scroll;
+    cursor: pointer
+}
+
+.comment-barrage-item .barrageContent a {
+    pointer-events: none;
+    font-size: 14px !important;
+}
+
+.comment-barrage-item .barrageContent::-webkit-scrollbar {
+    height: 0;
+    width: 4px;
+}
+
+.comment-barrage-item .barrageContent::-webkit-scrollbar-button {
+    display: none;
+}
+
+.comment-barrage-item p {
+    margin: 8px 0;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    font-size: 14px;
+}
+
+.comment-barrage-item .barrageContent h1, .comment-barrage-item .barrageContent h2, .comment-barrage-item .barrageContent h3, .comment-barrage-item .barrageContent h4 {
+    font-size: 14px !important;
+    font-weight: normal !important;
+    margin: 8px 0 !important;
+}
+
+.comment-barrage-item .barrageHead .barrageTitle.barrageBloggerTitle {
+    background: var(--heo-orange)
+}
