@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "mode": "debug",
+            "name": "自定义调试文件",
+            "program": "${workspaceFolder}/index.js",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        }
+    ],
+    "version": "0.1"
+}
