@@ -126,6 +126,48 @@ docker 前端部署方式
 docker compose 一键部署
 
 
+# 目录结构
+```bash
+IceCMS-Pro/
+├── LICENSE.md
+├── README.md
+├── README_en.md
+├── pom.xml                     --主项目Maven配置文件
+├── mvnw
+├── mvnw.cmd
+├── bin/                        --项目脚本文件
+├── sql/                        --项目SQL文件
+│   ├── icecms5.7.sql
+│   ├── icecms8.0.sql
+│   ├── notification_table.sql
+│   ├── qiniu_cos_update.sql
+│   └── tag_update.sql
+├── IceCMS-main/               --Java主程序启动入口
+│   ├── pom.xml
+│   └── src/
+├── IceCMS-ment/               --Java后端API模块
+│   ├── pom.xml
+│   └── src/
+├── IcePay-ment/               --Java支付模块
+│   └── pom.xml
+├── IceCMS-front-admin/        --管理后台前端(Vue3)
+│   ├── package.json
+│   ├── vite.config.ts
+│   └── src/
+├── IceCMS-front-nuxt/         --前端用户界面(Nuxt4)
+│   ├── package.json
+│   ├── nuxt.config.ts
+│   └── src/
+├── IceCMS-uniApp/             --移动端H5/小程序(UniApp)
+│   ├── package.json
+│   ├── manifest.json
+│   └── pages.json
+└── IceCMS-Docker/             --Docker容器化部署
+    ├── docker-compose.yml
+    ├── icecms-fullstack/
+    └── icecms-sql/
+```
+
 # 快速开始
 Docker部署方式(推荐,可用于快速上线或测试)
 
@@ -147,271 +189,25 @@ Docker部署方式(推荐,可用于快速上线或测试)
     # 重启docker服务
     sudo systemctl restart docker
     
-    ### Docker 一键启动命令
+  ### Docker 一键启动命令
 
-    以下命令用于一次性创建 Docker 网络，并依次启动 `icecms-sql` 和 `icecms-fullstack` 两个容器。
+  以下命令用于一次性创建 Docker 网络，并依次启动 `icecms-sql` 和 `icecms-fullstack` 两个容器。
 
-    ```bash
-    docker run -d \
-    --name icecms-sql \
-    -p 3306:3306 \
+  ```bash
+  docker run -d \
+  --name icecms-sql \
+  -p 3306:3306 \
+  --restart always \
+  ttice/icecms-sql:latest && \
+  docker run -d \
+    --name icecms-fullstack \
     --restart always \
-    ttice/icecms-sql:latest && \
-    docker run -d \
-      --name icecms-fullstack \
-      --restart always \
-      -p 3001:3000 \
-      -p 2580:2580 \
-      -p 8181:8181 \
-      --link icecms-sql:db \
-      ttice/icecms-fullstack:latest
-
-
-# 目录结构
-
-  IceCMS-Pro/
-  ├── LICENSE.md
-  ├── README.md
-  ├── README_en.md
-  ├── pom.xml                     --主项目Maven配置文件
-  ├── mvnw
-  ├── mvnw.cmd
-  ├── bin/                        --项目脚本文件
-  ├── sql/                        --项目SQL文件
-  │   ├── icecms5.7.sql
-  │   ├── icecms8.0.sql
-  │   ├── notification_table.sql
-  │   ├── qiniu_cos_update.sql
-  │   └── tag_update.sql
-  ├── IceCMS-main/               --Java主程序启动入口
-  │   ├── IceCMS-main.iml
-  │   ├── main.iml
-  │   ├── pom.xml
-  │   ├── src/
-  │   │   ├── main/
-  │   │   │   ├── java/
-  │   │   │   └── resources/
-  │   │   │       ├── application.yml
-  │   │   │       └── banner.txt
-  │   │   └── test/
-  │   │       └── java/
-  │   └── target/
-  ├── IceCMS-ment/               --Java后端API模块
-  │   ├── pom.xml
-  │   ├── src/
-  │   │   ├── main/
-  │   │   │   ├── java/
-  │   │   │   └── resources/
-  │   │   └── test/
-  │   │       └── java/
-  │   └── target/
-  ├── IcePay-ment/               --Java支付模块
-  │   ├── pom.xml
-  │   ├── src/
-  │   │   ├── main/
-  │   │   └── test/
-  │   │       └── test3.iml
-  │   └── target/
-  ├── IceCMS-front-admin/        --管理后台前端(Vue3)
-  │   ├── Dockerfile
-  │   ├── LICENSE
-  │   ├── README.md
-  │   ├── package.json
-  │   ├── pnpm-lock.yaml
-  │   ├── vite.config.ts
-  │   ├── tsconfig.json
-  │   ├── tailwind.config.ts
-  │   ├── index.html
-  │   ├── build/
-  │   ├── dist/
-  │   ├── node_modules/
-  │   ├── public/
-  │   ├── src/
-  │   │   ├── App.vue
-  │   │   ├── main.ts
-  │   │   ├── api/
-  │   │   ├── assets/
-  │   │   ├── components/
-  │   │   ├── config/
-  │   │   ├── directives/
-  │   │   ├── layout/
-  │   │   ├── plugins/
-  │   │   ├── router/
-  │   │   ├── store/
-  │   │   ├── style/
-  │   │   ├── utils/
-  │   │   └── views/
-  │   ├── types/
-  │   ├── locales/
-  │   ├── mock/
-  │   ├── commitlint.config.js
-  │   ├── eslint.config.js
-  │   ├── postcss.config.js
-  │   └── stylelint.config.js
-  ├── IceCMS-front-nuxt/         --前端用户界面(Nuxt4)
-  │   ├── README.md
-  │   ├── package.json
-  │   ├── pnpm-lock.yaml
-  │   ├── nuxt.config.ts
-  │   ├── tsconfig.json
-  │   ├── main.ts
-  │   ├── node_modules/
-  │   ├── public/
-  │   ├── api/
-  │   ├── constants/
-  │   ├── middleware/
-  │   ├── plugins/
-  │   ├── service/
-  │   ├── src/
-  │   │   ├── components/
-  │   │   ├── error.vue
-  │   │   ├── hooks/
-  │   │   ├── pages/
-  │   │   ├── static/
-  │   │   └── utils/
-  │   ├── stores/
-  │   └── types/
-  ├── IceCMS-uniApp/             --移动端H5/小程序(UniApp)
-  │   ├── App.vue
-  │   ├── package.json
-  │   ├── manifest.json
-  │   ├── pages.json
-  │   ├── main.js
-  │   ├── uni.scss
-  │   ├── index.html
-  │   ├── template.h5.html
-  │   ├── pages/
-  │   ├── activityPages/
-  │   ├── circlePages/
-  │   ├── homePages/
-  │   ├── minePages/
-  │   ├── preferredPages/
-  │   ├── common/
-  │   ├── libs/
-  │   ├── static/
-  │   ├── store/
-  │   ├── tuniao-ui/
-  │   └── unpackage/
-  │       └── dist/
-  └── IceCMS-Docker/             --Docker容器化部署
-      ├── Makefile
-      ├── build.sh
-      ├── docker-compose.yml
-      ├── icecms-fullstack/
-      │   ├── Dockerfile
-      │   ├── default.conf
-      │   ├── ecosystem.config.js
-      │   ├── main.jar
-      │   ├── package.json
-      │   ├── output/
-      │   └── vue-app/
-      └── icecms-sql/
-          ├── Dockerfile
-          ├── IceCMS.sql
-          ├── privileges.sql
-          └── setup.sh
-
-## <strong>配置最小开发环境</strong>
-
-1.环境配置
-
-MySQL
-JDK1.8或以上
-Maven
-Nodejs
-微信开发者工具
-
-### <strong>后端部署</strong>
-
-2.创建 MySQL 数据库`IceCMS`，并执行`/sql/IceCMS.sql`初始化表数据
-
-3.启动iceCMS-main管理后台的后端服务
-
-3.1.修改配置信息`IceCMS-main/src/main/resources/application.yml`配置数据库连接
-
-3.2.安装 Redis 并启动(不用的话不影响)
-
-3.3.打开命令行，输入以下命令
-
-    cd iceCMS
-    mvn install
-    mvn clean package
-    java -Dfile.encoding=UTF-8 -jar iceCMS/iceCMS-main/target/iceCMS.jar
-    #在iceCMS.jar目录输入 java -jar iceCMS.jar
-
-### <strong>前端部署</strong>
-
-4.进入iceCMS-vues目录
-
-打开命令行，输入以下命令
-
-```bash
-# 克隆项目
-git clone https://github.com/PanJiaChen/vue-admin-template.git
-
-# 进入项目目录
-cd IceWk-VUE
-
-# 安装依赖
-npm install
-
-# 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
-npm install --legacy-peer-deps --registry=https://registry.npm.taobao.org
-# 启动服务
-npm run dev
-```
-### 发布
-
-```bash
-# 构建测试环境
-npm run build:stage
-
-# 构建生产环境
-npm run build:prod
-```
-
-5.启动前端
-
-浏览器打开，访问 [http://localhost:9528](http://localhost:9528)
-, 此时进入前端页面。
-
-启动前端后台（后台地址http://localhost:9528/admin）
-
-6.启动uniapp移动端
-
-下载HBuilderX
-
-进入（[https://ext.dcloud.net.cn/plugin?id=9261](https://ext.dcloud.net.cn/plugin?id=9261)）uniapp移动端插件目录，点击导入，然后即可导入到本地。
-
-也可在本地打开IceCMS-uniapp项目
-
-打开`IceWK-uniApp`目录,进行编译打包
-
-## 注意事项
-
-一些常见问题：
-
-- MySQL 确保数据库字符集为`utf8mb4`的情况下通常没有问题（”站点设置“及”文章详情“等许多表字段需要`utf8mb4`格式字符集来支持 emoji 表情，否则在导入 sql 文件时，即使成功导入，也会有部分字段内容不完整，导致前端页面渲染数据时报错）
-- 确保 Maven 能够成功导入现版本依赖，请勿升级或降低依赖版本
-- 数据库中默认用户名密码为`root`，`123123`，因为是个人项目，没打算做修改密码的页面，可在`top.naccl.util.HashUtils`下的`main`方法手动生成密码存入数据库
-- 注意修改IceCMS-main目录下的`application-dev.properties`的配置信息
-  - Redis 若没有密码，留空即可
-  - 注意修改`token.secretKey`，否则无法保证 token 安全性
-
-[//]: # (  - `spring.mail.host`及`spring.mail.port`的默认配置为阿里云邮箱，其它邮箱服务商参考关键字`spring mail 服务器`（邮箱配置用于接收评论提醒）)
-
-
-
-[//]: # (## 隐藏功能)
-
-[//]: # ()
-[//]: # (- 在前台访问`/login`路径登录后，可以以博主身份（带有博主标识）回复评论，且不需要填写昵称和邮箱即可提交)
-
-[//]: # (- 在 Markdown 中加入`<meting-js server="netease" type="song" id="歌曲id" theme="#25CCF7"></meting-js>` （注意以正文形式添加，而不是代码片段）可以在文章中添加 [APlayer]&#40;https://github.com/DIYgod/APlayer&#41; 音乐播放器，`netease`为网易云音乐，其它配置及具体用法参考 [MetingJS]&#40;https://github.com/metowolf/MetingJS&#41;)
-
-[//]: # (- 提供了两种隐藏文字效果：在 Markdown 中使用`@@`包住文字，文字会被渲染成“黑幕”效果，鼠标悬浮在上面时才会显示；使用`%%`包住文字，文字会被“蓝色覆盖层”遮盖，只有鼠标选中状态才会反色显示。例如：`@@隐藏文字@@`，`%%隐藏文字%%`)
-
-[//]: # (- 大部分个性化配置可以在后台“站点设置”中修改，小部分由于考虑到首屏加载速度（如首页大图）需要修改前端源码)
+    -p 3001:3000 \
+    -p 2580:2580 \
+    -p 8181:8181 \
+    --link icecms-sql:db \
+    ttice/icecms-fullstack:latest
+  ```
 
 
 ## QQ交流群
@@ -439,6 +235,8 @@ GPL-3.0 license © pipipi-pikachu
 * 你提交的 PR 被本项目合并（仅限有价值的，不包括简单的错别字或拼写错误修改等）；
 * 你参与过本项目的设计、实现（也包括对各种功能/模块的实现或Bug的修复提供了有价值的思路）；
 * 联系作者付费商用
+
+
 
 ## Star History
 
